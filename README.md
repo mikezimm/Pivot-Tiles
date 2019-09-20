@@ -12,8 +12,8 @@ gulp
 ```
 
 ### General Notes
-Copied src\common from https://github.com/SharePoint/sp-dev-fx-controls-react.git
-Copied src\services from https://github.com/SharePoint/sp-dev-fx-controls-react.git
+* Copied src\common from https://github.com/SharePoint/sp-dev-fx-controls-react.git
+* Copied src\services from https://github.com/SharePoint/sp-dev-fx-controls-react.git
 
 ### Additional npm installs
 ```
@@ -22,12 +22,12 @@ npm install @microsoft/sp-listview-extensibility   (Required from copying servic
 
 ```
 ### Create log:
-Copied prop pane strings/interface/props from SPFx Properties Formulas Apr 30 - Editable.xlsx (5 places).
-Removed un-neccessary modules from common and services folder that were causing serve errors.
-Tested in dev tenant - Props Pane works :)
-Added default prop pane values in webpart.manifset.json.  NOTE you do need to re-add webpart to page to see these updates.
-Broke props pane into 3 pages.  About, Main Settings, Column settings.
-Importing PropertyPaneLabel with BaseClientSideWebPart
+* Copied prop pane strings/interface/props from SPFx Properties Formulas Apr 30 - Editable.xlsx (5 places).
+* Removed un-neccessary modules from common and services folder that were causing serve errors.
+* Tested in dev tenant - Props Pane works :)
+* Added default prop pane values in webpart.manifset.json.  NOTE you do need to re-add webpart to page to see these updates.
+* Broke props pane into 3 pages.  About, Main Settings, Column settings.
+* Importing PropertyPaneLabel with BaseClientSideWebPart
 
 This package produces the following:
 
