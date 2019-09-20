@@ -4,6 +4,8 @@ import { IPivotTilesProps } from './IPivotTilesProps';
 import { escape } from '@microsoft/sp-lodash-subset';
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, {}> {
+
+  
   public render(): React.ReactElement<IPivotTilesProps> {
     return (
       <div className={ styles.pivotTiles }>
@@ -22,4 +24,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, {}> {
       </div>
     );
   }
+
+  public functionDome(){
+    console.log("functionDome:  default class PivotTiles props:");
+    console.log(this.props);
+  }
+
+
 }

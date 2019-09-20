@@ -1,6 +1,6 @@
 import {IPivotTileItemProps} from './PivotTileItem'
 
-export interface IPivotTilesProps {
+export interface IPivotTilesState {
   description: string;
   listDefinition: string;
   listWebURL: string;
