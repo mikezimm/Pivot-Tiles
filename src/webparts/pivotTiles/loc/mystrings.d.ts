@@ -5,11 +5,18 @@ declare interface IPivotTilesWebPartStrings {
   PropertyPaneAbout: string,
   BasicGroupName: string;
   DescriptionFieldLabel: string;
+  DefaultTileList: string;
+
   description: string;
   listDefinition: string;
   listWebURL: string;
   listTitle: string;
-  defaultTab: string;
+
+  setSize: string;
+  setFilter: string;
+  propURLQuery: string;
+  setTab: string;
+
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
@@ -20,6 +27,7 @@ declare interface IPivotTilesWebPartStrings {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
+  
 }
 
 declare module 'PivotTilesWebPartStrings' {

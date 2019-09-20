@@ -1,11 +1,16 @@
-import {IPivotTileItemProps} from './PivotTileItem'
+import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
 
-export interface IPivotTilesProps {
+export interface IPivotTilesState {
   description: string;
   listDefinition: string;
   listWebURL: string;
   listTitle: string;
-  defaultTab: string;
+
+  setSize: string;
+  setFilter: string;
+  propURLQuery: boolean;
+  setTab: string;
+
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
@@ -16,6 +21,8 @@ export interface IPivotTilesProps {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
+
   allTiles?:IPivotTileItemProps[];
   activeTiles?:IPivotTileItemProps[];
+  loadListItems?: () => Promise<IPivotTileItemProps[]>;
 }

@@ -9,12 +9,27 @@ import {
   PropertyPaneLink
 } from '@microsoft/sp-webpart-base';
 
+// npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp --save
+import { sp, Web } from '@pnp/sp';
+
 import { IPivotTilesWebPartProps } from './IPivotTilesWebPartProps';
 import * as strings from 'PivotTilesWebPartStrings';
-import PivotTiles from './components/PivotTiles';
-import { IPivotTilesProps } from './components/IPivotTilesProps';
+import PivotTiles from './components/PivotTiles/PivotTiles';
+import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
+import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
+import { string } from 'prop-types';
 
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
+
+  //Added for Get List Data:  https://www.youtube.com/watch?v=b9Ymnicb1kc
+  public onInit():Promise<void> {
+    return super.onInit().then(_ => {
+      // other init code may be present
+      sp.setup({
+        spfxContext: this.context
+      });
+    });
+  }
 
   public render(): void {
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
@@ -24,7 +39,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         listDefinition: this.properties.listDefinition,
         listWebURL: this.properties.listWebURL,
         listTitle: this.properties.listTitle,
-        defaultTab: this.properties.defaultTab,
+
+        setSize: this.properties.setSize,
+        setFilter: this.properties.setFilter,
+        propURLQuery: this.properties.propURLQuery,
+        setTab: this.properties.setTab,
+
         colTitleText: this.properties.colTitleText,
         colHoverText: this.properties.colHoverText,
         colCategory: this.properties.colCategory,
@@ -35,11 +55,75 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         colImageLink: this.properties.colImageLink,
         colSort: this.properties.colSort,
         colTileStyle: this.properties.colTileStyle,
+
+        loadListItems: this.loadListItems,
+        
       }
     );
 
     ReactDom.render(element, this.domElement);
   }
+
+  private async loadListItems(): Promise<IPivotTileItemProps[]> {
+    /* Filtering example of same one and only retreiving certain columns
+    const result:IListItem[] = await sp.web.lists.getByTitle("Customers").items
+    .select("Title","CustomerID").filter("Title eq 'GM'").orderBy("Id",true).getAll()
+    */
+
+    /*  Be sure to import Web from @pnp/sp first, then use this to get from another web.
+
+        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
+        const result:IListItem[] = await web.lists.getByTitle("Customers").items
+
+        or .... 
+
+        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
+        web.get().then(w => {
+          console.log(w);
+        });
+
+    */
+    
+    console.log("private async loadListItems()");
+    console.log(this);
+
+    let useTileList: string = strings.DefaultTileList;
+    
+    //This line is causing an error in debugger mode:
+    //unCaught Promise, can not read list Title of undefined.
+    if ( this.properties.listTitle.length > 0 ) {
+        useTileList = this.properties.listTitle;
+    }
+
+    let restFilter: string = "";
+    if ( this.properties.setFilter.length > 0 ) {
+      restFilter = this.properties.setFilter;
+    }
+
+    let restSort: string = "Title";
+    if ( this.properties.colSort.length > 0 ) {
+      restSort = this.properties.colSort;
+    }
+
+    let selectCols: string = "*";
+
+    if ( this.properties.listWebURL.length > 0 ){
+      let web = new Web(this.properties.listWebURL);
+      const result:IPivotTileItemProps[] = await web.lists.getByTitle(useTileList).items
+        .select(selectCols).filter(restFilter).orderBy(restSort,true).getAll();
+      return(result);
+
+    } else {
+      const result:IPivotTileItemProps[] = await sp.web.lists.getByTitle(useTileList).items
+        .select(selectCols).filter(restFilter).orderBy(restSort,true).getAll();
+      return(result);
+
+    }
+
+    //Handle error?
+  
+  }
+
 
   protected onDispose(): void {
     ReactDom.unmountComponentAtNode(this.domElement);
@@ -87,9 +171,19 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
                 PropertyPaneTextField('listTitle', {
                     label: strings.listTitle
                 }),
-                PropertyPaneTextField('defaultTab', {
-                    label: strings.defaultTab
+                PropertyPaneTextField('setTab', {
+                  label: strings.setTab
                 }),
+                PropertyPaneTextField('setSize', {
+                  label: strings.setSize
+                }),
+                PropertyPaneTextField('setFilter', {
+                    label: strings.setFilter
+                }),
+                PropertyPaneTextField('propURLQuery', {
+                    label: strings.propURLQuery
+                }),
+              
               ]
             }
           ]
@@ -102,7 +196,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-
               PropertyPaneTextField('colTitleText', {
                   label: strings.colTitleText
               }),

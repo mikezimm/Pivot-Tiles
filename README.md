@@ -19,6 +19,7 @@ gulp
 ```
 npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp --save
 npm install @microsoft/sp-listview-extensibility   (Required from copying services folder from react repo)
+npm install @pnp/sp  ( Required to get list items from web )
 
 ```
 ### Create log:
@@ -28,6 +29,8 @@ npm install @microsoft/sp-listview-extensibility   (Required from copying servic
 * Added default prop pane values in webpart.manifset.json.  NOTE you do need to re-add webpart to page to see these updates.
 * Broke props pane into 3 pages.  About, Main Settings, Column settings.
 * Importing PropertyPaneLabel with BaseClientSideWebPart
+* Created component folders for PivotTiles and TileItems
+* Added public onInit():Promise<void> {  ( inside base webpart class )
 
 This package produces the following:
 

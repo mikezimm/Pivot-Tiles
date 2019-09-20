@@ -3,22 +3,11 @@ import { Image, ImageFit, } from 'office-ui-fabric-react/lib/Image';
 
 import { css, IImageProps, } from 'office-ui-fabric-react';
 
-import styles from './PivotTileItem.module.scss';
+import styles from '../PivotTileItem.module.scss';
 
-//Category may need to be defined optionally here
-//https://www.logicbig.com/tutorials/misc/typescript/interface-to-describe-object-with-optional-properties.html
+import { IPivotTileItemProps } from './IPivotTileItemProps'
+import { IPivotTileItemState } from './IPivotTileItemState'
 
-export interface IPivotTileItemProps {
-  imageUrl: string;
-  title: string;
-  description: string;
-  href: string;
-  category:string;
-}
-export interface IPivotTileItemState {
-  hovering: any;
-  visible: any;
-}
 export default class PivotTileItem extends React.Component<IPivotTileItemProps, IPivotTileItemState> {
 
   constructor(props: IPivotTileItemProps, state: IPivotTileItemState) {
