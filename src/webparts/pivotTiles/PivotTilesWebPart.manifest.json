@@ -25,18 +25,22 @@
       "PropertyPaneDescription": "Webpart Settings",
       "BasicGroupName": "Group 1",
       "DescriptionFieldLabel": "Description Field",
+
       "listDefinition": "OurTiles",
       "listWebURL": "",
       "listTitle": "OurTiles",
-      "defaultTab": "Main Menu",
+      "setTab": "Main Menu",
+      "setFilter": "zzzShowAll eq 'Yes'",
+      "propURLQuery": "",
+
       "colTitleText": "Title",
       "colHoverText": "TitleDescription",
       "colCategory": "TileCategory",
-      "colColor": "TileColor",
-      "colSize": "1x1",
-      "colGoToLink": "Url",
+      "colColor": "TileBgColorClass",
+      "colSize": "TileBgImageSize",
+      "colGoToLink": "TileHrefLink",
       "colOpenBehaviour": "New Tab",
-      "colImageLink": "ImageURL",
+      "colImageLink": "TileBgImageUrl",
       "colSort": "Order1",
       "colTileStyle": ""
     }

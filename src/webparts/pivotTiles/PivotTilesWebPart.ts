@@ -83,25 +83,27 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         });
 
     */
-    
+    console.log("Hello2");
     console.log("private async loadListItems()");
     console.log(this);
+    console.log(this.properties.listTitle);
+
 
     let useTileList: string = strings.DefaultTileList;
     
     //This line is causing an error in debugger mode:
     //unCaught Promise, can not read list Title of undefined.
-    if ( this.properties.listTitle.length > 0 ) {
+    if ( this.properties.listTitle ) {
         useTileList = this.properties.listTitle;
     }
 
     let restFilter: string = "";
-    if ( this.properties.setFilter.length > 0 ) {
+    if ( this.properties.setFilter ) {
       restFilter = this.properties.setFilter;
     }
 
     let restSort: string = "Title";
-    if ( this.properties.colSort.length > 0 ) {
+    if ( this.properties.colSort ) {
       restSort = this.properties.colSort;
     }
 

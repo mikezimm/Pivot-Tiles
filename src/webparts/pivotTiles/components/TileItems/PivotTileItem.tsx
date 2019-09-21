@@ -3,7 +3,7 @@ import { Image, ImageFit, } from 'office-ui-fabric-react/lib/Image';
 
 import { css, IImageProps, } from 'office-ui-fabric-react';
 
-import styles from '../PivotTileItem.module.scss';
+import styles from './PivotTileItem.module.scss';
 
 import { IPivotTileItemProps } from './IPivotTileItemProps'
 import { IPivotTileItemState } from './IPivotTileItemState'
