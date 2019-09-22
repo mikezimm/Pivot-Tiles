@@ -1,0 +1,132 @@
+.pivotTiles {
+
+  $box-size: 150px;
+  $wrapper-size-not-expanded: 10px;
+  $tileMargin:  8px 8px 0px 0px;
+
+  .container {
+    max-width: 100%;
+    margin: 0px auto;
+    position: relative;
+
+  }
+
+  .pTileItemWrapper {
+    float: left;
+    display: block;
+    height: $box-size;
+    width: $box-size;
+    position: relative;
+    border: #bebebe 1px solid;
+    margin:  $tileMargin;
+    overflow: hidden;
+  }
+  
+  .pTileItemWrapperExpanded {
+    @extend .pTileItemWrapper;
+    // top: 0px;
+    // opacity: .8;
+    /*
+    // See this guide for things like formulas in css and extending etc
+    // https://sass-lang.com/guide
+    */
+
+    width: $box-size;
+    height: $box-size;
+    margin:  $tileMargin;
+    border:0px;
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+    //-webkit-transform: scale(0.5,0.5);
+    //transform: scale(0.5,0.5);
+    transition:all 0.3s ease;
+    //transition-delay:0.15s;
+  }
+  .pTileItemWrapperNotExpanded {
+    @extend .pTileItemWrapper;
+    // top: 0px;
+    // opacity: .8;
+    /*
+    // See this guide for things like formulas in css and extending etc
+    // https://sass-lang.com/guide
+    */
+    width: 0px;
+    height: 0px;
+    margin: 0px 0px 0px 0px;
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+    //-webkit-transform: scale(1,1);
+    //transform: scale(1,1);
+    transition:all 0.3s ease;
+    //transition-delay:0.15s;
+  }
+  .pTileItemImage {
+    height: $box-size;
+    width: $box-size;
+  }
+  .pTileItemHoverPanel {
+    position: absolute;
+    top: $box-size * .80;
+    height: $box-size;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba( 0,0,0,0.75 );
+    filter: alpha(opacity=50);
+    padding: 2px;
+
+    // height: $box-size * .20;
+    /*
+    -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+    transition: opacity 0.5s, transform 0.5s;
+    -webkit-transform: translate3d(0,$box-size * .80,0);
+    transform: translate3d(0,$box-size * .80,0);
+    transition:all 0.3s ease;  
+    */  
+  }
+  .pTileItemHoverPanelExpanded {
+    @extend .pTileItemHoverPanel;
+    // top: 0px;
+    // opacity: .8;
+    /*
+    // See this guide for things like formulas in css and extending etc
+    // https://sass-lang.com/guide
+    */
+
+    // overflow: hidden;
+    -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+    transition: opacity 0.5s, transform 0.5s;
+    -webkit-transform: translate3d(0,-$box-size * .80,0);
+    transform: translate3d(0,-$box-size * .80,0);
+    transition:all 0.5s ease;
+    transition-delay:0.25s;
+  }
+  .pTileItemHoverPanelNotExpanded {
+    @extend .pTileItemHoverPanel;
+    // top: 0px;
+    // opacity: .8;
+    /*
+    // See this guide for things like formulas in css and extending etc
+    // https://sass-lang.com/guide
+    */
+    -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+    transition: opacity 0.5s, transform 0.5s;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    transition:all 0.7s ease;
+    //transition-delay:0.15s;
+  }
+  .pTileItemTitle {
+    font-size: ($box-size - ($box-size * .80)) - 10px;
+    line-height: ($box-size - ($box-size * .80)) - 4px;
+    font-weight: bold;
+    color: #eee;
+  }
+  .pTileItemDesc {
+
+    font-size: 8pt;
+    //line-height: ($box-size - ($box-size * .80)) - 4px;
+    color: #ccc;
+  }
+}
+
