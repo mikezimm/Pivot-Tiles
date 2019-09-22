@@ -7,5 +7,6 @@ export interface IPivotTilesState {
   pivtTitles?:string[];
   filteredCategory?: string;
   showAllTiles?: boolean;
+  pivotDefSelKey?: string;
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
 }
