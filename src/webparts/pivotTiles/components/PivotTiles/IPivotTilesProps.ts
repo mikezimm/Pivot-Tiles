@@ -1,6 +1,7 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
 
 export interface IPivotTilesProps {
+
   description: string;
   listDefinition: string;
   listWebURL: string;
@@ -22,7 +23,5 @@ export interface IPivotTilesProps {
   colSort: string;
   colTileStyle: string;
 
-  allTiles?:IPivotTileItemProps[];
-  activeTiles?:IPivotTileItemProps[];
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
 }

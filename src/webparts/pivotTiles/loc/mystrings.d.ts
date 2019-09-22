@@ -28,6 +28,8 @@ declare interface IPivotTilesWebPartStrings {
   colSort: string;
   colTileStyle: string;
   
+  pivtTitles?:string[];
+  
 }
 
 declare module 'PivotTilesWebPartStrings' {

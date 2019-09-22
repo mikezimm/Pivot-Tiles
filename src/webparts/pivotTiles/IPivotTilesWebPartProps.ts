@@ -1,3 +1,4 @@
+import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 
 export interface IPivotTilesWebPartProps {
   description: string;

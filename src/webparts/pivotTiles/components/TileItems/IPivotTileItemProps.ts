@@ -6,5 +6,6 @@ export interface IPivotTileItemProps {
   title: string;
   description: string;
   href: string;
-  category:string;
+  category:string[];
+  parentCat?:string;
 }
