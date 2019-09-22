@@ -27,6 +27,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       pivtTitles:[],
       showAllTiles: false,
       filteredCategory: this.props.setTab,
+      pivotDefSelKey:"9",
     };
     /*
     this.state = { 
@@ -71,7 +72,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
 
-          <Pivot linkSize={PivotLinkSize.large} onLinkClick={this.onLinkClick} selectedKey={this.props.setTab}>
+          <Pivot linkSize={PivotLinkSize.large} onLinkClick={this.onLinkClick} defaultSelectedKey={this.state.pivotDefSelKey}>
             {this.createPivots(this.state)}
           </Pivot>
 
@@ -240,6 +241,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           }
 
           tileCategories.sort();
+          const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
+          const defaultSelectedKey = defaultSelectedIndex.toString();
+          //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
+            
+          console.log("defaultSelectedKey");   
+          console.log(defaultSelectedKey);        
+
           console.log("tileCategories");   
           console.log(tileCategories);    
 
@@ -257,10 +265,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               }
           }
 
+
+
           this.setState({
             allTiles:tileCollection,
             pivtTitles: tileCategories,
             filteredTiles: newFilteredTiles,
+            pivotDefSelKey: defaultSelectedKey,
           });
 
           console.log(tileCollection);
@@ -296,6 +307,15 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             }
 
             tileCategories.sort();
+
+            tileCategories.sort();
+            const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
+            const defaultSelectedKey = defaultSelectedIndex.toString();
+            //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
+              
+            console.log("defaultSelectedKey");   
+            console.log(defaultSelectedKey);        
+  
             console.log("tileCategories");   
             console.log(tileCategories);    
   
@@ -317,6 +337,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               allTiles:tileCollection,
               pivtTitles: tileCategories,
               filteredTiles: newFilteredTiles,
+              pivotDefSelKey: defaultSelectedKey,
             });
 
 
