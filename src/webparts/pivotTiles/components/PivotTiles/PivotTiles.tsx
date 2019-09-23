@@ -27,7 +27,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       pivtTitles:[],
       showAllTiles: false,
       filteredCategory: this.props.setTab,
-      pivotDefSelKey:"9",
+      pivotDefSelKey:"",
     };
     /*
     this.state = { 
@@ -45,8 +45,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
   public componentDidMount() {
-    console.log("functionDome:  default class PivotTiles props:");
-    console.log(this.props);
+    //Not using this function because it just did not want to work.
     //this._loadListItems();
     this._getListItems();
   }
@@ -67,8 +66,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div className={styles.pivotTiles}>
         <div className={styles.container}>
-        {console.log("public render:  this.state")}
-        {console.log(this.state)}
         
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
 
@@ -78,8 +75,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
           <br/>
           <div>
-            {console.log("in Return() this.state - look for .filteredTiles")}
-            {console.log(this.state)}
+
             { (tileBuild ) }
 
           </div>
@@ -90,24 +86,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   private onLinkClick = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
-    console.log("onLinkClick:  item.props.headerText");
-    console.log(item.props.headerText);
-    //debugger;
-    console.log("onLinkClick:  this.state - before setState");
-    console.log(this.state);
-
-//    const filteredTiles: IPivotTileItemProps[] = this.state.allTiles.filter(tile => tile.category === item.props.headerText);
-
-    console.log("this.state.allTiles:");
-    console.log(this.state.allTiles);    
+ 
     let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
-        console.log("thisTile:");
-        console.log(thisTile);
-        console.log("thisTile.category:" + thisTile.category);
-        console.log("item.props.headerText:" + item.props.headerText);
-        console.log(thisTile.category.indexOf(item.props.headerText))
-        console.log(thisTile.category.indexOf(item.props.headerText) > -1)
+
         if(thisTile.category.indexOf(item.props.headerText) > -1) {
           newFilteredTiles.push(thisTile);
         }
@@ -118,29 +100,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       filteredTiles: newFilteredTiles,
     });
 
-    console.log("onLinkClick: this.state - after setState");
-    console.log(this.state);
-    console.log("onLinkClick: this.state.allTiles");
-    console.log(this.state.allTiles);
-    console.log("onLinkClick: newFilteredTiles");
-    console.log(newFilteredTiles);
 
   } //End onClick
 
   //http://react.tips/how-to-create-reactjs-components-dynamically/ - based on createImage
   public createPivot(pivT,def) {
-    /*
-    if (pivT == def) {
       return (
         <PivotItem headerText={pivT} />
       )
-    } else {
-      */
-      return (
-        <PivotItem headerText={pivT} />
-      )
-    //}
-
   }
 
   public createPivots(thisState){
@@ -153,14 +120,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   @autobind 
   private async _loadListItems(): Promise<void> {
     //This invokes the loadListItems function on the parent webpart.ts
-    console.log("Hello1");
-    console.log(this);
     const listItems: IPivotTileItemProps[] = await this.props.loadListItems();
 
     //https://www.youtube.com/watch?v=4nsGhYjfRsw 9:01-ish talks about this line to update props
     this.setState({allTiles:listItems});
-    console.log("_loadListItems:  listItems=");
-    console.log(listItems);
+
   }
 
   //    private async loadListItems(): Promise<IPivotTileItemProps[]> {
@@ -184,9 +148,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         });
 
     */
-    console.log("Hello2");
-    console.log("private _getListItems");
-    console.log(this);
 
     let useTileList: string = strings.DefaultTileList;
     
@@ -200,16 +161,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     if ( this.props.setFilter ) {
       restFilter = this.props.setFilter;
     }
-    console.log("The rest filter is: " + restFilter);
 
     let restSort: string = "Title";
     if ( this.props.colSort ) {
       restSort = this.props.colSort;
     }
-    console.log("The Sort column is: " + restSort);
 
     let selectCols: string = "*";
-    
     
     if ( this.props.listWebURL.length > 0 ){
       let web = new Web(this.props.listWebURL);
@@ -217,9 +175,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       web.lists.getByTitle(useTileList).items
       .select(selectCols).filter(restFilter).orderBy(restSort,true).get().then
         ((response) => {
-          console.log("Hello4");
-          console.log("private _getListItems: tileCollection");
-          console.log(response);
 
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
@@ -244,28 +199,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
           const defaultSelectedKey = defaultSelectedIndex.toString();
           //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
-            
-          console.log("defaultSelectedKey");   
-          console.log(defaultSelectedKey);        
 
-          console.log("tileCategories");   
-          console.log(tileCategories);    
-
-          console.log("this.state.allTiles:");
-          console.log(this.state.allTiles);    
           let newFilteredTiles = [];
             for (let thisTile of response) {
-              console.log("thisTile:");
-              console.log(thisTile);
-              console.log("thisTile.category:" + thisTile.category);
-              console.log("this.props.setTab:" + this.props.setTab);
-
               if(thisTile.category.indexOf(this.props.setTab) > -1) {
                 newFilteredTiles.push(thisTile);
               }
           }
-
-
 
           this.setState({
             allTiles:tileCollection,
@@ -274,7 +214,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             pivotDefSelKey: defaultSelectedKey,
           });
 
-          console.log(tileCollection);
         })
 
     } else {
@@ -282,10 +221,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         sp.web.lists.getByTitle(useTileList).items
           .select(selectCols).filter(restFilter).orderBy(restSort,true).get()
           .then((response) => {
-            console.log("Hello4");
-            console.log("private _getListItems: tileCollection");
-            console.log(response);
-
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //           https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
 
@@ -307,27 +242,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             }
 
             tileCategories.sort();
-
-            tileCategories.sort();
             const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
             const defaultSelectedKey = defaultSelectedIndex.toString();
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
-              
-            console.log("defaultSelectedKey");   
-            console.log(defaultSelectedKey);        
-  
-            console.log("tileCategories");   
-            console.log(tileCategories);    
-  
-            console.log("this.state.allTiles:");
-            console.log(this.state.allTiles);    
+
             let newFilteredTiles = [];
             for (let thisTile of response) {
-              console.log("thisTile:");
-              console.log(thisTile);
-              console.log("thisTile.category:" + thisTile[this.props.colCategory]);
-              console.log("this.props.setTab:" + this.props.setTab);
-
               if(thisTile[this.props.colCategory].indexOf(this.props.setTab) > -1) {
                 newFilteredTiles.push(thisTile);
               }
