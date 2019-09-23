@@ -21,6 +21,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 //  public constructor(props:IPivotTilesProps){
   public constructor(props:IPivotTilesProps){
     super(props);
+    let url = this.props.listWebURL;
+    let tileList = this.props.listTitle;
+    let sortList = this.props.colSort;
+    let that = this.props;
+    console.log("constructor this:");
+    console.log(this);
+
+    let x = this._getListItemsConstructor(that);
+
+    console.log("constructor x:");
+    console.log(x);
+
     this.state = { 
       allTiles:[],
       filteredTiles:[],
@@ -126,6 +138,134 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this.setState({allTiles:listItems});
 
   }
+  private async _getListItemsConstructor(thisx): Promise<IPivotTileItemProps[]> {
+
+    //https://www.youtube.com/watch?v=4nsGhYjfRsw 9:01-ish talks about this line to update props
+    /* Filtering example of same one and only retreiving certain columns
+    const result:IListItem[] = await sp.web.lists.getByTitle("Customers").items
+    .select("Title","CustomerID").filter("Title eq 'GM'").orderBy("Id",true).getAll()
+    */
+
+    /*  Be sure to import Web from @pnp/sp first, then use this to get from another web.
+
+        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
+        const result:IListItem[] = await web.lists.getByTitle("Customers").items
+
+        or .... 
+
+        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
+        web.get().then(w => {
+          console.log(w);
+        });
+
+    */
+   console.log("thisx 2:");
+   console.log(thisx);
+
+
+    let useTileList: string = strings.DefaultTileList;
+    
+    //This line is causing an error in debugger mode:
+    //unCaught Promise, can not read list Title of undefined.
+    if ( thisx.props.listTitle ) {
+        useTileList = thisx.props.listTitle;
+    }
+
+    let restFilter: string = "";
+    if ( thisx.props.setFilter ) {
+      restFilter = thisx.props.setFilter;
+    }
+
+    let restSort: string = "Title";
+    if ( thisx.props.colSort ) {
+      restSort = thisx.props.colSort;
+    }
+
+    let selectCols: string = "*";
+    
+    if ( thisx.props.listWebURL.length > 0 ){
+      let web = new Web(thisx.props.listWebURL);
+
+      const result:IPivotTileItemProps[] = await web.lists.getByTitle(useTileList).items
+        .select(selectCols).filter(restFilter).orderBy(restSort,true).get();
+
+        console.log("const result:IPivotTileItemProps 2:");
+        console.log(result);
+
+      let tileCollection:IPivotTileItemProps[] = result.map(item => ({
+        imageUrl: item[thisx.props.colImageLink],
+        title: item[thisx.props.colTitleText],
+        description: item[thisx.props.colHoverText],
+        href: item[thisx.props.colGoToLink],
+        category: item[thisx.props.colCategory],
+      }));
+
+      console.log("const tileCollection:IPivotTileItemProps 2:");
+      console.log(tileCollection);
+
+      return(tileCollection);
+/*
+          let tileCategories = [];
+          for (let tile of response) {
+            for (let category of tile[this.props.colCategory]) {
+              if(tileCategories.indexOf(category) === -1) {
+                tileCategories.push(category);
+              }
+            }
+          }
+
+          tileCategories.sort();
+          const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
+          const defaultSelectedKey = defaultSelectedIndex.toString();
+          //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
+
+          let newFilteredTiles = [];
+            for (let thisTile of response) {
+              if(thisTile.category.indexOf(this.props.setTab) > -1) {
+                newFilteredTiles.push(thisTile);
+              }
+          }
+
+          this.setState({
+            allTiles:tileCollection,
+            pivtTitles: tileCategories,
+            filteredTiles: newFilteredTiles,
+            pivotDefSelKey: defaultSelectedKey,
+          });
+*/
+
+    } else {
+
+
+      
+      const result:IPivotTileItemProps[] = await sp.web.lists.getByTitle(useTileList).items
+        .select(selectCols).filter(restFilter).orderBy(restSort,true).get();
+
+      console.log("const result:IPivotTileItemProps 2:");
+      console.log(result);
+
+
+      let tileCollection:IPivotTileItemProps[] = result.map(item => ({
+        imageUrl: item[thisx.props.colImageLink],
+        title: item[thisx.props.colTitleText],
+        description: item[thisx.props.colHoverText],
+        href: item[thisx.props.colGoToLink],
+        category: item[thisx.props.colCategory],
+      }));
+
+      
+      console.log("const tileCollection:IPivotTileItemProps:");
+      console.log(tileCollection);
+
+      return(tileCollection);
+
+    }
+    
+
+    //Handle error?
+  
+  }  
+
 
   //    private async loadListItems(): Promise<IPivotTileItemProps[]> {
   private _getListItems(): void {
