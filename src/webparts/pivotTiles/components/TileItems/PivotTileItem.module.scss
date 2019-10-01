@@ -1,6 +1,7 @@
 .pivotTiles {
 
-  $box-height: 100px ;
+
+  $box-height: 180px ;
   $box-width1x: $box-height;
   $box-width15x: $box-width1x * 1.5;
   $box-width2x: $box-width1x * 2;
@@ -8,7 +9,9 @@
   $wrapper-size-not-expanded: 10px;
   $tileGap: 8px;
   $tileGapPer:$tileGap/$box-height;
-  $box-width: 33%* (1 - $tileGapPer);
+  $box-width: 18%* (1 - $tileGapPer);
+//  $box-width: $box-width1x;
+
   $tileMargin:  $tileGap $tileGap 0px 0px;
   $panelHtVis: .4 * $box-height;
   $panelHtHid: $box-height - $panelHtVis;
