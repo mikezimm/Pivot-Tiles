@@ -1,18 +1,16 @@
 import * as React from 'react';
-import styles from './../PivotTiles.module.scss';
+import styles from './PivotTiles.module.scss';
 
 import { IPivotTilesProps } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
 import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
 import PivotTileItem from './../TileItems/PivotTileItem';
 import { escape } from '@microsoft/sp-lodash-subset';
+import Utils from '../../utils'
 
 import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/Pivot';
-
 import { DefaultButton, autobind } from 'office-ui-fabric-react';
-
 import { sp, Web } from '@pnp/sp';
-
 import * as strings from 'PivotTilesWebPartStrings';
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -52,6 +50,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
   public render(): React.ReactElement<IPivotTilesProps> {
     let tileBuild;
+    const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
 
     tileBuild = this.state.filteredTiles.map(newTile => (
       <PivotTileItem
@@ -69,8 +68,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
 
-          <Pivot linkSize={PivotLinkSize.large} onLinkClick={this.onLinkClick} defaultSelectedKey={this.state.pivotDefSelKey}>
-            {this.createPivots(this.state)}
+          <Pivot linkSize={PivotLinkSize.large}
+            onLinkClick={this.onLinkClick}
+            defaultSelectedKey={defIndex}>
+              {this.createPivots(this.state)}
           </Pivot>
 
           <br/>
@@ -89,7 +90,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
  
     let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
-
         if(thisTile.category.indexOf(item.props.headerText) > -1) {
           newFilteredTiles.push(thisTile);
         }
@@ -104,9 +104,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   } //End onClick
 
   //http://react.tips/how-to-create-reactjs-components-dynamically/ - based on createImage
-  public createPivot(pivT,def) {
+  public createPivot(pivT) {
+    const thisItemKey :string = Utils.convertCategoryToIndex(pivT);
       return (
-        <PivotItem headerText={pivT} />
+        <PivotItem headerText={pivT} itemKey={thisItemKey}/>
       )
   }
 
@@ -115,6 +116,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory)
     )
   }
+
+
 
   //Added for Get List Data:  https://www.youtube.com/watch?v=b9Ymnicb1kc
   @autobind 
@@ -201,7 +204,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
           let newFilteredTiles = [];
-            for (let thisTile of response) {
+            for (let thisTile of tileCollection) {
               if(thisTile.category.indexOf(this.props.setTab) > -1) {
                 newFilteredTiles.push(thisTile);
               }
@@ -247,8 +250,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
             let newFilteredTiles = [];
-            for (let thisTile of response) {
-              if(thisTile[this.props.colCategory].indexOf(this.props.setTab) > -1) {
+            for (let thisTile of tileCollection) {
+              if(thisTile.category.indexOf(this.props.setTab) > -1) {
                 newFilteredTiles.push(thisTile);
               }
             }

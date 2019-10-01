@@ -24,4 +24,5 @@ export interface IPivotTilesProps {
   colTileStyle: string;
 
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
+  convertCategoryToIndex?(cat:string) : string;
 }

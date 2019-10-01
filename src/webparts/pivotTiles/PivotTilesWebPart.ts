@@ -17,7 +17,7 @@ import * as strings from 'PivotTilesWebPartStrings';
 import PivotTiles from './components/PivotTiles/PivotTiles';
 import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
-import { string } from 'prop-types';
+import { string, any } from 'prop-types';
 
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
@@ -57,7 +57,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         colTileStyle: this.properties.colTileStyle,
 
         loadListItems: this.loadListItems,
-        
+
       }
     );
 
