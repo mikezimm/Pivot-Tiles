@@ -1,8 +1,19 @@
 .pivotTiles {
 
-  $box-size: 150px;
+  $box-height: 100px ;
+  $box-width1x: $box-height;
+  $box-width15x: $box-width1x * 1.5;
+  $box-width2x: $box-width1x * 2;
+  $box-width3x: $box-width1x * 3;
   $wrapper-size-not-expanded: 10px;
-  $tileMargin:  8px 8px 0px 0px;
+  $tileGap: 8px;
+  $tileGapPer:$tileGap/$box-height;
+  $box-width: 33%* (1 - $tileGapPer);
+  $tileMargin:  $tileGap $tileGap 0px 0px;
+  $panelHtVis: .4 * $box-height;
+  $panelHtHid: $box-height - $panelHtVis;
+  $titleFontSize: 16px;
+  $descFontSize: 12px;
 
   .container {
     max-width: 100%;
@@ -14,8 +25,8 @@
   .pTileItemWrapper {
     float: left;
     display: block;
-    height: $box-size;
-    width: $box-size;
+    height: $box-height;
+    width: $box-width;
     position: relative;
     border: #bebebe 1px solid;
     margin:  $tileMargin;
@@ -31,8 +42,8 @@
     // https://sass-lang.com/guide
     */
 
-    width: $box-size;
-    height: $box-size;
+    width: (1-$tileGapPer) * $box-width;
+    height: $box-height;
     margin:  $tileMargin;
     border:0px;
     -webkit-transition: -webkit-transform 0.5s;
@@ -61,13 +72,13 @@
     //transition-delay:0.15s;
   }
   .pTileItemImage {
-    height: $box-size;
-    width: $box-size;
+    width: 100%;
+    height: $box-height;
   }
   .pTileItemHoverPanel {
     position: absolute;
-    top: $box-size * .80;
-    height: $box-size;
+    top: $panelHtHid;
+    height: $box-height;
     bottom: 0px;
     left: 0px;
     right: 0px;
@@ -96,8 +107,8 @@
     // overflow: hidden;
     -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
     transition: opacity 0.5s, transform 0.5s;
-    -webkit-transform: translate3d(0,-$box-size * .80,0);
-    transform: translate3d(0,-$box-size * .80,0);
+    -webkit-transform: translate3d(0,-$panelHtHid,0);
+    transform: translate3d(0,-$panelHtHid,0);
     transition:all 0.5s ease;
     transition-delay:0.25s;
   }
@@ -117,14 +128,16 @@
     //transition-delay:0.15s;
   }
   .pTileItemTitle {
-    font-size: ($box-size - ($box-size * .80)) - 10px;
-    line-height: ($box-size - ($box-size * .80)) - 4px;
-    font-weight: bold;
+    //font-size: ($box-size - ($box-size * .80)) - 10px;
+    //line-height: ($box-size - ($box-size * .80)) - 4px;
+    font-size: $titleFontSize;    
+    //font-weight: bold;
     color: #eee;
+    height:$panelHtVis;
   }
   .pTileItemDesc {
 
-    font-size: 8pt;
+    font-size: $descFontSize;
     //line-height: ($box-size - ($box-size * .80)) - 4px;
     color: #ccc;
   }
