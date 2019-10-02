@@ -40,7 +40,9 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     */
     console.log("getTheseStyles: ");
     console.log(styles);
-    var iStyles= tUtils.getTheseStyles('100','1x1');
+    var iStyles= tUtils.getTheseStyles('300','2x1');
+    console.log("getTheseStyles: iStyles");
+    console.log(iStyles);   
 
     return (
       <a href={this.props.href} 
@@ -55,7 +57,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
             //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator#Conditional_chains
             this.state.hovering === true  ? iStyles.iHovPanExp
             : this.state.hovering === false  ? iStyles.iHovPanNot
-            : ""
+            : iStyles.iHovPanNot
             ].join(" ")}>
             <div className={iStyles.iTitle}>{this.props.title}</div>
             <div className={styles.pTileItemDesc}>{this.props.description}</div>
