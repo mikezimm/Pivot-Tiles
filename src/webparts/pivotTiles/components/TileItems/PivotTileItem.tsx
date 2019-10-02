@@ -4,6 +4,7 @@ import { Image, ImageFit, } from 'office-ui-fabric-react/lib/Image';
 import { css, IImageProps, } from 'office-ui-fabric-react';
 
 import styles from './PivotTileItem.module.scss';
+import tUtils from './utilTiles'
 
 import { IPivotTileItemProps } from './IPivotTileItemProps'
 import { IPivotTileItemState } from './IPivotTileItemState'
@@ -37,8 +38,34 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
           : ""
           ].join(" ")}>
     */
+    console.log("getTheseStyles: ");
+    console.log(styles);
+    var iStyles= tUtils.getTheseStyles('100','1x1');
 
+    return (
+      <a href={this.props.href} 
+         className={styles.pivotTiles}
+         target="_top" 
+         role="listitem" 
+         onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}>
+        <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}>
 
+          <Image className={iStyles.iItemImage} src={this.props.imageUrl} shouldFadeIn={true} imageFit={ImageFit.centerCover} />
+          <div className={[iStyles.iHovPan, 
+            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator#Conditional_chains
+            this.state.hovering === true  ? iStyles.iHovPanExp
+            : this.state.hovering === false  ? iStyles.iHovPanNot
+            : ""
+            ].join(" ")}>
+            <div className={iStyles.iTitle}>{this.props.title}</div>
+            <div className={styles.pTileItemDesc}>{this.props.description}</div>
+          </div>
+        </div>
+      </a>
+    );
+  }
+
+/* original return before variablizing sizes
     return (
       <a href={this.props.href} 
          className={styles.pivotTiles}
@@ -60,6 +87,9 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
         </div>
       </a>
     );
-  }
+*/
+
+
+
 
 }
