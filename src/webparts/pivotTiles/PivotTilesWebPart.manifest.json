@@ -31,7 +31,7 @@
       "listTitle": "OurTiles",
       "setTab": "Main Menu",
       "setSize": "300",
-      "setRatio": "2x1",
+      "setRatio": "4x1",
       "setFilter": "zzzShowAll eq 'Yes'",
       "propURLQuery": "",
 
