@@ -2,7 +2,8 @@ declare interface IPivotTilesWebPartStrings {
   setRatio: string;
   PropertyPaneDescription: string;
   PropertyPaneMainDescription: string,
-  PropertyPaneColumnsDescription: string,
+  PropertyPaneColumnsDescription1: string,
+  PropertyPaneColumnsDescription2: string,
   PropertyPaneAbout: string,
   BasicGroupName: string;
   DescriptionFieldLabel: string;

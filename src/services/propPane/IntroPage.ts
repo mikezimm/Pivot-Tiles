@@ -20,7 +20,7 @@ export class IntroPage {
         {
           groupFields: [
             PropertyPaneLabel('About Text', {
-              text: 'This webpart gets tile defintion from a list in SharePoint.'
+              text: 'This webpart gets tile defintion from a list in SharePoint :).'
             }),
 
             PropertyPaneLink('About Link' , {

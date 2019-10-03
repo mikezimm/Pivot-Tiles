@@ -30,8 +30,8 @@
       "listWebURL": "",
       "listTitle": "OurTiles",
       "setTab": "Main Menu",
-      "setSize": "150",
-      "setRatio": "1xy",
+      "setSize": "300",
+      "setRatio": "2x1",
       "setFilter": "zzzShowAll eq 'Yes'",
       "propURLQuery": "",
 

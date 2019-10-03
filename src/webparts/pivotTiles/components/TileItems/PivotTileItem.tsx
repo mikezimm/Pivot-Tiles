@@ -42,7 +42,6 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
 //    console.log(styles);
     console.log("getTheseStyles: this.props");
     console.log(this.props);  
-
     var iStyles= tUtils.getTheseStyles(this.props.setSize,this.props.setRatio);
 //    console.log("getTheseStyles: iStyles");
 //    console.log(iStyles);   

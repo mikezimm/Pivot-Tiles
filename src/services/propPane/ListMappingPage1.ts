@@ -4,20 +4,29 @@ import {
     IPropertyPaneLabelProps,
     PropertyPaneHorizontalRule,
     PropertyPaneTextField, IPropertyPaneTextFieldProps,
-    PropertyPaneLink, IPropertyPaneLinkProps
+    PropertyPaneLink, IPropertyPaneLinkProps,
+    PropertyPaneDropdown, IPropertyPaneDropdownProps,
+    IPropertyPaneDropdownOption
   } from '@microsoft/sp-webpart-base';
   
   import * as strings from 'PivotTilesWebPartStrings';
 
-  export class ListMappingPage {
+  export class ListMappingPage1 {
+
     public getPropertyPanePage(): IPropertyPanePage {
+        /*  Removed Header from above groups in return statement... formatting was not bold.
+            header: {
+                description: strings.PropertyPaneColumnsDescription1
+            },
+            */
+
         return <IPropertyPanePage>        { // <page3>
             header: {
-            description: strings.PropertyPaneColumnsDescription
+                description: strings.PropertyPaneColumnsDescription1
             },
             groups: [
             {
-                groupName: strings.BasicGroupName,
+                groupName: strings.PropertyPaneColumnsDescription1,
                 groupFields: [
                 PropertyPaneTextField('listDefinition', {
                     label: strings.listDefinition
@@ -34,17 +43,8 @@ import {
                 PropertyPaneTextField('colCategory', {
                     label: strings.colCategory
                 }),
-                PropertyPaneTextField('colColor', {
-                    label: strings.colColor
-                }),
-                PropertyPaneTextField('colSize', {
-                    label: strings.colSize
-                }),
                 PropertyPaneTextField('colGoToLink', {
                     label: strings.colGoToLink
-                }),
-                PropertyPaneTextField('colOpenBehaviour', {
-                    label: strings.colOpenBehaviour
                 }),
                 PropertyPaneTextField('colImageLink', {
                     label: strings.colImageLink
@@ -52,9 +52,7 @@ import {
                 PropertyPaneTextField('colSort', {
                     label: strings.colSort
                 }),
-                PropertyPaneTextField('colTileStyle', {
-                    label: strings.colTileStyle
-                }),
+
               ]
             }
           ]
@@ -63,4 +61,4 @@ import {
   }
 
 
-  export let listMappingPage = new ListMappingPage();
+  export let listMappingPage1 = new ListMappingPage1();
