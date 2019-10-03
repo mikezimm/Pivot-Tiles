@@ -18,7 +18,7 @@ import PivotTiles from './components/PivotTiles/PivotTiles';
 import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
-import { propertyPaneBuilder } from '../../services/PropPane/PropPaneBuilder';
+import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
 
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
@@ -42,6 +42,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         listTitle: this.properties.listTitle,
 
         setSize: this.properties.setSize,
+        setRatio: this.properties.setRatio,
         setFilter: this.properties.setFilter,
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,

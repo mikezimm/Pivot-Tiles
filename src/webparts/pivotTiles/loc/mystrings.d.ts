@@ -1,4 +1,5 @@
 declare interface IPivotTilesWebPartStrings {
+  setRatio: string;
   PropertyPaneDescription: string;
   PropertyPaneMainDescription: string,
   PropertyPaneColumnsDescription: string,
@@ -13,10 +14,11 @@ declare interface IPivotTilesWebPartStrings {
   listTitle: string;
 
   setSize: string;
+  setRatio: string;
   setFilter: string;
   propURLQuery: string;
   setTab: string;
-
+  
   colTitleText: string;
   colHoverText: string;
   colCategory: string;

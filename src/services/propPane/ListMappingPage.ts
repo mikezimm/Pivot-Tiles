@@ -12,43 +12,49 @@ import {
   export class ListMappingPage {
     public getPropertyPanePage(): IPropertyPanePage {
         return <IPropertyPanePage>        { // <page3>
-          header: {
+            header: {
             description: strings.PropertyPaneColumnsDescription
-          },
-          groups: [
+            },
+            groups: [
             {
-              groupName: strings.BasicGroupName,
-              groupFields: [
-              PropertyPaneTextField('colTitleText', {
-                  label: strings.colTitleText
-              }),
-              PropertyPaneTextField('colHoverText', {
-                  label: strings.colHoverText
-              }),
-              PropertyPaneTextField('colCategory', {
-                  label: strings.colCategory
-              }),
-              PropertyPaneTextField('colColor', {
-                  label: strings.colColor
-              }),
-              PropertyPaneTextField('colSize', {
-                  label: strings.colSize
-              }),
-              PropertyPaneTextField('colGoToLink', {
-                  label: strings.colGoToLink
-              }),
-              PropertyPaneTextField('colOpenBehaviour', {
-                  label: strings.colOpenBehaviour
-              }),
-              PropertyPaneTextField('colImageLink', {
-                  label: strings.colImageLink
-              }),
-              PropertyPaneTextField('colSort', {
-                  label: strings.colSort
-              }),
-              PropertyPaneTextField('colTileStyle', {
-                  label: strings.colTileStyle
-              }),
+                groupName: strings.BasicGroupName,
+                groupFields: [
+                PropertyPaneTextField('listDefinition', {
+                    label: strings.listDefinition
+                }),
+                PropertyPaneTextField('listTitle', {
+                    label: strings.listTitle
+                }),
+                PropertyPaneTextField('colTitleText', {
+                    label: strings.colTitleText
+                }),
+                PropertyPaneTextField('colHoverText', {
+                    label: strings.colHoverText
+                }),
+                PropertyPaneTextField('colCategory', {
+                    label: strings.colCategory
+                }),
+                PropertyPaneTextField('colColor', {
+                    label: strings.colColor
+                }),
+                PropertyPaneTextField('colSize', {
+                    label: strings.colSize
+                }),
+                PropertyPaneTextField('colGoToLink', {
+                    label: strings.colGoToLink
+                }),
+                PropertyPaneTextField('colOpenBehaviour', {
+                    label: strings.colOpenBehaviour
+                }),
+                PropertyPaneTextField('colImageLink', {
+                    label: strings.colImageLink
+                }),
+                PropertyPaneTextField('colSort', {
+                    label: strings.colSort
+                }),
+                PropertyPaneTextField('colTileStyle', {
+                    label: strings.colTileStyle
+                }),
               ]
             }
           ]

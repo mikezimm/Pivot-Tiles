@@ -7,6 +7,7 @@ export interface IPivotTilesWebPartProps {
   listTitle: string;
 
   setSize: string;
+  setRatio: string;
   setFilter: string;
   propURLQuery: boolean;
   setTab: string;

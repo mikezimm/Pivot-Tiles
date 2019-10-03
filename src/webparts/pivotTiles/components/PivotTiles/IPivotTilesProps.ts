@@ -11,6 +11,7 @@ export interface IPivotTilesProps {
   setFilter: string;
   propURLQuery: boolean;
   setTab: string;
+  setRatio: string;
   
   colTitleText: string;
   colHoverText: string;

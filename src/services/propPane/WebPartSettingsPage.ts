@@ -18,20 +18,17 @@ import {
         groups: [
           {
             groupFields: [
-              PropertyPaneTextField('listDefinition', {
-                  label: strings.listDefinition
-              }),
               PropertyPaneTextField('listWebURL', {
                   label: strings.listWebURL
-              }),
-              PropertyPaneTextField('listTitle', {
-                  label: strings.listTitle
               }),
               PropertyPaneTextField('setTab', {
                 label: strings.setTab
               }),
               PropertyPaneTextField('setSize', {
                 label: strings.setSize
+              }),
+              PropertyPaneTextField('setRatio', {
+                label: strings.setRatio
               }),
               PropertyPaneTextField('setFilter', {
                   label: strings.setFilter

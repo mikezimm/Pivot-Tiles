@@ -2,7 +2,7 @@ define([], function() {
   return {
     "PropertyPaneAbout": "About",
     "PropertyPaneDescription": "Description",
-    "PropertyPaneMainDescription": "Main Settings",
+    "PropertyPaneMainDescription": "Web Part Settings",
     "PropertyPaneColumnsDescription": "Column Settings",
     "BasicGroupName": "Group Name",
     "DescriptionFieldLabel": "Description Field",
@@ -13,6 +13,7 @@ define([], function() {
     "listTitle": "Tabbed Tiles list",
 
     "setSize": "Default Tile Size",
+    "setRatio": "Set Tile Ratio",
     "setFilter": "Rest Filter like:   ShowColumnName eq 'Yes'",
     "propURLQuery": "Allow URL Query to filter",
     "setTab": "Default Tab",
