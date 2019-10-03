@@ -18,6 +18,7 @@ import PivotTiles from './components/PivotTiles/PivotTiles';
 import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
+import { propertyPaneBuilder } from '../../services/PropPane/PropPaneBuilder';
 
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
@@ -136,103 +137,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    return {
-      pages: [
-        { // <page1>
-          header: {
-            description: strings.PropertyPaneAbout
-          },
-          groups: [
-            {
-              groupFields: [
-                PropertyPaneLabel('About Text', {
-                  text: 'This webpart gets tile defintion from a list in SharePoint.'
-                }),
-
-                PropertyPaneLink('About Link' , {
-                  text: 'Github Repo:  Pivot-Tiles',
-                  href: 'https://github.com/mikezimm/Pivot-Tiles',
-                }),
-              ]
-            }
-          ]
-        }, // </page1>
-        { // <page2>
-          header: {
-            description: strings.PropertyPaneMainDescription
-          },
-          groups: [
-            {
-              groupFields: [
-                PropertyPaneTextField('listDefinition', {
-                    label: strings.listDefinition
-                }),
-                PropertyPaneTextField('listWebURL', {
-                    label: strings.listWebURL
-                }),
-                PropertyPaneTextField('listTitle', {
-                    label: strings.listTitle
-                }),
-                PropertyPaneTextField('setTab', {
-                  label: strings.setTab
-                }),
-                PropertyPaneTextField('setSize', {
-                  label: strings.setSize
-                }),
-                PropertyPaneTextField('setFilter', {
-                    label: strings.setFilter
-                }),
-                PropertyPaneTextField('propURLQuery', {
-                    label: strings.propURLQuery
-                }),
-              
-              ]
-            }
-          ]
-        }, // </page2>
-        { // <page3>
-          header: {
-            description: strings.PropertyPaneColumnsDescription
-          },
-          groups: [
-            {
-              groupName: strings.BasicGroupName,
-              groupFields: [
-              PropertyPaneTextField('colTitleText', {
-                  label: strings.colTitleText
-              }),
-              PropertyPaneTextField('colHoverText', {
-                  label: strings.colHoverText
-              }),
-              PropertyPaneTextField('colCategory', {
-                  label: strings.colCategory
-              }),
-              PropertyPaneTextField('colColor', {
-                  label: strings.colColor
-              }),
-              PropertyPaneTextField('colSize', {
-                  label: strings.colSize
-              }),
-              PropertyPaneTextField('colGoToLink', {
-                  label: strings.colGoToLink
-              }),
-              PropertyPaneTextField('colOpenBehaviour', {
-                  label: strings.colOpenBehaviour
-              }),
-              PropertyPaneTextField('colImageLink', {
-                  label: strings.colImageLink
-              }),
-              PropertyPaneTextField('colSort', {
-                  label: strings.colSort
-              }),
-              PropertyPaneTextField('colTileStyle', {
-                  label: strings.colTileStyle
-              }),
-              ]
-            }
-          ]
-        } // <page3>
-      ]
-    };
+    return propertyPaneBuilder.getPropertyPaneConfiguration();
   }
 }
