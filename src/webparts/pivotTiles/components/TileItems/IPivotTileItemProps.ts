@@ -7,5 +7,8 @@ export interface IPivotTileItemProps {
   description: string;
   href: string;
   category:string[];
+  setTab: string;
+  setRatio: string;
+  setSize: string;
   parentCat?:string;
 }

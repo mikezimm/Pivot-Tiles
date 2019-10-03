@@ -15,65 +15,65 @@ export default class StyleUtils {
     var iItemImage = styles.pTileItemImage;
     var iTitle = styles.pTileItemTitle;
 
-    if (tileFit === '100by1xy') {
-      iWrap = styles.pTileItemWrapper100by1xy;
-      iWrapExp = styles.pTileItemWrapperExpanded100by1xy;
+    if (tileFit === '100by1xy') {
+      iWrap = styles.pTileItemWrapper100by1xy;
+      iWrapExp = styles.pTileItemWrapperExpanded100by1xy;
 
-    } else if (tileFit === '100by4x1') {
-      iWrap = styles.pTileItemWrapper100by4x1;
-      iWrapExp = styles.pTileItemWrapperExpanded100by4x1;
+    } else if (tileFit === '100by4x1') {
+      iWrap = styles.pTileItemWrapper100by4x1;
+      iWrapExp = styles.pTileItemWrapperExpanded100by4x1;
 
-    } else if (tileFit === '100by3x1') {
-      iWrap = styles.pTileItemWrapper100by3x1;
-      iWrapExp = styles.pTileItemWrapperExpanded100by3x1;
+    } else if (tileFit === '100by3x1') {
+      iWrap = styles.pTileItemWrapper100by3x1;
+      iWrapExp = styles.pTileItemWrapperExpanded100by3x1;
 
-    } else if (tileFit === '100by2x1') {
-      iWrap = styles.pTileItemWrapper100by2x1;
-      iWrapExp = styles.pTileItemWrapperExpanded100by2x1;
+    } else if (tileFit === '100by2x1') {
+      iWrap = styles.pTileItemWrapper100by2x1;
+      iWrapExp = styles.pTileItemWrapperExpanded100by2x1;
 
-    } else if (tileFit === '100by1x1') {
-      iWrap = styles.pTileItemWrapper100by1x1;
-      iWrapExp = styles.pTileItemWrapperExpanded100by1x1;
+    } else if (tileFit === '100by1x1') {
+      iWrap = styles.pTileItemWrapper100by1x1;
+      iWrapExp = styles.pTileItemWrapperExpanded100by1x1;
 
-    } else if (tileFit === '150by1xy') {
-      iWrap = styles.pTileItemWrapper150by1xy;
-      iWrapExp = styles.pTileItemWrapperExpanded150by1xy;
+    } else if (tileFit === '150by1xy') {
+      iWrap = styles.pTileItemWrapper150by1xy;
+      iWrapExp = styles.pTileItemWrapperExpanded150by1xy;
 
-    } else if (tileFit === '150by4x1') {
-      iWrap = styles.pTileItemWrapper150by4x1;
-      iWrapExp = styles.pTileItemWrapperExpanded150by4x1;
+    } else if (tileFit === '150by4x1') {
+      iWrap = styles.pTileItemWrapper150by4x1;
+      iWrapExp = styles.pTileItemWrapperExpanded150by4x1;
 
-    } else if (tileFit === '150by3x1') {
-      iWrap = styles.pTileItemWrapper150by3x1;
-      iWrapExp = styles.pTileItemWrapperExpanded150by3x1;
+    } else if (tileFit === '150by3x1') {
+      iWrap = styles.pTileItemWrapper150by3x1;
+      iWrapExp = styles.pTileItemWrapperExpanded150by3x1;
 
-    } else if (tileFit === '150by2x1') {
-      iWrap = styles.pTileItemWrapper150by2x1;
-      iWrapExp = styles.pTileItemWrapperExpanded150by2x1;
+    } else if (tileFit === '150by2x1') {
+      iWrap = styles.pTileItemWrapper150by2x1;
+      iWrapExp = styles.pTileItemWrapperExpanded150by2x1;
 
-    } else if (tileFit === '150by1x1') {
-      iWrap = styles.pTileItemWrapper150by1x1;
-      iWrapExp = styles.pTileItemWrapperExpanded150by1x1;
+    } else if (tileFit === '150by1x1') {
+      iWrap = styles.pTileItemWrapper150by1x1;
+      iWrapExp = styles.pTileItemWrapperExpanded150by1x1;
 
-    } else if (tileFit === '300by1xy') {
-      iWrap = styles.pTileItemWrapper300by1xy;
-      iWrapExp = styles.pTileItemWrapperExpanded300by1xy;
+    } else if (tileFit === '300by1xy') {
+      iWrap = styles.pTileItemWrapper300by1xy;
+      iWrapExp = styles.pTileItemWrapperExpanded300by1xy;
 
-    } else if (tileFit === '300by4x1') {
-      iWrap = styles.pTileItemWrapper300by4x1;
-      iWrapExp = styles.pTileItemWrapperExpanded300by4x1;
+    } else if (tileFit === '300by4x1') {
+      iWrap = styles.pTileItemWrapper300by4x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by4x1;
 
-    } else if (tileFit === '300by3x1') {
-      iWrap = styles.pTileItemWrapper300by3x1;
-      iWrapExp = styles.pTileItemWrapperExpanded300by3x1;
+    } else if (tileFit === '300by3x1') {
+      iWrap = styles.pTileItemWrapper300by3x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by3x1;
 
-    } else if (tileFit === '300by2x1') {
-      iWrap = styles.pTileItemWrapper300by2x1;
-      iWrapExp = styles.pTileItemWrapperExpanded300by2x1;
+    } else if (tileFit === '300by2x1') {
+      iWrap = styles.pTileItemWrapper300by2x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by2x1;
 
-    } else if (tileFit === '300by1x1') {
-      iWrap = styles.pTileItemWrapper300by1x1;
-      iWrapExp = styles.pTileItemWrapperExpanded300by1x1;
+    } else if (tileFit === '300by1x1') {
+      iWrap = styles.pTileItemWrapper300by1x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by1x1;
     
     }
     

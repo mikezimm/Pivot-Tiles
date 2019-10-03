@@ -7,12 +7,12 @@ export interface IPivotTilesProps {
   listWebURL: string;
   listTitle: string;
 
-  setSize: string;
   setFilter: string;
   propURLQuery: boolean;
   setTab: string;
   setRatio: string;
-  
+  setSize: string;
+ 
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
