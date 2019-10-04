@@ -10,7 +10,7 @@ import {
   } from '@microsoft/sp-webpart-base';
   
   import * as strings from 'PivotTilesWebPartStrings';
-  import { pivotOptionsGroup, } from './index';
+  import { pivotOptionsGroup, imageOptionsGroup } from './index';
   
   export class WebPartSettingsPage {
 
@@ -54,6 +54,15 @@ import {
                 label: strings.setRatio,
                 options: this.setRatio,
               }),
+              PropertyPaneDropdown('setImgFit', <IPropertyPaneDropdownProps>{
+                label: strings.setImgFit,
+                options: imageOptionsGroup.imgFitChoices,
+              }),
+              PropertyPaneDropdown('setImgCover', <IPropertyPaneDropdownProps>{
+                label: strings.setImgCover,
+                options: imageOptionsGroup.imgCoverChoices,
+              }),
+
             ]}, // this group
 
             { groupName: 'Pivot Settings',

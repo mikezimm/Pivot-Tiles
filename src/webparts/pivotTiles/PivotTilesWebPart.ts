@@ -43,6 +43,9 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,
+        setImgFit: this.properties.setImgFit,
+        setImgCover: this.properties.setImgCover,
+
         setFilter: this.properties.setFilter,
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,
@@ -173,6 +176,20 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     if (propertyPath === 'setPivFormat') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
       this.properties.setPivFormat = newValue;
+      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.context.propertyPane.refresh();
+    }
+    
+    if (propertyPath === 'setImgFit') {
+      console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties.setImgFit = newValue;
+      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.context.propertyPane.refresh();
+    }
+    
+    if (propertyPath === 'setImgCover') {
+      console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties.setImgCover = newValue;
       //this.properties.colTitleText = "TitleTextChanged!";      
       this.context.propertyPane.refresh();
     }

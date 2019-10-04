@@ -9,6 +9,8 @@ import tUtils from './utilTiles'
 import { IPivotTileItemProps } from './IPivotTileItemProps'
 import { IPivotTileItemState } from './IPivotTileItemState'
 
+import { imageOptionsGroup, } from '../../../../services/propPane';
+
 export default class PivotTileItem extends React.Component<IPivotTileItemProps, IPivotTileItemState> {
 
   constructor(props: IPivotTileItemProps, state: IPivotTileItemState) {
@@ -54,7 +56,14 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
          onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}>
         <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}>
 
-          <Image className={iStyles.iItemImage} src={this.props.imageUrl} shouldFadeIn={true} imageFit={ImageFit.centerCover} />
+          <Image 
+            className={iStyles.iItemImage} 
+            src={this.props.imageUrl} 
+            shouldFadeIn={true} 
+            imageFit={imageOptionsGroup.getImgFit(this.props.setImgFit)}
+            coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}           
+          />
+
           <div className={[iStyles.iHovPan, 
             //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator#Conditional_chains
             this.state.hovering === true  ? iStyles.iHovPanExp

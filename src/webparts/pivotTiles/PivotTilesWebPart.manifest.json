@@ -32,6 +32,8 @@
       "setTab": "Main Menu",
       "setSize": "300",
       "setRatio": "4x1",
+      "setImgFit": "centerCover",
+      "setImgCover": "landscape",
       "setFilter": "zzzShowAll eq 'Yes'",
       "setPivSize": "normal",
       "setPivFormat": "links",

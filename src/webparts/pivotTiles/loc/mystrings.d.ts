@@ -16,6 +16,10 @@ declare interface IPivotTilesWebPartStrings {
 
   setSize: string;
   setRatio: string;
+
+  setImgFit: string;
+  setImgCover: string;
+
   setFilter: string;
   setPivFormat: string;
   setPivSize: string;

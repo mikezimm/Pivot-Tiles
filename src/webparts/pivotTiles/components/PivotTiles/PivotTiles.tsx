@@ -64,8 +64,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         href={newTile.href}
         category={newTile.category}
         setTab={newTile.setTab}
+
         setRatio={newTile.setRatio}
         setSize={newTile.setSize}
+        setImgFit={newTile.setImgFit}
+        setImgCover={newTile.setImgCover}
+
         />
       ));
 
@@ -199,6 +203,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             setTab: this.props.setTab,
             setSize:this.props.setSize,
             setRatio: this.props.setRatio,
+            setImgFit:this.props.setImgFit,
+            setImgCover: this.props.setImgCover,
+
           }));
 
           let tileCategories = [];
@@ -248,6 +255,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               setTab: this.props.setTab,
               setSize:this.props.setSize,
               setRatio: this.props.setRatio,
+              setImgFit:this.props.setImgFit,
+              setImgCover: this.props.setImgCover,
             }));
 
             let tileCategories = [];

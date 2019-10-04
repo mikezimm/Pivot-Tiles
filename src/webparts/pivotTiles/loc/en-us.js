@@ -15,6 +15,10 @@ define([], function() {
 
     "setSize": "Default Tile Size",
     "setRatio": "Set Tile Ratio",
+
+    "setImgFit": "Image Fit",
+    "setImgCover": "Image Cover",
+
     "setPivFormat": "Set Pivot Format",
     "setPivSize": "Set Pivot Size",
     "setPivOptions": "Select Pivot Options",        

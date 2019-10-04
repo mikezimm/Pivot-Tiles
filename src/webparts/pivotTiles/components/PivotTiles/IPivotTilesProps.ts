@@ -10,8 +10,11 @@ export interface IPivotTilesProps {
   setFilter: string;
   propURLQuery: boolean;
   setTab: string;
+  
   setRatio: string;
   setSize: string;
+  setImgFit: string;
+  setImgCover: string;
 
   setPivSize: string;
   setPivFormat: string;
