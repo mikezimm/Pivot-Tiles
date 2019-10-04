@@ -138,6 +138,30 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+    
     return propertyPaneBuilder.getPropertyPaneConfiguration();
+  
+  }
+
+  //Added this per AC Facebook post...
+  protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
+    console.log('path: ' + propertyPath + ' oldValue: ' + oldValue + ' newValue: ' + newValue);
+
+    if (propertyPath === 'listDefinition' && newValue === 'OurTiles') {
+      //alert("Hey! " +propertyPath +" new value is " + newValue);
+      //this.properties.listTitle = "TitleChanged!";
+      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.context.propertyPane.refresh();
+    }
+
+    super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
+
+    /*
+    this.context.propertyPane.refresh();
+    this.context.propertyPane.refresh() refreshes Property Pane itself...
+        It doesn't set any values to web part properties and also it doesn't initiate web part's re-render.
+    */
+
+    this.render();
   }
 }
