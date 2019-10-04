@@ -9,6 +9,9 @@ export interface IPivotTilesWebPartProps {
   setSize: string;
   setRatio: string;
   setFilter: string;
+  setPivSize: string;
+  setPivFormat: string;
+  setPivOptions: string[];
   propURLQuery: boolean;
   setTab: string;
   

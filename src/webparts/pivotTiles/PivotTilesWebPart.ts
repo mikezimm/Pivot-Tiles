@@ -47,6 +47,10 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,
 
+        setPivSize: this.properties.setPivSize,
+        setPivFormat: this.properties.setPivFormat,
+        setPivOptions: this.properties.setPivOptions,
+
         colTitleText: this.properties.colTitleText,
         colHoverText: this.properties.colHoverText,
         colCategory: this.properties.colCategory,
@@ -138,9 +142,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    
     return propertyPaneBuilder.getPropertyPaneConfiguration();
-  
   }
 
   //Added this per AC Facebook post...
@@ -154,7 +156,28 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       this.context.propertyPane.refresh();
     }
 
-    super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
+    if (propertyPath === 'setSize') {
+      console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties.setSize = newValue;
+      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.context.propertyPane.refresh();
+    }
+
+    if (propertyPath === 'setPivSize') {
+      console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties.setPivSize = newValue;
+      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.context.propertyPane.refresh();
+    }
+
+    if (propertyPath === 'setPivFormat') {
+      console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties.setPivFormat = newValue;
+      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.context.propertyPane.refresh();
+    }
+    //this.context.propertyPane.refresh();
+    //super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
 
     /*
     this.context.propertyPane.refresh();

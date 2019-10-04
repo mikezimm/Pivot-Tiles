@@ -15,6 +15,9 @@ define([], function() {
 
     "setSize": "Default Tile Size",
     "setRatio": "Set Tile Ratio",
+    "setPivFormat": "Set Pivot Format",
+    "setPivSize": "Set Pivot Size",
+    "setPivOptions": "Select Pivot Options",        
     "setFilter": "Rest Filter like:   ShowColumnName eq 'Yes'",
     "propURLQuery": "Allow URL Query to filter",
     "setTab": "Default Tab",

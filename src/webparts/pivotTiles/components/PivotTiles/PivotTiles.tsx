@@ -13,6 +13,9 @@ import { DefaultButton, autobind } from 'office-ui-fabric-react';
 import { sp, Web } from '@pnp/sp';
 import * as strings from 'PivotTilesWebPartStrings';
 
+import { pivotOptionsGroup, } from '../../../../services/propPane';
+
+
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
   //https://www.youtube.com/watch?v=4nsGhYjfRsw 9:01-ish talks about setting constructor
@@ -72,7 +75,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
 
-          <Pivot linkSize={PivotLinkSize.large}
+          <Pivot 
+            linkSize={ pivotOptionsGroup.getPivSize(this.props.setPivSize) }
+            linkFormat={ pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
             onLinkClick={this.onLinkClick}
             defaultSelectedKey={defIndex}>
               {this.createPivots(this.state)}

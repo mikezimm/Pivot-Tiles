@@ -33,6 +33,9 @@
       "setSize": "300",
       "setRatio": "4x1",
       "setFilter": "zzzShowAll eq 'Yes'",
+      "setPivSize": "normal",
+      "setPivFormat": "links",
+      "setPivOptions": "",    
       "propURLQuery": "",
 
       "colTitleText": "Title",

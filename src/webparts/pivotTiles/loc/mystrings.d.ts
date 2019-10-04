@@ -17,6 +17,9 @@ declare interface IPivotTilesWebPartStrings {
   setSize: string;
   setRatio: string;
   setFilter: string;
+  setPivFormat: string;
+  setPivSize: string;
+  setPivOptions: string;
   propURLQuery: string;
   setTab: string;
   

@@ -12,7 +12,11 @@ export interface IPivotTilesProps {
   setTab: string;
   setRatio: string;
   setSize: string;
- 
+
+  setPivSize: string;
+  setPivFormat: string;
+  setPivOptions: string[];
+
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
