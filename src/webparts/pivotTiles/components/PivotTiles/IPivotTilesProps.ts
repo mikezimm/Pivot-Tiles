@@ -15,7 +15,8 @@ export interface IPivotTilesProps {
   setSize: string;
   setImgFit: string;
   setImgCover: string;
-
+  target: string;
+  
   setPivSize: string;
   setPivFormat: string;
   setPivOptions: string[];

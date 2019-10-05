@@ -13,6 +13,7 @@ export interface IPivotTileItemProps {
   setSize: string;
   setImgFit: string;
   setImgCover: string;
-
+  target: string;
+  
   parentCat?:string;
 }

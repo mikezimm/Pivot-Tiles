@@ -4,10 +4,13 @@ import {
   IPropertyPaneLabelProps,
   PropertyPaneHorizontalRule,
   PropertyPaneTextField, IPropertyPaneTextFieldProps,
-  PropertyPaneLink, IPropertyPaneLinkProps
+  PropertyPaneLink, IPropertyPaneLinkProps,
+  PropertyPaneDropdown, IPropertyPaneDropdownProps,
+  IPropertyPaneDropdownOption
 } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'PivotTilesWebPartStrings';
+import { imageOptionsGroup } from './index';
 
 export class IntroPage {
   public getPropertyPanePage(): IPropertyPanePage {
@@ -28,7 +31,32 @@ export class IntroPage {
               href: 'https://github.com/mikezimm/Pivot-Tiles',
             }),
           ]
-        }
+        },
+        { groupName: 'Basic webpart info',
+        groupFields: [
+          PropertyPaneTextField('listWebURL', {
+              label: strings.listWebURL
+          }),
+          PropertyPaneTextField('setTab', {
+            label: strings.setTab
+          }),
+        ]}, // this group
+        { groupName: 'Filtering',
+        groupFields: [
+          PropertyPaneTextField('setFilter', {
+              label: strings.setFilter
+          }),
+          PropertyPaneTextField('propURLQuery', {
+              label: strings.propURLQuery
+          }),
+        ]}, // this group
+        { groupName: 'Behavior',
+          groupFields: [
+            PropertyPaneDropdown('target', <IPropertyPaneDropdownProps>{
+              label: 'Open Behavior',
+              options: imageOptionsGroup.imgTargetChoices,
+            }),
+        ]} // this group
       ]
     } // </page1>
   } // getPropertyPanePage()

@@ -34,16 +34,6 @@ import {
           description: strings.PropertyPaneMainDescription
         },
         groups: [
-          { groupName: 'Basic webpart info',
-            groupFields: [
-              PropertyPaneTextField('listWebURL', {
-                  label: strings.listWebURL
-              }),
-              PropertyPaneTextField('setTab', {
-                label: strings.setTab
-              }),
-            ]}, // this group
-
             { groupName: 'Image settings',
             groupFields: [
               PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
@@ -82,15 +72,7 @@ import {
               }),
             ]}, // this group
 
-            { groupName: 'Filtering',
-            groupFields: [
-              PropertyPaneTextField('setFilter', {
-                  label: strings.setFilter
-              }),
-              PropertyPaneTextField('propURLQuery', {
-                  label: strings.propURLQuery
-              }),
-            ]} // this group
+
           ]} // Groups
     } // getPropertyPanePage()
 

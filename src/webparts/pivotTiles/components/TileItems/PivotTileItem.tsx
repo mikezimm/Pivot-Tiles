@@ -51,7 +51,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     return (
       <a href={this.props.href} 
          className={styles.pivotTiles}
-         target="_top" 
+         target={imageOptionsGroup.getTarget(this.props.target)}
          role="listitem" 
          onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}>
         <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}>

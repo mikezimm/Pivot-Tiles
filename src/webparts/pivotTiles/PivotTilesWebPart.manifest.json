@@ -39,7 +39,7 @@
       "setPivFormat": "links",
       "setPivOptions": "",    
       "propURLQuery": "",
-
+      "target": "top",
       "colTitleText": "Title",
       "colHoverText": "TitleDescription",
       "colCategory": "TileCategory",

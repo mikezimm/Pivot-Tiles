@@ -10,6 +10,7 @@ export interface IPivotTilesWebPartProps {
   setRatio: string;
   setImgFit: string;
   setImgCover: string;
+  target: string;
 
   setFilter: string;
   setPivSize: string;
