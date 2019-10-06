@@ -9,4 +9,5 @@ export interface IPivotTilesState {
   showAllTiles?: boolean;
   pivotDefSelKey?: string;
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
+  loadStatus?: string;
 }

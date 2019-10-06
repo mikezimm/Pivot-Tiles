@@ -1,6 +1,17 @@
 @import '~office-ui-fabric-react/dist/sass/References.scss';
 
 .pivotTiles {
+
+  .hideMe {
+    display:none
+  }
+
+  .showErrorMessage {
+    display:"";
+    padding-left: 20px;
+    padding-bottom: 20px;
+  }
+
   .container {
     max-width: 1200px;
     margin: 0px auto;

@@ -5,6 +5,8 @@ import { IPivotTilesProps } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
 import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
 import PivotTileItem from './../TileItems/PivotTileItem';
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
+import { Link } from 'office-ui-fabric-react/lib/Link';
 import { escape } from '@microsoft/sp-lodash-subset';
 import Utils from './utils'
 
@@ -29,6 +31,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       showAllTiles: false,
       filteredCategory: this.props.setTab,
       pivotDefSelKey:"",
+      loadStatus:"Loading",
     };
     /*
     this.state = { 
@@ -52,6 +55,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
   
   public render(): React.ReactElement<IPivotTilesProps> {
+ 
     let tileBuild;
     const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
 
@@ -77,13 +81,41 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         target={newTile.target}
         />
       ));
+    
+      let noListBuild = (
+        <div className={this.state.loadStatus === "ListNotFound" ? styles.showErrorMessage : styles.hideMe }>
+            <h2>Tile List was not found: {this.props.listTitle}</h2>
+            Looking here:  <Link href={this.props.listWebURL + "/_layouts/15/viewlsts.aspx"} target="_blank">{this.props.listWebURL}</Link>
+            <p>You can also get this message if you do not have permissions to the list.</p>
+        </div>
+      )
+      
+      let noItemsBuild = (
+        <div className={this.state.loadStatus === "NoItemsFound" ? styles.showErrorMessage : styles.hideMe }>
+          <h1>No items were found in your tile list: {this.props.listTitle}</h1>
+          <p>This is the filter we are using: <b>{this.props.setFilter}</b></p>
+          <p>Looking here:</p>
+          <p><Link href={this.props.listWebURL + "/lists/" + this.props.listTitle} 
+              target="_blank">
+              {this.props.listWebURL + "/lists/" + this.props.listTitle}
+            </Link></p>
+          <p>You can also get this message if you do not have permissions to the list.</p>
+        </div>
+      )
+
+      let loadingBuild = (
+        <div className={this.state.loadStatus === "Loading" ? styles.showErrorMessage : styles.hideMe }>
+          <Spinner size={SpinnerSize.small} />
+        </div>     
+      )
+
 
     return (
+      
       <div className={styles.pivotTiles}>
         <div className={styles.container}>
         
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
-
           <Pivot 
             linkSize={ pivotOptionsGroup.getPivSize(this.props.setPivSize) }
             linkFormat={ pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
@@ -93,12 +125,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           </Pivot>
 
           <br/>
-          <div>
 
             { (tileBuild ) }
 
-          </div>
-        </div>
+            { ( loadingBuild ) }
+            { ( noListBuild ) }
+            { ( noItemsBuild ) }
+
+      </div>
       </div>
     );
   }
@@ -197,11 +231,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       .select(selectCols).filter(restFilter).orderBy(restSort,true).get().then
         ((response) => {
 
+          if (response.length===0){
+            this.setState({ loadStatus: "NoItemsFound" })
+            return
+          }
+
           let pivotProps = this.props;
           let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps);
-
-          console.table(response);
-          console.table(tileCollection);   
 
           let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
 
@@ -216,22 +252,20 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               }
           }
 
-          if (response.length===0){
-            alert("No Items found in your list based on your filtering: " + useTileList);
-          }
-
           this.setState({
             allTiles:tileCollection,
             pivtTitles: tileCategories,
             filteredTiles: newFilteredTiles,
             pivotDefSelKey: defaultSelectedKey,
+            loadStatus:"Ready",
           });
 
         }).catch((e) => {
           console.log("Can't load data");
-          var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
-          alert(m);
+          //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
+          //alert(m);
           console.log(e);
+          this.setState({  loadStatus: "ListNotFound" })
         });
 
     } else {
@@ -242,13 +276,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //           https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
 
-            console.table(response);
+            if (response.length===0){
+              this.setState({  loadStatus: "NoItemsFound"  })
+              return
+            }
             
             let pivotProps = this.props;
             let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps);
-  
-            console.table(response);
-            console.table(tileCollection);   
   
             let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
             
@@ -268,8 +302,15 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               pivtTitles: tileCategories,
               filteredTiles: newFilteredTiles,
               pivotDefSelKey: defaultSelectedKey,
+              loadStatus:"Ready",
             });
-          })
+          }).catch((e) => {
+            console.log("Can't load data");
+            //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
+            //alert(m);
+            console.log(e);
+            this.setState({  loadStatus: "ListNotFound"  })
+          });
 
     }
     
