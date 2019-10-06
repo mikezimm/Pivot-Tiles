@@ -203,16 +203,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           console.table(response);
           console.table(tileCollection);   
 
-          let tileCategories = [];
-          for (let tile of response) {
-            for (let category of tile[this.props.colCategory]) {
-              if(tileCategories.indexOf(category) === -1) {
-                tileCategories.push(category);
-              }
-            }
-          }
+          let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
 
-          tileCategories.sort();
           const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
           const defaultSelectedKey = defaultSelectedIndex.toString();
           //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
@@ -251,21 +243,15 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 //           https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
 
             console.table(response);
+            
             let pivotProps = this.props;
             let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps);
-
-            console.table(tileCollection);            
-      
-            let tileCategories = [];
-            for (let tile of response) {
-              for (let category of tile[this.props.colCategory]) {
-                if(tileCategories.indexOf(category) === -1) {
-                  tileCategories.push(category);
-                }
-              }
-            }
-
-            tileCategories.sort();
+  
+            console.table(response);
+            console.table(tileCollection);   
+  
+            let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
+            
             const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
             const defaultSelectedKey = defaultSelectedIndex.toString();
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;

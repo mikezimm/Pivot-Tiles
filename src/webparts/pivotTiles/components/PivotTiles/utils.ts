@@ -26,7 +26,6 @@ export default class Utils {
     console.table(pivotProps);
     console.table(response);
 
-
     let tileCollection = response.map(item => ({
       imageUrl: item[pivotProps.colImageLink],
       title: item[pivotProps.colTitleText],
@@ -80,6 +79,21 @@ export default class Utils {
 
   }
 
+  static buildTileCategoriesFromResponse(response, pivotProps){
 
+    let tileCategories = [];
+    for (let tile of response) {
+      for (let category of tile[pivotProps.colCategory]) {
+        if(tileCategories.indexOf(category) === -1) {
+          tileCategories.push(category);
+        }
+      }
+    }
+
+    tileCategories.sort();
+
+    return tileCategories;
+
+  }
 
 }
