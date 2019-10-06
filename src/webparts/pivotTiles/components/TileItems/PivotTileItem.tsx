@@ -30,6 +30,22 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     this.setState({ hovering: false });
   }
 
+  public specialClick(event): void {
+    console.log(event);
+    console.log(this);
+    if (event.shiftKey) {
+      alert("shiftKey is pressed");
+      if (event.altKey) {
+        alert("altKey is pressed");
+        if (event.ctrlKey) {      
+          alert("ctrKey is pressed");
+          event.preventDefault();
+          return
+        }
+      }
+    }
+  }
+
   public render(): JSX.Element {
 
     /*    main wrapper was this:
@@ -53,7 +69,9 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
          className={styles.pivotTiles}
          target={imageOptionsGroup.getTarget(this.props.target)}
          role="listitem" 
-         onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}>
+         onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}
+         onClick={this.specialClick.bind(this)}
+         >
         <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}>
 
           <Image 

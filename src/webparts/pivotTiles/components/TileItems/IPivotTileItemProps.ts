@@ -8,7 +8,13 @@ export interface IPivotTileItemProps {
   href: string;
   category:string[];
   setTab: string;
-  
+  listWebURL: string;
+  listTitle: string;
+  Id: string;
+  options: string;
+  color: string;
+  imgSize: string;
+
   setRatio: string;
   setSize: string;
   setImgFit: string;

@@ -6,7 +6,7 @@ import { IPivotTilesState } from './IPivotTilesState';
 import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
 import PivotTileItem from './../TileItems/PivotTileItem';
 import { escape } from '@microsoft/sp-lodash-subset';
-import Utils from '../../utils'
+import Utils from './utils'
 
 import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/Pivot';
 import { DefaultButton, autobind } from 'office-ui-fabric-react';
@@ -64,7 +64,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         href={newTile.href}
         category={newTile.category}
         setTab={newTile.setTab}
-
+        Id={newTile.Id}
+        options={newTile.options}
+        color={newTile.color}
+        imgSize={newTile.imgSize}
+        listWebURL={newTile.listWebURL}
+        listTitle={newTile.listTitle}
         setRatio={newTile.setRatio}
         setSize={newTile.setSize}
         setImgFit={newTile.setImgFit}
@@ -192,21 +197,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       .select(selectCols).filter(restFilter).orderBy(restSort,true).get().then
         ((response) => {
 
-//           let tileCollection = response.map(item=>new ClassTile(item));
-//          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
-          let tileCollection = response.map(item => ({
-            imageUrl: item[this.props.colImageLink],
-            title: item[this.props.colTitleText],
-            description: item[this.props.colHoverText],
-            href: item[this.props.colGoToLink],
-            category: item[this.props.colCategory],
-            setTab: this.props.setTab,
-            setSize:this.props.setSize,
-            setRatio: this.props.setRatio,
-            setImgFit:this.props.setImgFit,
-            setImgCover: this.props.setImgCover,
-            target: this.props.target,
-          }));
+          let pivotProps = this.props;
+          let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps);
+
+          console.table(response);
+          console.table(tileCollection);   
 
           let tileCategories = [];
           for (let tile of response) {
@@ -229,6 +224,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               }
           }
 
+          if (response.length===0){
+            alert("No Items found in your list based on your filtering: " + useTileList);
+          }
+
           this.setState({
             allTiles:tileCollection,
             pivtTitles: tileCategories,
@@ -236,7 +235,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             pivotDefSelKey: defaultSelectedKey,
           });
 
-        })
+        }).catch((e) => {
+          console.log("Can't load data");
+          var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
+          alert(m);
+          console.log(e);
+        });
 
     } else {
 
@@ -246,20 +250,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //           https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
 
-            let tileCollection = response.map(item => ({
-              imageUrl: item[this.props.colImageLink],
-              title: item[this.props.colTitleText],
-              description: item[this.props.colHoverText],
-              href: item[this.props.colGoToLink],
-              category: item[this.props.colCategory],
-              setTab: this.props.setTab,
-              setSize:this.props.setSize,
-              setRatio: this.props.setRatio,
-              setImgFit:this.props.setImgFit,
-              setImgCover: this.props.setImgCover,
-              target: this.props.target,
-            }));
+            console.table(response);
+            let pivotProps = this.props;
+            let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps);
 
+            console.table(tileCollection);            
+      
             let tileCategories = [];
             for (let tile of response) {
               for (let category of tile[this.props.colCategory]) {

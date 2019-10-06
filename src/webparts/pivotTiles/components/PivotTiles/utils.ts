@@ -1,0 +1,85 @@
+//Utils Concept from:  https://stackoverflow.com/questions/32790311/how-to-structure-utility-class
+
+export default class Utils {
+    static doSomething(val: string) { return val; }
+    static doSomethingElse(val: string) { return val; }
+
+    
+  static convertCategoryToIndex(cat: string) {
+    //https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript
+    //string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+    if (cat){
+      return (cat.replace(" ",'_').replace(/[&]/,'And').replace(/[*]/,'aamp').replace(/[\/\\#,+()$~%.'":*?<>{}]/g,''));
+    } else {
+      return ("");
+    }
+
+  }
+
+  static buildTileCollectionFromResponse(response, pivotProps){
+
+//           let tileCollection = response.map(item=>new ClassTile(item));
+//          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
+
+
+    console.log("buildTileCollectionFromResponse");
+    console.table(pivotProps);
+    console.table(response);
+
+
+    let tileCollection = response.map(item => ({
+      imageUrl: item[pivotProps.colImageLink],
+      title: item[pivotProps.colTitleText],
+      description: item[pivotProps.colHoverText],
+      href: item[pivotProps.colGoToLink],
+      category: item[pivotProps.colCategory],
+      setTab: pivotProps.setTab,
+      setSize: pivotProps.setSize,
+
+      Id: item.Id,
+
+      options: 
+      (!(item[pivotProps.colTileStyle] )
+      ? ""
+      : (item[pivotProps.colTileStyle] ).length > 0
+      ? item[pivotProps.colTileStyle] 
+      : null),
+
+      color: 
+      (!(item[pivotProps.colColor] )
+      ? ""
+      : (item[pivotProps.colColor] ).length > 0
+      ? item[pivotProps.colColor] 
+      : null),
+
+      imgSize: 
+      (!(item[pivotProps.colSize] )
+      ? ""
+      : (item[pivotProps.colSize] ).length > 0
+      ? item[pivotProps.colSize] 
+      : null),
+
+      listWebURL: pivotProps.listWebURL,
+      listTitle: pivotProps.listTitle,
+
+      target: 
+      (!(item[pivotProps.colOpenBehaviour] )
+      ? pivotProps.target
+      : (item[pivotProps.colOpenBehaviour] ).length > 0
+      ? item[pivotProps.colOpenBehaviour] 
+      : pivotProps.target ),
+      
+
+      setRatio: pivotProps.setRatio,
+      setImgFit:pivotProps.setImgFit,
+      setImgCover: pivotProps.setImgCover,
+
+    }));
+
+    return tileCollection;
+
+  }
+
+
+
+}
