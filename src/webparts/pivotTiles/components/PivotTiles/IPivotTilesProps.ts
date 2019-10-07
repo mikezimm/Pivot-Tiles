@@ -1,4 +1,5 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
+import { PageContext } from '@microsoft/sp-page-context';
 
 export interface IPivotTilesProps {
 
@@ -6,6 +7,7 @@ export interface IPivotTilesProps {
   listDefinition: string;
   listWebURL: string;
   listTitle: string;
+  pageContext: PageContext;
 
   setFilter: string;
   propURLQuery: boolean;

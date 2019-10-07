@@ -1,10 +1,13 @@
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 
+import { PageContext } from '@microsoft/sp-page-context';
+
 export interface IPivotTilesWebPartProps {
   description: string;
   listDefinition: string;
   listWebURL: string;
   listTitle: string;
+  pageContext: PageContext;
 
   setSize: string;
   setRatio: string;

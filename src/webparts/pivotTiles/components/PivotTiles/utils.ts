@@ -16,6 +16,15 @@ export default class Utils {
 
   }
 
+  static fixURLs(oldURL,pageContext) {
+    let newURL = oldURL;
+    if (newURL.length === 0) {
+      newURL = pageContext.web.absoluteUrl;
+    }
+    newURL += newURL.endsWith("/") ? "" : "/";
+    return newURL;
+  }
+
   static buildTileCollectionFromResponse(response, pivotProps){
 
 //           let tileCollection = response.map(item=>new ClassTile(item));
@@ -74,7 +83,8 @@ export default class Utils {
       setImgCover: pivotProps.setImgCover,
 
     }));
-
+    console.table("tileCollection");
+    console.table(tileCollection);
     return tileCollection;
 
   }

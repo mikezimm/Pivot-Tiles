@@ -20,6 +20,7 @@ import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps'
 import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
 
+
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
   //Added for Get List Data:  https://www.youtube.com/watch?v=b9Ymnicb1kc
@@ -40,6 +41,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         listDefinition: this.properties.listDefinition,
         listWebURL: this.properties.listWebURL,
         listTitle: this.properties.listTitle,
+
+        pageContext: this.context.pageContext,
 
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,
@@ -161,49 +164,42 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     if (propertyPath === 'setSize') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-      this.properties.setSize = newValue;
-      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.properties.setSize = newValue;   
       this.context.propertyPane.refresh();
     }
 
     if (propertyPath === 'setPivSize') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-      this.properties.setPivSize = newValue;
-      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.properties.setPivSize = newValue;    
       this.context.propertyPane.refresh();
     }
 
     if (propertyPath === 'setPivFormat') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-      this.properties.setPivFormat = newValue;
-      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.properties.setPivFormat = newValue;   
       this.context.propertyPane.refresh();
     }
     
     if (propertyPath === 'setImgFit') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-      this.properties.setImgFit = newValue;
-      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.properties.setImgFit = newValue;  
       this.context.propertyPane.refresh();
     }
     
     if (propertyPath === 'setImgCover') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-      this.properties.setImgCover = newValue;
-      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.properties.setImgCover = newValue;    
       this.context.propertyPane.refresh();
     }
 
     if (propertyPath === 'target') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-      this.properties.target = newValue;
-      //this.properties.colTitleText = "TitleTextChanged!";      
+      this.properties.target = newValue;    
       this.context.propertyPane.refresh();
     }
 
     //this.context.propertyPane.refresh();
     //super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
-
     /*
     this.context.propertyPane.refresh();
     this.context.propertyPane.refresh() refreshes Property Pane itself...

@@ -81,12 +81,23 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         target={newTile.target}
         />
       ));
-    
+
+      let fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+
       let noListBuild = (
         <div className={this.state.loadStatus === "ListNotFound" ? styles.showErrorMessage : styles.hideMe }>
-            <h2>Tile List was not found: {this.props.listTitle}</h2>
-            Looking here:  <Link href={this.props.listWebURL + "/_layouts/15/viewlsts.aspx"} target="_blank">{this.props.listWebURL}</Link>
-            <p>You can also get this message if you do not have permissions to the list.</p>
+            <h1>Tile List was not found: {this.props.listTitle}</h1>
+            Check your site contents for list:  <Link href={fixedURL + "_layouts/15/viewlsts.aspx"} target="_blank">{fixedURL}</Link>
+
+            <h2>Other common causes for this message</h2>
+            <h3>You do not have a Tile Category set for a visible tile:</h3>
+            <p><Link href={fixedURL + "lists/" + this.props.listTitle} 
+                target="_blank">
+                {fixedURL + "lists/" + this.props.listTitle}
+              </Link></p>
+            <h3>You do not have permissions to the list :(</h3>
+            <p>Please contact your site admin for assistance!</p>
+
         </div>
       )
       
@@ -95,9 +106,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <h1>No items were found in your tile list: {this.props.listTitle}</h1>
           <p>This is the filter we are using: <b>{this.props.setFilter}</b></p>
           <p>Looking here:</p>
-          <p><Link href={this.props.listWebURL + "/lists/" + this.props.listTitle} 
+          <p><Link href={fixedURL + "lists/" + this.props.listTitle} 
               target="_blank">
-              {this.props.listWebURL + "/lists/" + this.props.listTitle}
+              {fixedURL + "lists/" + this.props.listTitle}
             </Link></p>
           <p>You can also get this message if you do not have permissions to the list.</p>
         </div>
