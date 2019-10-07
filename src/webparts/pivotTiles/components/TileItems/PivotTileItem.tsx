@@ -46,7 +46,8 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     }
   }
 
-  public render(): JSX.Element {
+  public render(): React.ReactElement<IPivotTileItemProps> {
+  //public render(): JSX.Element {
 
     /*    main wrapper was this:
         <div className={[
