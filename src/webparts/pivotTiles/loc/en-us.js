@@ -12,7 +12,7 @@ define([], function() {
     "listDefinition": "List Type",
     "listWebURL": "URL of site with Tabbed Tiles List",
     "listTitle": "Tabbed Tiles list",
-
+    "heroChoices": "Select Hero Tile location",
     "setSize": "Default Tile Size",
     "setRatio": "Set Tile Ratio",
 

@@ -125,7 +125,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       
       <div className={styles.pivotTiles}>
         <div className={styles.container}>
-        
+          
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
           <Pivot 
             linkSize={ pivotOptionsGroup.getPivSize(this.props.setPivSize) }
@@ -162,7 +162,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       filteredCategory: item.props.headerText,
       filteredTiles: newFilteredTiles,
     });
-
 
   } //End onClick
 
@@ -237,6 +236,36 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     
     if ( this.props.listWebURL.length > 0 ){
       let web = new Web(this.props.listWebURL);
+
+/*
+For hero filtering, try this... works with single category but not array yet.
+
+let array = [
+    { id: 1, value: "itemname" },
+    { id: 2, value: "itemname" },
+    {id: 3, value: "testname"}
+];
+
+let filtered = array.filter(p => p.value === "itemname")
+console.log(filtered);
+
+
+
+    let array = [
+      { id: 1, value: "itemname",cats:["1","2"] },
+      { id: 2, value: "itemname",cats:["1","3"] },
+      {id: 3, value: "testname",cats:["4","5"]}
+    ]
+    
+let x = 1;
+let filtered = array.filter(p => p.cats === "1")
+console.log(filtered);
+
+
+*/
+
+
+
 
       web.lists.getByTitle(useTileList).items
       .select(selectCols).filter(restFilter).orderBy(restSort,true).get().then
@@ -328,6 +357,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     //Handle error?
   
+
+    let array = [
+      { id: 1, value: "itemname",cats:["1","2"] },
+      { id: 2, value: "itemname",cats:["1","3"] },
+      {id: 3, value: "testname",cats:["4","5"]}
+    ]
+
   }  
 
 }
+

@@ -80,6 +80,27 @@ import {
         }
     } 
 
+    public heroChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
+        {   index: 0,   key: 'left', text: "Left side"  },
+        {   index: 1,   key: 'right', text: "Right side"  },
+        {   index: 1,   key: 'none', text: "None"  },
+    ];
+    /*  These do not seem to  work.
+        {   index: 2,   key: 'self', text: "Same Frame (_self)"  },
+        {   index: 3,   key: 'parent', text: "Parent Frameset (_parent)"  },
+    */
+
+    public getHeroChoice (findMe) {
+        if (findMe === 'left') {
+            return "left";
+        } else if (findMe === 'right') {
+            return "right";
+        } else if (findMe === 'none') {
+            return "none";
+        } else {
+            return "left";
+        }
+    } 
 
   }
 

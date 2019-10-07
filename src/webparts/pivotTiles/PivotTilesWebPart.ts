@@ -43,6 +43,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         listTitle: this.properties.listTitle,
 
         pageContext: this.context.pageContext,
+        heroChoice: this.properties.heroChoice,
 
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,

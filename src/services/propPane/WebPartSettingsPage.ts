@@ -36,6 +36,13 @@ import {
         groups: [
             { groupName: 'Image settings',
             groupFields: [
+
+              
+              PropertyPaneDropdown('heroChoice', <IPropertyPaneDropdownProps>{
+                label: strings.heroChoices,
+                options: imageOptionsGroup.heroChoices,
+              }),
+
               PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
                 label: strings.setSize,
                 options: this.setSize,
