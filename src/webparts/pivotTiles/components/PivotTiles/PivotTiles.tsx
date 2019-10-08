@@ -17,8 +17,12 @@ import { DefaultButton, autobind } from 'office-ui-fabric-react';
 import { sp, Web } from '@pnp/sp';
 import * as strings from 'PivotTilesWebPartStrings';
 
+import * as ErrorMessages from './ErrorMessages'
+
 import { pivotOptionsGroup, } from '../../../../services/propPane';
 
+import * as myErrors from './ErrorMessages';
+import * as tileBuilder from './TileBuilder';
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
@@ -58,6 +62,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this._getListItems();
   }
   
+
+
   public render(): React.ReactElement<IPivotTilesProps> {
 
     let heroRatio = "";
@@ -71,8 +77,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       heroHeight = '300';
     }
 
-
-
+/*
     let heroFullLineBuild;
     heroFullLineBuild = this.state.heroTiles.map(newTile => (
       <PivotTileItem
@@ -96,7 +101,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         target={newTile.target}
         />
       ));
-
+      */
+      let heroFullLineBuild = tileBuilder.heroBuilder(this.props,this.state);
 
     let tileBuild;
     const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
@@ -122,46 +128,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         setImgCover={newTile.setImgCover}
         target={newTile.target}
         />
-      ));
+    ));
+    
+    let noListFound = myErrors.NoListFound(this.props,this.state);
 
-      let fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+    let noItemsFound = myErrors.NoItemsFound(this.props,this.state);
 
-      let noListBuild = (
-        <div className={this.state.loadStatus === "ListNotFound" ? styles.showErrorMessage : styles.hideMe }>
-            <h1>Tile List was not found: {this.props.listTitle}</h1>
-            Check your site contents for list:  <Link href={fixedURL + "_layouts/15/viewlsts.aspx"} target="_blank">{fixedURL}</Link>
-
-            <h2>Other common causes for this message</h2>
-            <h3>You do not have a Tile Category set for a visible tile:</h3>
-            <p><Link href={fixedURL + "lists/" + this.props.listTitle} 
-                target="_blank">
-                {fixedURL + "lists/" + this.props.listTitle}
-              </Link></p>
-            <h3>You do not have permissions to the list :(</h3>
-            <p>Please contact your site admin for assistance!</p>
-
-        </div>
-      )
-      
-      let noItemsBuild = (
-        <div className={this.state.loadStatus === "NoItemsFound" ? styles.showErrorMessage : styles.hideMe }>
-          <h1>No items were found in your tile list: {this.props.listTitle}</h1>
-          <p>This is the filter we are using: <b>{this.props.setFilter}</b></p>
-          <p>Looking here:</p>
-          <p><Link href={fixedURL + "lists/" + this.props.listTitle} 
-              target="_blank">
-              {fixedURL + "lists/" + this.props.listTitle}
-            </Link></p>
-          <p>You can also get this message if you do not have permissions to the list.</p>
-        </div>
-      )
-
-      let loadingBuild = (
-        <div className={this.state.loadStatus === "Loading" ? styles.showErrorMessage : styles.hideMe }>
-          <Spinner size={SpinnerSize.small} />
-        </div>     
-      )
-
+    let loadingSpinner = myErrors.LoadingSpinner(this.state);
 
     return (
       
@@ -169,14 +142,15 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       <div className={styles.pivotTiles}>
 
         { ( this.props.heroPosition === "header" ? ( heroFullLineBuild ) :""  ) }
+        
         <div className={styles.container}>
 
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
           <Pivot 
-            linkSize={ pivotOptionsGroup.getPivSize(this.props.setPivSize) }
-            linkFormat={ pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
-            onLinkClick={this.onLinkClick}
-            defaultSelectedKey={defIndex}>
+            linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
+            linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
+            onLinkClick= { this.onLinkClick }
+            defaultSelectedKey={ defIndex }>
               {this.createPivots(this.state)}
           </Pivot>
 
@@ -184,11 +158,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
           { ( this.props.heroPosition === "xxxxx" ? ( heroFullLineBuild ) :""  ) }
 
-            { (tileBuild ) }
+            { ( tileBuild ) }
 
-            { ( loadingBuild ) }
-            { ( noListBuild ) }
-            { ( noItemsBuild ) }
+            { ( loadingSpinner ) }
+            { ( noListFound )}
+            { ( noItemsFound )}
 
         </div>
         { ( this.props.heroPosition === "footer" ? ( heroFullLineBuild ) :""  ) }
