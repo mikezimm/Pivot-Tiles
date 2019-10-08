@@ -43,6 +43,7 @@ export default class Utils {
       category: item[pivotProps.colCategory],
       setTab: pivotProps.setTab,
       setSize: pivotProps.setSize,
+      heroPosition: pivotProps.heroPosition,
 
       Id: item.Id,
 

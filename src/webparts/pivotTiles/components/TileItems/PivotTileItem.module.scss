@@ -170,6 +170,14 @@
   $panelHtHid-300by1x1: $box-height-300by1x1 - $panelHtVis-300by1x1;
   .hW300by1x1 { height: $box-height-300by1x1; width: $box-width-300by1x1; }
 
+  .heroHeader {min-height: $box-height-100by1x1; min-width: 100%; display:block}
+  .heroFooter {min-height: $box-height-100by1x1; min-width: 100%; display:block}
+
+  .heroLeft4x1 {height: $box-height-300by1xy; width: $box-width-300by2x1; display:block}
+  .heroLeft3x1 {height: $box-height-300by1xy; width: $box-width-300by3x1; display:block}
+  .heroLeft2x1 {height: $box-height-300by1xy; width: $box-width-300by2x1; display:block}
+  .heroLeft4x1 {height: $box-height-300by1xy; width: $box-width-300by2x1; display:block}
+  .heroLeft1xy {height: $box-height-300by1xy; width: $box-width-300by2x1; display:block}
 
   //All just height impacted classes
 

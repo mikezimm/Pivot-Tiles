@@ -25,7 +25,7 @@
       "PropertyPaneDescription": "Webpart Settings",
       "BasicGroupName": "Group 1",
       "DescriptionFieldLabel": "Description Field",
-      "heroChoices": "left",
+      "heroPosition": "top",
       "listDefinition": "OurTiles",
       "listWebURL": "",
       "listTitle": "OurTiles",

@@ -43,7 +43,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         listTitle: this.properties.listTitle,
 
         pageContext: this.context.pageContext,
-        heroChoice: this.properties.heroChoice,
+        heroPosition: this.properties.heroPosition,
 
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,
@@ -190,6 +190,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     if (propertyPath === 'setImgCover') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
       this.properties.setImgCover = newValue;    
+      this.context.propertyPane.refresh();
+    }
+    
+    if (propertyPath === 'heroPosition') {
+      console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties.heroPosition = newValue;    
       this.context.propertyPane.refresh();
     }
 

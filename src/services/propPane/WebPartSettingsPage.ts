@@ -38,7 +38,7 @@ import {
             groupFields: [
 
               
-              PropertyPaneDropdown('heroChoice', <IPropertyPaneDropdownProps>{
+              PropertyPaneDropdown('heroPosition', <IPropertyPaneDropdownProps>{
                 label: strings.heroChoices,
                 options: imageOptionsGroup.heroChoices,
               }),

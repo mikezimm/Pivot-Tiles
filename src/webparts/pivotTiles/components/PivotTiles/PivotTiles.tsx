@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styles from './PivotTiles.module.scss';
+import tileStyles from './../TileItems/PivotTileItem.module.scss';
 
 import { IPivotTilesProps } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
@@ -9,6 +10,7 @@ import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { escape } from '@microsoft/sp-lodash-subset';
 import Utils from './utils'
+import tUtils from './../TileItems/utilTiles'
 
 import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/Pivot';
 import { DefaultButton, autobind } from 'office-ui-fabric-react';
@@ -27,11 +29,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this.state = { 
       allTiles:[],
       filteredTiles:[],
+      heroTiles:[],
       pivtTitles:[],
       showAllTiles: false,
       filteredCategory: this.props.setTab,
       pivotDefSelKey:"",
       loadStatus:"Loading",
+
     };
     /*
     this.state = { 
@@ -55,7 +59,45 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
   
   public render(): React.ReactElement<IPivotTilesProps> {
- 
+
+    let heroRatio = "";
+    let heroHeight = "";
+    console.log(this.props);
+    if (this.props.heroPosition === "header" || this.props.heroPosition === "footer") {
+      heroRatio = '1x1';
+      heroHeight = '100';
+    } else {
+      heroRatio = '2x1';
+      heroHeight = '300';
+    }
+
+
+
+    let heroFullLineBuild;
+    heroFullLineBuild = this.state.heroTiles.map(newTile => (
+      <PivotTileItem
+        parentCat = {this.state.filteredCategory}
+        imageUrl={newTile.imageUrl}
+        title={newTile.title}
+        description={newTile.description}
+        href={newTile.href}
+        category={newTile.category}
+        setTab={newTile.setTab}
+        Id={newTile.Id}
+        options={newTile.options}
+        color={newTile.color}
+        imgSize={newTile.imgSize}
+        listWebURL={newTile.listWebURL}
+        listTitle={newTile.listTitle}
+        setRatio={heroRatio}
+        setSize={heroHeight}
+        setImgFit={newTile.setImgFit}
+        setImgCover={newTile.setImgCover}
+        target={newTile.target}
+        />
+      ));
+
+
     let tileBuild;
     const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
 
@@ -123,9 +165,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     return (
       
+
       <div className={styles.pivotTiles}>
+
+        { ( this.props.heroPosition === "header" ? ( heroFullLineBuild ) :""  ) }
         <div className={styles.container}>
-          
+
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
           <Pivot 
             linkSize={ pivotOptionsGroup.getPivSize(this.props.setPivSize) }
@@ -137,13 +182,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
           <br/>
 
+          { ( this.props.heroPosition === "xxxxx" ? ( heroFullLineBuild ) :""  ) }
+
             { (tileBuild ) }
 
             { ( loadingBuild ) }
             { ( noListBuild ) }
             { ( noItemsBuild ) }
 
-      </div>
+        </div>
+        { ( this.props.heroPosition === "footer" ? ( heroFullLineBuild ) :""  ) }
       </div>
     );
   }
@@ -285,10 +333,14 @@ console.log(filtered);
           const defaultSelectedKey = defaultSelectedIndex.toString();
           //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
+          let heroTiles = [];
           let newFilteredTiles = [];
             for (let thisTile of tileCollection) {
               if(thisTile.category.indexOf(this.props.setTab) > -1) {
                 newFilteredTiles.push(thisTile);
+                if(heroTiles.length === 0) {
+                  heroTiles.push(thisTile);
+                }
               }
           }
 
@@ -298,6 +350,7 @@ console.log(filtered);
             filteredTiles: newFilteredTiles,
             pivotDefSelKey: defaultSelectedKey,
             loadStatus:"Ready",
+            heroTiles : heroTiles,
           });
 
         }).catch((e) => {
@@ -330,11 +383,15 @@ console.log(filtered);
             const defaultSelectedKey = defaultSelectedIndex.toString();
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
+            let heroTiles = [];
             let newFilteredTiles = [];
-            for (let thisTile of tileCollection) {
-              if(thisTile.category.indexOf(this.props.setTab) > -1) {
-                newFilteredTiles.push(thisTile);
-              }
+              for (let thisTile of tileCollection) {
+                if(thisTile.category.indexOf(this.props.setTab) > -1) {
+                  newFilteredTiles.push(thisTile);
+                  if(heroTiles.length === 0) {
+                    heroTiles.push(thisTile);
+                  }
+                }
             }
   
             this.setState({
@@ -343,7 +400,9 @@ console.log(filtered);
               filteredTiles: newFilteredTiles,
               pivotDefSelKey: defaultSelectedKey,
               loadStatus:"Ready",
+              heroTiles : heroTiles,
             });
+
           }).catch((e) => {
             console.log("Can't load data");
             //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
@@ -356,13 +415,6 @@ console.log(filtered);
     
 
     //Handle error?
-  
-
-    let array = [
-      { id: 1, value: "itemname",cats:["1","2"] },
-      { id: 2, value: "itemname",cats:["1","3"] },
-      {id: 3, value: "testname",cats:["4","5"]}
-    ]
 
   }  
 

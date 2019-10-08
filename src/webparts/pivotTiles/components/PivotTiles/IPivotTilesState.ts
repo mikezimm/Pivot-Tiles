@@ -2,6 +2,7 @@ import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
 
 export interface IPivotTilesState {
 
+  heroTiles?: IPivotTileItemProps[];
   allTiles?:IPivotTileItemProps[];
   filteredTiles?: IPivotTileItemProps[];
   pivtTitles?:string[];
@@ -10,4 +11,5 @@ export interface IPivotTilesState {
   pivotDefSelKey?: string;
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
   loadStatus?: string;
+
 }
