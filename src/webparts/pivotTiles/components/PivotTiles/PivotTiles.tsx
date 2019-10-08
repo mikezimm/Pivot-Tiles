@@ -91,7 +91,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         listTitle={newTile.listTitle}
         setRatio={heroRatio}
         setSize={heroHeight}
-        setImgFit={newTile.setImgFit}
+        setImgFit={'landscape'}
         setImgCover={newTile.setImgCover}
         target={newTile.target}
         />
