@@ -87,12 +87,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   public render(): React.ReactElement<IPivotTilesProps> {
     let heroFullLineBuild = ""
+
     if (this.props.heroCategory) {
       if (this.state.loadStatus === "Ready" ) {
-        let heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
+        heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
       }
     }
-
 
     let tileBuild = tileBuilders.tileBuilder(this.props,this.state);
 
@@ -107,64 +107,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
-        { ( (this.props.heroType === "header" && this.state.loadStatus === "Ready"  ) ? ( heroFullLineBuild ) : ""  ) }
+        { ( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
 
         { /*( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  )*/ }
         
         { /* 
-        (
-          this.state.heroTiles.map(newTile => (
-            <PivotTileItem
-              parentCat = {this.state.filteredCategory}
-              imageUrl={newTile.imageUrl}
-              title={newTile.title}
-              description={newTile.description}
-              href={newTile.href}
-              category={newTile.category}
-              setTab={newTile.setTab}
-              Id={newTile.Id}
-              options={newTile.options}
-              color={newTile.color}
-              imgSize={newTile.imgSize}
-              listWebURL={newTile.listWebURL}
-              listTitle={newTile.listTitle}
-              setRatio={this.props.setRatio}
-              setSize={this.props.setSize}
-              setImgFit={'landscape'}
-              setImgCover={newTile.setImgCover}
-              target={newTile.target}
-              heroType = {newTile.heroType}
-              />
-            ))
-          )
           */
           }
           { /*
-            this.state.heroTiles.length > 0 ?
-             <PivotTileItem
-             parentCat = {this.state.filteredCategory}
-             imageUrl={this.state.heroTiles[0].imageUrl}
-             title={this.state.heroTiles[0].title}
-             description={this.state.heroTiles[0].description}
-             href={this.state.heroTiles[0].href}
-             category={this.state.heroTiles[0].category}
-             setTab={this.state.heroTiles[0].setTab}
-             Id={this.state.heroTiles[0].Id}
-             options={this.state.heroTiles[0].options}
-             color={this.state.heroTiles[0].color}
-             imgSize={this.state.heroTiles[0].imgSize}
-             listWebURL={this.state.heroTiles[0].listWebURL}
-             listTitle={this.state.heroTiles[0].listTitle}
-             setRatio={this.props.setRatio}
-             setSize={this.props.setSize}
-             setImgFit={'landscape'}
-             setImgCover={this.state.heroTiles[0].setImgCover}
-             target={this.state.heroTiles[0].target}
-             heroType = {this.state.heroTiles[0].heroType}
-             />
-          : ""
             */
           }
 
@@ -182,36 +134,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           </div>
           <br/>
 
-          { ( (this.props.heroType === "left" && this.state.loadStatus === "Ready" ) ? ( heroFullLineBuild ) : ""  ) }
-          { ( (this.props.heroType === "right" && this.state.loadStatus === "Ready" ) ? ( heroFullLineBuild ) : ""  ) }
-          { ( (this.props.heroType === "inLine" && this.state.loadStatus === "Ready" ) ? ( heroFullLineBuild ) : ""  ) }
+          { ( this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
+          { ( this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
+          { ( this.props.heroType === "inLine" ? ( heroFullLineBuild ) : ""  ) }
 
             { ( tileBuild ) }
             { /* Originally instead of this:  ( tileBuild ) */ }           
-            { /* had this
-                this.state.filteredTiles.map(newTile => (
-                  <PivotTileItem
-                    parentCat = {this.state.filteredCategory}
-                    imageUrl={newTile.imageUrl}
-                    title={newTile.title}
-                    description={newTile.description}
-                    href={newTile.href}
-                    category={newTile.category}
-                    setTab={newTile.setTab}
-                    Id={newTile.Id}
-                    options={newTile.options}
-                    color={newTile.color}
-                    imgSize={newTile.imgSize}
-                    listWebURL={newTile.listWebURL}
-                    listTitle={newTile.listTitle}
-                    setRatio={newTile.setRatio}
-                    setSize={newTile.setSize}
-                    setImgFit={newTile.setImgFit}
-                    setImgCover={newTile.setImgCover}
-                    target={newTile.target}
-                    heroType = {'none'}
-                    />
-                ))
+            { /* 
               */
             }
             <div className={styles.tableRow}>
@@ -231,11 +160,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   private onLinkClick = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
- 
+
+    console.log('onLinkClick: ')
+    console.log(this.state);
     let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
         if(thisTile.category.indexOf(item.props.headerText) > -1) {
-          newFilteredTiles.push(thisTile);
+
+          let showThisTile = true;
+          if (this.props.heroType !== 'none') {
+            showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
+          }
+          if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
+
         }
     }
 
@@ -297,13 +234,43 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       thisTile.setImgCover = this.props.setImgCover;
     }
 
+    let heroSize = this.props.setSize;
+    let heroFit = this.props.setImgFit;
+    let heroRatio = this.props.setRatio;
+    let heroCover =  this.props.setImgCover;
+
+    if (this.props.heroType === "header" || this.props.heroType === "footer") {
+        heroSize = "100";
+        heroRatio = "1x1";
+        heroFit = heroFit;
+        heroCover = "portrait";
+
+    } else if (this.props.heroType === "inLine") {
+        heroSize = "300";
+        heroRatio = "1x1";
+        heroFit = heroFit;
+        heroCover = "portrait";
+
+    } else if (this.props.heroType === "left" || this.props.heroType === "right") {
+        heroSize = "300"; // Force 300 high for left and right
+        heroRatio = heroRatio; //Keep the same for left and right
+        heroFit = heroFit;  //Cover, centerCover etc.
+        heroCover = "portrait";
+
+    } else {
+
+    }
+
+    console.log('Updated hero settings:');
+    console.log('heroSize: ' + heroSize + '  heroRatio:' + heroRatio + '  heroFit:' + heroFit + '  heroCover:' + heroCover );
+
     for (let thisTile of newHeros) {
       thisTile.setTab = this.props.setTab;
-      thisTile.setSize = this.props.setSize;
+      thisTile.setSize = heroSize;
       thisTile.heroType = this.props.heroType;
-      thisTile.setRatio = this.props.setRatio;
-      thisTile.setImgFit = this.props.setImgFit;
-      thisTile.setImgCover = this.props.setImgCover;
+      thisTile.setRatio = heroRatio;
+      thisTile.setImgFit = heroFit;
+      thisTile.setImgCover = heroCover;
     }
 
     //alert('componentDidUpdate 3');
@@ -394,13 +361,6 @@ console.log(filtered);
           //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
 
-          let newFilteredTiles = [];
-          for (let thisTile of tileCollection) {
-            if(thisTile.category.indexOf(this.props.setTab) > -1) {
-              newFilteredTiles.push(thisTile);
-            }
-          }
-
           let heroTiles = [];
           for (let thisTile of tileCollection) {
             if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
@@ -411,6 +371,23 @@ console.log(filtered);
           var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
           heroTiles = [randomItem];
 
+          let heroIds = []
+          for (let thisTile of heroTiles) {
+            heroIds.push(thisTile.Id.toString());
+          }          
+          
+          let newFilteredTiles = [];
+          for (let thisTile of tileCollection) {
+            if(thisTile.category.indexOf(this.props.setTab) > -1) {
+
+              let showThisTile = true;
+              if (this.props.heroType !== 'none') {
+                showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
+              }
+              if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
+            }
+          }
+
           this.setState({
             allTiles:tileCollection,
             pivtTitles: tileCategories,
@@ -418,6 +395,7 @@ console.log(filtered);
             pivotDefSelKey: defaultSelectedKey,
             loadStatus:"Ready",
             heroTiles : heroTiles,
+            heroIds: heroIds,
           });
 
         }).catch((e) => {
@@ -451,13 +429,6 @@ console.log(filtered);
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
 
-            let newFilteredTiles = [];
-              for (let thisTile of tileCollection) {
-                if(thisTile.category.indexOf(this.props.setTab) > -1) {
-                  newFilteredTiles.push(thisTile);
-                }
-            }
-
             let heroTiles = [];
             for (let thisTile of tileCollection) {
               if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
@@ -467,7 +438,24 @@ console.log(filtered);
             
             var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
             heroTiles = [randomItem];
-
+  
+            let heroIds = []
+            for (let thisTile of heroTiles) {
+              heroIds.push(thisTile.Id.toString());
+            }          
+            
+            let newFilteredTiles = [];
+            for (let thisTile of tileCollection) {
+              if(thisTile.category.indexOf(this.props.setTab) > -1) {
+  
+                let showThisTile = true;
+                if (this.props.heroType !== 'none') {
+                  showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
+                }
+                if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
+              }
+            }
+  
             this.setState({
               allTiles:tileCollection,
               pivtTitles: tileCategories,
@@ -475,6 +463,7 @@ console.log(filtered);
               pivotDefSelKey: defaultSelectedKey,
               loadStatus:"Ready",
               heroTiles : heroTiles,
+              heroIds: heroIds,
             });
 
           }).catch((e) => {

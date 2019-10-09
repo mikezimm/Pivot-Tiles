@@ -59,6 +59,7 @@ export function heroBuilder(parentProps,parentState){
     } else { heroFullLineBuild = ""; }
 
 //        setImgFit={heroRatio = '1x1'? 'portrait' : 'landscape'}
+    console.log(heroFullLineBuild);
     return heroFullLineBuild;
 
 }

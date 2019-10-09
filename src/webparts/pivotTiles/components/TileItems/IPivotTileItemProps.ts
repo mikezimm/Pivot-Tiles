@@ -11,6 +11,7 @@ export interface IPivotTileItemProps {
   listWebURL: string;
   listTitle: string;
   Id: string;
+  
   options: string;
   color: string;
   imgSize: string;

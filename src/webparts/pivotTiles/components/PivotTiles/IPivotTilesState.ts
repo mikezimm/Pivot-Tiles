@@ -3,6 +3,7 @@ import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
 export interface IPivotTilesState {
 
   heroTiles?: IPivotTileItemProps[];
+  heroIds?: string[];
   allTiles?:IPivotTileItemProps[];
   filteredTiles?: IPivotTileItemProps[];
   pivtTitles?:string[];
