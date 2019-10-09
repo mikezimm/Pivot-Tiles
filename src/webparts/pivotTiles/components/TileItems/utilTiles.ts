@@ -123,4 +123,90 @@ export default class StyleUtils {
 
   }
 
+  static getHeroStyles(height,width, heroType) {
+    var tileFit = ""
+    var iWrap = styles.pTileItemWrapper;
+    var iWrapExp = styles.pTileItemWrapperExpanded;
+    var iHovPan = styles.pTileItemHoverPanel;
+    var iHovPanExp = styles.pTileItemHoverPanelExpanded;
+    var iHovPanNot = styles.pTileItemHoverPanelNotExpanded;
+    var iItemImage = styles.pTileItemImage;
+    var iTitle = styles.pTileItemTitle;
+
+
+    if (heroType === "header" || heroType === "footer") {
+      tileFit = "100by1x1";
+      iWrap = styles.pTileItemWrapper100by1x1;
+      iWrapExp = styles.pTileItemWrapperExpanded100by1x1;
+
+    } else if (heroType === "inLine") {
+      tileFit = "300by1x1";
+      iWrap = styles.pTileItemWrapper300by1x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by1x1;
+
+    } else if (heroType === "left" || heroType === "right") {
+      tileFit = ["300", 'by', width].join("");
+
+    } else {
+
+    }
+
+    if (tileFit === '300by4x1') {
+      iWrap = styles.pTileItemWrapper300by4x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by4x1;
+
+    } else if (tileFit === '300by3x1') {
+      iWrap = styles.pTileItemWrapper300by3x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by3x1;
+
+    } else if (tileFit === '300by2x1') {
+      iWrap = styles.pTileItemWrapper300by2x1;
+      iWrapExp = styles.pTileItemWrapperExpanded300by2x1;
+    
+    }
+
+
+
+    //Get styles dependant on height only
+    // for header and footer, height = 100 else it's 300
+    if (heroType === "header" || heroType === "footer") {
+        iItemImage = styles.pTileItemImage100;
+        iHovPan = styles.pTileItemHoverPanel100;
+        iTitle = styles.pTileItemTitle100;
+        iHovPanExp = styles.pTileItemHoverPanelExpanded100;
+        iHovPanNot = styles.pTileItemHoverPanelNotExpanded100;
+
+    } else {
+        iItemImage = styles.pTileItemImage300;
+        iHovPan = styles.pTileItemHoverPanel300;
+        iTitle = styles.pTileItemTitle300;
+        iHovPanExp = styles.pTileItemHoverPanelExpanded300;
+        iHovPanNot = styles.pTileItemHoverPanelNotExpanded300;
+
+    } 
+
+
+    var heroStyle = {
+        "iWrap": iWrap,
+        "iWrapExp": iWrapExp,
+        "iHovPan": iHovPan,
+        "iHovPanExp": iHovPanExp,
+        "iHovPanNot": iHovPanNot,
+        "iItemImage": iItemImage,
+        "iTitle": iTitle,
+    }
+
+    
+    console.log('getHeroStyles:  heroStyle');
+    console.log(heroStyle);
+
+    /*
+    console.log("getTheseStyles: tileFit =" + tileFit);
+    console.log("getTheseStyles: thisStyle =" + thisStyle);
+    console.log(thisStyle);    
+    */
+
+    return heroStyle
+  }
+
 }

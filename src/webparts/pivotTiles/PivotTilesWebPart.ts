@@ -43,7 +43,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         listTitle: this.properties.listTitle,
 
         pageContext: this.context.pageContext,
-        heroPosition: this.properties.heroPosition,
+        heroType: this.properties.heroType,
+        heroCategory: this.properties.heroCategory,
 
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,
@@ -175,6 +176,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       this.context.propertyPane.refresh();
     }
 
+    if (propertyPath === 'heroCategory') {
+      console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties.heroCategory = newValue;    
+      this.context.propertyPane.refresh();
+    }    
+
     if (propertyPath === 'setPivFormat') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
       this.properties.setPivFormat = newValue;   
@@ -193,9 +200,9 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       this.context.propertyPane.refresh();
     }
     
-    if (propertyPath === 'heroPosition') {
+    if (propertyPath === 'heroType') {
       console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-      this.properties.heroPosition = newValue;    
+      this.properties.heroType = newValue;    
       this.context.propertyPane.refresh();
     }
 

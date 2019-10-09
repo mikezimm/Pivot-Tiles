@@ -47,23 +47,13 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
   }
 
   public render(): React.ReactElement<IPivotTileItemProps> {
-  //public render(): JSX.Element {
 
-    /*    main wrapper was this:
-        <div className={[
-          styles.pTileItemWrapper,
-          this.state.visible === true  ? styles.pTileItemWrapperExpanded
-          : this.state.visible === false  ? styles.pTileItemWrapperNotExpanded
-          : ""
-          ].join(" ")}>
-    */
-//    console.log("getTheseStyles: ");
-//    console.log(styles);
-//    console.log("getTheseStyles: this.props");
-//    console.log(this.props);  
-    var iStyles= tUtils.getTheseStyles(this.props.setSize,this.props.setRatio);
-//    console.log("getTheseStyles: iStyles");
-//    console.log(iStyles);   
+    if (this.props.heroType === "none" || this.props.heroType === "") {
+      var iStyles= tUtils.getTheseStyles(this.props.setSize,this.props.setRatio);
+    } else {
+      var iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
+    }
+
 
     return (
       <div>
@@ -99,32 +89,5 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
 
     );
   }
-
-/* original return before variablizing sizes
-    return (
-      <a href={this.props.href} 
-         className={styles.pivotTiles}
-         target="_top" 
-         role="listitem" 
-         onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}>
-        <div className={ [styles.pTileItemWrapper, styles.pTileItemWrapperExpanded].join(" ")}>
-
-          <Image className={styles.pTileItemImage} src={this.props.imageUrl} shouldFadeIn={true} imageFit={ImageFit.centerCover} />
-          <div className={[styles.pTileItemHoverPanel, 
-            //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator#Conditional_chains
-            this.state.hovering === true  ? styles.pTileItemHoverPanelExpanded
-            : this.state.hovering === false  ? styles.pTileItemHoverPanelNotExpanded
-            : ""
-            ].join(" ")}>
-            <div className={styles.pTileItemTitle}>{this.props.title}</div>
-            <div className={styles.pTileItemDesc}>{this.props.description}</div>
-          </div>
-        </div>
-      </a>
-    );
-*/
-
-
-
 
 }

@@ -22,7 +22,7 @@ import * as ErrorMessages from './ErrorMessages'
 import { pivotOptionsGroup, } from '../../../../services/propPane';
 
 import * as myErrors from './ErrorMessages';
-import * as tileBuilder from './TileBuilder';
+import * as tileBuilders from './TileBuilder';
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
@@ -66,86 +66,86 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   public render(): React.ReactElement<IPivotTilesProps> {
 
-    let heroRatio = "";
-    let heroHeight = "";
-    console.log(this.props);
-    if (this.props.heroPosition === "header" || this.props.heroPosition === "footer") {
-      heroRatio = '1x1';
-      heroHeight = '100';
-    } else {
-      heroRatio = '2x1';
-      heroHeight = '300';
-    }
+    let heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
 
-/*
-    let heroFullLineBuild;
-    heroFullLineBuild = this.state.heroTiles.map(newTile => (
-      <PivotTileItem
-        parentCat = {this.state.filteredCategory}
-        imageUrl={newTile.imageUrl}
-        title={newTile.title}
-        description={newTile.description}
-        href={newTile.href}
-        category={newTile.category}
-        setTab={newTile.setTab}
-        Id={newTile.Id}
-        options={newTile.options}
-        color={newTile.color}
-        imgSize={newTile.imgSize}
-        listWebURL={newTile.listWebURL}
-        listTitle={newTile.listTitle}
-        setRatio={heroRatio}
-        setSize={heroHeight}
-        setImgFit={'landscape'}
-        setImgCover={newTile.setImgCover}
-        target={newTile.target}
-        />
-      ));
-      */
-      let heroFullLineBuild = tileBuilder.heroBuilder(this.props,this.state);
+    let tileBuild = tileBuilders.tileBuilder(this.props,this.state);
 
-    let tileBuild;
-    const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
-
-    tileBuild = this.state.filteredTiles.map(newTile => (
-      <PivotTileItem
-        parentCat = {this.state.filteredCategory}
-        imageUrl={newTile.imageUrl}
-        title={newTile.title}
-        description={newTile.description}
-        href={newTile.href}
-        category={newTile.category}
-        setTab={newTile.setTab}
-        Id={newTile.Id}
-        options={newTile.options}
-        color={newTile.color}
-        imgSize={newTile.imgSize}
-        listWebURL={newTile.listWebURL}
-        listTitle={newTile.listTitle}
-        setRatio={newTile.setRatio}
-        setSize={newTile.setSize}
-        setImgFit={newTile.setImgFit}
-        setImgCover={newTile.setImgCover}
-        target={newTile.target}
-        />
-    ));
-    
     let noListFound = myErrors.NoListFound(this.props,this.state);
 
     let noItemsFound = myErrors.NoItemsFound(this.props,this.state);
 
     let loadingSpinner = myErrors.LoadingSpinner(this.state);
 
+    const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
+
     return (
-      
+      <div>
+
+        { ( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
 
-        { ( this.props.heroPosition === "header" ? ( heroFullLineBuild ) :""  ) }
+        { /*( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  )*/ }
         
+        { /* 
+        (
+          this.state.heroTiles.map(newTile => (
+            <PivotTileItem
+              parentCat = {this.state.filteredCategory}
+              imageUrl={newTile.imageUrl}
+              title={newTile.title}
+              description={newTile.description}
+              href={newTile.href}
+              category={newTile.category}
+              setTab={newTile.setTab}
+              Id={newTile.Id}
+              options={newTile.options}
+              color={newTile.color}
+              imgSize={newTile.imgSize}
+              listWebURL={newTile.listWebURL}
+              listTitle={newTile.listTitle}
+              setRatio={this.props.setRatio}
+              setSize={this.props.setSize}
+              setImgFit={'landscape'}
+              setImgCover={newTile.setImgCover}
+              target={newTile.target}
+              heroType = {newTile.heroType}
+              />
+            ))
+          )
+          */
+          }
+          { /*
+            this.state.heroTiles.length > 0 ?
+             <PivotTileItem
+             parentCat = {this.state.filteredCategory}
+             imageUrl={this.state.heroTiles[0].imageUrl}
+             title={this.state.heroTiles[0].title}
+             description={this.state.heroTiles[0].description}
+             href={this.state.heroTiles[0].href}
+             category={this.state.heroTiles[0].category}
+             setTab={this.state.heroTiles[0].setTab}
+             Id={this.state.heroTiles[0].Id}
+             options={this.state.heroTiles[0].options}
+             color={this.state.heroTiles[0].color}
+             imgSize={this.state.heroTiles[0].imgSize}
+             listWebURL={this.state.heroTiles[0].listWebURL}
+             listTitle={this.state.heroTiles[0].listTitle}
+             setRatio={this.props.setRatio}
+             setSize={this.props.setSize}
+             setImgFit={'landscape'}
+             setImgCover={this.state.heroTiles[0].setImgCover}
+             target={this.state.heroTiles[0].target}
+             heroType = {this.state.heroTiles[0].heroType}
+             />
+          : ""
+            */
+          }
+
         <div className={styles.container}>
 
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
+          <div className={styles.tableRow}>
           <Pivot 
             linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
             linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
@@ -153,19 +153,52 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             defaultSelectedKey={ defIndex }>
               {this.createPivots(this.state)}
           </Pivot>
-
+          </div>
           <br/>
 
-          { ( this.props.heroPosition === "xxxxx" ? ( heroFullLineBuild ) :""  ) }
+          { ( this.props.heroType === "left" ? ( heroFullLineBuild ) :""  ) }
+          { ( this.props.heroType === "right" ? ( heroFullLineBuild ) :""  ) }
+          { ( this.props.heroType === "inLine" ? ( heroFullLineBuild ) :""  ) }
 
             { ( tileBuild ) }
-
+            { /* Originally instead of this:  ( tileBuild ) */ }           
+            { /* had this
+                this.state.filteredTiles.map(newTile => (
+                  <PivotTileItem
+                    parentCat = {this.state.filteredCategory}
+                    imageUrl={newTile.imageUrl}
+                    title={newTile.title}
+                    description={newTile.description}
+                    href={newTile.href}
+                    category={newTile.category}
+                    setTab={newTile.setTab}
+                    Id={newTile.Id}
+                    options={newTile.options}
+                    color={newTile.color}
+                    imgSize={newTile.imgSize}
+                    listWebURL={newTile.listWebURL}
+                    listTitle={newTile.listTitle}
+                    setRatio={newTile.setRatio}
+                    setSize={newTile.setSize}
+                    setImgFit={newTile.setImgFit}
+                    setImgCover={newTile.setImgCover}
+                    target={newTile.target}
+                    heroType = {'none'}
+                    />
+                ))
+              */
+            }
+            <div className={styles.tableRow}>
             { ( loadingSpinner ) }
             { ( noListFound )}
             { ( noItemsFound )}
 
+            </div>
+
+
         </div>
-        { ( this.props.heroPosition === "footer" ? ( heroFullLineBuild ) :""  ) }
+        { ( this.props.heroType === "footer" ? ( heroFullLineBuild ) :""  ) }
+      </div>
       </div>
     );
   }
@@ -216,30 +249,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   //    private async loadListItems(): Promise<IPivotTileItemProps[]> {
   private _getListItems(): void {
-    //https://www.youtube.com/watch?v=4nsGhYjfRsw 9:01-ish talks about this line to update props
-    /* Filtering example of same one and only retreiving certain columns
-    const result:IListItem[] = await sp.web.lists.getByTitle("Customers").items
-    .select("Title","CustomerID").filter("Title eq 'GM'").orderBy("Id",true).getAll()
-    */
-
-    /*  Be sure to import Web from @pnp/sp first, then use this to get from another web.
-
-        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
-        const result:IListItem[] = await web.lists.getByTitle("Customers").items
-
-        or .... 
-
-        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
-        web.get().then(w => {
-          console.log(w);
-        });
-
-    */
 
     let useTileList: string = strings.DefaultTileList;
     
-    //This line is causing an error in debugger mode:
-    //unCaught Promise, can not read list Title of undefined.
     if ( this.props.listTitle ) {
         useTileList = this.props.listTitle;
     }
@@ -307,16 +319,23 @@ console.log(filtered);
           const defaultSelectedKey = defaultSelectedIndex.toString();
           //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
-          let heroTiles = [];
+
           let newFilteredTiles = [];
-            for (let thisTile of tileCollection) {
-              if(thisTile.category.indexOf(this.props.setTab) > -1) {
-                newFilteredTiles.push(thisTile);
-                if(heroTiles.length === 0) {
-                  heroTiles.push(thisTile);
-                }
-              }
+          for (let thisTile of tileCollection) {
+            if(thisTile.category.indexOf(this.props.setTab) > -1) {
+              newFilteredTiles.push(thisTile);
+            }
           }
+
+          let heroTiles = [];
+          for (let thisTile of tileCollection) {
+            if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
+              heroTiles.push(thisTile);
+            }
+          }
+          
+          var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
+          heroTiles = [randomItem];
 
           this.setState({
             allTiles:tileCollection,
@@ -357,17 +376,24 @@ console.log(filtered);
             const defaultSelectedKey = defaultSelectedIndex.toString();
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
-            let heroTiles = [];
+
             let newFilteredTiles = [];
               for (let thisTile of tileCollection) {
                 if(thisTile.category.indexOf(this.props.setTab) > -1) {
                   newFilteredTiles.push(thisTile);
-                  if(heroTiles.length === 0) {
-                    heroTiles.push(thisTile);
-                  }
                 }
             }
-  
+
+            let heroTiles = [];
+            for (let thisTile of tileCollection) {
+              if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
+                heroTiles.push(thisTile);
+              }
+            }
+            
+            var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
+            heroTiles = [randomItem];
+
             this.setState({
               allTiles:tileCollection,
               pivtTitles: tileCategories,
@@ -386,9 +412,6 @@ console.log(filtered);
           });
 
     }
-    
-
-    //Handle error?
 
   }  
 

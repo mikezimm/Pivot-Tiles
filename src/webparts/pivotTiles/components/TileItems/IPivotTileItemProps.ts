@@ -14,6 +14,7 @@ export interface IPivotTileItemProps {
   options: string;
   color: string;
   imgSize: string;
+  heroType: string;
 
   setRatio: string;
   setSize: string;

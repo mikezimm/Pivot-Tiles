@@ -8,8 +8,9 @@ export interface IPivotTilesWebPartProps {
   listWebURL: string;
   listTitle: string;
   pageContext: PageContext;
-  heroPosition: string;
-
+  heroType: string;
+  heroCategory: string;
+  
   setSize: string;
   setRatio: string;
   setImgFit: string;

@@ -44,8 +44,8 @@ import {
     }  
 
     public imgCoverChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
-        {   index: 0,   key: 'landscape', text: "Landscape"  },
-        {   index: 1,   key: 'portrait', text: "Portrait"  },
+        {   index: 0,   key: 'landscape', text: "Landscape ^ stretch full height v"  },
+        {   index: 1,   key: 'portrait', text: "Portrait < stretch full width >"  },
     ];
     
     public getImgCover (findMe) {
@@ -81,6 +81,7 @@ import {
     } 
 
     public heroChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
+        {   index: 0,   key: 'inLine', text: "In Line (below pivot)"  },
         {   index: 1,   key: 'left', text: "Left side"  },
         {   index: 2,   key: 'right', text: "Right side"  },
         {   index: 3,   key: 'header', text: "Above"  },

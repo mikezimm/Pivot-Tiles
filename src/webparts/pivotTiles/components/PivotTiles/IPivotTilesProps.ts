@@ -8,8 +8,9 @@ export interface IPivotTilesProps {
   listWebURL: string;
   listTitle: string;
   pageContext: PageContext;
-  heroPosition: string;
-
+  heroType: string;
+  heroCategory: string;
+  
   setFilter: string;
   propURLQuery: boolean;
   setTab: string;

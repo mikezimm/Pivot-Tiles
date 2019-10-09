@@ -79,8 +79,10 @@
 
   //100by1x1
   $box-height-100by1x1: $minHeight ;
-  $tileGapPer-100by1x1: $tileGap/$box-height-100by1x1;
-  $box-width-100by1x1:  $adjust1x1 * (1 - $tileGapPer-100by1x1);
+  //$tileGapPer-100by1x1: $tileGap/$box-height-100by1x1;
+  $tileGapPer-100by1x1: 0px;
+  //$box-width-100by1x1:  $adjust1x1 * (1 - $tileGapPer-100by1x1);
+  $box-width-100by1x1: 100%;
   $panelHtVis-100by1x1: .4 * $box-height-100by1x1;
   $panelHtHid-100by1x1: $box-height-100by1x1 - $panelHtVis-100by1x1;
   .hW100by1x1 { height: $box-height-100by1x1; width: $box-width-100by1x1; }
@@ -121,8 +123,10 @@
 
   //150by1x1
   $box-height-150by1x1: $minHeight * 1.5 ;
-  $tileGapPer-150by1x1: $tileGap/$box-height-150by1x1;
-  $box-width-150by1x1:  $adjust1x1 * (1 - $tileGapPer-150by1x1);
+//  $tileGapPer-150by1x1: $tileGap/$box-height-150by1x1;
+  $tileGapPer-150by1x1: 0px;
+//  $box-width-150by1x1:  $adjust1x1 * (1 - $tileGapPer-150by1x1);
+  $box-width-150by1x1: 100%;
   $panelHtVis-150by1x1: .4 * $box-height-150by1x1;
   $panelHtHid-150by1x1: $box-height-150by1x1 - $panelHtVis-150by1x1;
   .hW150by1x1 { height: $box-height-150by1x1; width: $box-width-150by1x1; }
@@ -164,8 +168,10 @@
 
   //300by1x1
   $box-height-300by1x1: $minHeight * 3 ;
-  $tileGapPer-300by1x1: $tileGap/$box-height-300by1x1;
-  $box-width-300by1x1:  $adjust1x1 * (1 - $tileGapPer-300by1x1);
+  //$tileGapPer-300by1x1: $tileGap/$box-height-300by1x1;
+  $tileGapPer-300by1x1: 0px;
+//  $box-width-300by1x1:  $adjust1x1 * (1 - $tileGapPer-300by1x1);
+  $box-width-300by1x1:  100%;
   $panelHtVis-300by1x1: .4 * $box-height-300by1x1;
   $panelHtHid-300by1x1: $box-height-300by1x1 - $panelHtVis-300by1x1;
   .hW300by1x1 { height: $box-height-300by1x1; width: $box-width-300by1x1; }

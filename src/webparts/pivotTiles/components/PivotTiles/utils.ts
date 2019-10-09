@@ -43,7 +43,7 @@ export default class Utils {
       category: item[pivotProps.colCategory],
       setTab: pivotProps.setTab,
       setSize: pivotProps.setSize,
-      heroPosition: pivotProps.heroPosition,
+      heroType: pivotProps.heroType,
 
       Id: item.Id,
 
@@ -78,9 +78,8 @@ export default class Utils {
       ? item[pivotProps.colOpenBehaviour] 
       : pivotProps.target ),
       
-
       setRatio: pivotProps.setRatio,
-      setImgFit:pivotProps.setImgFit,
+      setImgFit: pivotProps.setImgFit,
       setImgCover: pivotProps.setImgCover,
 
     }));
