@@ -17,6 +17,8 @@ export function heroBuilder(parentProps,parentState){
     let heroHeight = "";
     let imageFit = "";
     console.log(parentProps);
+    console.log('heroBuilder State')
+    console.log(parentState);
     if (parentProps.heroType === "header" || parentProps.heroType === "footer" || parentProps.heroType === "inLine"  ) {
       heroRatio = '1x1';
       heroHeight = '300';
@@ -27,29 +29,35 @@ export function heroBuilder(parentProps,parentState){
       imageFit = 'landscape';
     }
 
-    const heroFullLineBuild = parentState.heroTiles.map(newTile => (
-      <PivotTileItem
-        parentCat = {parentState.filteredCategory}
-        imageUrl={newTile.imageUrl}
-        title={newTile.title}
-        description={newTile.description}
-        href={newTile.href}
-        category={newTile.category}
-        setTab={newTile.setTab}
-        Id={newTile.Id}
-        options={newTile.options}
-        color={newTile.color}
-        imgSize={newTile.imgSize}
-        listWebURL={newTile.listWebURL}
-        listTitle={newTile.listTitle}
-        setRatio={newTile.setRatio}
-        setSize={newTile.setSize}
-        setImgFit={imageFit}
-        setImgCover={newTile.setImgCover}
-        target={newTile.target}
-        heroType = {newTile.heroType}
-        />
-      ));
+    let heroFullLineBuild = "";
+
+    if (parentState.heroTiles) {
+      console.log('heroBuilder:  Found parentState.heroTiles')
+      heroFullLineBuild = parentState.heroTiles.map(newTile => (
+        <PivotTileItem
+          parentCat = {parentState.filteredCategory}
+          imageUrl={newTile.imageUrl}
+          title={newTile.title}
+          description={newTile.description}
+          href={newTile.href}
+          category={newTile.category}
+          setTab={newTile.setTab}
+          Id={newTile.Id}
+          options={newTile.options}
+          color={newTile.color}
+          imgSize={newTile.imgSize}
+          listWebURL={newTile.listWebURL}
+          listTitle={newTile.listTitle}
+          setRatio={newTile.setRatio}
+          setSize={newTile.setSize}
+          setImgFit={imageFit}
+          setImgCover={newTile.setImgCover}
+          target={newTile.target}
+          heroType = {newTile.heroType}
+          />
+        ));
+    } else { heroFullLineBuild = ""; }
+
 //        setImgFit={heroRatio = '1x1'? 'portrait' : 'landscape'}
     return heroFullLineBuild;
 

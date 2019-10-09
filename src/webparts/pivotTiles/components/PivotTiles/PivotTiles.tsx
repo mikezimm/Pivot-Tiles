@@ -60,13 +60,39 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     //Not using this function because it just did not want to work.
     //this._loadListItems();
     this._getListItems();
+    //alert('this.props.heroCategory.length');
+    //alert(this.props);
   }
   
+  public componentDidUpdate(prevProps){
+
+    //alert('componentDidUpdate 1');
+
+    let rebuildTiles = false;
+    if (this.props.setTab !== prevProps.setTab) {  rebuildTiles = true  }
+    if (this.props.setSize !== prevProps.setSize) {  rebuildTiles = true  }
+    if (this.props.heroType !== prevProps.heroType) {  rebuildTiles = true  }
+    if (this.props.setRatio !== prevProps.setRatio) {  rebuildTiles = true  }
+    if (this.props.setImgFit !== prevProps.setImgFit) {  rebuildTiles = true  }
+    if (this.props.setImgCover !== prevProps.setImgCover) {  rebuildTiles = true  }
+    if (this.props.heroCategory !== prevProps.heroCategory) {  rebuildTiles = true  }
+
+    if (rebuildTiles === true) {
+
+      this._updateStateOnPropsChange();
+    }
+
+  }
 
 
   public render(): React.ReactElement<IPivotTilesProps> {
+    let heroFullLineBuild = ""
+    if (this.props.heroCategory) {
+      if (this.state.loadStatus === "Ready" ) {
+        let heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
+      }
+    }
 
-    let heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
 
     let tileBuild = tileBuilders.tileBuilder(this.props,this.state);
 
@@ -81,7 +107,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
-        { ( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  ) }
+        { ( (this.props.heroType === "header" && this.state.loadStatus === "Ready"  ) ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
 
@@ -156,9 +182,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           </div>
           <br/>
 
-          { ( this.props.heroType === "left" ? ( heroFullLineBuild ) :""  ) }
-          { ( this.props.heroType === "right" ? ( heroFullLineBuild ) :""  ) }
-          { ( this.props.heroType === "inLine" ? ( heroFullLineBuild ) :""  ) }
+          { ( (this.props.heroType === "left" && this.state.loadStatus === "Ready" ) ? ( heroFullLineBuild ) : ""  ) }
+          { ( (this.props.heroType === "right" && this.state.loadStatus === "Ready" ) ? ( heroFullLineBuild ) : ""  ) }
+          { ( (this.props.heroType === "inLine" && this.state.loadStatus === "Ready" ) ? ( heroFullLineBuild ) : ""  ) }
 
             { ( tileBuild ) }
             { /* Originally instead of this:  ( tileBuild ) */ }           
@@ -244,6 +270,54 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     //https://www.youtube.com/watch?v=4nsGhYjfRsw 9:01-ish talks about this line to update props
     this.setState({allTiles:listItems});
+
+  }
+
+  private _updateStateOnPropsChange(): void {
+
+    let newCollection = this.state.allTiles;
+    let newFiltered = this.state.filteredTiles;
+    let newHeros = this.state.heroTiles;
+
+    for (let thisTile of newCollection) {
+      thisTile.setTab = this.props.setTab;
+      thisTile.setSize = this.props.setSize;
+      thisTile.heroType = this.props.heroType;
+      thisTile.setRatio = this.props.setRatio;
+      thisTile.setImgFit = this.props.setImgFit;
+      thisTile.setImgCover = this.props.setImgCover;
+    }
+
+    for (let thisTile of newFiltered) {
+      thisTile.setTab = this.props.setTab;
+      thisTile.setSize = this.props.setSize;
+      thisTile.heroType = this.props.heroType;
+      thisTile.setRatio = this.props.setRatio;
+      thisTile.setImgFit = this.props.setImgFit;
+      thisTile.setImgCover = this.props.setImgCover;
+    }
+
+    for (let thisTile of newHeros) {
+      thisTile.setTab = this.props.setTab;
+      thisTile.setSize = this.props.setSize;
+      thisTile.heroType = this.props.heroType;
+      thisTile.setRatio = this.props.setRatio;
+      thisTile.setImgFit = this.props.setImgFit;
+      thisTile.setImgCover = this.props.setImgCover;
+    }
+
+    //alert('componentDidUpdate 3');
+
+    //console.log('componentDidUpdate 4 State');
+    //console.log(this.state);    
+
+    this.setState({
+      allTiles:newCollection,
+      filteredTiles: newFiltered,
+      loadStatus:"Ready",
+      heroTiles : newHeros,
+    });
+
 
   }
 

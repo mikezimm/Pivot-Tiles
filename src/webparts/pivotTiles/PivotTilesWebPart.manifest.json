@@ -26,6 +26,7 @@
       "BasicGroupName": "Group 1",
       "DescriptionFieldLabel": "Description Field",
       "heroType": "inLine",
+      "heroCategory": "Tactics",
       "listDefinition": "OurTiles",
       "listWebURL": "",
       "listTitle": "OurTiles",
