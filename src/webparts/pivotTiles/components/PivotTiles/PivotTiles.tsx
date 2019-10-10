@@ -18,6 +18,7 @@ import { sp, Web } from '@pnp/sp';
 import * as strings from 'PivotTilesWebPartStrings';
 
 import * as ErrorMessages from './ErrorMessages'
+import MyCommandBar from '../CommandBar/CommandBar'
 
 import { pivotOptionsGroup, } from '../../../../services/propPane';
 
@@ -104,6 +105,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
 
+
     return (
       <div>
 
@@ -112,26 +114,41 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       <div className={styles.pivotTiles}>
 
         { /*( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  )*/ }
-        
-        { /* 
-          */
-          }
-          { /*
-            */
-          }
+        { /*  
+              <DefaultButton
+                iconProps={{ iconName: 'Settings' }}
+                text="Settings"
+              />
+        */ }
 
         <div className={styles.container}>
 
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
-          <div className={styles.tableRow}>
-          <Pivot 
-            linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
-            linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
-            onLinkClick= { this.onLinkClick }
-            defaultSelectedKey={ defIndex }>
-              {this.createPivots(this.state)}
-          </Pivot>
+
+            <div className={styles.floatLeft}>
+              <Pivot 
+                style={{ flexGrow: 1 }}
+                linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
+                linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
+                onLinkClick= { this.onLinkClick }
+                defaultSelectedKey={ defIndex }
+                headersOnly={true}>
+                  {this.createPivots(this.state)}
+              </Pivot>
+              <MyCommandBar
+                title="Test"
+              />
+
+            </div>
+
+          
+          <div>
+
           </div>
+
+
+
+          
           <br/>
 
           { ( this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
@@ -157,6 +174,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       </div>
     );
   }
+
+  private _handleSettingsIconClick = (item: PivotItem): void => {
+    alert('Hi!')
+  };
+
 
   private onLinkClick = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
@@ -192,8 +214,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
   public createPivots(thisState){
+    let piv = thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory);
+
+    //piv = piv + createPivot("&#8213;");
     return (
-      thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory)
+      piv
     )
   }
 

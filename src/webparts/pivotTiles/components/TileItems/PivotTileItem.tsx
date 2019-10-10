@@ -34,9 +34,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     console.log(event);
     console.log(this);
     if (event.shiftKey) {
-      alert("shiftKey is pressed");
       if (event.altKey) {
-        alert("altKey is pressed");
         if (event.ctrlKey) {      
           alert("ctrKey is pressed");
           event.preventDefault();

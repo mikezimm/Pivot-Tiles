@@ -1,34 +1,16 @@
 
 @import '../../../../../node_modules/office-ui-fabric-react/dist/sass/_References';
-.pivotTiles {
+.cmdBar {
 
   .heroContainer {
     max-width:1500px;
     margin: auto;
     display: block !important;
+
   }
 
   .hideMe {
     display:none
-  }
-
-  .floatLeft {
-    //width: 1200px;
-    //max-width: 500px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    //align-items: center makes items centered vertically
-    align-items: center;
-  }
-
-  .floatRight {
-    //width: 1200px;
-    //max-width: 500px;
-    display: flex;
-    justify-content: space-between;
-    //align-items: center makes items centered vertically
-    align-items: center;
   }
 
   .showErrorMessage {
@@ -39,8 +21,15 @@
 
   .container {
     max-width: 1200px;
-    margin: 0px auto;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    background-color: white;
+    //display:inline-block;
+    float: right;
+    display:flex;
+    align-items: center;
+    //top:  -50px;
+
+    //margin: 0px auto;
+    //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
 
   .tableRow {
@@ -89,6 +78,8 @@
     // Primary Button
     min-width: 80px;
     background-color: $ms-color-themePrimary;
+//    background-color: $ms-color-white;
+
     border-color: $ms-color-themePrimary;
     color: $ms-color-white;
 
