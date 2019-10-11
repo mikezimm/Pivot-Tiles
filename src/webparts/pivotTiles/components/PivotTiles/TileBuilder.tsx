@@ -16,9 +16,9 @@ export function heroBuilder(parentProps,parentState){
     let heroRatio = "";
     let heroHeight = "";
     let imageFit = "";
-    console.log(parentProps);
-    console.log('heroBuilder State')
-    console.log(parentState);
+//    console.log(parentProps);
+//    console.log('heroBuilder State')
+//    console.log(parentState);
     if (parentProps.heroType === "header" || parentProps.heroType === "footer" || parentProps.heroType === "inLine"  ) {
       heroRatio = '1x1';
       heroHeight = '300';
@@ -59,7 +59,7 @@ export function heroBuilder(parentProps,parentState){
     } else { heroFullLineBuild = ""; }
 
 //        setImgFit={heroRatio = '1x1'? 'portrait' : 'landscape'}
-    console.log(heroFullLineBuild);
+//    console.log(heroFullLineBuild);
     return heroFullLineBuild;
 
 }

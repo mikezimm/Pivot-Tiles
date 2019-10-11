@@ -40,6 +40,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       filteredCategory: this.props.setTab,
       pivotDefSelKey:"",
       loadStatus:"Loading",
+      showTips: "none",
 
     };
     /*
@@ -55,6 +56,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     //  the component to the function so it can get access to the
     //  components properties (this.props)... otherwise "this" is undefined
     this.onLinkClick = this.onLinkClick.bind(this);
+    this.toggleTips = this.toggleTips.bind(this);
+    this.minimizeTiles = this.minimizeTiles.bind(this);
+    
   }
 
   public componentDidMount() {
@@ -85,7 +89,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   }
 
-
   public render(): React.ReactElement<IPivotTilesProps> {
     let heroFullLineBuild = ""
 
@@ -95,6 +98,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       }
     }
 
+    let buildTips = myErrors.buildTips(this.props,this.state);
+    
     let tileBuild = tileBuilders.tileBuilder(this.props,this.state);
 
     let noListFound = myErrors.NoListFound(this.props,this.state);
@@ -136,21 +141,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
                   {this.createPivots(this.state)}
               </Pivot>
               <MyCommandBar
-                title="Test"
+                toggleTips= { this.toggleTips }
+                minimizeTiles= { this.minimizeTiles }
               />
-
             </div>
 
-          
           <div>
-
           </div>
-
-
-
-          
           <br/>
 
+          { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
           { ( this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.heroType === "inLine" ? ( heroFullLineBuild ) : ""  ) }
@@ -194,7 +194,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
           }
           if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
-
         }
     }
 
@@ -204,6 +203,32 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     });
 
   } //End onClick
+
+  private minimizeTiles = (item: PivotItem): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+
+    console.log('minimizeTiles: ')
+    console.log(this.state);
+    let newFilteredTiles = [];
+
+    this.setState({
+      filteredTiles: newFilteredTiles,
+    });
+
+  } //End onClick
+  public toggleTips = (item: any): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+
+    console.log('toggleTips: ')
+    console.log(this.state);
+
+    let newshowTips = this.state.showTips === 'none' ? 'yes' : 'none';
+
+    this.setState({
+      showTips: newshowTips,
+    });
+
+  } //End toggleTips  
 
   //http://react.tips/how-to-create-reactjs-components-dynamically/ - based on createImage
   public createPivot(pivT) {

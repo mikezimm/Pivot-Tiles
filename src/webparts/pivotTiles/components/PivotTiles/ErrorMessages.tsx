@@ -9,6 +9,37 @@ import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
 
+export function buildTips(parentProps,parentState){
+
+  const currentPageUrl = parentProps.pageContext.web.absoluteUrl + parentProps.pageContext.site.serverRequestPath;
+  const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
+  const listURL = fixedURL + "lists/" + parentProps.listTitle;
+  const newItemURL = listURL + "/newform.aspx?Source=" + currentPageUrl;
+
+  const theseTips = 
+  <div className={styles.rowNoPad}>
+      <div className={parentState.showTips === "yes" ? styles.showErrorMessage : styles.hideMe }>
+
+          <h3>Tile details are saved in your tile list called: {parentProps.listTitle}</h3>
+          <p><Link href={listURL} 
+              target="_blank">
+              {listURL}
+            </Link></p>
+          <h3>To edit a specific tile that is visible</h3>
+          <b>CTRL-ALT-SHFT-Click</b> on the tile to go directly to it.
+          <h3>To create a new tile:</h3>
+          <p><Link href={newItemURL} 
+              target="">
+              Click Me!
+            </Link></p>
+
+      </div>
+  </div>
+
+  return theseTips;
+}
+
+
 export function LoadingSpinner(parentState){
   const loadingSpinner = 
   <div className={styles.rowNoPad}>

@@ -7,6 +7,7 @@ import styles from './CommandBar.module.scss';
 
 import { ICommandBarProps } from './ICommandBarProps'
 import { ICommandBarState } from './ICommandBarState'
+import Utils from './utils'
 
 export default class MyCommandBar extends React.Component<ICommandBarProps, ICommandBarState> {
 
@@ -17,28 +18,44 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
           hovering: 10,
           visible:10
         };
+/*
+        console.log('Constructor: MyCommandBar');
+        console.log(this.props);
+        console.log(this.state);
+*/
       }
 
     public render(): JSX.Element {
         return (
           <div className={styles.container}>
             <CommandBar 
-              items={this.getItems()}
+              items={Utils.getMainItems()}
               farItems={this.getFarItems()}
             />
           </div>
         );
       }
-    /*
-            <CommandBar 
-              items={this.getItems()}
-              overflowItems={this.getOverlflowItems()}
-              overflowButtonProps={{ ariaLabel: 'More commands' }}
-              farItems={this.getFarItems()}
-              ariaLabel={'Use left and right arrow keys to navigate between commands'}
-            />
-    */
-      // Data for CommandBar
+
+      private getFarItems() {
+        return [
+          {
+            key: 'mini',
+            name: '',
+            ariaLabel: 'Minimize',
+            iconProps: { iconName: 'ChromeMinimize' },
+            onClick: () => this.props.minimizeTiles()
+          },
+          {
+            key: 'tips',
+            name: '',
+            ariaLabel: 'Tips',
+            iconProps: { iconName: 'Help' },
+            onClick: () => this.props.toggleTips()
+          },
+        ]
+      }
+
+
 
       private getItems = () => {
           return []
@@ -134,7 +151,7 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
         ];
       };
     
-      private getFarItems = () => {
+      private getFarItemsExample = () => {
         return [
           {
             key: 'sort',

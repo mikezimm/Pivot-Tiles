@@ -197,8 +197,8 @@ export default class StyleUtils {
     }
 
     
-    console.log('getHeroStyles:  heroStyle');
-    console.log(heroStyle);
+//    console.log('getHeroStyles:  heroStyle');
+//    console.log(heroStyle);
 
     /*
     console.log("getTheseStyles: tileFit =" + tileFit);

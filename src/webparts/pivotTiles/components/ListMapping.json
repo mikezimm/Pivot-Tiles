@@ -1,0 +1,77 @@
+[
+    {
+        "listDef" : "OurTiles",
+        "listDisplay" : "OurTiles",
+        "listName" : "OurTiles",
+        "tabDefault" : true,
+        "listMapping" : {
+            "colTitleText" : "Title",
+            "colHoverText" : "TitleDescription",
+            "colCategory" : "TileCategory",
+            "colColor" : "TileBgColorClass",
+            "colSize" : "TileBgImageSize",
+            "colGoToLink" : "TileHrefLink",
+            "colOpenBehaviour" : "",
+            "colImageLink" : "TileBgImageUrl",
+            "colSort" : "Order1"
+        }
+    },
+
+    {
+        "listDef" : "AEInspiredTiles",
+        "listDisplay" : "AE Inspired Tiles",
+        "listName" : "AEInspiredTilesItems",
+        "tabDefault" : false,
+        "listMapping" : {
+            "colTitleText" : "Title",
+            "colHoverText" : "TileDescription",
+            "colCategory" : "TileCategory",
+            "colColor" : "TileBgColorClass",
+            "colSize" : "TileBgImageSize",
+            "colGoToLink" : "TileHrefLink",
+            "colOpenBehaviour" : "",
+            "colImageLink" : "TileBgImageUrl",
+            "colSort" : "Order1"
+        }
+    },
+
+    {
+        "listDef" : "Promoted Links",
+        "listDisplay" : "Promoted Links",
+        "listName" : "PromotedLinks",
+        "tabDefault" : false,
+        "listMapping" : {
+            "colTitleText" : "",
+            "colHoverText" : "",
+            "colCategory" : "",
+            "Color" : "",
+            "colSize" : "",
+            "colGoToLink" : "LinkLocation",
+            "colOpenBehaviour" : "",
+            "colImageLink" : "BackgroundImageLocation",
+            "colSort" : "TileOrder"
+        }
+    },
+
+    {
+        "listDef" : "Quick Links",
+        "listDisplay" : "Quick Links",
+        "listName" : "QuickLinks",
+        "tabDefault" : false,
+        "listMapping" : {
+            "colTitleText" : "",
+            "colHoverText" : "",
+            "colCategory" : "",
+            "Color" : "",
+            "Size" : "",
+            "GoToLink" : "",
+            "colOpenBehaviour" : "",
+            "ImageLink" : "",
+            "Sort" : ""
+        }
+    }
+
+
+
+]
+

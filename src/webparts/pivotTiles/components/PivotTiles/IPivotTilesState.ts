@@ -12,5 +12,6 @@ export interface IPivotTilesState {
   pivotDefSelKey?: string;
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
   loadStatus?: string;
+  showTips?: string;
 
 }
