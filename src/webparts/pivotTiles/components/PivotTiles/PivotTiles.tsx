@@ -9,16 +9,16 @@ import PivotTileItem from './../TileItems/PivotTileItem';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { escape } from '@microsoft/sp-lodash-subset';
-import Utils from './utils'
-import tUtils from './../TileItems/utilTiles'
+import Utils from './utils';
+import tUtils from './../TileItems/utilTiles';
 
 import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/Pivot';
 import { DefaultButton, autobind } from 'office-ui-fabric-react';
 import { sp, Web } from '@pnp/sp';
 import * as strings from 'PivotTilesWebPartStrings';
 
-import * as ErrorMessages from './ErrorMessages'
-import MyCommandBar from '../CommandBar/CommandBar'
+import * as ErrorMessages from './ErrorMessages';
+import MyCommandBar from '../CommandBar/CommandBar';
 
 import { pivotOptionsGroup, } from '../../../../services/propPane';
 
@@ -176,14 +176,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
   private _handleSettingsIconClick = (item: PivotItem): void => {
-    alert('Hi!')
+    alert('Hi!');
   };
 
 
   private onLinkClick = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-    console.log('onLinkClick: ')
+    console.log('onLinkClick: ');
     console.log(this.state);
     let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
@@ -207,8 +207,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private minimizeTiles = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-    console.log('minimizeTiles: ')
-    console.log(this.state);
+//    console.log('minimizeTiles: ')
+//    console.log(this.state);
     let newFilteredTiles = [];
 
     this.setState({
@@ -219,8 +219,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   public toggleTips = (item: any): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-    console.log('toggleTips: ')
-    console.log(this.state);
+//    console.log('toggleTips: ')
+//    console.log(this.state);
 
     let newshowTips = this.state.showTips === 'none' ? 'yes' : 'none';
 
@@ -244,7 +244,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     //piv = piv + createPivot("&#8213;");
     return (
       piv
-    )
+    );
   }
 
 
@@ -397,8 +397,8 @@ console.log(filtered);
         ((response) => {
 
           if (response.length===0){
-            this.setState({ loadStatus: "NoItemsFound" })
-            return
+            this.setState({ loadStatus: "NoItemsFound" });
+            return;
           }
 
           let pivotProps = this.props;
@@ -421,7 +421,7 @@ console.log(filtered);
           var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
           heroTiles = [randomItem];
 
-          let heroIds = []
+          let heroIds = [];
           for (let thisTile of heroTiles) {
             heroIds.push(thisTile.Id.toString());
           }          
@@ -453,7 +453,7 @@ console.log(filtered);
           //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
           //alert(m);
           console.log(e);
-          this.setState({  loadStatus: "ListNotFound" })
+          this.setState({  loadStatus: "ListNotFound" });
         });
 
     } else {
@@ -489,7 +489,7 @@ console.log(filtered);
             var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
             heroTiles = [randomItem];
   
-            let heroIds = []
+            let heroIds = [];
             for (let thisTile of heroTiles) {
               heroIds.push(thisTile.Id.toString());
             }          
@@ -521,7 +521,7 @@ console.log(filtered);
             //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
             //alert(m);
             console.log(e);
-            this.setState({  loadStatus: "ListNotFound"  })
+            this.setState({  loadStatus: "ListNotFound"  });
           });
 
     }

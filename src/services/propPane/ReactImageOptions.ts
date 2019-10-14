@@ -27,19 +27,19 @@ import {
 
     public getImgFit (findMe) {
         if (findMe === 'center') {
-            return ImageFit.center
+            return ImageFit.center;
         } else if (findMe === 'contain') {
-            return ImageFit.contain
+            return ImageFit.contain;
         } else if (findMe === 'cover') {
-            return ImageFit.cover
+            return ImageFit.cover;
         } else if (findMe === 'none') {
-            return ImageFit.none
+            return ImageFit.none;
         } else if (findMe === 'centerContain') {
-            return ImageFit.centerContain
+            return ImageFit.centerContain;
         } else if (findMe === 'centerCover') {
-            return ImageFit.centerCover
+            return ImageFit.centerCover;
         } else {
-            return ImageFit.centerCover
+            return ImageFit.centerCover;
         }
     }  
 
@@ -50,9 +50,9 @@ import {
     
     public getImgCover (findMe) {
         if (findMe === 'landscape') {
-            return ImageCoverStyle.landscape
+            return ImageCoverStyle.landscape;
         } else {
-            return ImageCoverStyle.portrait
+            return ImageCoverStyle.portrait;
         }
     }
 

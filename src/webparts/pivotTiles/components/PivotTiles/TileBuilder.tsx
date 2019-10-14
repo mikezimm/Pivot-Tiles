@@ -32,7 +32,7 @@ export function heroBuilder(parentProps,parentState){
     let heroFullLineBuild = "";
 
     if (parentState.heroTiles) {
-      console.log('heroBuilder:  Found parentState.heroTiles')
+      console.log('heroBuilder:  Found parentState.heroTiles');
       heroFullLineBuild = parentState.heroTiles.map(newTile => (
         <PivotTileItem
           parentCat = {parentState.filteredCategory}

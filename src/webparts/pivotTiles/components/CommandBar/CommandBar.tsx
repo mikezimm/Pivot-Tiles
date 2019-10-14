@@ -5,9 +5,9 @@ import { CommandBar } from "office-ui-fabric-react/lib/CommandBar";
 import styles from './CommandBar.module.scss';
 //import tUtils from './utilTiles'
 
-import { ICommandBarProps } from './ICommandBarProps'
-import { ICommandBarState } from './ICommandBarState'
-import Utils from './utils'
+import { ICommandBarProps } from './ICommandBarProps';
+import { ICommandBarState } from './ICommandBarState';
+import { Utils } from './utils';
 
 export default class MyCommandBar extends React.Component<ICommandBarProps, ICommandBarState> {
 
@@ -27,16 +27,16 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
 
     public render(): JSX.Element {
 
-      const _utils = new Utils();
+//      const _utils = new Utils();
 //      let ttips = new this.props.toggleTips();
 //      let farItems = _utils.getFarItems(ttips);
-      let farItems = _utils.getFarItems();
+      let farItems = Utils.getFarItems(this.props.toggleTips, this.props.minimizeTiles);
 
         return (
-          <div className={styles.container}>
+          <div className={ styles.container }>
             <CommandBar 
-              items={Utils.getMainItems()}
-              farItems={this.getFarItems()}
+              items={ Utils.getMainItems() }
+              farItems={ farItems }
             />
           </div>
         );
@@ -50,17 +50,17 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
           { key: 'tips',    name: '',     ariaLabel: 'Tips',        iconProps: { iconName: 'Help' },
             onClick: () => this.props.toggleTips()
           },
-        ]
+        ];
       }
 
 
 
       private getItems = () => {
-          return []
+          return [];
       }
 
       private getOverlflowItems = () => {
-          return []
+          return [];
       }
       private getItemsExample = () => {
         return [

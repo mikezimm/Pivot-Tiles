@@ -34,7 +34,7 @@ export function buildTips(parentProps,parentState){
             </Link></p>
 
       </div>
-  </div>
+  </div>;
 
   return theseTips;
 }
@@ -46,7 +46,7 @@ export function LoadingSpinner(parentState){
   <div className={parentState.loadStatus === "Loading" ? styles.showErrorMessage : styles.hideMe }>
     <Spinner size={SpinnerSize.small} />
   </div>
-  </div>
+  </div>;
 
   return loadingSpinner;
 }
@@ -73,7 +73,7 @@ export function NoListFound (parentProps,parentState) {
           <h3>You do not have permissions to the list :(</h3>
           <p>Please contact your site admin for assistance!</p>
       </div>
-    </div>
+    </div>;
 
 
       return noListFound;
@@ -96,7 +96,7 @@ export function NoItemsFound (parentProps,parentState) {
           </Link></p>
         <p>You can also get this message if you do not have permissions to the list.</p>
       </div>
-    </div>
+    </div>;
 
   
       return noItemsFound;
