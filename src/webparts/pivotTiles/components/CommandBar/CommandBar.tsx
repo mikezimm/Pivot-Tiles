@@ -26,6 +26,12 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
       }
 
     public render(): JSX.Element {
+
+      const _utils = new Utils();
+//      let ttips = new this.props.toggleTips();
+//      let farItems = _utils.getFarItems(ttips);
+      let farItems = _utils.getFarItems();
+
         return (
           <div className={styles.container}>
             <CommandBar 
@@ -38,18 +44,10 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
 
       private getFarItems() {
         return [
-          {
-            key: 'mini',
-            name: '',
-            ariaLabel: 'Minimize',
-            iconProps: { iconName: 'ChromeMinimize' },
+          { key: 'mini',    name: '',    ariaLabel: 'Minimize',    iconProps: { iconName: 'ChromeMinimize' },
             onClick: () => this.props.minimizeTiles()
           },
-          {
-            key: 'tips',
-            name: '',
-            ariaLabel: 'Tips',
-            iconProps: { iconName: 'Help' },
+          { key: 'tips',    name: '',     ariaLabel: 'Tips',        iconProps: { iconName: 'Help' },
             onClick: () => this.props.toggleTips()
           },
         ]

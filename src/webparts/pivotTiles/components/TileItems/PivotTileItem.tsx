@@ -36,7 +36,11 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     if (event.shiftKey) {
       if (event.altKey) {
         if (event.ctrlKey) {      
-          alert("ctrKey is pressed");
+          
+          const listURL = this.props.listWebURL + "lists/" + this.props.listTitle;
+          const editItemURL = listURL + "/EditForm.aspx?ID={" + this.props.Id + "}";
+          window.open(editItemURL, '_blank');
+
           event.preventDefault();
           return
         }
@@ -51,8 +55,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     } else {
       var iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
     }
-
-
+    
     return (
       <div>
         <a href={this.props.href} 

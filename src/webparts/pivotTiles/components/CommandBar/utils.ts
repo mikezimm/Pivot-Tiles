@@ -1,6 +1,10 @@
 //Utils Concept from:  https://stackoverflow.com/questions/32790311/how-to-structure-utility-class
 
-export default class Utils {
+export interface IUtilsProps {
+  toggleTips?: (item?: any, ev?: React.MouseEvent<HTMLElement>) => void;
+}
+
+export default class Utils <IUtilsProps>{
     static doSomething(val: string) { return val; }
     static doSomethingElse(val: string) { return val; }
 
@@ -12,7 +16,9 @@ export default class Utils {
       return []
     }
     
-    static getFarItems(f1 : any) {
+//    public getFarItems (toggleTips : any) {
+//  public getFarItems () {
+  public getFarItems () {
       return [
         {
           key: 'mini',
@@ -21,7 +27,7 @@ export default class Utils {
           iconProps: {
             iconName: 'ChromeMinimize'
           },
-          onClick: () => console.log()
+          onClick: () => console.log("Minimize")
         },
         {
           key: 'tips',
@@ -30,12 +36,12 @@ export default class Utils {
           iconProps: {
             iconName: 'Help'
           },
-          onClick: () => (f1)
+          onClick: (toggleTips) => console.log("Minimize")
         },
       ]
     }
 
-    private getItemsExample = () => {
+    public getItemsExamplex = () => {
       return [
         {
           key: 'newItem',
