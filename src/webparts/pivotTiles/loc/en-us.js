@@ -37,6 +37,19 @@ define([], function() {
     "colImageLink": "Image Link",
     "colSort": "Sort Order",
     "colTileStyle": "Custom Style Options (JSON)",
+
+    
+    "defColTitleText" : "Title",
+    "defColHoverText" : "TitleDescription",
+    "defColCategory" : "TileCategory",
+    "defColColor" : "TileBgColorClass",
+    "defColSize" : "TileBgImageSize",
+    "defColGoToLink" : "TileHrefLink",
+    "defColOpenBehaviour" : "",
+    "defColImageLink" : "TileBgImageUrl",
+    "defColSort" : "Order1"
+
+
     
   }
 });

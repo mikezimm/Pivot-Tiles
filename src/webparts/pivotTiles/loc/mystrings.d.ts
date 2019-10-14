@@ -39,7 +39,18 @@ declare interface IPivotTilesWebPartStrings {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
-  
+ 
+  defColTitleText: string;
+  defColHoverText: string;
+  defColCategory: string;
+  defColdefColor: string;
+  defColSize: string;
+  defColGoToLink: string;
+  defColOpenBehaviour: string;
+  defColImageLink: string;
+  defColSort: string;
+  defColTileStyle: string;
+
   pivtTitles?:string[];
   
 }

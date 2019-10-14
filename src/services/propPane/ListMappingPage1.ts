@@ -10,6 +10,8 @@ import {
   } from '@microsoft/sp-webpart-base';
   
   import * as strings from 'PivotTilesWebPartStrings';
+  import { listMapping } from './../../webparts/pivotTiles/ListMapping';
+
 
   export class ListMappingPage1 {
 
@@ -28,9 +30,12 @@ import {
             {
                 groupName: strings.PropertyPaneColumnsDescription1,
                 groupFields: [
-                PropertyPaneTextField('listDefinition', {
-                    label: strings.listDefinition
+
+                PropertyPaneDropdown('listDefinition', <IPropertyPaneDropdownProps>{
+                    label: strings.listDefinition,
+                    options: listMapping.listChoices,
                 }),
+
                 PropertyPaneTextField('listTitle', {
                     label: strings.listTitle
                 }),
