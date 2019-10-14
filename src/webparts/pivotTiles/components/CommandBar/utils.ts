@@ -18,6 +18,7 @@ export default class Utils <IUtilsProps>{
     
 //    public getFarItems (toggleTips : any) {
 //  public getFarItems () {
+  
   public getFarItems () {
       return [
         {
