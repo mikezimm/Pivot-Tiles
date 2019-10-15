@@ -18,7 +18,20 @@ export function buildTips(parentProps,parentState){
 
   const theseTips = 
   <div className={styles.rowNoPad}>
+
+
       <div className={parentState.showTips === "yes" ? styles.showErrorMessage : styles.hideMe }>
+
+
+          <div className={(parentProps.heroType !== "none" && parentState.heroStatus === "none") ? styles.showErrorMessageNoPad : styles.hideMe }>
+            <h3>There may be a problem with your webpart settings for <mark>Hero Category</mark></h3>
+            <p>Property pane setting for Hero Type is: <mark><b>{parentProps.heroType }</b></mark></p>
+            <p>Property pane setting for Hero Category is:  <mark><b>{parentProps.heroCategory !== "" ?parentProps.heroCategory : "<It's Empty>"}</b></mark></p>
+            <p>I can't seem to find any tiles in that category....</p>
+            <p>Double check by verifying the spelling and then refreshing the page. If all is good this message will go away.</p>
+            <p></p>
+          </div>
+
 
           <h3>Tile details are saved in your tile list called: {parentProps.listTitle}</h3>
           <p><Link href={listURL} 
@@ -30,7 +43,7 @@ export function buildTips(parentProps,parentState){
           <h3>To create a new tile:</h3>
           <p><Link href={newItemURL} 
               target="">
-              Click Me!
+              Click Me to add a new Tile!
             </Link></p>
 
       </div>

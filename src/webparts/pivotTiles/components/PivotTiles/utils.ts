@@ -25,7 +25,7 @@ export default class Utils {
     return newURL;
   }
 
-  static buildTileCollectionFromResponse(response, pivotProps){
+  static buildTileCollectionFromResponse(response, pivotProps, fixedURL){
 
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
@@ -68,7 +68,7 @@ export default class Utils {
       ? item[pivotProps.colSize] 
       : null),
 
-      listWebURL: pivotProps.listWebURL,
+      listWebURL: fixedURL.replace("ReplaceID",item.Id),
       listTitle: pivotProps.listTitle,
 
       target: 

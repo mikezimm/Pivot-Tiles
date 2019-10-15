@@ -93,7 +93,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let heroFullLineBuild = ""
 
     if (this.props.heroCategory) {
-      if (this.state.loadStatus === "Ready" ) {
+      if (this.state.loadStatus === "Ready" &&  this.state.heroStatus === "Ready") {
         heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
       }
     }
@@ -114,7 +114,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
-        { ( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  ) }
+        { ( (this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
 
@@ -153,7 +153,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
           { ( this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
-          { ( this.props.heroType === "inLine" ? ( heroFullLineBuild ) : ""  ) }
+          { ( ( this.props.heroType === "inLine"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
             { ( tileBuild ) }
             { /* Originally instead of this:  ( tileBuild ) */ }           
@@ -169,7 +169,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 
         </div>
-        { ( this.props.heroType === "footer" ? ( heroFullLineBuild ) :""  ) }
+        { ( (this.props.heroType === "footer"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) :""  ) }
       </div>
       </div>
     );
@@ -207,8 +207,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private minimizeTiles = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-//    console.log('minimizeTiles: ')
-//    console.log(this.state);
+    console.log('minimizeTiles: ')
+    console.log(this.state);
+    console.log(item);
+
+
     let newFilteredTiles = [];
 
     this.setState({
@@ -313,6 +316,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     console.log('Updated hero settings:');
     console.log('heroSize: ' + heroSize + '  heroRatio:' + heroRatio + '  heroFit:' + heroFit + '  heroCover:' + heroCover );
+    console.log('this.props.setTab: ' + this.props.setTab );
 
     for (let thisTile of newHeros) {
       thisTile.setTab = this.props.setTab;
@@ -362,6 +366,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     if ( this.props.listWebURL.length > 0 ){
       let web = new Web(this.props.listWebURL);
 
+      const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+      console.log('fixedURL after fixing');
+      console.log(fixedURL);   
 /*
 For hero filtering, try this... works with single category but not array yet.
 
@@ -401,8 +408,13 @@ console.log(filtered);
             return;
           }
 
+          const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+          const listURL = fixedURL + "lists/" + this.props.listTitle;
+          const currentPageUrl = this.props.listWebURL + this.context.site.serverRequestPath;
+          const editItemURL = listURL + "/EditForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
+
           let pivotProps = this.props;
-          let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps);
+          let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
 
           let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
 
@@ -422,16 +434,18 @@ console.log(filtered);
           heroTiles = [randomItem];
 
           let heroIds = [];
-          for (let thisTile of heroTiles) {
-            heroIds.push(thisTile.Id.toString());
-          }          
+          if (heroTiles[0]) {
+            for (let thisTile of heroTiles) {
+              heroIds.push(thisTile.Id.toString());
+            }     
+          }
           
           let newFilteredTiles = [];
           for (let thisTile of tileCollection) {
             if(thisTile.category.indexOf(this.props.setTab) > -1) {
 
               let showThisTile = true;
-              if (this.props.heroType !== 'none') {
+              if (this.props.heroType !== 'none' && heroTiles[0]) {
                 showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
               }
               if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
@@ -444,6 +458,7 @@ console.log(filtered);
             filteredTiles: newFilteredTiles,
             pivotDefSelKey: defaultSelectedKey,
             loadStatus:"Ready",
+            heroStatus: heroTiles[0] ? "Ready" : "none",
             heroTiles : heroTiles,
             heroIds: heroIds,
           });
@@ -458,6 +473,8 @@ console.log(filtered);
 
     } else {
 
+
+
         sp.web.lists.getByTitle(useTileList).items
           .select(selectCols).filter(restFilter).orderBy(restSort,true).get()
           .then((response) => {
@@ -468,10 +485,15 @@ console.log(filtered);
               this.setState({  loadStatus: "NoItemsFound"  })
               return
             }
-            
-            let pivotProps = this.props;
-            let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps);
+
+            const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+            const listURL = fixedURL + "lists/" + this.props.listTitle;
+            const currentPageUrl = this.props.pageContext.web.absoluteUrl + this.props.pageContext.site.serverRequestPath;
+            const editItemURL = listURL + "/DispForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
   
+            let pivotProps = this.props;
+            let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
+
             let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
             
             const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
@@ -486,20 +508,28 @@ console.log(filtered);
               }
             }
             
+
+            console.log('Here is heroTiles length')
+            console.log(heroTiles.length);
+            console.log(heroTiles);
+
             var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
             heroTiles = [randomItem];
   
+
             let heroIds = [];
-            for (let thisTile of heroTiles) {
-              heroIds.push(thisTile.Id.toString());
-            }          
+            if (heroTiles[0]) {
+              for (let thisTile of heroTiles) {
+                heroIds.push(thisTile.Id.toString());
+              }     
+            }
             
             let newFilteredTiles = [];
             for (let thisTile of tileCollection) {
               if(thisTile.category.indexOf(this.props.setTab) > -1) {
   
                 let showThisTile = true;
-                if (this.props.heroType !== 'none') {
+                if (this.props.heroType !== 'none' && heroTiles[0]) {
                   showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
                 }
                 if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
@@ -512,6 +542,7 @@ console.log(filtered);
               filteredTiles: newFilteredTiles,
               pivotDefSelKey: defaultSelectedKey,
               loadStatus:"Ready",
+              heroStatus: heroTiles[0] ? "Ready" : "none",
               heroTiles : heroTiles,
               heroIds: heroIds,
             });

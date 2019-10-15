@@ -5,6 +5,7 @@ import { css, IImageProps, } from 'office-ui-fabric-react';
 
 import styles from './PivotTileItem.module.scss';
 import tUtils from './utilTiles'
+import Utils from './../PivotTiles/utils'
 
 import { IPivotTileItemProps } from './IPivotTileItemProps'
 import { IPivotTileItemState } from './IPivotTileItemState'
@@ -33,13 +34,27 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
   public specialClick(event): void {
     console.log(event);
     console.log(this);
+  /*  
+    const listURL = this.props.listWebURL + "lists/" + this.props.listTitle;
+    console.log(listURL);
+
+    const currentPageUrl = this.props.listWebURL + this.context.site.serverRequestPath;
+    console.log(currentPageUrl);
+
+    const editItemURL = listURL + "/EditForm.aspx?ID=" + this.props.Id + "&Source=" + currentPageUrl;
+    console.log(editItemURL);
+*/
     if (event.shiftKey) {
       if (event.altKey) {
         if (event.ctrlKey) {      
-          
-          const listURL = this.props.listWebURL + "lists/" + this.props.listTitle;
-          const editItemURL = listURL + "/EditForm.aspx?ID={" + this.props.Id + "}";
-          window.open(editItemURL, '_blank');
+
+
+  /*  
+          console.log(currentPageUrl);
+          console.log(listURL);
+          console.log(editItemURL);
+          */
+          window.open(this.props.listWebURL, '_blank');
 
           event.preventDefault();
           return
