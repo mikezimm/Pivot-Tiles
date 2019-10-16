@@ -47,9 +47,12 @@ define([], function() {
     "defColGoToLink" : "TileHrefLink",
     "defColOpenBehaviour" : "",
     "defColImageLink" : "TileBgImageUrl",
-    "defColSort" : "Order1"
+    "defColSort" : "Order1",
 
 
-    
+    "Property_ImageWidth_Label": "Tile width",
+    "Property_ImageHeight_Label": "Tile height",
+    "Property_TextPadding_Label": "Text padding",
+
   }
 });

@@ -53,6 +53,10 @@ declare interface IPivotTilesWebPartStrings {
 
   pivtTitles?:string[];
   
+  Property_ImageWidth_Label: string;
+  Property_ImageHeight_Label: string;
+  Property_TextPadding_Label: string;
+  
 }
 
 declare module 'PivotTilesWebPartStrings' {

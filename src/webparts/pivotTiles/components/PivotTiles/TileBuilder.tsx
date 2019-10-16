@@ -54,6 +54,11 @@ export function heroBuilder(parentProps,parentState){
           setImgCover={newTile.setImgCover}
           target={newTile.target}
           heroType = {newTile.heroType}
+
+          imageWidth = {parentProps.imageWidth}
+          imageHeight = {parentProps.imageHeight}
+          textPadding = {parentProps.textPadding}
+
           />
         ));
     } else { heroFullLineBuild = ""; }
@@ -87,6 +92,9 @@ export function tileBuilder(parentProps,parentState){
       setImgCover={newTile.setImgCover}
       target={newTile.target}
       heroType = {'none'}
+      imageWidth = {parentProps.imageWidth}
+      imageHeight = {parentProps.imageHeight}
+      textPadding = {parentProps.textPadding}
       />
   ));
     //      setImgFit={newTile.setRatio = '1x1'? 'portrait' : newTile.setImgFit}

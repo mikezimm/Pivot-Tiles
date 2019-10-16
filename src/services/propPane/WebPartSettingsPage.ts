@@ -6,7 +6,8 @@ import {
     PropertyPaneTextField, IPropertyPaneTextFieldProps,
     PropertyPaneLink, IPropertyPaneLinkProps,
     PropertyPaneDropdown, IPropertyPaneDropdownProps,
-    IPropertyPaneDropdownOption
+    IPropertyPaneDropdownOption,
+    PropertyPaneSlider
   } from '@microsoft/sp-webpart-base';
   
   import * as strings from 'PivotTilesWebPartStrings';
@@ -42,6 +43,7 @@ import {
                 label: strings.heroChoices,
                 options: imageOptionsGroup.heroChoices,
               }),
+              
               PropertyPaneTextField('heroCategory', {
                 label: strings.heroCategory
               }),
@@ -61,6 +63,21 @@ import {
               PropertyPaneDropdown('setImgCover', <IPropertyPaneDropdownProps>{
                 label: strings.setImgCover,
                 options: imageOptionsGroup.imgCoverChoices,
+              }),
+              PropertyPaneSlider('imageWidth', {
+                label: strings.Property_ImageWidth_Label,
+                min: 100,
+                max: 300,
+              }),
+              PropertyPaneSlider('imageHeight', {
+                label: strings.Property_ImageHeight_Label,
+                min: 100,
+                max: 300,
+              }),
+              PropertyPaneSlider('textPadding', {
+                label: strings.Property_TextPadding_Label,
+                min: 2,
+                max: 20
               }),
 
             ]}, // this group

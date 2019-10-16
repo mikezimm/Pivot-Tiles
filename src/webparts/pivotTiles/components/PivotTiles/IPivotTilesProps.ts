@@ -36,6 +36,10 @@ export interface IPivotTilesProps {
   colSort: string;
   colTileStyle: string;
 
+  imageWidth: number;
+  imageHeight: number;
+  textPadding: number;
+
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
   convertCategoryToIndex?(cat:string) : string;
 }

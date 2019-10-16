@@ -71,23 +71,35 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
       var iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
     }
     
+    let thisTop = `${this.props.imageHeight / 3 * 2}px`;
+    let thisHeight = `${this.props.imageHeight}px`;
+    let thisWidth = `${this.props.imageWidth}px`;
+    //let imgURL = (item[this.props.backgroundImageField]) ? item[this.props.backgroundImageField].Url : this.props.fallbackImageUrl;
+    //let thisTarget = (item[this.props.newTabField]) ? "_blank" : "";
+    //let thisHref = (item[this.props.linkField]) ? item[this.props.linkField].Url : "#";
+    let thisPadding = `${this.props.textPadding}px`;
+
     return (
       <div>
         <a href={this.props.href} 
           className={styles.pivotTiles}
+          style={{ width: thisWidth, height: thisHeight }}
           target={imageOptionsGroup.getTarget(this.props.target)}
           role="listitem" 
           onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}
           onClick={this.specialClick.bind(this)}
           >
-          <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}>
+          <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}
+            style={{ width: thisWidth, height: thisHeight }} 
+            >
 
             <Image 
               className={iStyles.iItemImage} 
               src={this.props.imageUrl} 
               shouldFadeIn={true} 
               imageFit={imageOptionsGroup.getImgFit(this.props.setImgFit)}
-              coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}           
+              coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}   
+              style={{ width: thisWidth, height: thisHeight }}        
             />
 
             <div className={[iStyles.iHovPan, 
@@ -95,7 +107,10 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
               this.state.hovering === true  ? iStyles.iHovPanExp
               : this.state.hovering === false  ? iStyles.iHovPanNot
               : iStyles.iHovPanNot
-              ].join(" ")}>
+              ].join(" ")}
+              style={{ width: thisWidth, height: thisHeight }} 
+              >
+
               <div className={iStyles.iTitle}>{this.props.title}</div>
               <div className={styles.pTileItemDesc}>{this.props.description}</div>
             </div>

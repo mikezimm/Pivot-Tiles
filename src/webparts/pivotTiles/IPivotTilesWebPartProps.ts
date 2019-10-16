@@ -35,4 +35,9 @@ export interface IPivotTilesWebPartProps {
   colSort: string;
   colTileStyle: string;
 
+  imageWidth: number;
+  imageHeight: number;
+  textPadding: number;
+
+
   }

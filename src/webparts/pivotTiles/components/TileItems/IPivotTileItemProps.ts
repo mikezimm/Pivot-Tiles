@@ -24,4 +24,8 @@ export interface IPivotTileItemProps {
   target: string;
   
   parentCat?:string;
+
+  imageWidth: number;
+  imageHeight: number;
+  textPadding: number;
 }
