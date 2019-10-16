@@ -167,23 +167,24 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       const hasValues = Object.keys(newMap).length
 
       if (hasValues !== 0) {
+        
         console.log('Found List Defintion... updating column name props');
-       
-       this.properties.listTitle = newMap.listDisplay;        
-       this.properties.colTitleText = newMap.listMapping.colTitleText;   
-       this.properties.colHoverText = newMap.listMapping.colHoverText;   
-       this.properties.colCategory = newMap.listMapping.colCategory;   
-       this.properties.colColor = newMap.listMapping.colColor;   
-       this.properties.colSize = newMap.listMapping.colSize;   
-       this.properties.colGoToLink = newMap.listMapping.colGoToLink;   
-       this.properties.colOpenBehaviour = newMap.listMapping.colOpenBehaviour;   
-       this.properties.colImageLink = newMap.listMapping.colImageLink;   
-       this.properties.colSort = newMap.listMapping.colSort;   
-       this.properties.colTileStyle = newMap.listMapping.colTileStyle;   
-
+        
+        this.properties.listTitle = newMap.listDisplay;
+        this.properties.colTitleText = newMap.listMapping.colTitleText;
+        this.properties.colHoverText = newMap.listMapping.colHoverText;
+        this.properties.colCategory = newMap.listMapping.colCategory;
+        this.properties.colColor = newMap.listMapping.colColor;
+        this.properties.colSize = newMap.listMapping.colSize;
+        this.properties.colGoToLink = newMap.listMapping.colGoToLink;
+        this.properties.colOpenBehaviour = newMap.listMapping.colOpenBehaviour;
+        this.properties.colImageLink = newMap.listMapping.colImageLink;
+        this.properties.colSort = newMap.listMapping.colSort;
+        this.properties.colTileStyle = newMap.listMapping.colTileStyle;
 
       } else {
         console.log('Did NOT List Defintion... updating column name props');
+
       }
 
 
