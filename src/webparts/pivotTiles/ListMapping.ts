@@ -11,6 +11,8 @@
         {   index: 1,   key: 'AEInspiredTiles', text: "AEInspiredTiles"  },
         {   index: 2,   key: 'PromotedLinks', text: "Promoted Links"  },
         {   index: 3,   key: 'QuickLinks', text: "Quick Links"  },
+        {   index: 4,   key: 'MediaLibrary', text: "Media Library"  },
+        {   index: 5,   key: 'DocumentLibrary', text: "Document Library"  },
         {   index: 9,   key: 'none', text: "Unknown"  },
     ];
 
@@ -65,34 +67,53 @@
                 "listName" : "PromotedLinks",
                 "tabDefault" : false,
                 "listMapping" : {
-                    "colTitleText" : "",
+                    "colTitleText" : "Title",
                     "colHoverText" : "",
                     "colCategory" : "",
                     "Color" : "",
                     "colSize" : "",
                     "colGoToLink" : "LinkLocation",
-                    "colOpenBehaviour" : "",
+                    "colOpenBehaviour" : "LaunchBehavior",
                     "colImageLink" : "BackgroundImageLocation",
                     "colSort" : "TileOrder"
                 }
             }
             
-        } else if (findMe === 'QuickLinks') {
+        } else if (findMe === 'MediaLibrary') {
             listMap = {
-                "listDef" : "Quick Links",
-                "listDisplay" : "Quick Links",
-                "listName" : "QuickLinks",
+                "listDef" : "Media Library",
+                "listDisplay" : "Media Library",
+                "listName" : "MediaLibrary",
                 "tabDefault" : false,
                 "listMapping" : {
-                    "colTitleText" : "",
-                    "colHoverText" : "",
-                    "colCategory" : "",
+                    "colTitleText" : "NameOrTitle",
+                    "colHoverText" : "Editor.UserName",
+                    "colCategory" : "Editor.UserName",
                     "Color" : "",
                     "Size" : "",
                     "GoToLink" : "",
                     "colOpenBehaviour" : "",
-                    "ImageLink" : "",
-                    "Sort" : ""
+                    "ImageLink" : "AlternateThumbnailUrl.Url",
+                    "Sort" : "Title"
+                }
+            }
+            
+        } else if (findMe === 'DocumentLibrary') {
+            listMap = {
+                "listDef" : "Document Library",
+                "listDisplay" : "Document Library",
+                "listName" : "DocumentLibrary",
+                "tabDefault" : false,
+                "listMapping" : {
+                    "colTitleText" : "LinkFilename",
+                    "colHoverText" : "Editor.UserName",
+                    "colCategory" : "Editor.UserName",
+                    "Color" : "",
+                    "Size" : "",
+                    "GoToLink" : "_ShortcutUrl.Url",
+                    "colOpenBehaviour" : "",
+                    "ImageLink" : "AlternateThumbnailUrl.Url",
+                    "Sort" : "Title"
                 }
             }
             

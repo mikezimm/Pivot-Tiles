@@ -74,6 +74,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     let thisTop = `${this.props.imageHeight / 3 * 2}px`;
     let thisHeight = `${this.props.imageHeight}px`;
     let thisWidth = `${this.props.imageWidth}px`;
+    let thisFit = this.props.setImgFit.indexOf('cover') ?  'cover' : 'contain';
     //let imgURL = (item[this.props.backgroundImageField]) ? item[this.props.backgroundImageField].Url : this.props.fallbackImageUrl;
     //let thisTarget = (item[this.props.newTabField]) ? "_blank" : "";
     //let thisHref = (item[this.props.linkField]) ? item[this.props.linkField].Url : "#";
@@ -98,8 +99,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
               src={this.props.imageUrl} 
               shouldFadeIn={true} 
               imageFit={imageOptionsGroup.getImgFit(this.props.setImgFit)}
-              coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}   
-              style={{ width: thisWidth, height: thisHeight }}        
+              coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}      
             />
 
             <div className={[iStyles.iHovPan, 
