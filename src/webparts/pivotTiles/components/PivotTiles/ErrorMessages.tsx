@@ -3,7 +3,7 @@ import {  } from '@microsoft/sp-webpart-base';
 import * as React from 'react';
 import styles from './PivotTiles.module.scss';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import Utils from './utils'
+import Utils from './utils';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -41,6 +41,8 @@ export function buildTips(parentProps,parentState){
               target="">
               Click Me to add a new Tile!
             </Link></p>
+          <h3>If the webpart loads, but you are missing something (like Title or Images)</h3>
+          <p>Check to make sure your columns are based on Static Names in the web part properties.</p>
 
       </div>
   </div>;
@@ -66,11 +68,13 @@ export function NoListFound (parentProps,parentState) {
 
     const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
 
+    const errMessage = SanitizeErrorMessage(parentState.loadError);
 
     const noListFound = 
     <div className={styles.rowNoPad}>
       <div className={parentState.loadStatus === "ListNotFound" ? styles.showErrorMessage : styles.hideMe }>
-          <h1>Tile List was not found: {parentProps.listTitle}</h1>
+          <h1>We had a problem getting your data: {parentProps.listTitle}</h1>
+          {errMessage}
           Check your site contents for list:  <Link href={fixedURL + "_layouts/15/viewlsts.aspx"} target="_blank">{fixedURL}</Link>
 
           <h2>Other common causes for this message</h2>
@@ -93,10 +97,15 @@ export function NoItemsFound (parentProps,parentState) {
 //  console.log(parentProps);
 
     const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
+
+    const errMessage = SanitizeErrorMessage(parentState.loadError);
+
     const noItemsFound = 
     <div className={styles.rowNoPad}>
       <div className={parentState.loadStatus === "NoItemsFound" ? styles.showErrorMessage : styles.hideMe }>
+        <p>{parentState.loadError}</p>
         <h1>No items were found in your tile list: {parentProps.listTitle}</h1>
+        {errMessage}
         <p>This is the filter we are using: <b>{parentProps.setFilter}</b></p>
         <p>Looking here:</p>
         <p><Link href={fixedURL + "lists/" + parentProps.listTitle} 
@@ -109,4 +118,49 @@ export function NoItemsFound (parentProps,parentState) {
 
   
       return noItemsFound;
+}
+
+export function SanitizeErrorMessage(errIn) {
+
+  let err = JSON.stringify(errIn);
+  if (errIn === "") {
+    return "";
+  }
+
+  let errType = "";
+  if (err.indexOf("[400]") > 0 ) {
+    errType = "[400] Bad Request?";
+
+  } else if  (err.indexOf("[403]") > 0 ) {
+    errType = "[403] Insufficient Permissions?";
+
+  } else if  (err.indexOf("[500]") > 0 ) {
+    errType = "[500] Internal Server Error?";
+
+  } else if  (err.indexOf("[503]") > 0 ) {
+    errType = "[503] Server Busy?";
+
+  } 
+
+  let messStart = err.indexOf('message');
+  let errValue = "";
+  if (messStart > 0 ) {
+    let valueStart = err.indexOf('value',messStart);
+    if (err.indexOf('value',valueStart) > 0 ) {
+      errValue = err.slice(valueStart + 9, valueStart + 1000);
+      errValue = errValue.replace(/[}]/g,'').replace(/[\/]/g,'').replace(/[\"\\]/g,'');
+    } else {
+      errValue = err;
+    }
+  }
+
+  const thisError = 
+    <div>
+      <h2>{errType}</h2>
+      <p><mark>{errValue}</mark></p>
+      <p></p>
+    </div>;
+
+    return thisError;
+
 }

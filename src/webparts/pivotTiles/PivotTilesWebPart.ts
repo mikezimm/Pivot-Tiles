@@ -169,7 +169,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       //this.properties.colTitleText = "TitleTextChanged!";
 
       let newMap = listMapping.getListColumns(newValue);
-      const hasValues = Object.keys(newMap).length
+      const hasValues = Object.keys(newMap).length;
 
       if (hasValues !== 0) {
 
@@ -199,7 +199,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     let updateOnThese = [
       'setSize','setPivSize','heroCategory','setPivFormat','setImgFit','setImgCover','heroType','target',
       'imageWidth','imageHeight','textPadding',
-    ]
+    ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {
       console.log("Hey there! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);

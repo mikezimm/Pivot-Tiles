@@ -41,6 +41,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       pivotDefSelKey:"",
       loadStatus:"Loading",
       showTips: "none",
+      loadError: "",
 
     };
     /*
@@ -74,13 +75,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     //alert('componentDidUpdate 1');
 
     let rebuildTiles = false;
-    if (this.props.setTab !== prevProps.setTab) {  rebuildTiles = true  }
-    if (this.props.setSize !== prevProps.setSize) {  rebuildTiles = true  }
-    if (this.props.heroType !== prevProps.heroType) {  rebuildTiles = true  }
-    if (this.props.setRatio !== prevProps.setRatio) {  rebuildTiles = true  }
-    if (this.props.setImgFit !== prevProps.setImgFit) {  rebuildTiles = true  }
-    if (this.props.setImgCover !== prevProps.setImgCover) {  rebuildTiles = true  }
-    if (this.props.heroCategory !== prevProps.heroCategory) {  rebuildTiles = true  }
+    if (this.props.setTab !== prevProps.setTab) {  rebuildTiles = true ; }
+    if (this.props.setSize !== prevProps.setSize) {  rebuildTiles = true ; }
+    if (this.props.heroType !== prevProps.heroType) {  rebuildTiles = true ; }
+    if (this.props.setRatio !== prevProps.setRatio) {  rebuildTiles = true ; }
+    if (this.props.setImgFit !== prevProps.setImgFit) {  rebuildTiles = true ; }
+    if (this.props.setImgCover !== prevProps.setImgCover) {  rebuildTiles = true ; }
+    if (this.props.heroCategory !== prevProps.heroCategory) {  rebuildTiles = true ; }
 
     if (rebuildTiles === true) {
 
@@ -90,7 +91,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
   public render(): React.ReactElement<IPivotTilesProps> {
-    let heroFullLineBuild = ""
+    let heroFullLineBuild = "";
 
     if (this.props.heroCategory) {
       if (this.state.loadStatus === "Ready" &&  this.state.heroStatus === "Ready") {
@@ -177,7 +178,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   private _handleSettingsIconClick = (item: PivotItem): void => {
     alert('Hi!');
-  };
+  }
 
 
   private onLinkClick = (item: PivotItem): void => {
@@ -191,9 +192,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
           let showThisTile = true;
           if (this.props.heroType !== 'none') {
-            showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
+            showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
           }
-          if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
+          if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
         }
     }
 
@@ -207,7 +208,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private minimizeTiles = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-    console.log('minimizeTiles: ')
+    console.log('minimizeTiles: ');
     console.log(this.state);
     console.log(item);
 
@@ -238,7 +239,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     const thisItemKey :string = Utils.convertCategoryToIndex(pivT);
       return (
         <PivotItem headerText={pivT} itemKey={thisItemKey}/>
-      )
+      );
   }
 
   public createPivots(thisState){
@@ -362,7 +363,28 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     }
 
     let selectCols: string = "*";
-    
+    let expandThese = "";
+
+    // In future, loop through all columns to look for these types
+
+        let splitCol = this.props.colTitleText.split("/");
+        let leftSide = splitCol[0];
+        let rightSide = splitCol[1];
+
+        //selectCols += leftSide + ","
+
+        if(rightSide) {
+          if(expandThese.indexOf(rightSide) < 0) {            
+            expandThese += rightSide + ",";
+          }
+        }
+
+    console.log("selectThese = " + selectCols);
+    console.log("expandThese = " + expandThese);
+
+
+
+
     if ( this.props.listWebURL.length > 0 ){
       let web = new Web(this.props.listWebURL);
 
@@ -400,7 +422,7 @@ console.log(filtered);
 
 
       web.lists.getByTitle(useTileList).items
-      .select(selectCols).filter(restFilter).orderBy(restSort,true).get().then
+      .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get().then
         ((response) => {
 
           if (response.length===0){
@@ -446,9 +468,9 @@ console.log(filtered);
 
               let showThisTile = true;
               if (this.props.heroType !== 'none' && heroTiles[0]) {
-                showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
+                showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
               }
-              if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
+              if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
             }
           }
 
@@ -461,6 +483,7 @@ console.log(filtered);
             heroStatus: heroTiles[0] ? "Ready" : "none",
             heroTiles : heroTiles,
             heroIds: heroIds,
+            loadError: "",
           });
 
         }).catch((e) => {
@@ -468,7 +491,11 @@ console.log(filtered);
           //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
           //alert(m);
           console.log(e);
-          this.setState({  loadStatus: "ListNotFound" });
+          console.log(e.status);
+          console.log(e.message);
+          let sendMessage = e.status + " - " + e.message;
+
+          this.setState({  loadStatus: "ListNotFound", loadError: e.message });
         });
 
     } else {
@@ -476,14 +503,14 @@ console.log(filtered);
 
 
         sp.web.lists.getByTitle(useTileList).items
-          .select(selectCols).filter(restFilter).orderBy(restSort,true).get()
+          .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
           .then((response) => {
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //           https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
 
             if (response.length===0){
-              this.setState({  loadStatus: "NoItemsFound"  })
-              return
+              this.setState({  loadStatus: "NoItemsFound"  });
+              return ;
             }
 
             const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
@@ -509,7 +536,7 @@ console.log(filtered);
             }
             
 
-            console.log('Here is heroTiles length')
+            console.log('Here is heroTiles length');
             console.log(heroTiles.length);
             console.log(heroTiles);
 
@@ -530,9 +557,9 @@ console.log(filtered);
   
                 let showThisTile = true;
                 if (this.props.heroType !== 'none' && heroTiles[0]) {
-                  showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true
+                  showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
                 }
-                if (showThisTile === true) {newFilteredTiles.push(thisTile)} ;
+                if (showThisTile === true) {newFilteredTiles.push(thisTile);}
               }
             }
   
@@ -545,6 +572,7 @@ console.log(filtered);
               heroStatus: heroTiles[0] ? "Ready" : "none",
               heroTiles : heroTiles,
               heroIds: heroIds,
+              loadError: "",
             });
 
           }).catch((e) => {
@@ -552,7 +580,11 @@ console.log(filtered);
             //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
             //alert(m);
             console.log(e);
-            this.setState({  loadStatus: "ListNotFound"  });
+            console.log(e.status);
+            console.log(e.message);
+            let sendMessage = e.status + " - " + e.message;
+  
+            this.setState({  loadStatus: "ListNotFound", loadError: e.message });
           });
 
     }

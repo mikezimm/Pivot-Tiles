@@ -4,11 +4,11 @@ import { Image, ImageFit, } from 'office-ui-fabric-react/lib/Image';
 import { css, IImageProps, } from 'office-ui-fabric-react';
 
 import styles from './PivotTileItem.module.scss';
-import tUtils from './utilTiles'
-import Utils from './../PivotTiles/utils'
+import tUtils from './utilTiles';
+import Utils from './../PivotTiles/utils';
 
-import { IPivotTileItemProps } from './IPivotTileItemProps'
-import { IPivotTileItemState } from './IPivotTileItemState'
+import { IPivotTileItemProps } from './IPivotTileItemProps';
+import { IPivotTileItemState } from './IPivotTileItemState';
 
 import { imageOptionsGroup, } from '../../../../services/propPane';
 
@@ -57,7 +57,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
           window.open(this.props.listWebURL, '_blank');
 
           event.preventDefault();
-          return
+          return ;
         }
       }
     }

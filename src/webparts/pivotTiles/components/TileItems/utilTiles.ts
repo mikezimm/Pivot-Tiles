@@ -4,7 +4,7 @@ import styles from './PivotTileItem.module.scss';
 
 export default class StyleUtils {
 
-  static getTheseStyles(height,width) {
+  public static getTheseStyles(height,width) {
 
     var tileFit = ["", height, 'by', width].join("");
     var iWrap = styles.pTileItemWrapper;
@@ -101,7 +101,7 @@ export default class StyleUtils {
         iHovPanExp = styles.pTileItemHoverPanelExpanded300;
         iHovPanNot = styles.pTileItemHoverPanelNotExpanded300;
 
-    } 
+    }
 
     var thisStyle = {
         "iWrap": iWrap,
@@ -111,7 +111,7 @@ export default class StyleUtils {
         "iHovPanNot": iHovPanNot,
         "iItemImage": iItemImage,
         "iTitle": iTitle,
-    }
+    };
 
     /*
     console.log("getTheseStyles: tileFit =" + tileFit);
@@ -119,12 +119,12 @@ export default class StyleUtils {
     console.log(thisStyle);    
     */
 
-    return thisStyle
+    return thisStyle;
 
   }
 
-  static getHeroStyles(height,width, heroType) {
-    var tileFit = ""
+  public static getHeroStyles(height,width, heroType) {
+    var tileFit = "";
     var iWrap = styles.pTileItemWrapper;
     var iWrapExp = styles.pTileItemWrapperExpanded;
     var iHovPan = styles.pTileItemHoverPanel;
@@ -194,7 +194,7 @@ export default class StyleUtils {
         "iHovPanNot": iHovPanNot,
         "iItemImage": iItemImage,
         "iTitle": iTitle,
-    }
+    };
 
     
 //    console.log('getHeroStyles:  heroStyle');
@@ -206,7 +206,7 @@ export default class StyleUtils {
     console.log(thisStyle);    
     */
 
-    return heroStyle
+    return heroStyle;
   }
 
 }

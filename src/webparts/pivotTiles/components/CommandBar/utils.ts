@@ -2,16 +2,12 @@
 
 export class Utils {
 
-  
-    static doSomething(val: string) { return val; }
-    static doSomethingElse(val: string) { return val; }
-
-    static getMainItems() {
-      return []
+    public static getMainItems() {
+      return [];
     }
 
-    static getOverlflowItems() {
-      return []
+    public static getOverlflowItems() {
+      return [];
     }
     
     public static getFarItems(toggleTips,minimize) {
@@ -34,7 +30,7 @@ export class Utils {
           },
           onClick: () => toggleTips()
         },
-      ]
+      ];
     }
 
     private getItemsExample = () => {
@@ -93,7 +89,7 @@ export class Utils {
           onClick: () => console.log('Download')
         }
       ];
-    };
+    }
   
     private getOverlflowItemsExample = () => {
       return [
@@ -122,7 +118,7 @@ export class Utils {
           }
         }
       ];
-    };
+    }
   
     private getFarItemsExample = () => {
       return [
@@ -156,6 +152,6 @@ export class Utils {
           onClick: () => console.log('Info')
         }
       ];
-    };
+    }
 
 }

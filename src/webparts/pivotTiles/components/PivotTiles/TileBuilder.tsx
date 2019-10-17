@@ -3,7 +3,7 @@ import {  } from '@microsoft/sp-webpart-base';
 import * as React from 'react';
 import styles from './PivotTiles.module.scss';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import Utils from './utils'
+import Utils from './utils';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import PivotTileItem from './../TileItems/PivotTileItem';
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {

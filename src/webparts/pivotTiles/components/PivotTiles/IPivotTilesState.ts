@@ -1,4 +1,4 @@
-import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
+import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 
 export interface IPivotTilesState {
 
@@ -14,5 +14,6 @@ export interface IPivotTilesState {
   loadStatus?: string;
   heroStatus?: string;
   showTips?: string;
+  loadError?: string;
 
 }

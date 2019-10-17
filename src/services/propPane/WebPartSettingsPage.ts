@@ -100,7 +100,7 @@ import {
             ]}, // this group
 
 
-          ]} // Groups
+          ]}; // Groups
     } // getPropertyPanePage()
 
   } // WebPartSettingsPage

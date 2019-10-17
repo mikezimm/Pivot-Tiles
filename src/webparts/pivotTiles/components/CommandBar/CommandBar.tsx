@@ -118,7 +118,7 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
             onClick: () => console.log('Download')
           }
         ];
-      };
+      }
     
       private getOverlflowItemsExample = () => {
         return [
@@ -147,7 +147,7 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
             }
           }
         ];
-      };
+      }
     
       private getFarItemsExample = () => {
         return [
@@ -181,6 +181,6 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
             onClick: () => console.log('Info')
           }
         ];
-      };
+      }
   }
   

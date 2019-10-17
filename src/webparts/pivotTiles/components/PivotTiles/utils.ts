@@ -1,11 +1,9 @@
 //Utils Concept from:  https://stackoverflow.com/questions/32790311/how-to-structure-utility-class
 
 export default class Utils {
-    static doSomething(val: string) { return val; }
-    static doSomethingElse(val: string) { return val; }
 
     
-  static convertCategoryToIndex(cat: string) {
+  public static convertCategoryToIndex(cat: string) {
     //https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript
     //string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
     if (cat){
@@ -16,7 +14,7 @@ export default class Utils {
 
   }
 
-  static fixURLs(oldURL,pageContext) {
+  public static fixURLs(oldURL,pageContext) {
     let newURL = oldURL;
     if (newURL.length === 0) {
       newURL = pageContext.web.absoluteUrl;
@@ -25,7 +23,7 @@ export default class Utils {
     return newURL;
   }
 
-  static buildTileCollectionFromResponse(response, pivotProps, fixedURL){
+  public static buildTileCollectionFromResponse(response, pivotProps, fixedURL){
 
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
@@ -89,7 +87,7 @@ export default class Utils {
 
   }
 
-  static buildTileCategoriesFromResponse(response, pivotProps){
+  public static buildTileCategoriesFromResponse(response, pivotProps){
 
     let tileCategories = [];
     for (let tile of response) {

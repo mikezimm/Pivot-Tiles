@@ -30,17 +30,17 @@ import {
 
     public getPivFormat (findMe) {
         if (findMe === 'tabs') {
-            return PivotLinkFormat.tabs
+            return PivotLinkFormat.tabs;
         } else {
-            return PivotLinkFormat.links
+            return PivotLinkFormat.links;
         }
     }
     
     public getPivSize (findMe) {
         if (findMe === 'large') {
-            return PivotLinkSize.large
+            return PivotLinkSize.large;
         } else {
-            return PivotLinkSize.normal
+            return PivotLinkSize.normal;
         }
     }
 

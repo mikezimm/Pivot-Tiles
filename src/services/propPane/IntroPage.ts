@@ -58,7 +58,7 @@ export class IntroPage {
             }),
         ]} // this group
       ]
-    } // </page1>
+    }; // </page1>
   } // getPropertyPanePage()
 }
 

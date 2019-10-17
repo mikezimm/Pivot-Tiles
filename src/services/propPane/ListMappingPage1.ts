@@ -61,7 +61,7 @@ import {
               ]
             }
           ]
-        } // <page3>
+        }; // <page3>
       } // getPropertyPanePage()
   }
 

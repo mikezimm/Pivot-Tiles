@@ -39,7 +39,7 @@
                     "colImageLink" : strings.defColImageLink,
                     "colSort" : strings.defColSort,
                 }
-            }
+            };
 
         } else if (findMe === 'AEInspiredTiles') {
             listMap = {
@@ -58,7 +58,7 @@
                     "colImageLink" : "TileBgImageUrl",
                     "colSort" : "Order1"
                 }
-            }
+            };
             
         } else if (findMe === 'PromotedLinks') {
             listMap = {
@@ -77,7 +77,7 @@
                     "colImageLink" : "BackgroundImageLocation",
                     "colSort" : "TileOrder"
                 }
-            }
+            };
             
         } else if (findMe === 'MediaLibrary') {
             listMap = {
@@ -96,7 +96,7 @@
                     "ImageLink" : "AlternateThumbnailUrl.Url",
                     "Sort" : "Title"
                 }
-            }
+            };
             
         } else if (findMe === 'DocumentLibrary') {
             listMap = {
@@ -115,7 +115,7 @@
                     "ImageLink" : "AlternateThumbnailUrl.Url",
                     "Sort" : "Title"
                 }
-            }
+            };
             
         }
         console.log('List Mapping for: ' + findMe );

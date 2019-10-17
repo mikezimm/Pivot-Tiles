@@ -1,4 +1,4 @@
-import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
+import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 import { PageContext } from '@microsoft/sp-page-context';
 
 export interface IPivotTilesProps {
