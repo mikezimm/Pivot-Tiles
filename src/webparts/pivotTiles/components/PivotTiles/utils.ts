@@ -116,17 +116,44 @@ export default class Utils {
     console.table(response);
     console.log(pivotProps.colCategory);
     console.log(pivotProps.colCategory.replace("/","."));
-    console.log(response[0][pivotProps.colCategory.replace("/",".")]);
+
+    let splitCol = pivotProps.colCategory.split("/");
+    let leftSide = splitCol[0];
+    let righttSide = splitCol[1];
+    console.log('leftSide: ' + leftSide);
+    console.log('righttSide: ' + righttSide);
+
     for (let tile of response) {
-      for (let category of tile[pivotProps.colCategory.replace("/",".")]) {
-        if(tileCategories.indexOf(category) === -1) {
-          tileCategories.push(category);
+      console.log(tile);
+      if (righttSide) {
+        // Use different notation for drilling down
+        console.log('buildTileCategoriesFromResponse category 0');  
+        let lookup = tile[leftSide];
+        console.log(lookup);
+        let detail = lookup[righttSide].toString();
+        console.log(detail);
+
+          console.log('buildTileCategoriesFromResponse category 1');
+          if(tileCategories.indexOf(detail) === -1) {
+            tileCategories.push(detail);
+          }
+
+        console.log('buildTileCategoriesFromResponse category 0');
+      } else {
+        for (let category of tile[pivotProps.colCategory]) {
+          console.log('buildTileCategoriesFromResponse category 2');
+          console.log(category);
+          if(tileCategories.indexOf(category) === -1) {
+            tileCategories.push(category);
+          }
         }
       }
+
     }
 
+    console.log(tileCategories);
     tileCategories.sort();
-
+    console.log(tileCategories);
     return tileCategories;
 
   }

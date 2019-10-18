@@ -523,12 +523,16 @@ console.log(filtered);
 
 
             let heroTiles = [];
-            for (let thisTile of tileCollection) {
-              if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
-                heroTiles.push(thisTile);
+            
+            console.log('tileCollection near heroTiles[]');
+            console.log(tileCollection);
+            if (this.props.showHero === true && this.props.heroCategory) {
+              for (let thisTile of tileCollection) {
+                if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
+                  heroTiles.push(thisTile);
+                }
               }
             }
-            
 
             console.log('Here is heroTiles length');
             console.log(heroTiles.length);
@@ -539,18 +543,20 @@ console.log(filtered);
   
 
             let heroIds = [];
-            if (heroTiles[0]) {
-              for (let thisTile of heroTiles) {
-                heroIds.push(thisTile.Id.toString());
-              }     
+            if (heroTiles.length > 0){
+              if (heroTiles[0]) {
+                for (let thisTile of heroTiles) {
+                  heroIds.push(thisTile.Id.toString());
+                }     
+              }  
             }
-            
+
             let newFilteredTiles = [];
             for (let thisTile of tileCollection) {
               if(thisTile.category.indexOf(this.props.setTab) > -1) {
   
                 let showThisTile = true;
-                if (this.props.heroType !== 'none' && heroTiles[0]) {
+                if (heroIds.length > 0 && this.props.heroType !== 'none' && heroTiles[0]) {
                   showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
                 }
                 if (showThisTile === true) {newFilteredTiles.push(thisTile);}
