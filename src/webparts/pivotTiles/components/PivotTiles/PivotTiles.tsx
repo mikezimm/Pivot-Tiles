@@ -606,7 +606,7 @@ console.log(filtered);
 
     let foundProps = [];
     for (let thisProp of foundKeys) {
-      if (thisProp && thisProp !== "" ) { foundProps.push(thisProps[thisProp]); console.log(foundProps) ;}
+      if (thisProp && thisProp !== "" ) { foundProps.push(thisProps[thisProp]) }
     }
 
     //console.log(foundKeys);

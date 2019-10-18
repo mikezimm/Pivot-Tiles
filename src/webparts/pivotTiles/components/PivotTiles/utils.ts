@@ -103,8 +103,8 @@ export default class Utils {
       setImgCover: pivotProps.setImgCover,
 
     }));
-    console.table("tileCollection");
-    console.table(tileCollection);
+    //console.table("tileCollection");
+    //console.table(tileCollection);
     return tileCollection;
 
   }

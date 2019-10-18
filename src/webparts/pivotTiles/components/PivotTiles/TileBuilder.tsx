@@ -17,7 +17,7 @@ export function heroBuilder(parentProps,parentState){
     let heroHeight = "";
     let imageFit = "";
 //    console.log(parentProps);
-//    console.log('heroBuilder State')
+//    console.log('heroBuilder State');
 //    console.log(parentState);
     if (parentProps.heroType === "header" || parentProps.heroType === "footer" || parentProps.heroType === "inLine"  ) {
       heroRatio = '1x1';

@@ -68,11 +68,13 @@ import {
                 label: strings.Property_ImageWidth_Label,
                 min: 100,
                 max: 300,
+                step: 25,
               }),
               PropertyPaneSlider('imageHeight', {
                 label: strings.Property_ImageHeight_Label,
                 min: 100,
                 max: 300,
+                step: 25,
               }),
               PropertyPaneSlider('textPadding', {
                 label: strings.Property_TextPadding_Label,
