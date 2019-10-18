@@ -42,6 +42,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       loadStatus:"Loading",
       showTips: "none",
       loadError: "",
+      lookupColumns: [],
 
     };
     /*
@@ -366,28 +367,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let selectCols: string = "*";
     let expandThese = "";
 
-    this.getKeysLike(this.props,"col","Begins");
-    this.getKeysLike(this.props,"lInk","ends");
-    this.getKeysLike(this.props,"Link","all");
-    // In future, loop through all columns to look for these types
+    let allColumns = this.getKeysLike(this.props,"col","Begins");
+    let expColumns = this.getExpandColumns(allColumns);
+    let selColumns = this.getSelectColumns(allColumns);
 
-        let splitCol = this.props.colTitleText.split("/");
-        let leftSide = splitCol[0];
-        let rightSide = splitCol[1];
 
-        //selectCols += leftSide + ","
+    selColumns.length > 0 ? selectCols += "," + selColumns.join(",") : selectCols = selectCols;
+    if (expColumns.length > 0) { expandThese = expColumns.join(",") }
 
-        if(rightSide) {
-          if(expandThese.indexOf(rightSide) < 0) {            
-            expandThese += rightSide + ",";
-          }
-        }
-
-    console.log("selectThese = " + selectCols);
+    
+    console.log("selectCols = " + selectCols);
     console.log("expandThese = " + expandThese);
-
-
-
 
     if ( this.props.listWebURL.length > 0 ){
       let web = new Web(this.props.listWebURL);
@@ -597,8 +587,8 @@ console.log(filtered);
 
   private getKeysLike(thisProps,findMe,findOp){
     //Sample call:  getKeysLike(this.props,"col","begins")
-    console.log('FoundProps that ' + findOp + ' with ' + findMe);
-    console.log(thisProps);
+    //console.log('FoundProps that ' + findOp + ' with ' + findMe);
+    //console.log(thisProps);
     const allKeys = Object.keys(thisProps);
     let foundKeys = [];
     const lFind = findMe.length;
@@ -616,11 +606,46 @@ console.log(filtered);
 
     let foundProps = [];
     for (let thisProp of foundKeys) {
-      foundProps.push(thisProps[thisProp]);
+      if (thisProp && thisProp !== "" ) { foundProps.push(thisProps[thisProp]); console.log(foundProps) ;}
     }
 
-    console.log(foundKeys);
+    //console.log(foundKeys);
     console.log(foundProps);
+
+    return foundProps;
+  }
+
+  private getSelectColumns(lookupColumns){
+
+    let baseSelectColumns = [];
+
+    for (let thisColumn of lookupColumns) {
+      // Only look at columns with / in the name
+      if (thisColumn && thisColumn.indexOf("/") > -1 ) {
+        let isLookup = thisColumn.indexOf("/");
+        if(isLookup) {
+          baseSelectColumns.push(thisColumn);
+        }
+      }
+    }
+    return baseSelectColumns;
+  }
+
+  private getExpandColumns(lookupColumns){
+
+    let baseExpandColumns = [];
+
+    for (let thisColumn of lookupColumns) {
+      // Only look at columns with / in the name
+      if (thisColumn && thisColumn.indexOf("/") > -1 ) {
+        let splitCol = thisColumn.split("/");
+        let leftSide = splitCol[0];
+        if(baseExpandColumns.indexOf(leftSide) < 0) {
+          baseExpandColumns.push(leftSide);
+        }
+      }
+    }
+    return baseExpandColumns;
   }
 
 }

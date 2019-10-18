@@ -34,11 +34,33 @@ export default class Utils {
     console.table(response);
 
     let tileCollection = response.map(item => ({
-      imageUrl: item[pivotProps.colImageLink],
-      title: item[pivotProps.colTitleText],
-      description: item[pivotProps.colHoverText],
-      href: item[pivotProps.colGoToLink],
-      category: item[pivotProps.colCategory],
+
+
+      imageUrl: 
+      ((pivotProps.colImageLink.indexOf("/") < 0 ))
+      ? item[pivotProps.colImageLink]
+      : item[pivotProps[pivotProps.colImageLink.replace("/",".")]],
+
+      title: 
+      ((pivotProps.colTitleText.indexOf("/") < 0 ))
+      ? item[pivotProps.colTitleText]
+      : item[pivotProps[pivotProps.colTitleText.replace("/",".")]],
+
+      description: 
+      ((pivotProps.colHoverText.indexOf("/") < 0 ))
+      ? item[pivotProps.colHoverText]
+      : item[pivotProps[pivotProps.colHoverText.replace("/",".")]],
+
+      href: 
+      ((pivotProps.colGoToLink.indexOf("/") < 0 ))
+      ? item[pivotProps.colGoToLink]
+      : item[pivotProps[pivotProps.colGoToLink.replace("/",".")]],
+
+      category: 
+      ((pivotProps.colCategory.indexOf("/") < 0 ))
+      ? item[pivotProps.colCategory]
+      : item[pivotProps[pivotProps.colCategory.replace("/",".")]],
+
       setTab: pivotProps.setTab,
       setSize: pivotProps.setSize,
       heroType: pivotProps.heroType,
@@ -90,8 +112,13 @@ export default class Utils {
   public static buildTileCategoriesFromResponse(response, pivotProps){
 
     let tileCategories = [];
+    console.table("tileCollection");
+    console.table(response);
+    console.log(pivotProps.colCategory);
+    console.log(pivotProps.colCategory.replace("/","."));
+    console.log(response[0][pivotProps.colCategory.replace("/",".")]);
     for (let tile of response) {
-      for (let category of tile[pivotProps.colCategory]) {
+      for (let category of tile[pivotProps.colCategory.replace("/",".")]) {
         if(tileCategories.indexOf(category) === -1) {
           tileCategories.push(category);
         }

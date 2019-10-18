@@ -15,5 +15,6 @@ export interface IPivotTilesState {
   heroStatus?: string;
   showTips?: string;
   loadError?: string;
+  lookupColumns?: string[];
 
 }
