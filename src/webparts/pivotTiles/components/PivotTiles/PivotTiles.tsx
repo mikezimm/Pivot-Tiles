@@ -60,6 +60,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this.toggleTips = this.toggleTips.bind(this);
     this.minimizeTiles = this.minimizeTiles.bind(this);
     
+    
   }
 
   public componentDidMount() {
@@ -365,6 +366,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let selectCols: string = "*";
     let expandThese = "";
 
+    this.getKeysLike(this.props,"col","Begins");
+    this.getKeysLike(this.props,"lInk","ends");
+    this.getKeysLike(this.props,"Link","all");
     // In future, loop through all columns to look for these types
 
         let splitCol = this.props.colTitleText.split("/");
@@ -590,6 +594,34 @@ console.log(filtered);
     }
 
   }  
+
+  private getKeysLike(thisProps,findMe,findOp){
+    //Sample call:  getKeysLike(this.props,"col","begins")
+    console.log('FoundProps that ' + findOp + ' with ' + findMe);
+    console.log(thisProps);
+    const allKeys = Object.keys(thisProps);
+    let foundKeys = [];
+    const lFind = findMe.length;
+
+    findMe = findMe.toLowerCase();
+    findOp = findOp.toLowerCase();
+
+    if (findOp==="begins") {
+      foundKeys = allKeys.filter(k => k.toLowerCase().indexOf(findMe) === 0);
+    } else if (findOp === "ends") {
+      foundKeys = allKeys.filter(k => k.toLowerCase().indexOf(findMe) === ( k.length - lFind));
+    } else {
+      foundKeys = allKeys.filter(k => k.toLowerCase().indexOf(findMe) > -1);
+    }
+
+    let foundProps = [];
+    for (let thisProp of foundKeys) {
+      foundProps.push(thisProps[thisProp]);
+    }
+
+    console.log(foundKeys);
+    console.log(foundProps);
+  }
 
 }
 
