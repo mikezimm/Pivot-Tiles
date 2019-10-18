@@ -46,6 +46,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         pageContext: this.context.pageContext,
         heroType: this.properties.heroType,
         heroCategory: this.properties.heroCategory,
+        showHero: this.properties.showHero,
 
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,
@@ -156,7 +157,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    return propertyPaneBuilder.getPropertyPaneConfiguration();
+    return propertyPaneBuilder.getPropertyPaneConfiguration(this.properties);
   }
 
   //Added this per AC Facebook post...
@@ -197,7 +198,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     }
 
     let updateOnThese = [
-      'setSize','setPivSize','heroCategory','setPivFormat','setImgFit','setImgCover','heroType','target',
+      'setSize','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','heroType','target',
       'imageWidth','imageHeight','textPadding',
     ];
 
@@ -207,56 +208,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       this.context.propertyPane.refresh();
 
     } else { //This can be removed if it works
-
-      
-      if (propertyPath === 'setSize') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.setSize = newValue;   
-        this.context.propertyPane.refresh();
-      }
-
-      if (propertyPath === 'setPivSize') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.setPivSize = newValue;    
-        this.context.propertyPane.refresh();
-      }
-
-      if (propertyPath === 'heroCategory') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.heroCategory = newValue;    
-        this.context.propertyPane.refresh();
-      }    
-
-      if (propertyPath === 'setPivFormat') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.setPivFormat = newValue;   
-        this.context.propertyPane.refresh();
-      }
-      
+     
       if (propertyPath === 'setImgFit') {
         console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
         this.properties.setImgFit = newValue;  
         this.context.propertyPane.refresh();
       }
-
-      if (propertyPath === 'setImgCover') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.setImgCover = newValue;    
-        this.context.propertyPane.refresh();
-      }
-      
-      if (propertyPath === 'heroType') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.heroType = newValue;    
-        this.context.propertyPane.refresh();
-      }
-
-      if (propertyPath === 'target') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.target = newValue;    
-        this.context.propertyPane.refresh();
-      }
-
 
     }
 

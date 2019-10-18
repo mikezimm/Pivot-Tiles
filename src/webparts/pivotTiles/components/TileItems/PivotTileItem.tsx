@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Image, ImageFit, } from 'office-ui-fabric-react/lib/Image';
 
-import { css, IImageProps, } from 'office-ui-fabric-react';
+import { css, IImageProps, sizeToPixels, } from 'office-ui-fabric-react';
 
 import styles from './PivotTileItem.module.scss';
 import tUtils from './utilTiles';
@@ -64,14 +64,8 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
   }
 
   public render(): React.ReactElement<IPivotTileItemProps> {
-
-    if (this.props.heroType === "none" || this.props.heroType === "") {
-      var iStyles= tUtils.getTheseStyles(this.props.setSize,this.props.setRatio);
-    } else {
-      var iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
-    }
     
-    let thisTop = `${this.props.imageHeight / 3 * 2}px`;
+    let thisTop = `${this.props.imageHeight * .6 }px`;
     let thisHeight = `${this.props.imageHeight}px`;
     let thisWidth = `${this.props.imageWidth}px`;
     let thisFit = this.props.setImgFit.indexOf('cover') ?  'cover' : 'contain';
@@ -80,45 +74,97 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     //let thisHref = (item[this.props.linkField]) ? item[this.props.linkField].Url : "#";
     let thisPadding = `${this.props.textPadding}px`;
 
-    return (
-      <div>
-        <a href={this.props.href} 
-          className={styles.pivotTiles}
-          style={{ width: thisWidth, height: thisHeight }}
-          target={imageOptionsGroup.getTarget(this.props.target)}
-          role="listitem" 
-          onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}
-          onClick={this.specialClick.bind(this)}
-          >
-          <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}
-            style={{ width: thisWidth, height: thisHeight }} 
+    if (this.props.heroType === "none" || this.props.heroType === "") {
+      var iStyles= tUtils.getTheseStyles(this.props.setSize,this.props.setRatio);
+    } else {
+      var iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
+    }
+
+    if (this.props.setSize === "Custom"){
+      return (
+        <div>
+          <a href={this.props.href} 
+            className={styles.pivotTiles}
+            style={{ width: thisWidth, height: thisHeight }}
+            target={imageOptionsGroup.getTarget(this.props.target)}
+            role="listitem" 
+            onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}
+            onClick={this.specialClick.bind(this)}
             >
-
-            <Image 
-              className={iStyles.iItemImage} 
-              src={this.props.imageUrl} 
-              shouldFadeIn={true} 
-              imageFit={imageOptionsGroup.getImgFit(this.props.setImgFit)}
-              coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}      
-            />
-
-            <div className={[iStyles.iHovPan, 
-              //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator#Conditional_chains
-              this.state.hovering === true  ? iStyles.iHovPanExp
-              : this.state.hovering === false  ? iStyles.iHovPanNot
-              : iStyles.iHovPanNot
-              ].join(" ")}
-              style={{ width: thisWidth, height: thisHeight }} 
+            <div className={ [styles.pTileItemWrapper, styles.pTileItemWrapperExpanded].join(" ")}
+              style={ { width: thisWidth, height: thisHeight } } 
               >
-
-              <div className={iStyles.iTitle}>{this.props.title}</div>
-              <div className={styles.pTileItemDesc}>{this.props.description}</div>
+  
+              <Image 
+                className={[
+                  styles.pTileItemImageCustom,
+                  ( this.state.hovering === true  ? styles.imgHoverZoomHover : styles.imgHoverZoom )
+                ].join(" ")} 
+                src={this.props.imageUrl} 
+                shouldFadeIn={true} 
+                imageFit={imageOptionsGroup.getImgFit(this.props.setImgFit)}
+                coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}      
+              />
+  
+              <div className={[styles.pTileItemHoverPanel, 
+                //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator#Conditional_chains
+                this.state.hovering === true  ? styles.pTileItemHoverPanelExpanded
+                : this.state.hovering === false  ? styles.pTileItemHoverPanelNotExpanded
+                : styles.pTileItemHoverPanelNotExpanded
+                ].join(" ")}
+                style={{ width: thisWidth, height: thisHeight, top: thisTop, padding: thisPadding }} 
+                >
+                <div className={styles.pTileItemTitle}>{this.props.title}</div>
+                <div className={styles.pTileItemDesc}>{this.props.description}</div>
+              </div>
             </div>
-          </div>
-        </a>
-      </div>
+          </a>
+        </div>
+  
+      );
+    } else {
+      return (
+        <div>
+          <a href={this.props.href} 
+            className={styles.pivotTiles}
+            target={imageOptionsGroup.getTarget(this.props.target)}
+            role="listitem" 
+            onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}
+            onClick={this.specialClick.bind(this)}
+            >
+            <div className={ [iStyles.iWrap, iStyles.iWrapExp].join(" ")}>
+  
+              <Image 
+                className={[
+                  styles.pTileItemImageCustom,
+                  ( this.state.hovering === true  ? styles.imgHoverZoomHover : styles.imgHoverZoom )
+                ].join(" ")} 
 
-    );
+
+
+                src={this.props.imageUrl} 
+                shouldFadeIn={true} 
+                imageFit={imageOptionsGroup.getImgFit(this.props.setImgFit)}
+                coverStyle={imageOptionsGroup.getImgCover(this.props.setImgCover)}      
+              />
+  
+              <div className={[iStyles.iHovPan, 
+                //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator#Conditional_chains
+                this.state.hovering === true  ? iStyles.iHovPanExp
+                : this.state.hovering === false  ? iStyles.iHovPanNot
+                : iStyles.iHovPanNot
+                ].join(" ")}
+                >
+                <div className={iStyles.iTitle}>{this.props.title}</div>
+                <div className={styles.pTileItemDesc}>{this.props.description}</div>
+              </div>
+            </div>
+          </a>
+        </div>
+  
+      );
+    }
+
   }
 
 }

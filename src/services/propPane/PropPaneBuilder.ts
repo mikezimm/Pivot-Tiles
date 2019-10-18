@@ -16,11 +16,11 @@ import {
 */
 
 export class PropertyPaneBuilder {
-  public getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
+  public getPropertyPaneConfiguration(webPartProps): IPropertyPaneConfiguration {
     return <IPropertyPaneConfiguration>{
       pages: [
         introPage.getPropertyPanePage(),
-        webPartSettingsPage.getPropertyPanePage(),
+        webPartSettingsPage.getPropertyPanePage(webPartProps),
         listMappingPage1.getPropertyPanePage(),
         listMappingPage2.getPropertyPanePage(),
       ]

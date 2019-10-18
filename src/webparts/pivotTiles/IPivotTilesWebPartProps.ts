@@ -8,6 +8,7 @@ export interface IPivotTilesWebPartProps {
   listWebURL: string;
   listTitle: string;
   pageContext: PageContext;
+  showHero: boolean;
   heroType: string;
   heroCategory: string;
   
@@ -38,6 +39,5 @@ export interface IPivotTilesWebPartProps {
   imageWidth: number;
   imageHeight: number;
   textPadding: number;
-
 
   }

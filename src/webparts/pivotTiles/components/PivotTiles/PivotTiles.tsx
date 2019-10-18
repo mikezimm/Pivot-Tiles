@@ -95,7 +95,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   public render(): React.ReactElement<IPivotTilesProps> {
     let heroFullLineBuild = "";
 
-    if (this.props.heroCategory) {
+    if (this.props.showHero === true && this.props.heroCategory) {
       if (this.state.loadStatus === "Ready" &&  this.state.heroStatus === "Ready") {
         heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
       }
@@ -117,7 +117,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
-        { ( (this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
+        { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
 
@@ -154,9 +154,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <br/>
 
           { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
-          { ( this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
-          { ( this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
-          { ( ( this.props.heroType === "inLine"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
+          { ( this.props.showHero === true && this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
+          { ( this.props.showHero === true && this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
+          { ( ( this.props.showHero === true && this.props.heroType === "inLine"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
             { ( tileBuild ) }
             { /* Originally instead of this:  ( tileBuild ) */ }           
@@ -172,7 +172,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 
         </div>
-        { ( (this.props.heroType === "footer"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) :""  ) }
+        { ( (this.props.showHero === true && this.props.heroType === "footer"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) :""  ) }
       </div>
       </div>
     );
@@ -373,7 +373,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 
     selColumns.length > 0 ? selectCols += "," + selColumns.join(",") : selectCols = selectCols;
-    if (expColumns.length > 0) { expandThese = expColumns.join(",") }
+    if (expColumns.length > 0) { expandThese = expColumns.join(","); }
 
     
     console.log("selectCols = " + selectCols);
@@ -606,7 +606,7 @@ console.log(filtered);
 
     let foundProps = [];
     for (let thisProp of foundKeys) {
-      if (thisProp && thisProp !== "" ) { foundProps.push(thisProps[thisProp]) }
+      if (thisProp && thisProp !== "" ) { foundProps.push(thisProps[thisProp]) ; }
     }
 
     //console.log(foundKeys);

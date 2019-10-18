@@ -22,11 +22,11 @@ export function heroBuilder(parentProps,parentState){
     if (parentProps.heroType === "header" || parentProps.heroType === "footer" || parentProps.heroType === "inLine"  ) {
       heroRatio = '1x1';
       heroHeight = '300';
-      imageFit = 'portrait';
+      imageFit = 'portrait'; //landscape
     } else {
       heroRatio = '2x1';
       heroHeight = '300';
-      imageFit = 'landscape';
+      imageFit = 'portrait';
     }
 
     let heroFullLineBuild = "";

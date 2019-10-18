@@ -56,6 +56,11 @@ declare interface IPivotTilesWebPartStrings {
   Property_ImageWidth_Label: string;
   Property_ImageHeight_Label: string;
   Property_TextPadding_Label: string;
+
+  Property_ShowHero_Label: string;
+  Property_ShowHero_OffText: string;
+  Property_ShowHero_OnText: string;
+
   
 }
 

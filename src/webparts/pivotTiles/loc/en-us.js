@@ -54,5 +54,9 @@ define([], function() {
     "Property_ImageHeight_Label": "Tile height",
     "Property_TextPadding_Label": "Text padding",
 
+    "Property_ShowHero_Label": "Include Hero Tile",
+    "Property_ShowHero_OffText": "Show",
+    "Property_ShowHero_OnText": "Hide",
+
   }
 });

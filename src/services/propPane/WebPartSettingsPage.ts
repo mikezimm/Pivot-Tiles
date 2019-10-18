@@ -7,7 +7,8 @@ import {
     PropertyPaneLink, IPropertyPaneLinkProps,
     PropertyPaneDropdown, IPropertyPaneDropdownProps,
     IPropertyPaneDropdownOption,
-    PropertyPaneSlider
+    PropertyPaneSlider,
+    PropertyPaneToggle
   } from '@microsoft/sp-webpart-base';
   
   import * as strings from 'PivotTilesWebPartStrings';
@@ -18,7 +19,8 @@ import {
     private setSize: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
       {        index: 0,        key: '100',        text: '100px high'      },
       {        index: 1,        key: '150',        text: '150px high'      },
-      {        index: 2,        key: '300',        text: '300px high'      }
+      {        index: 2,        key: '300',        text: '300px high'      },
+      {        index: 3,        key: 'Custom',        text: 'Custom'      },      
     ];
 
     private setRatio: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
@@ -29,41 +31,63 @@ import {
       {        index: 4,        key: '1x1',        text: 'Fit 1 Tiles wide'      }
     ];
 
-    public getPropertyPanePage(): IPropertyPanePage {
+    public getPropertyPanePage(webPartProps): IPropertyPanePage {
       return <IPropertyPanePage>        { // <page2>
         header: {
           description: strings.PropertyPaneMainDescription
         },
         groups: [
-            { groupName: 'Image settings',
+          
+          { groupName: 'Pivot Settings',
+          groupFields: [
+            PropertyPaneDropdown('setPivSize', <IPropertyPaneDropdownProps>{
+              label: strings.setPivSize,
+              options: pivotOptionsGroup.pivSizeChoices,
+            }),
+            PropertyPaneDropdown('setPivFormat', <IPropertyPaneDropdownProps>{
+              label: strings.setPivFormat,
+              options: pivotOptionsGroup.pivFormatChoices,
+            }),
+            PropertyPaneDropdown('setPivOptions', <IPropertyPaneDropdownProps>{
+              label: strings.setPivOptions,
+              options: pivotOptionsGroup.pivOptionsChoices,
+              disabled: true,
+            }),
+          ]}, // this group
+
+          { groupName: 'Image settings',
+          groupFields: [
+            
+            PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
+              label: strings.setSize,
+              options: this.setSize,
+            }),
+
+          ]}, // this group
+
+          // Group of props for standard sizes
+          { isCollapsed: webPartProps.setSize === "Custom" ? true : false ,
+          groupFields: [
+            
+            PropertyPaneDropdown('setRatio', <IPropertyPaneDropdownProps>{
+              label: strings.setRatio,
+              options: this.setRatio,
+            }),
+            PropertyPaneDropdown('setImgFit', <IPropertyPaneDropdownProps>{
+              label: strings.setImgFit,
+              options: imageOptionsGroup.imgFitChoices,
+            }),
+            PropertyPaneDropdown('setImgCover', <IPropertyPaneDropdownProps>{
+              label: strings.setImgCover,
+              options: imageOptionsGroup.imgCoverChoices,
+            }),
+
+          ]}, // this group
+          
+          // Group of props for standard sizes
+          { isCollapsed: webPartProps.setSize === "Custom" ? false : true ,
             groupFields: [
 
-              
-              PropertyPaneDropdown('heroType', <IPropertyPaneDropdownProps>{
-                label: strings.heroChoices,
-                options: imageOptionsGroup.heroChoices,
-              }),
-              
-              PropertyPaneTextField('heroCategory', {
-                label: strings.heroCategory
-              }),
-              
-              PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
-                label: strings.setSize,
-                options: this.setSize,
-              }),
-              PropertyPaneDropdown('setRatio', <IPropertyPaneDropdownProps>{
-                label: strings.setRatio,
-                options: this.setRatio,
-              }),
-              PropertyPaneDropdown('setImgFit', <IPropertyPaneDropdownProps>{
-                label: strings.setImgFit,
-                options: imageOptionsGroup.imgFitChoices,
-              }),
-              PropertyPaneDropdown('setImgCover', <IPropertyPaneDropdownProps>{
-                label: strings.setImgCover,
-                options: imageOptionsGroup.imgCoverChoices,
-              }),
               PropertyPaneSlider('imageWidth', {
                 label: strings.Property_ImageWidth_Label,
                 min: 100,
@@ -84,23 +108,34 @@ import {
 
             ]}, // this group
 
-            { groupName: 'Pivot Settings',
+            { groupName: 'Hero Panel',
             groupFields: [
-              PropertyPaneDropdown('setPivSize', <IPropertyPaneDropdownProps>{
-                label: strings.setPivSize,
-                options: pivotOptionsGroup.pivSizeChoices,
+              
+              PropertyPaneToggle('showHero', {
+                label: strings.Property_ShowHero_Label,
+                offText: strings.Property_ShowHero_OffText,
+                onText: strings.Property_ShowHero_OnText
               }),
-              PropertyPaneDropdown('setPivFormat', <IPropertyPaneDropdownProps>{
-                label: strings.setPivFormat,
-                options: pivotOptionsGroup.pivFormatChoices,
-              }),
-              PropertyPaneDropdown('setPivOptions', <IPropertyPaneDropdownProps>{
-                label: strings.setPivOptions,
-                options: pivotOptionsGroup.pivOptionsChoices,
-                disabled: true,
-              }),
+  
             ]}, // this group
 
+            { 
+            isCollapsed: !webPartProps.showHero,
+            groupFields: [
+              PropertyPaneLabel('HeroPanelSettings', {
+                text: 'Hero Panel Settings'
+              }),
+
+              PropertyPaneDropdown('heroType', <IPropertyPaneDropdownProps>{
+                label: strings.heroChoices,
+                options: imageOptionsGroup.heroChoices,
+              }),
+              
+              PropertyPaneTextField('heroCategory', {
+                label: strings.heroCategory
+              }),
+
+            ]}, // this group
 
           ]}; // Groups
     } // getPropertyPanePage()

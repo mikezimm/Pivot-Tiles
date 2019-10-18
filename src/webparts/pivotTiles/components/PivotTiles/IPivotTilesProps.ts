@@ -10,6 +10,7 @@ export interface IPivotTilesProps {
   pageContext: PageContext;
   heroType: string;
   heroCategory: string;
+  showHero: boolean;
   
   setFilter: string;
   propURLQuery: boolean;
