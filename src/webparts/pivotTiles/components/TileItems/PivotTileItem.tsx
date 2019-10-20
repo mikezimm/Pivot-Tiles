@@ -112,7 +112,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
                 : this.state.hovering === false  ? styles.pTileItemHoverPanelNotExpanded
                 : styles.pTileItemHoverPanelNotExpanded
                 ].join(" ")}
-                style={{ width: thisWidth, height: thisHeight, top: thisTop, padding: thisPadding }} 
+                style={{ width: thisWidth, height: thisHeight, top: ( this.state.hovering === false ? thisTop : 0 ), padding: thisPadding }} 
                 >
                 <div className={styles.pTileItemTitle}>{this.props.title}</div>
                 <div className={styles.pTileItemDesc}>{this.props.description}</div>
