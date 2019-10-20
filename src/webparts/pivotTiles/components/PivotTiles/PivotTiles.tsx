@@ -269,8 +269,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private _updateStateOnPropsChange(): void {
 
     let newCollection = this.state.allTiles;
-    let newFiltered = this.state.filteredTiles;
-    let newHeros = this.state.heroTiles;
+    let pivotProps = this.props;
+    let newHeros = this.getHeroTiles(pivotProps, newCollection);
+    let heroIds = this.getHeroIds(newHeros);
+    let newFiltered = this.getNewFilteredTiles(pivotProps, newCollection, heroIds, newHeros);
 
     for (let thisTile of newCollection) {
       thisTile.setTab = this.props.setTab;
@@ -321,25 +323,30 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('heroSize: ' + heroSize + '  heroRatio:' + heroRatio + '  heroFit:' + heroFit + '  heroCover:' + heroCover );
     console.log('this.props.setTab: ' + this.props.setTab );
 
-    for (let thisTile of newHeros) {
-      thisTile.setTab = this.props.setTab;
-      thisTile.setSize = heroSize;
-      thisTile.heroType = this.props.heroType;
-      thisTile.setRatio = heroRatio;
-      thisTile.setImgFit = heroFit;
-      thisTile.setImgCover = heroCover;
+    if (newHeros[0]) {
+      for (let thisTile of newHeros) {
+        thisTile.setTab = this.props.setTab;
+        thisTile.setSize = heroSize;
+        thisTile.heroType = this.props.heroType;
+        thisTile.setRatio = heroRatio;
+        thisTile.setImgFit = heroFit;
+        thisTile.setImgCover = heroCover;
+      }
     }
+
 
     //alert('componentDidUpdate 3');
 
     //console.log('componentDidUpdate 4 State');
     //console.log(this.state);    
 
+
     this.setState({
       allTiles:newCollection,
       filteredTiles: newFiltered,
       loadStatus:"Ready",
       heroTiles : newHeros,
+      heroIds: heroIds,
     });
 
 
@@ -438,35 +445,11 @@ console.log(filtered);
           const defaultSelectedKey = defaultSelectedIndex.toString();
           //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
+          let heroTiles = this.getHeroTiles(pivotProps, tileCollection);
 
-          let heroTiles = [];
-          for (let thisTile of tileCollection) {
-            if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
-              heroTiles.push(thisTile);
-            }
-          }
-          
-          var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
-          heroTiles = [randomItem];
+          let heroIds = this.getHeroIds(heroTiles);
 
-          let heroIds = [];
-          if (heroTiles[0]) {
-            for (let thisTile of heroTiles) {
-              heroIds.push(thisTile.Id.toString());
-            }     
-          }
-          
-          let newFilteredTiles = [];
-          for (let thisTile of tileCollection) {
-            if(thisTile.category.indexOf(this.props.setTab) > -1) {
-
-              let showThisTile = true;
-              if (this.props.heroType !== 'none' && heroTiles[0]) {
-                showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
-              }
-              if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
-            }
-          }
+          let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
 
           this.setState({
             allTiles:tileCollection,
@@ -521,47 +504,11 @@ console.log(filtered);
             const defaultSelectedKey = defaultSelectedIndex.toString();
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
+            let heroTiles = this.getHeroTiles(this.props, tileCollection);
 
-            let heroTiles = [];
-            
-            console.log('tileCollection near heroTiles[]');
-            console.log(tileCollection);
-            if (this.props.showHero === true && this.props.heroCategory) {
-              for (let thisTile of tileCollection) {
-                if(thisTile.category.indexOf(this.props.heroCategory) > -1) {
-                  heroTiles.push(thisTile);
-                }
-              }
-            }
+            let heroIds = this.getHeroIds(heroTiles);
 
-            console.log('Here is heroTiles length');
-            console.log(heroTiles.length);
-            console.log(heroTiles);
-
-            var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
-            heroTiles = [randomItem];
-  
-
-            let heroIds = [];
-            if (heroTiles.length > 0){
-              if (heroTiles[0]) {
-                for (let thisTile of heroTiles) {
-                  heroIds.push(thisTile.Id.toString());
-                }     
-              }  
-            }
-
-            let newFilteredTiles = [];
-            for (let thisTile of tileCollection) {
-              if(thisTile.category.indexOf(this.props.setTab) > -1) {
-  
-                let showThisTile = true;
-                if (heroIds.length > 0 && this.props.heroType !== 'none' && heroTiles[0]) {
-                  showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
-                }
-                if (showThisTile === true) {newFilteredTiles.push(thisTile);}
-              }
-            }
+            let newFilteredTiles = this.getNewFilteredTiles(this.props, tileCollection, heroIds, heroTiles);
   
             this.setState({
               allTiles:tileCollection,
@@ -590,6 +537,61 @@ console.log(filtered);
     }
 
   }  
+
+  private getNewFilteredTiles(thisProps, tileCollection, heroIds, heroTiles) {
+
+    let newFilteredTiles = [];
+    for (let thisTile of tileCollection) {
+      if(thisTile.category.indexOf(thisProps.setTab) > -1) {
+
+        let showThisTile = true;
+        if (heroIds.length > 0 && thisProps.heroType !== 'none' && heroTiles[0]) {
+          showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
+        }
+        if (showThisTile === true) {newFilteredTiles.push(thisTile);}
+      }
+    }
+
+    return newFilteredTiles;
+  }
+
+
+  private getHeroTiles(thisProps, tileCollection) {
+
+    let heroTiles = [];
+            
+    console.log('tileCollection near heroTiles[]');
+    console.log(tileCollection);
+    if (thisProps.showHero === true && thisProps.heroCategory) {
+      for (let thisTile of tileCollection) {
+        if(thisTile.category.indexOf(thisProps.heroCategory) > -1) {
+          heroTiles.push(thisTile);
+        }
+      }
+    }
+
+    console.log('Here is heroTiles length');
+    console.log(heroTiles.length);
+    console.log(heroTiles);
+
+    var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
+    heroTiles = [randomItem];
+
+    return heroTiles;
+
+  }
+
+  private getHeroIds(heroTiles){
+    let heroIds = [];
+    if (heroTiles.length > 0){
+      if (heroTiles[0]) {
+        for (let thisTile of heroTiles) {
+          heroIds.push(thisTile.Id.toString());
+        }     
+      }  
+    }
+    return heroIds;
+  }
 
   private getKeysLike(thisProps,findMe,findOp){
     //Sample call:  getKeysLike(this.props,"col","begins")

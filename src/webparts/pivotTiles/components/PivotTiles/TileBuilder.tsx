@@ -17,16 +17,16 @@ export function heroBuilder(parentProps,parentState){
     let heroHeight = "";
     let imageFit = "";
 //    console.log(parentProps);
-//    console.log('heroBuilder State');
+//    console.log('heroBuilder State')
 //    console.log(parentState);
     if (parentProps.heroType === "header" || parentProps.heroType === "footer" || parentProps.heroType === "inLine"  ) {
       heroRatio = '1x1';
       heroHeight = '300';
-      imageFit = 'portrait'; //landscape
+      imageFit = 'portrait';
     } else {
       heroRatio = '2x1';
       heroHeight = '300';
-      imageFit = 'portrait';
+      imageFit = 'landscape';
     }
 
     let heroFullLineBuild = "";
@@ -50,8 +50,8 @@ export function heroBuilder(parentProps,parentState){
           listTitle={newTile.listTitle}
           setRatio={newTile.setRatio}
           setSize={newTile.setSize}
-          setImgFit={imageFit}
-          setImgCover={newTile.setImgCover}
+          setImgFit={parentProps.setHeroFit}
+          setImgCover={parentProps.setHeroCover}
           target={newTile.target}
           heroType = {newTile.heroType}
 

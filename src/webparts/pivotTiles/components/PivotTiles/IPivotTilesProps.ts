@@ -11,6 +11,8 @@ export interface IPivotTilesProps {
   heroType: string;
   heroCategory: string;
   showHero: boolean;
+  setHeroFit: string;
+  setHeroCover: string;
   
   setFilter: string;
   propURLQuery: boolean;

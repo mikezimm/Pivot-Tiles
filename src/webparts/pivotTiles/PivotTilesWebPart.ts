@@ -47,6 +47,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         heroType: this.properties.heroType,
         heroCategory: this.properties.heroCategory,
         showHero: this.properties.showHero,
+        setHeroFit: this.properties.setHeroFit,
+        setHeroCover: this.properties.setHeroCover,
 
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,
@@ -198,8 +200,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     }
 
     let updateOnThese = [
-      'setSize','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','heroType','target',
-      'imageWidth','imageHeight','textPadding',
+      'setSize','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
+      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover'
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {
@@ -209,9 +211,19 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     } else { //This can be removed if it works
      
-      if (propertyPath === 'setImgFit') {
+      if (propertyPath === 'heroType') {
         console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
-        this.properties.setImgFit = newValue;  
+        this.properties.heroType = newValue;
+
+        if (newValue === 'header' || newValue === 'inLine' || newValue === 'footer') {
+          this.properties.setHeroCover = 'portrait';
+          this.properties.setHeroFit = 'centerCover';
+
+        } else if (newValue === 'left' || newValue === 'right') {
+          this.properties.setHeroCover = 'portrait';
+          this.properties.setHeroFit = 'centerContain';
+        }
+
         this.context.propertyPane.refresh();
       }
 

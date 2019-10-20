@@ -11,6 +11,8 @@ export interface IPivotTilesWebPartProps {
   showHero: boolean;
   heroType: string;
   heroCategory: string;
+  setHeroFit: string;
+  setHeroCover: string;
   
   setSize: string;
   setRatio: string;

@@ -54,9 +54,10 @@ define([], function() {
     "Property_ImageHeight_Label": "Tile height",
     "Property_TextPadding_Label": "Text padding",
 
+    "Property_ShowPivotStyle_Label": "Show Pivot Styles",
     "Property_ShowHero_Label": "Include Hero Tile",
-    "Property_ShowHero_OffText": "Show",
-    "Property_ShowHero_OnText": "Hide",
+    "Property_ShowHero_OffText": "Toggle to Show",
+    "Property_ShowHero_OnText": "Toggle to Hide",
 
   }
 });

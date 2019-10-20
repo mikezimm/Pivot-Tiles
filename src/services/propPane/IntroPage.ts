@@ -6,14 +6,15 @@ import {
   PropertyPaneTextField, IPropertyPaneTextFieldProps,
   PropertyPaneLink, IPropertyPaneLinkProps,
   PropertyPaneDropdown, IPropertyPaneDropdownProps,
-  IPropertyPaneDropdownOption
+  IPropertyPaneDropdownOption,PropertyPaneToggle
 } from '@microsoft/sp-webpart-base';
 
 import * as strings from 'PivotTilesWebPartStrings';
 import { imageOptionsGroup } from './index';
+import { pivotOptionsGroup} from './index';
 
 export class IntroPage {
-  public getPropertyPanePage(): IPropertyPanePage {
+  public getPropertyPanePage(webPartProps): IPropertyPanePage {
     return <IPropertyPanePage>
     { // <page1>
       header: {
@@ -56,9 +57,35 @@ export class IntroPage {
               label: 'Open Behavior',
               options: imageOptionsGroup.imgTargetChoices,
             }),
-        ]} // this group
-      ]
-    }; // </page1>
+          ]}, // this group
+
+          { groupName: 'Pivot Styles',
+            groupFields: [
+              PropertyPaneToggle('advancedPivotStyles', {
+                label: '',
+                offText: strings.Property_ShowHero_OffText,
+                onText: strings.Property_ShowHero_OnText
+              }),
+            ]}, // this group
+
+            { isCollapsed: !webPartProps.advancedPivotStyles,
+            groupFields: [
+              PropertyPaneDropdown('setPivSize', <IPropertyPaneDropdownProps>{
+                label: strings.setPivSize,
+                options: pivotOptionsGroup.pivSizeChoices,
+              }),
+              PropertyPaneDropdown('setPivFormat', <IPropertyPaneDropdownProps>{
+                label: strings.setPivFormat,
+                options: pivotOptionsGroup.pivFormatChoices,
+              }),
+              PropertyPaneDropdown('setPivOptions', <IPropertyPaneDropdownProps>{
+                label: strings.setPivOptions,
+                options: pivotOptionsGroup.pivOptionsChoices,
+                disabled: true,
+              }),
+            ]}, // this group
+
+          ]}; // Groups
   } // getPropertyPanePage()
 }
 

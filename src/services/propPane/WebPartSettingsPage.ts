@@ -37,23 +37,6 @@ import {
           description: strings.PropertyPaneMainDescription
         },
         groups: [
-          
-          { groupName: 'Pivot Settings',
-          groupFields: [
-            PropertyPaneDropdown('setPivSize', <IPropertyPaneDropdownProps>{
-              label: strings.setPivSize,
-              options: pivotOptionsGroup.pivSizeChoices,
-            }),
-            PropertyPaneDropdown('setPivFormat', <IPropertyPaneDropdownProps>{
-              label: strings.setPivFormat,
-              options: pivotOptionsGroup.pivFormatChoices,
-            }),
-            PropertyPaneDropdown('setPivOptions', <IPropertyPaneDropdownProps>{
-              label: strings.setPivOptions,
-              options: pivotOptionsGroup.pivOptionsChoices,
-              disabled: true,
-            }),
-          ]}, // this group
 
           { groupName: 'Image settings',
           groupFields: [
@@ -133,6 +116,16 @@ import {
               
               PropertyPaneTextField('heroCategory', {
                 label: strings.heroCategory
+              }),
+
+              PropertyPaneDropdown('setHeroFit', <IPropertyPaneDropdownProps>{
+                label: strings.setImgFit,
+                options: imageOptionsGroup.imgFitChoices,
+              }),
+
+              PropertyPaneDropdown('setHeroCover', <IPropertyPaneDropdownProps>{
+                label: strings.setImgCover,
+                options: imageOptionsGroup.imgCoverChoices,
               }),
 
             ]}, // this group

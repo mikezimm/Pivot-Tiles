@@ -19,7 +19,7 @@ export class PropertyPaneBuilder {
   public getPropertyPaneConfiguration(webPartProps): IPropertyPaneConfiguration {
     return <IPropertyPaneConfiguration>{
       pages: [
-        introPage.getPropertyPanePage(),
+        introPage.getPropertyPanePage(webPartProps),
         webPartSettingsPage.getPropertyPanePage(webPartProps),
         listMappingPage1.getPropertyPanePage(),
         listMappingPage2.getPropertyPanePage(),
