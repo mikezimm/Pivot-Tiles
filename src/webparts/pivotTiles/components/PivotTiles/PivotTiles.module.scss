@@ -4,7 +4,8 @@
 
   .heroContainer {
     max-width:1500px;
-    margin: auto;
+    //margin: auto;
+    margin: 0px;
     display: block !important;
   }
 
@@ -20,6 +21,11 @@
     justify-content: space-between;
     //align-items: center makes items centered vertically
     align-items: center;
+
+    //These did nothing to prevent the left icons from shifting on hover.
+    //border: 0px;
+    //margin: 0px;
+    //padding: 0px;
   }
 
   .floatRight {
@@ -44,7 +50,8 @@
 
   .container {
     max-width: 1200px;
-    margin: 0px auto;
+    //margin: 0px auto;
+    margin: 0px;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
 

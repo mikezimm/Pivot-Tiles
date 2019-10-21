@@ -112,7 +112,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
                 : this.state.hovering === false  ? styles.pTileItemHoverPanelNotExpanded
                 : styles.pTileItemHoverPanelNotExpanded
                 ].join(" ")}
-                style={{ width: thisWidth, height: thisHeight, top: ( this.state.hovering === false ? thisTop : 0 ), padding: thisPadding }} 
+                style={{ width: thisWidth, height: thisHeight, top: ( this.state.hovering === true ? 0 : thisTop ), padding: thisPadding }} 
                 >
                 <div className={styles.pTileItemTitle}>{this.props.title}</div>
                 <div className={styles.pTileItemDesc}>{this.props.description}</div>
@@ -139,9 +139,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
                   styles.pTileItemImageCustom,
                   ( this.state.hovering === true  ? styles.imgHoverZoomHover : styles.imgHoverZoom )
                 ].join(" ")} 
-
-
-
+                
                 src={this.props.imageUrl} 
                 shouldFadeIn={true} 
                 imageFit={imageOptionsGroup.getImgFit(this.props.setImgFit)}
