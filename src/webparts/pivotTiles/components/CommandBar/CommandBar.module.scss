@@ -21,7 +21,7 @@
 
   .container {
     max-width: 1200px;
-    background-color: white;
+    //background-color: white;
     //display:inline-block;
     float: right;
     display:flex;
@@ -77,7 +77,8 @@
 
     // Primary Button
     min-width: 80px;
-    background-color: $ms-color-themePrimary;
+    background-color: white;
+    //background-color: $ms-color-themePrimary;
 //    background-color: $ms-color-white;
 
     border-color: $ms-color-themePrimary;
@@ -94,7 +95,8 @@
     text-align: center;
     cursor: pointer;
     display: inline-block;
-    padding: 0 16px;
+//    padding: 0 16px;    //This does not seem to change the padding around the command button
+    padding: 0;
 
     .label {
       font-weight: $ms-font-weight-semibold;

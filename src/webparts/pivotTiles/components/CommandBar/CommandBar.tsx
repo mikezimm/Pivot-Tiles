@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { CommandBar } from "office-ui-fabric-react/lib/CommandBar";
+import { CommandBar,  } from "office-ui-fabric-react/lib/CommandBar";
+import {CommandBarButton, IButtonProps} from "office-ui-fabric-react/lib/Button";
 
 import styles from './CommandBar.module.scss';
 //import tUtils from './utilTiles'
@@ -27,6 +28,41 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
 
     public render(): JSX.Element {
 
+      const customButton = (props: IButtonProps) => {
+        //Got this const from:  https://developer.microsoft.com/en-us/fabric/#/controls/web/commandbar
+        // icon: { color: '#E20000' }, does change color of icon
+        // textContainer: { fontSize: 48 }, does NOT change size of icon
+        /*  These impact icons but not the container
+              icon: { color: '#E20000',
+                fontSize: 48,
+                backgroundColor: 'white',
+             },
+            flexContainer is the larger box around just the icon but this removes onhover highlight
+            flexContainer: {backgroundColor: 'white'},
+            rootExpanded: does NOT seem to impact color of bar
+            rootExpanded: {backgroundColor: 'white'},
+            NOTE:  forcing padding: 0px around root element seems to hide gray area in dev window
+            rootFocused : does NOT do anything either
+            rootFocused : {backgroundColor: 'white',padding:'0px !important'},
+            putting padding on role="menubar" class="ms-FocusZone css-50 ms-CommandBar root-47" does do it.
+        */
+        return (
+          <CommandBarButton
+            {...props}
+            styles={{
+              ...props.styles,
+              root: {backgroundColor: 'white',padding:'0px !important'},
+              textContainer: { fontSize: 12 },
+              icon: { color: 'black',
+                fontSize: 18,
+                fontWeight: "bolder",
+                margin: '0px 2px',
+             },
+            }}
+          />
+        );
+      };
+
 //      const _utils = new Utils();
 //      let ttips = new this.props.toggleTips();
 //      let farItems = _utils.getFarItems(ttips);
@@ -35,8 +71,12 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
         return (
           <div className={ styles.container }>
             <CommandBar 
+              buttonAs={customButton}
               items={ Utils.getMainItems() }
               farItems={ farItems }
+              styles={{
+                root: {padding:'0px !important'},
+              }}
             />
           </div>
         );

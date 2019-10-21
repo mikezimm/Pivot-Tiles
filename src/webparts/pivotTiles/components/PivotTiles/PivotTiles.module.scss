@@ -100,8 +100,9 @@
 
     // Primary Button
     min-width: 80px;
-    background-color: $ms-color-themePrimary;
-    border-color: $ms-color-themePrimary;
+    background-color: $ms-color-white;
+    //border-color: $ms-color-themePrimary;
+
     color: $ms-color-white;
 
     // Basic Button
@@ -116,6 +117,7 @@
     cursor: pointer;
     display: inline-block;
     padding: 0 16px;
+//    padding: 0;    //This does not seem to change the padding around the command button
 
     .label {
       font-weight: $ms-font-weight-semibold;
