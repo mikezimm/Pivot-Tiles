@@ -79,6 +79,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let rebuildTiles = false;
     if (this.props.setTab !== prevProps.setTab) {  rebuildTiles = true ; }
     if (this.props.setSize !== prevProps.setSize) {  rebuildTiles = true ; }
+    if (this.props.showHero !== prevProps.showHero) {  rebuildTiles = true ; }
     if (this.props.heroType !== prevProps.heroType) {  rebuildTiles = true ; }
     if (this.props.setRatio !== prevProps.setRatio) {  rebuildTiles = true ; }
     if (this.props.setImgFit !== prevProps.setImgFit) {  rebuildTiles = true ; }
