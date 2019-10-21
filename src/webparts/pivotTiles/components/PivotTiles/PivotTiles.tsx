@@ -348,6 +348,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       loadStatus:"Ready",
       heroTiles : newHeros,
       heroIds: heroIds,
+      heroStatus: newHeros[0] ? "Ready" : "none",
     });
 
 
@@ -393,35 +394,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
       console.log('fixedURL after fixing');
       console.log(fixedURL);   
-/*
-For hero filtering, try this... works with single category but not array yet.
-
-let array = [
-    { id: 1, value: "itemname" },
-    { id: 2, value: "itemname" },
-    {id: 3, value: "testname"}
-];
-
-let filtered = array.filter(p => p.value === "itemname")
-console.log(filtered);
-
-
-
-    let array = [
-      { id: 1, value: "itemname",cats:["1","2"] },
-      { id: 2, value: "itemname",cats:["1","3"] },
-      {id: 3, value: "testname",cats:["4","5"]}
-    ]
-    
-let x = 1;
-let filtered = array.filter(p => p.cats === "1")
-console.log(filtered);
-
-
-*/
-
-
-
 
       web.lists.getByTitle(useTileList).items
       .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get().then
@@ -478,8 +450,6 @@ console.log(filtered);
 
     } else {
 
-
-
         sp.web.lists.getByTitle(useTileList).items
           .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
           .then((response) => {
@@ -505,11 +475,11 @@ console.log(filtered);
             const defaultSelectedKey = defaultSelectedIndex.toString();
             //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
 
-            let heroTiles = this.getHeroTiles(this.props, tileCollection);
+            let heroTiles = this.getHeroTiles(pivotProps, tileCollection);
 
             let heroIds = this.getHeroIds(heroTiles);
 
-            let newFilteredTiles = this.getNewFilteredTiles(this.props, tileCollection, heroIds, heroTiles);
+            let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
   
             this.setState({
               allTiles:tileCollection,
