@@ -6,6 +6,7 @@ import {CommandBarButton, IButtonProps} from "office-ui-fabric-react/lib/Button"
 import styles from './CommandBar.module.scss';
 //import tUtils from './utilTiles'
 
+
 import { ICommandBarProps } from './ICommandBarProps';
 import { ICommandBarState } from './ICommandBarState';
 import { Utils } from './utils';
@@ -34,7 +35,9 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
         // textContainer: { fontSize: 48 }, does NOT change size of icon
         /*  These impact icons but not the container
               icon: { color: '#E20000',
+              color: 'black',
                 fontSize: 48,
+                ####  This is where you can set the color for the icons
                 backgroundColor: 'white',
              },
             flexContainer is the larger box around just the icon but this removes onhover highlight
@@ -53,10 +56,11 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
               ...props.styles,
               root: {backgroundColor: 'white',padding:'0px !important'},
               textContainer: { fontSize: 12 },
-              icon: { color: 'black',
+              icon: { 
                 fontSize: 18,
                 fontWeight: "bolder",
                 margin: '0px 2px',
+
              },
             }}
           />
@@ -76,6 +80,7 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
               farItems={ farItems }
               styles={{
                 root: {padding:'0px !important'},
+                
               }}
             />
           </div>

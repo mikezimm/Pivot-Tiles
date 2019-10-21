@@ -17,7 +17,8 @@ export class Utils {
           name: '',
           ariaLabel: 'Minimize',
           iconProps: {
-            iconName: 'ChromeMinimize'
+            iconName: 'ChromeMinimize',
+
           },
           onClick: () => minimize()
         },
@@ -26,7 +27,7 @@ export class Utils {
           name: '',
           ariaLabel: 'Tips',
           iconProps: {
-            iconName: 'Help'
+            iconName: 'Help',
           },
           onClick: () => toggleTips()
         },
