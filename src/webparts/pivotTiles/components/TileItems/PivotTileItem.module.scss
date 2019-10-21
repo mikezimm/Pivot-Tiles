@@ -213,7 +213,9 @@
   .container {
     max-width: 100%;
     //margin: 0px auto;
+    //border: 0px;
     margin: 0px;
+    //padding: 0px;
     position: relative;
 
   }
@@ -227,6 +229,9 @@
 //    border: #bebebe 1px solid;
     //border: 0px solid;
     border: 0px;
+    //margin: 0px;
+    //padding: 0px;
+    //*** overwriting to test image shift Turn this back on
     margin:  $tileMargin;
     overflow: hidden;
   }
@@ -259,6 +264,8 @@
     //margin:  $tileMargin;
     //border: 0px solid;
     border: 0px;
+    // *** Setting this to zero removes spaces between tiles  margin: 0px;
+    padding: 0px;
     -webkit-transition: -webkit-transform 0.5s;
     transition: transform 0.5s;
     //-webkit-transform: scale(0.5,0.5);
