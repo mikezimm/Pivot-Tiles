@@ -209,4 +209,22 @@ export default class StyleUtils {
     return heroStyle;
   }
 
+  public static getOnHoverStyle(scale) {
+
+    var iOnZoomStyle = styles.pTileItemWrapper;
+    console.log(scale);
+
+    if ( scale === '1.0' ) {
+      iOnZoomStyle = styles.imgHoverZoomHover10;
+    } else     if ( scale === '1.1' ) {
+      iOnZoomStyle = styles.imgHoverZoomHover11;
+    } else     if ( scale === '1.2' ) {
+      iOnZoomStyle = styles.imgHoverZoomHover12;
+    } else {
+      iOnZoomStyle = styles.imgHoverZoomHover10;
+    }
+    return iOnZoomStyle;  
+
+  }
+
 }

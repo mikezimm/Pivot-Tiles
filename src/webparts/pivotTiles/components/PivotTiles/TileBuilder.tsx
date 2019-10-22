@@ -53,6 +53,8 @@ export function heroBuilder(parentProps,parentState){
           setImgFit={parentProps.setHeroFit}
           setImgCover={parentProps.setHeroCover}
           target={newTile.target}
+
+          onHoverZoom={parentProps.onHoverZoom}
           heroType = {newTile.heroType}
 
           imageWidth = {parentProps.imageWidth}
@@ -91,6 +93,7 @@ export function tileBuilder(parentProps,parentState){
       setImgFit={newTile.setImgFit}
       setImgCover={newTile.setImgCover}
       target={newTile.target}
+      onHoverZoom={parentProps.onHoverZoom}
       heroType = {'none'}
       imageWidth = {parentProps.imageWidth}
       imageHeight = {parentProps.imageHeight}

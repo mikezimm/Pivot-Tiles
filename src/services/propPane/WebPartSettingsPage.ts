@@ -41,6 +41,11 @@ import {
           { groupName: 'Image settings',
           groupFields: [
             
+            PropertyPaneDropdown('onHoverZoom', <IPropertyPaneDropdownProps>{
+              label: strings.onHoverZoom,
+              options: imageOptionsGroup.hoverZoomChoices,
+            }),
+
             PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
               label: strings.setSize,
               options: this.setSize,

@@ -50,6 +50,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         setHeroFit: this.properties.setHeroFit,
         setHeroCover: this.properties.setHeroCover,
 
+        onHoverZoom: this.properties.onHoverZoom,
         setSize: this.properties.setSize,
         setRatio: this.properties.setRatio,
         setImgFit: this.properties.setImgFit,
@@ -201,7 +202,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     let updateOnThese = [
       'setSize','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
-      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover'
+      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom'
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

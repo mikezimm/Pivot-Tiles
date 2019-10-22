@@ -41,6 +41,7 @@
       "setPivSize": "normal",
       "setPivFormat": "links",
       "setPivOptions": "",    
+      "onHoverZoom": "1.2",
       "propURLQuery": "",
       "imageWidth": 150,
       "imageHeight": 150,

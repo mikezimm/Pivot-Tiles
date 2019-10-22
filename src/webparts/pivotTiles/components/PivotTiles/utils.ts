@@ -101,6 +101,7 @@ export default class Utils {
       setRatio: pivotProps.setRatio,
       setImgFit: pivotProps.setImgFit,
       setImgCover: pivotProps.setImgCover,
+      onHoverZoom: pivotProps.onHoverZoom,
 
     }));
     //console.table("tileCollection");

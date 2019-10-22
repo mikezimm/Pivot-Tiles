@@ -13,6 +13,8 @@ define([], function() {
     "listWebURL": "URL of site with Tabbed Tiles List",
     "listTitle": "Tabbed Tiles list",
     "heroChoices": "Select Hero Tile location",
+
+    "onHoverZoom": "On Hover Zoom (set to 0 to disable)",
     "setSize": "Default Tile Size",
     "setRatio": "Set Tile Ratio",
 

@@ -80,12 +80,15 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
       var iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
     }
 
-    if (this.props.setSize === "Custom"){
+    var iHoverZoomStyle = tUtils.getOnHoverStyle(this.props.onHoverZoom);
+    console.log(iHoverZoomStyle);
+
+    if (this.props.heroType === "none" && this.props.setSize === "Custom"){
       return (
         <div>
           <a href={this.props.href} 
             className={styles.pivotTiles}
-            style={{ width: thisWidth, height: thisHeight }}
+            style={ {width: thisWidth, height: thisHeight }  }
             target={imageOptionsGroup.getTarget(this.props.target)}
             role="listitem" 
             onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}
@@ -98,7 +101,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
               <Image 
                 className={[
                   styles.pTileItemImageCustom,
-                  ( this.state.hovering === true  ? styles.imgHoverZoomHover : styles.imgHoverZoom )
+                  ( this.state.hovering === true  ? iHoverZoomStyle : styles.imgHoverZoom )
                 ].join(" ")} 
                 src={this.props.imageUrl} 
                 shouldFadeIn={true} 
@@ -137,7 +140,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
               <Image 
                 className={[
                   styles.pTileItemImageCustom,
-                  ( this.state.hovering === true  ? styles.imgHoverZoomHover : styles.imgHoverZoom )
+                  ( this.state.hovering === true  ? iHoverZoomStyle : styles.imgHoverZoom )
                 ].join(" ")} 
                 
                 src={this.props.imageUrl} 

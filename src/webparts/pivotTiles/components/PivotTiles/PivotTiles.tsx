@@ -136,7 +136,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
             <div className={styles.floatLeft}>
               <Pivot 
-                style={{ flexGrow: 1 }}
+                style={{ flexGrow: 1, paddingLeft: '10px' }}
                 linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
                 linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
                 onLinkClick= { this.onLinkClick }

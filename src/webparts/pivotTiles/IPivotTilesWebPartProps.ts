@@ -41,5 +41,6 @@ export interface IPivotTilesWebPartProps {
   imageWidth: number;
   imageHeight: number;
   textPadding: number;
+  onHoverZoom: string;
 
   }

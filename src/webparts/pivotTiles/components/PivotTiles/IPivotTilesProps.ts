@@ -17,7 +17,7 @@ export interface IPivotTilesProps {
   setFilter: string;
   propURLQuery: boolean;
   setTab: string;
-  
+  onHoverZoom: string;
   setRatio: string;
   setSize: string;
   setImgFit: string;

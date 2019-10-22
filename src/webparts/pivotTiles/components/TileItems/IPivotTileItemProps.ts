@@ -17,6 +17,7 @@ export interface IPivotTileItemProps {
   imgSize: string;
   heroType: string;
 
+  onHoverZoom: string;
   setRatio: string;
   setSize: string;
   setImgFit: string;

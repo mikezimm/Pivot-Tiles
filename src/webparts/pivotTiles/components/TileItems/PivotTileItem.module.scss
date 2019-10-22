@@ -314,6 +314,12 @@
     // Need to set both height and width to be able to see tile
     width: 100%;
     height: 100%;
+
+    // Added -backface-visibility: hidden per this post:  https://theme.co/apex/forums/topic/image-move-when-hover/
+    // Without it, the non-Hero tiles would shift a couple pixels in Chrome on hover.
+    // When editing web part props (like hero or size), effect will come back until you refresh the page.
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     //These did nothing to prevent the left icons from shifting on hover.
     //border: 0px;
     //margin: 0px;
@@ -341,10 +347,29 @@
   .imgHoverZoomHover { 
     @extend .pTileItemImageCustom;
     transition:all 3.25s ease;
-    transform: scale(1.2);
+    // transform: scale(1.2);
     transition-delay:0.25s;
     //*** Does not impact shift    width: 100%;
     //*** Does not impact shift    height: 100%;
+  }
+
+
+  /* [3] Finally, transforming the image when container gets hovered */
+  .imgHoverZoomHover00 {
+    @extend .imgHoverZoomHover;
+    transform: scale(0);
+  }
+  .imgHoverZoomHover10 { 
+    @extend .imgHoverZoomHover;
+    transform: scale(1.0);
+  }
+  .imgHoverZoomHover11 { 
+    @extend .imgHoverZoomHover;
+    transform: scale(1.1);
+  }
+  .imgHoverZoomHover12 { 
+    @extend .imgHoverZoomHover;
+    transform: scale(1.2);
   }
 
   // .pTileItemImage100 { @extend .pTileItemImage; @extend .hW100;}
