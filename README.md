@@ -20,6 +20,7 @@ gulp
 npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp --save
 npm install @microsoft/sp-listview-extensibility   (Required from copying services folder from react repo)
 npm install @pnp/sp  ( Required to get list items from web )
+npm install --save @pnp/polyfill-ie11
 
 ```
 ### Create log:

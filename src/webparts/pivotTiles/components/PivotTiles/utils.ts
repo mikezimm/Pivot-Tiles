@@ -30,8 +30,11 @@ export default class Utils {
 
 
     console.log("buildTileCollectionFromResponse");
-    console.table(pivotProps);
-    console.table(response);
+    console.log(pivotProps);
+    console.log(response);
+
+    //console.table(pivotProps);
+    //console.table(response);
 
     let tileCollection = response.map(item => ({
 
@@ -113,8 +116,10 @@ export default class Utils {
   public static buildTileCategoriesFromResponse(response, pivotProps){
 
     let tileCategories = [];
-    console.table("tileCollection");
-    console.table(response);
+    //console.table("tileCollection");
+    //console.table(response);
+    console.log("tileCollection");
+    console.log(response);    
     console.log(pivotProps.colCategory);
     console.log(pivotProps.colCategory.replace("/","."));
 

@@ -14,6 +14,8 @@ import tUtils from './../TileItems/utilTiles';
 
 import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/Pivot';
 import { DefaultButton, autobind } from 'office-ui-fabric-react';
+//https://pnp.github.io/pnpjs/documentation/polyfill/ -- Needed to select/extend pnpJs in IE11
+import "@pnp/polyfill-ie11";
 import { sp, Web } from '@pnp/sp';
 import * as strings from 'PivotTilesWebPartStrings';
 
