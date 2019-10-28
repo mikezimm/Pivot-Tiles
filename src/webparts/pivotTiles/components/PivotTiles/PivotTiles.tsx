@@ -396,118 +396,80 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       console.log(fixedURL);   
 
       web.lists.getByTitle(useTileList).items
-      .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get().then
-        ((response) => {
-
-          if (response.length===0){
-            this.setState({ loadStatus: "NoItemsFound" });
-            return;
-          }
-
-          const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
-          const listURL = fixedURL + "lists/" + this.props.listTitle;
-          const currentPageUrl = this.props.listWebURL + this.context.site.serverRequestPath;
-          const editItemURL = listURL + "/EditForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
-
-          let pivotProps = this.props;
-          let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
-
-          let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
-
-          const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
-          const defaultSelectedKey = defaultSelectedIndex.toString();
-          //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
-
-          let heroTiles = this.getHeroTiles(pivotProps, tileCollection);
-
-          let heroIds = this.getHeroIds(heroTiles);
-
-          let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
-
-          this.setState({
-            allTiles:tileCollection,
-            pivtTitles: tileCategories,
-            filteredTiles: newFilteredTiles,
-            pivotDefSelKey: defaultSelectedKey,
-            loadStatus:"Ready",
-            heroStatus: heroTiles[0] ? "Ready" : "none",
-            heroTiles : heroTiles,
-            heroIds: heroIds,
-            loadError: "",
+        .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
+        .then((response) => {
+            this.processResponse(response);
+          }).catch((e) => {
+            this.processCatch(e);
           });
-
-        }).catch((e) => {
-          console.log("Can't load data");
-          //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
-          //alert(m);
-          console.log(e);
-          console.log(e.status);
-          console.log(e.message);
-          let sendMessage = e.status + " - " + e.message;
-
-          this.setState({  loadStatus: "ListNotFound", loadError: e.message });
-        });
 
     } else {
 
-        sp.web.lists.getByTitle(useTileList).items
-          .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
-          .then((response) => {
-//           let tileCollection = response.map(item=>new ClassTile(item));
-//           https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
-
-            if (response.length===0){
-              this.setState({  loadStatus: "NoItemsFound"  });
-              return ;
-            }
-
-            const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
-            const listURL = fixedURL + "lists/" + this.props.listTitle;
-            const currentPageUrl = this.props.pageContext.web.absoluteUrl + this.props.pageContext.site.serverRequestPath;
-            const editItemURL = listURL + "/DispForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
-  
-            let pivotProps = this.props;
-            let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
-
-            let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
-            
-            const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
-            const defaultSelectedKey = defaultSelectedIndex.toString();
-            //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
-
-            let heroTiles = this.getHeroTiles(pivotProps, tileCollection);
-
-            let heroIds = this.getHeroIds(heroTiles);
-
-            let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
-  
-            this.setState({
-              allTiles:tileCollection,
-              pivtTitles: tileCategories,
-              filteredTiles: newFilteredTiles,
-              pivotDefSelKey: defaultSelectedKey,
-              loadStatus:"Ready",
-              heroStatus: heroTiles[0] ? "Ready" : "none",
-              heroTiles : heroTiles,
-              heroIds: heroIds,
-              loadError: "",
-            });
-
-          }).catch((e) => {
-            console.log("Can't load data");
-            //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
-            //alert(m);
-            console.log(e);
-            console.log(e.status);
-            console.log(e.message);
-            let sendMessage = e.status + " - " + e.message;
-  
-            this.setState({  loadStatus: "ListNotFound", loadError: e.message });
-          });
+      sp.web.lists.getByTitle(useTileList).items
+        .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
+        .then((response) => {
+          this.processResponse(response);
+        }).catch((e) => {
+          this.processCatch(e);
+        });
 
     }
 
   }  
+  private processCatch(e) {
+    console.log("Can't load data");
+    //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
+    //alert(m);
+    console.log(e);
+    console.log(e.status);
+    console.log(e.message);
+    let sendMessage = e.status + " - " + e.message;
+    this.setState({  loadStatus: "ListNotFound", loadError: e.message });
+
+  }
+
+  private processResponse(response){
+
+    if (response.length===0){
+      this.setState({  loadStatus: "NoItemsFound"  });
+      return ;
+    }
+
+    const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+    const listURL = fixedURL + "lists/" + this.props.listTitle;
+    const currentPageUrl = this.props.pageContext.web.absoluteUrl + this.props.pageContext.site.serverRequestPath;
+    const editItemURL = listURL + "/DispForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
+
+    let pivotProps = this.props;
+    let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
+
+    let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
+    
+    const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
+    const defaultSelectedKey = defaultSelectedIndex.toString();
+    //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
+
+    let heroTiles = this.getHeroTiles(pivotProps, tileCollection);
+
+    let heroIds = this.getHeroIds(heroTiles);
+
+    let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
+
+    this.setState({
+      allTiles:tileCollection,
+      pivtTitles: tileCategories,
+      filteredTiles: newFilteredTiles,
+      pivotDefSelKey: defaultSelectedKey,
+      loadStatus:"Ready",
+      heroStatus: heroTiles[0] ? "Ready" : "none",
+      heroTiles : heroTiles,
+      heroIds: heroIds,
+      loadError: "",
+    });
+
+    return true;
+
+  }
 
   private getNewFilteredTiles(thisProps, tileCollection, heroIds, heroTiles) {
 
