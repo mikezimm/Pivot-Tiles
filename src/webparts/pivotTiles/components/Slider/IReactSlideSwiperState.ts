@@ -1,5 +1,5 @@
-import { ListItem } from "../services/ListItem";
+import { IPivotTileItemProps } from "../TileItems/IPivotTileItemProps";
 
 export interface IReactSlideSwiperState {
-  listItems: Array<ListItem>;
+  listItems: Array<IPivotTileItemProps>;
 }

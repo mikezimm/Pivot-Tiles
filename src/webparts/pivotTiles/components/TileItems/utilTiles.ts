@@ -212,7 +212,7 @@ export default class StyleUtils {
   public static getOnHoverStyle(scale) {
 
     var iOnZoomStyle = styles.pTileItemWrapper;
-    console.log(scale);
+    //console.log(scale);
 
     if ( scale === '1.0' ) {
       iOnZoomStyle = styles.imgHoverZoomHover10;

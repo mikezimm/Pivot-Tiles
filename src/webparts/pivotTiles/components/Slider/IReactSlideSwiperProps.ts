@@ -1,10 +1,16 @@
-import { SPHttpClient, SPHttpClientResponse, SPHttpClientConfiguration  } from '@microsoft/sp-http';
 
-import { IListService } from "../services/IListService";
-import { IReactSlideSwiperWebPartProps } from "../ReactSlideSwiperWebPart";
+import { IPivotTileItemProps } from "../TileItems/IPivotTileItemProps";
 
 export interface IReactSlideSwiperProps {
-  listService: IListService;
-  swiperOptions: IReactSlideSwiperWebPartProps;
-  listName: string;
+  enableNavigation: boolean;
+  enablePagination: boolean;
+  enableAutoplay: boolean;
+  delayAutoplay: number;
+  disableAutoplayOnInteraction: boolean;
+  slidesPerView: string;
+  slidesPerGroup: string;
+  spaceBetweenSlides: string;
+  enableGrabCursor: boolean;
+  enableLoop: boolean;
+  listItems: Array<IPivotTileItemProps>;
 }

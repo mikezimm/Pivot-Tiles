@@ -117,10 +117,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
 
+    let slider = tileBuilders.sliderBuilder(this.props,this.state);
+
 
     return (
       <div>
-
+        { slider }
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>

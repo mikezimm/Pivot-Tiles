@@ -81,7 +81,7 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     }
 
     var iHoverZoomStyle = tUtils.getOnHoverStyle(this.props.onHoverZoom);
-    console.log(iHoverZoomStyle);
+    //console.log(iHoverZoomStyle);
 
     if (this.props.heroType === "none" && this.props.setSize === "Custom"){
       return (

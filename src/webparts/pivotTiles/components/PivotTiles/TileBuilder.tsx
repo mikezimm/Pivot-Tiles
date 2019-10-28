@@ -6,8 +6,43 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import Utils from './utils';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import PivotTileItem from './../TileItems/PivotTileItem';
+import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
+  
+  export function sliderBuilder(parentProps,parentState){
+  
+        console.log('sliderBuilder State')
+        console.log(parentState);
+
+      let sliderFullLineBuild: any;
+
+      if (parentState.heroTiles) {
+        console.log('sliderBuilder:  Found parentState.heroTiles');
+        console.log(parentState.heroTiles);
+        sliderFullLineBuild = 
+          <ReactSlideSwiper
+            enableNavigation = { true }
+            enablePagination = { true }
+            enableAutoplay = { false }
+            delayAutoplay = { 10 }
+            disableAutoplayOnInteraction = { true }
+            slidesPerView = { "2" }
+            slidesPerGroup = { "2" }
+            spaceBetweenSlides = { "2" }
+            enableGrabCursor = { true }
+            enableLoop = { true }
+            listItems = { parentState.heroTiles }
+            />
+          ;
+      } else { sliderFullLineBuild = ""; }
+  
+  //        setImgFit={heroRatio = '1x1'? 'portrait' : 'landscape'}
+      console.log(sliderFullLineBuild);
+      return sliderFullLineBuild;
+  
+  }
+  
 
 export function heroBuilder(parentProps,parentState){
 

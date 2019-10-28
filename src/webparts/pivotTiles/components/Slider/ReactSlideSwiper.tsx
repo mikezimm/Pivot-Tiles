@@ -2,10 +2,9 @@ import * as React from 'react';
 import styles from './ReactSlideSwiper.module.scss';
 import { IReactSlideSwiperProps } from './IReactSlideSwiperProps';
 import { IReactSlideSwiperState } from './IReactSlideSwiperState';
-import { ListItem } from './ListItem';
 import Card from './Card/Card';
 
-const Swiper: any = require('swiper/dist/js/swiper.min');
+const Swiper: any = require('swiper/js/swiper.min');
 
 export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperProps, IReactSlideSwiperState> {
   
@@ -13,13 +12,13 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
 
   constructor(props: IReactSlideSwiperProps) {
     super(props);
-    this.state = { listItems: [] };
-    
+    //this.state = { listItems: [] };
+    this.state = { listItems: this.props.listItems };
     this.uniqueId = Math.floor(Math.random() * 10000) + 1;
   }
 
   public componentDidMount(): void {
-
+    /*
     this.props.listService.getAll(this.props.listName).then((result: Array<ListItem>) => {
 
       // List items returned from the ListMock so we can
@@ -32,6 +31,20 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
       // handle the swipe effect for the items.
       this.setSwiper();
     });
+    */
+    //this.setState({ listItems: this.props.listItems });
+    console.log('ReactSlideSwiper > componentDidMount:  this.props.listItems');
+    console.log(this.props.listItems);
+    this.setSwiper();
+
+  }
+
+  public componentDidUpdate(prevProps){
+
+    console.log('ReactSlideSwiper > componentDidUpdate:  this.props.listItems');
+    console.log(this.props.listItems);
+    this.setSwiper();
+
   }
 
   public render(): React.ReactElement<IReactSlideSwiperProps> {
@@ -40,8 +53,8 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
 
         <div className={`swiper-container ${styles.container} container-${this.uniqueId}`}>
           <div className='swiper-wrapper'>
-            {this.state.listItems.length &&
-              this.state.listItems.map((listItem, i) => {
+            {this.props.listItems.length &&
+              this.props.listItems.map((listItem, i) => {
                 return <div className={`swiper-slide ${styles.slide}`} key={i}>
 
                   <Card listItem={listItem} key={i} />
@@ -50,14 +63,14 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
               })}
           </div>
 
-          {this.props.swiperOptions.enableNavigation &&
+          {this.props.enableNavigation &&
             <div className={`swiper-button-next next-${this.uniqueId}`}></div>
           }
-          {this.props.swiperOptions.enableNavigation &&
+          {this.props.enableNavigation &&
             <div className={`swiper-button-prev prev-${this.uniqueId}`}></div>
           }
 
-          {this.props.swiperOptions.enablePagination !== false &&
+          {this.props.enablePagination !== false &&
             <div className={`swiper-pagination pagination-${this.uniqueId}`}></div>
           }
         </div>
@@ -66,7 +79,10 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
   }
 
   private setSwiper(): void {
-    const opts = this.props.swiperOptions;
+    const opts = this.props;
+    console.log('setSwiper: this.props');
+    console.log(this.props);
+
 
     const options: any = {
       slidesPerView: parseInt(opts.slidesPerView) || 3,

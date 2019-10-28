@@ -1,6 +1,6 @@
-import { ListItem } from "../../services/ListItem";
+import { IPivotTileItemProps } from "../../TileItems/IPivotTileItemProps";
 
 export interface ICardProps {
   key: number;
-  listItem: ListItem;
+  listItem: IPivotTileItemProps;
 }

@@ -8,7 +8,7 @@ export default class Card extends React.Component<ICardProps, {}> {
     return (
       <div className={styles.card}>
         <div className={styles.wrapper}>
-          <img src={this.props.listItem.TileBgImageUrl} className={styles.image} />
+          <img src={this.props.listItem.imageUrl} className={styles.image} />
           <a href="#" className={styles.url} >
             <h3 className={styles.title}>{this.props.listItem.title}</h3>
           </a>

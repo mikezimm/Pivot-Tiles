@@ -118,26 +118,26 @@ export default class Utils {
     let tileCategories = [];
     //console.table("tileCollection");
     //console.table(response);
-    console.log("tileCollection");
-    console.log(response);    
-    console.log(pivotProps.colCategory);
-    console.log(pivotProps.colCategory.replace("/","."));
+    //console.log("tileCollection");
+    //console.log(response);    
+    //console.log(pivotProps.colCategory);
+    //console.log(pivotProps.colCategory.replace("/","."));
 
     let splitCol = pivotProps.colCategory.split("/");
     let leftSide = splitCol[0];
     let righttSide = splitCol[1];
-    console.log('leftSide: ' + leftSide);
-    console.log('righttSide: ' + righttSide);
+    //console.log('leftSide: ' + leftSide);
+    //console.log('righttSide: ' + righttSide);
 
     for (let tile of response) {
-      console.log(tile);
+      //console.log(tile);
       if (righttSide) {
         // Use different notation for drilling down
         console.log('buildTileCategoriesFromResponse category 0');  
         let lookup = tile[leftSide];
-        console.log(lookup);
+        //console.log(lookup);
         let detail = lookup[righttSide].toString();
-        console.log(detail);
+        //console.log(detail);
 
           console.log('buildTileCategoriesFromResponse category 1');
           if(tileCategories.indexOf(detail) === -1) {
@@ -147,8 +147,8 @@ export default class Utils {
         console.log('buildTileCategoriesFromResponse category 0');
       } else {
         for (let category of tile[pivotProps.colCategory]) {
-          console.log('buildTileCategoriesFromResponse category 2');
-          console.log(category);
+          //console.log('buildTileCategoriesFromResponse category 2');
+          //console.log(category);
           if(tileCategories.indexOf(category) === -1) {
             tileCategories.push(category);
           }
@@ -156,7 +156,7 @@ export default class Utils {
       }
 
     }
-
+    console.log('buildTileCategoriesFromResponse:  tileCategories');
     console.log(tileCategories);
     tileCategories.sort();
     console.log(tileCategories);
