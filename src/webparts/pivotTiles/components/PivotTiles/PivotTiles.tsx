@@ -27,6 +27,7 @@ import { pivotOptionsGroup, } from '../../../../services/propPane';
 import * as myErrors from './ErrorMessages';
 import * as tileBuilders from './TileBuilder';
 
+
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
   //https://www.youtube.com/watch?v=4nsGhYjfRsw 9:01-ish talks about setting constructor
