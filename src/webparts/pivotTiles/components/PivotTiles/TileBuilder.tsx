@@ -27,12 +27,12 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
             enableAutoplay = { false }
             delayAutoplay = { 10 }
             disableAutoplayOnInteraction = { true }
-            slidesPerView = { "2" }
-            slidesPerGroup = { "2" }
+            slidesPerView = { "1" }
+            slidesPerGroup = { "1" }
             spaceBetweenSlides = { "2" }
             enableGrabCursor = { true }
             enableLoop = { true }
-            listItems = { parentState.heroTiles }
+            listItems = { parentState.allTiles }
             />
           ;
       } else { sliderFullLineBuild = ""; }
