@@ -83,6 +83,11 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
     console.log('setSwiper: this.props');
     console.log(this.props);
 
+    /*
+          slidesPerView: parseInt(opts.slidesPerView) || 3,
+      slidesPerGroup: parseInt(opts.slidesPerGroup) || 3,
+      spaceBetween: parseInt(opts.spaceBetweenSlides) || 10,
+      */
 
     const options: any = {
       slidesPerView: parseInt(opts.slidesPerView) || 3,

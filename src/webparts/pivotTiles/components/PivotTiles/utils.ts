@@ -67,6 +67,7 @@ export default class Utils {
       setTab: pivotProps.setTab,
       setSize: pivotProps.setSize,
       heroType: pivotProps.heroType,
+      heroCategory: pivotProps.heroCategory,      
 
       Id: item.Id,
 
@@ -113,11 +114,13 @@ export default class Utils {
 
   }
 
-  public static buildTileCategoriesFromResponse(response, pivotProps){
+  public static buildTileCategoriesFromResponse(pivotProps, response ){
 
     let tileCategories = [];
-    //console.table("tileCollection");
-    //console.table(response);
+//    console.table("tileCollection:  response");
+//    console.table(response);
+//    console.log(pivotProps);
+
     //console.log("tileCollection");
     //console.log(response);    
     //console.log(pivotProps.colCategory);
@@ -146,18 +149,27 @@ export default class Utils {
 
         console.log('buildTileCategoriesFromResponse category 0');
       } else {
-        for (let category of tile[pivotProps.colCategory]) {
+        //for (let category of tile[pivotProps.colCategory]) {
+          for (let category of tile.category) {
           //console.log('buildTileCategoriesFromResponse category 2');
           //console.log(category);
           if(tileCategories.indexOf(category) === -1) {
-            tileCategories.push(category);
+
+//            console.log('Checking category: ' + category + ' from tile: ' + tile.title );
+//            console.log('Checking category: pivotProps.heroType ' + pivotProps.heroType );
+//            console.log('Checking category: pivotProps.heroCategory ' + pivotProps.heroCategory );            
+            if (  pivotProps.showHero === true && pivotProps.heroType === 'slider' && category === pivotProps.heroCategory ) {
+              //  If heroType is slider and this is the heroCategory, do not add to tile categories.
+
+            } else {
+              tileCategories.push(category);
+            }
           }
         }
       }
-
     }
     console.log('buildTileCategoriesFromResponse:  tileCategories');
-    console.log(tileCategories);
+//    console.log(tileCategories);
     tileCategories.sort();
     console.log(tileCategories);
     return tileCategories;

@@ -122,7 +122,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     return (
       <div>
-        { slider }
+
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
@@ -160,6 +160,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <br/>
 
           { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
+          { ( this.props.showHero === true && this.props.heroType === "slider" ? ( slider ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
           { ( ( this.props.showHero === true && this.props.heroType === "inLine"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
@@ -225,6 +226,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     this.setState({
       filteredTiles: newFilteredTiles,
+      pivotDefSelKey: "-100",
     });
 
   } //End onClick
@@ -279,6 +281,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let newHeros = this.getHeroTiles(pivotProps, newCollection);
     let heroIds = this.getHeroIds(newHeros);
     let newFiltered = this.getNewFilteredTiles(pivotProps, newCollection, heroIds, newHeros);
+
+    let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, newCollection);
+
+    const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
+    const defaultSelectedKey = defaultSelectedIndex.toString();
 
     for (let thisTile of newCollection) {
       thisTile.setTab = this.props.setTab;
@@ -349,6 +356,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     this.setState({
       allTiles:newCollection,
+      pivtTitles: tileCategories,
+      pivotDefSelKey: defaultSelectedKey,
       filteredTiles: newFiltered,
       loadStatus:"Ready",
       heroTiles : newHeros,
@@ -448,7 +457,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let pivotProps = this.props;
       let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
   
-      let tileCategories = Utils.buildTileCategoriesFromResponse(response, pivotProps);
+      let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection);
       
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
       const defaultSelectedKey = defaultSelectedIndex.toString();
@@ -511,10 +520,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('Here is heroTiles length');
     console.log(heroTiles.length);
     console.log(heroTiles);
-
-    var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
-    heroTiles = [randomItem];
-
+    if (this.props.heroType !== 'slider') {
+      //If it's not a slider, then only show one random tile.  Else show all
+      var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
+      heroTiles = [randomItem];
+    }
     return heroTiles;
 
   }

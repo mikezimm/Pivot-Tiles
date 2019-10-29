@@ -19,7 +19,7 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
 
       if (parentState.heroTiles[0]) {
         console.log('sliderBuilder:  Found parentState.heroTiles');
-        console.log(parentState.allTiles);
+        console.log(parentState.heroTiles);
         sliderFullLineBuild = 
           <ReactSlideSwiper
             enableNavigation = { true }
@@ -27,12 +27,12 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
             enableAutoplay = { false }
             delayAutoplay = { 10 }
             disableAutoplayOnInteraction = { true }
-            slidesPerView = { "2" }
-            slidesPerGroup = { "2" }
-            spaceBetweenSlides = { "2" }
+            slidesPerView = { "30" }
+            slidesPerGroup = { "1" }
+            spaceBetweenSlides = { "15" }
             enableGrabCursor = { true }
             enableLoop = { true }
-            listItems = { parentState.allTiles }
+            listItems = { parentState.heroTiles }
             />
           ;
       } else { sliderFullLineBuild = ""; }
@@ -88,6 +88,7 @@ export function heroBuilder(parentProps,parentState){
           setImgFit={parentProps.setHeroFit}
           setImgCover={parentProps.setHeroCover}
           target={newTile.target}
+          heroCategory={parentProps.heroCategory}
 
           onHoverZoom={parentProps.onHoverZoom}
           heroType = {newTile.heroType}
@@ -130,6 +131,7 @@ export function tileBuilder(parentProps,parentState){
       target={newTile.target}
       onHoverZoom={parentProps.onHoverZoom}
       heroType = {'none'}
+      heroCategory={'none'}
       imageWidth = {parentProps.imageWidth}
       imageHeight = {parentProps.imageHeight}
       textPadding = {parentProps.textPadding}
