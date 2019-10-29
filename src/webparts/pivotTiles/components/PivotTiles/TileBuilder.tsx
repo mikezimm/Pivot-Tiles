@@ -6,7 +6,7 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import Utils from './utils';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import PivotTileItem from './../TileItems/PivotTileItem';
-import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
+import ReactSlideSwiper from '../Slider/ReactSlideSwiper';
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
   

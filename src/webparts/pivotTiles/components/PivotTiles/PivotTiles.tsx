@@ -27,6 +27,7 @@ import { pivotOptionsGroup, } from '../../../../services/propPane';
 import * as myErrors from './ErrorMessages';
 import * as tileBuilders from './TileBuilder';
 
+import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
@@ -96,6 +97,24 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   }
 
+
+  public createCarousels(thisState){
+    let elemnts = [];
+    if (thisState.heroTiles[0]){
+      elemnts = thisState.heroTiles.map(newTile => (
+        <div>
+          {newTile.title}
+        </div>
+        ));
+    }
+
+    return (
+      elemnts
+    );
+  }
+
+
+
   public render(): React.ReactElement<IPivotTilesProps> {
     let heroFullLineBuild = "";
 
@@ -104,6 +123,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
       }
     }
+
+    // This will just put title text per createCarousels.
+    //let carouselElements: JSX.Element[] = this.createCarousels(this.state) ;
+    // This will put formatted tiles in place.  When width = 1 it looks great.
+    let carouselElements: JSX.Element[] = tileBuilders.tileBuilder(this.props,this.state)
 
     let buildTips = myErrors.buildTips(this.props,this.state);
     
@@ -123,6 +147,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
+        <Carousel
+          buttonsLocation={CarouselButtonsLocation.top}
+          buttonsDisplay={CarouselButtonsDisplay.block}
+
+
+          isInfinite={true}
+
+          element={carouselElements}
+          onMoveNextClicked={(index: number) => { console.log(`Next button clicked: ${index}`); }}
+          onMovePrevClicked={(index: number) => { console.log(`Prev button clicked: ${index}`); }}
+        />
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
