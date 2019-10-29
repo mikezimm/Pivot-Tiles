@@ -17,9 +17,9 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
 
       let sliderFullLineBuild: any;
 
-      if (parentState.heroTiles) {
+      if (parentState.heroTiles[0]) {
         console.log('sliderBuilder:  Found parentState.heroTiles');
-        console.log(parentState.heroTiles);
+        console.log(parentState.allTiles);
         sliderFullLineBuild = 
           <ReactSlideSwiper
             enableNavigation = { true }
@@ -27,8 +27,8 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
             enableAutoplay = { false }
             delayAutoplay = { 10 }
             disableAutoplayOnInteraction = { true }
-            slidesPerView = { "1" }
-            slidesPerGroup = { "1" }
+            slidesPerView = { "2" }
+            slidesPerGroup = { "2" }
             spaceBetweenSlides = { "2" }
             enableGrabCursor = { true }
             enableLoop = { true }

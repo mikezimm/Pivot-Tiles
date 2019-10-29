@@ -34,7 +34,7 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
     */
     //this.setState({ listItems: this.props.listItems });
     console.log('ReactSlideSwiper > componentDidMount:  this.props.listItems');
-    console.log(this.state.listItems);
+    console.log(this.props.listItems);
     this.setSwiper();
 
   }
@@ -42,7 +42,7 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
   public componentDidUpdate(prevProps){
 
     console.log('ReactSlideSwiper > componentDidUpdate:  this.props.listItems');
-    console.log(this.state.listItems);
+    console.log(this.props.listItems);
     this.setSwiper();
 
   }
@@ -53,8 +53,8 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
 
         <div className={`swiper-container ${styles.container} container-${this.uniqueId}`}>
           <div className='swiper-wrapper'>
-            {this.state.listItems.length &&
-              this.state.listItems.map((listItem, i) => {
+            {this.props.listItems.length &&
+              this.props.listItems.map((listItem, i) => {
                 return <div className={`swiper-slide ${styles.slide}`} key={i}>
 
                   <Card listItem={listItem} key={i} />
@@ -81,7 +81,7 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
   private setSwiper(): void {
     const opts = this.props;
     console.log('setSwiper: this.props');
-    console.log(this.state);
+    console.log(this.props);
 
 
     const options: any = {
