@@ -33,6 +33,7 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper'
             enableGrabCursor = { true }
             enableLoop = { true }
             listItems = { parentState.heroTiles }
+            onHoverZoom={parentProps.onHoverZoom}
             />
           ;
       } else { sliderFullLineBuild = ""; }

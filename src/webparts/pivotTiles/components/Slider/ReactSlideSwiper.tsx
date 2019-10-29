@@ -57,7 +57,7 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
               this.props.listItems.map((listItem, i) => {
                 return <div className={`swiper-slide ${styles.slide}`} key={i}>
 
-                  <Card listItem={listItem} key={i} />
+                  <Card listItem={listItem} key={i} onHoverZoom={this.props.onHoverZoom}/>
 
                 </div>;
               })}

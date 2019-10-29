@@ -12,5 +12,7 @@ export interface IReactSlideSwiperProps {
   spaceBetweenSlides: string;
   enableGrabCursor: boolean;
   enableLoop: boolean;
+  onHoverZoom: string;
   listItems: Array<IPivotTileItemProps>;
+
 }
