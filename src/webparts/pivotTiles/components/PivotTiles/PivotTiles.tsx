@@ -152,10 +152,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         <Carousel
           buttonsLocation={CarouselButtonsLocation.top}
           buttonsDisplay={CarouselButtonsDisplay.block}
-
-
           isInfinite={true}
-
           element={carouselElements}
           onMoveNextClicked={(index: number) => { console.log(`Next button clicked: ${index}`); }}
           onMovePrevClicked={(index: number) => { console.log(`Prev button clicked: ${index}`); }}
