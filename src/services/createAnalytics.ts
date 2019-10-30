@@ -3,11 +3,19 @@ import { sp, Web, Item, ItemAddResult, ItemUpdateResult } from '@pnp/sp';
 
 export function saveAnalytics (theProps,theState) {
 
+    console.log('saveAnalytics');
+    console.log(theProps); 
+    console.log(theState);
+
     let analyticsList = "TilesCycleTesting";
-    let startTime = theProps.theTime;
+    let startTime = theProps.startTime;
     let endTime = theState.endTime;
     let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/');
 
+    /*
+
+
+    */
     web.lists.getByTitle(analyticsList).items.add({
         'Title': 'Pivot-Tiles x1asdf',
         'zzzText1': startTime.now,      
@@ -18,7 +26,7 @@ export function saveAnalytics (theProps,theState) {
         'zzzNumber2': endTime.milliseconds,
         }).then((response) => {
         //Reload the page
-            location.reload();
+            //location.reload();
         }).catch((e) => {
         //Throw Error
             alert(e);
