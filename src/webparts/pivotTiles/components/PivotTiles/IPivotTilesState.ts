@@ -1,4 +1,5 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
+import { theTime } from './IPivotTilesProps';
 
 export interface IPivotTilesState {
 
@@ -16,5 +17,7 @@ export interface IPivotTilesState {
   showTips?: string;
   loadError?: string;
   lookupColumns?: string[];
+
+  endTime?: theTime;
 
 }

@@ -21,9 +21,11 @@ import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
 import { listMapping } from './ListMapping';
 
+import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../services/createAnalytics';
 
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
+  
   //Added for Get List Data:  https://www.youtube.com/watch?v=b9Ymnicb1kc
   public onInit():Promise<void> {
     return super.onInit().then(_ => {
@@ -32,12 +34,15 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         spfxContext: this.context
       });
     });
+
+    
   }
 
   public render(): void {
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
+        startTime: getTheCurrentTime(),
         description: this.properties.description,
         listDefinition: this.properties.listDefinition,
         listWebURL: this.properties.listWebURL,

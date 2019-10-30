@@ -27,6 +27,8 @@ import { pivotOptionsGroup, } from '../../../../services/propPane';
 import * as myErrors from './ErrorMessages';
 import * as tileBuilders from './TileBuilder';
 
+import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../../../services/createAnalytics';
+
 import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -503,7 +505,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let heroIds = this.getHeroIds(heroTiles);
   
       let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
-  
+      let theTime = {};
+
       this.setState({
         allTiles:tileCollection,
         pivtTitles: tileCategories,
@@ -514,8 +517,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         heroTiles : heroTiles,
         heroIds: heroIds,
         loadError: "",
+        endTime: this.state.endTime ? this.state.endTime : getTheCurrentTime(),
       });
-  
+      
+      saveAnalytics(this.props,this.state);
+      
       return true;
   
     }

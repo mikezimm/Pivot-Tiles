@@ -1,6 +1,12 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 import { PageContext } from '@microsoft/sp-page-context';
 
+export interface theTime {
+  now: Date,
+  theTime : string,
+  milliseconds : number,
+}
+
 export interface IPivotTilesProps {
 
   description: string;
@@ -38,6 +44,8 @@ export interface IPivotTilesProps {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
+
+  startTime: theTime;
 
   imageWidth: number;
   imageHeight: number;
