@@ -119,7 +119,7 @@ export function saveAnalyticsX (theTime) {
 
         }).then((response) => {
         //Reload the page
-            location.reload();
+            //location.reload();
         }).catch((e) => {
         //Throw Error
             alert(e);

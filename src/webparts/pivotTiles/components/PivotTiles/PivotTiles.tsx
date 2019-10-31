@@ -29,7 +29,7 @@ import * as tileBuilders from './TileBuilder';
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../../../services/createAnalytics';
 
-import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
+
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
@@ -115,8 +115,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     );
   }
 
-
-
   public render(): React.ReactElement<IPivotTilesProps> {
     let heroFullLineBuild = "";
 
@@ -129,7 +127,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     // This will just put title text per createCarousels.
     //let carouselElements: JSX.Element[] = this.createCarousels(this.state) ;
     // This will put formatted tiles in place.  When width = 1 it looks great.
-    let carouselElements: JSX.Element[] = tileBuilders.tileBuilder(this.props,this.state)
+ 
+    let carouselBuilder = tileBuilders.carouselBuilder(this.props,this.state);
 
     let buildTips = myErrors.buildTips(this.props,this.state);
     
@@ -149,14 +148,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
-        <Carousel
-          buttonsLocation={CarouselButtonsLocation.top}
-          buttonsDisplay={CarouselButtonsDisplay.block}
-          isInfinite={true}
-          element={carouselElements}
-          onMoveNextClicked={(index: number) => { console.log(`Next button clicked: ${index}`); }}
-          onMovePrevClicked={(index: number) => { console.log(`Prev button clicked: ${index}`); }}
-        />
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
@@ -194,6 +185,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <br/>
 
           { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
+          
+          { ( (this.props.showHero === true && this.props.heroType === "carousel" &&  this.state.heroStatus === "Ready") ? ( carouselBuilder ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "slider" ? ( slider ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
@@ -558,7 +551,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('Here is heroTiles length');
     console.log(heroTiles.length);
     console.log(heroTiles);
-    if (this.props.heroType !== 'slider') {
+    if (this.props.heroType !== 'slider' && this.props.heroType !== 'carousel') {
       //If it's not a slider, then only show one random tile.  Else show all
       var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
       heroTiles = [randomItem];

@@ -83,10 +83,11 @@ import {
     public heroChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
         {   index: 0,   key: 'inLine', text: "Single In Line (below pivot)"  },
         {   index: 6,   key: 'slider', text: "Slider (below pivot)"  },
+        {   index: 7,   key: 'carousel', text: "Carousel (below pivot)"  },      
+        {   index: 3,   key: 'header', text: "Above"  },
+        {   index: 4,   key: 'footer', text: "Below"  },  
         {   index: 1,   key: 'left', text: "Left side"  },
         {   index: 2,   key: 'right', text: "Right side"  },
-        {   index: 3,   key: 'header', text: "Above"  },
-        {   index: 4,   key: 'footer', text: "Below"  },
         {   index: 9,   key: 'none', text: "None"  },
     ];
     /*  These do not seem to  work.

@@ -7,8 +7,41 @@ import Utils from './utils';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import PivotTileItem from './../TileItems/PivotTileItem';
 import ReactSlideSwiper from '../Slider/ReactSlideSwiper';
+
+import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
+
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
+
+  export function carouselBuilder(parentProps,parentState){
+  
+    let carouselElements: JSX.Element[] = this.tileBuilder(parentProps,parentState);
+
+    console.log('carouselBuilder State')
+    console.log(parentState);
+
+  let carouselFullLineBuild: any;
+
+  if (parentState.heroTiles[0]) {
+    console.log('carouselBuilder:  Found parentState.heroTiles');
+    console.log(parentState.heroTiles);
+    carouselFullLineBuild = 
+    <Carousel
+      buttonsLocation={CarouselButtonsLocation.top}
+      buttonsDisplay={CarouselButtonsDisplay.block}
+      isInfinite={true}
+      element={carouselElements}
+      onMoveNextClicked={(index: number) => { console.log(`Next button clicked: ${index}`); }}
+      onMovePrevClicked={(index: number) => { console.log(`Prev button clicked: ${index}`); }}
+    />
+      ;
+  } else { carouselFullLineBuild = ""; }
+
+//        setImgFit={heroRatio = '1x1'? 'portrait' : 'landscape'}
+  console.log(carouselFullLineBuild);
+  return carouselFullLineBuild;
+
+}
   
   export function sliderBuilder(parentProps,parentState){
   
