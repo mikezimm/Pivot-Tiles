@@ -102,7 +102,7 @@ export function saveAnalytics (theProps,theState) {
     });
 
 
-};
+}
 
 
 export function saveAnalyticsX (theTime) {
@@ -126,7 +126,7 @@ export function saveAnalyticsX (theTime) {
     });
 
 
-};
+}
 
 export function saveTheTime () {
     let theTime = getTheCurrentTime();
@@ -149,4 +149,4 @@ export function getTheCurrentTime () {
     console.log(result);   
     return result;
 
-};
+}

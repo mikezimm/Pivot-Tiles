@@ -158,8 +158,10 @@ export default class Utils {
 //            console.log('Checking category: ' + category + ' from tile: ' + tile.title );
 //            console.log('Checking category: pivotProps.heroType ' + pivotProps.heroType );
 //            console.log('Checking category: pivotProps.heroCategory ' + pivotProps.heroCategory );            
-            if (  pivotProps.showHero === true && pivotProps.heroType === 'slider' && category === pivotProps.heroCategory ) {
-              //  If heroType is slider and this is the heroCategory, do not add to tile categories.
+            if (  pivotProps.showHero === true && category === pivotProps.heroCategory && (
+              pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' )) {
+              //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
+              //  because all tiles will be in those react components.
 
             } else {
               tileCategories.push(category);

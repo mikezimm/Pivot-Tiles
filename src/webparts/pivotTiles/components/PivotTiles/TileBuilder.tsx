@@ -15,7 +15,39 @@ import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/
 
   export function carouselBuilder(parentProps,parentState){
   
-    let carouselElements: JSX.Element[] = this.tileBuilder(parentProps,parentState);
+    //let carouselElements: JSX.Element[] = this.tileBuilder(parentProps,parentState);
+
+    let carouselElements: JSX.Element[] = parentState.heroTiles.map(newTile => (
+      <PivotTileItem
+        parentCat = {parentState.filteredCategory}
+        imageUrl={newTile.imageUrl}
+        title={newTile.title}
+        description={newTile.description}
+        href={newTile.href}
+        category={newTile.category}
+        setTab={newTile.setTab}
+        Id={newTile.Id}
+        options={newTile.options}
+        color={newTile.color}
+        imgSize={newTile.imgSize}
+        listWebURL={newTile.listWebURL}
+        listTitle={newTile.listTitle}
+        setRatio={newTile.setRatio}
+        setSize={newTile.setSize}
+        setImgFit={parentProps.setHeroFit}
+        setImgCover={parentProps.setHeroCover}
+        target={newTile.target}
+        heroCategory={parentProps.heroCategory}
+
+        onHoverZoom={parentProps.onHoverZoom}
+        heroType = {newTile.heroType}
+
+        imageWidth = {parentProps.imageWidth}
+        imageHeight = {parentProps.imageHeight}
+        textPadding = {parentProps.textPadding}
+
+        />
+      ));
 
     console.log('carouselBuilder State')
     console.log(parentState);
@@ -80,25 +112,7 @@ import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/
 
 export function heroBuilder(parentProps,parentState){
 
-  /*
-  */
-    let heroRatio = "";
-    let heroHeight = "";
-    let imageFit = "";
-//    console.log(parentProps);
-//    console.log('heroBuilder State')
-//    console.log(parentState);
-    if (parentProps.heroType === "header" || parentProps.heroType === "footer" || parentProps.heroType === "inLine"  ) {
-      heroRatio = '1x1';
-      heroHeight = '300';
-      imageFit = 'portrait';
-    } else {
-      heroRatio = '2x1';
-      heroHeight = '300';
-      imageFit = 'landscape';
-    }
-
-    let heroFullLineBuild = "";
+    let heroFullLineBuild : any;
 
     if (parentState.heroTiles) {
       console.log('heroBuilder:  Found parentState.heroTiles');
@@ -136,8 +150,55 @@ export function heroBuilder(parentProps,parentState){
     } else { heroFullLineBuild = ""; }
 
 //        setImgFit={heroRatio = '1x1'? 'portrait' : 'landscape'}
-//    console.log(heroFullLineBuild);
+    console.log('heroFullLineBuild');
+    console.log(heroFullLineBuild);
     return heroFullLineBuild;
+
+}
+
+/**
+ * 
+ * @param parentProps 
+ * @param parentState 
+ * @param tType 
+ */
+export function oneTileBuilder(parentProps,parentState, tType, newTile ){
+
+  const thisTile = 
+    <PivotTileItem
+      parentCat = {parentState.filteredCategory}
+      imageUrl={newTile.imageUrl}
+      title={newTile.title}
+      description={newTile.description}
+      href={newTile.href}
+      category={newTile.category}
+      setTab={newTile.setTab}
+      Id={newTile.Id}
+      options={newTile.options}
+      color={newTile.color}
+      imgSize={newTile.imgSize}
+      listWebURL={newTile.listWebURL}
+      listTitle={newTile.listTitle}
+      setRatio={newTile.setRatio}
+      setSize={newTile.setSize}
+
+      setImgFit={ tType === 'normal' ? newTile.setImgFit : parentProps.setHeroFit }
+      setImgCover={ tType === 'normal' ? newTile.setImgCover : parentProps.setHeroCover }
+
+      target={newTile.target}
+      onHoverZoom={parentProps.onHoverZoom}
+
+      heroType={ tType === 'normal' ? 'none' : newTile.heroType }
+      heroCategory={ tType === 'normal' ? 'none' : parentProps.heroCategory }
+
+      imageWidth = {parentProps.imageWidth}
+      imageHeight = {parentProps.imageHeight}
+      textPadding = {parentProps.textPadding}
+
+      />;
+
+    //      setImgFit={newTile.setRatio = '1x1'? 'portrait' : newTile.setImgFit}
+  return thisTile;
 
 }
 
@@ -159,9 +220,11 @@ export function tileBuilder(parentProps,parentState){
       listWebURL={newTile.listWebURL}
       listTitle={newTile.listTitle}
       setRatio={newTile.setRatio}
+
       setSize={newTile.setSize}
       setImgFit={newTile.setImgFit}
       setImgCover={newTile.setImgCover}
+
       target={newTile.target}
       onHoverZoom={parentProps.onHoverZoom}
       heroType = {'none'}

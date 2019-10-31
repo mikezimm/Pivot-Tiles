@@ -116,7 +116,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
   public render(): React.ReactElement<IPivotTilesProps> {
-    let heroFullLineBuild = "";
+    let heroFullLineBuild : any = "";
 
     if (this.props.showHero === true && this.props.heroCategory) {
       if (this.state.loadStatus === "Ready" &&  this.state.heroStatus === "Ready") {
@@ -127,8 +127,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     // This will just put title text per createCarousels.
     //let carouselElements: JSX.Element[] = this.createCarousels(this.state) ;
     // This will put formatted tiles in place.  When width = 1 it looks great.
- 
-    let carouselBuilder = tileBuilders.carouselBuilder(this.props,this.state);
+    
+    let carouselBuilder = (this.state.heroTiles[0]) ? tileBuilders.carouselBuilder(this.props,this.state) : "";
 
     let buildTips = myErrors.buildTips(this.props,this.state);
     
@@ -142,7 +142,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
 
-    let slider = tileBuilders.sliderBuilder(this.props,this.state);
+    let slider = (this.state.heroTiles[0]) ? tileBuilders.sliderBuilder(this.props,this.state) : "";
 
 
     return (
@@ -495,7 +495,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let heroIds = this.getHeroIds(heroTiles);
   
       let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
-      let theTime = {};
 
       this.setState({
         allTiles:tileCollection,
