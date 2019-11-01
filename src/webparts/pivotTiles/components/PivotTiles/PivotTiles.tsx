@@ -183,13 +183,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <div>
           </div>
           <br/>
-
+          
           { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
           
-          { ( (this.props.showHero === true && this.props.heroType === "carousel" &&  this.state.heroStatus === "Ready") ? ( carouselBuilder ) : ""  ) }
-          { ( this.props.showHero === true && this.props.heroType === "slider" ? ( slider ) : ""  ) }
+
           { ( this.props.showHero === true && this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
+          { ( (this.props.showHero === true && this.props.heroType === "carousel" &&  this.state.heroStatus === "Ready") ? ( carouselBuilder ) : ""  ) }
+          { ( this.props.showHero === true && this.props.heroType === "slider" ? ( slider ) : ""  ) }
           { ( ( this.props.showHero === true && this.props.heroType === "inLine"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
             { ( tileBuild ) }
@@ -220,8 +221,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private onLinkClick = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-    console.log('onLinkClick: ');
-    console.log(this.state);
     let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
         if(thisTile.category.indexOf(item.props.headerText) > -1) {
@@ -244,11 +243,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private minimizeTiles = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-    console.log('minimizeTiles: ');
-    console.log(this.state);
-    console.log(item);
-
-
     let newFilteredTiles = [];
 
     this.setState({
@@ -259,9 +253,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   } //End onClick
   public toggleTips = (item: any): void => {
     //This sends back the correct pivot category which matches the category on the tile.
-
-//    console.log('toggleTips: ')
-//    console.log(this.state);
 
     let newshowTips = this.state.showTips === 'none' ? 'yes' : 'none';
 
@@ -358,10 +349,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     } else {
 
     }
-
-    console.log('Updated hero settings:');
-    console.log('heroSize: ' + heroSize + '  heroRatio:' + heroRatio + '  heroFit:' + heroFit + '  heroCover:' + heroCover );
-    console.log('this.props.setTab: ' + this.props.setTab );
 
     if (newHeros[0]) {
       for (let thisTile of newHeros) {
