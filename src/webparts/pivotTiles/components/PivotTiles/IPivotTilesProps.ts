@@ -1,4 +1,11 @@
-import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps'
+import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
+import { PageContext } from '@microsoft/sp-page-context';
+
+export interface theTime {
+  now: Date,
+  theTime : string,
+  milliseconds : number,
+}
 
 export interface IPivotTilesProps {
 
@@ -6,12 +13,27 @@ export interface IPivotTilesProps {
   listDefinition: string;
   listWebURL: string;
   listTitle: string;
-
-  setSize: string;
+  pageContext: PageContext;
+  heroType: string;
+  heroCategory: string;
+  showHero: boolean;
+  setHeroFit: string;
+  setHeroCover: string;
+  
   setFilter: string;
   propURLQuery: boolean;
   setTab: string;
+  onHoverZoom: string;
+  setRatio: string;
+  setSize: string;
+  setImgFit: string;
+  setImgCover: string;
+  target: string;
   
+  setPivSize: string;
+  setPivFormat: string;
+  setPivOptions: string[];
+
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
@@ -23,5 +45,12 @@ export interface IPivotTilesProps {
   colSort: string;
   colTileStyle: string;
 
+  startTime: theTime;
+
+  imageWidth: number;
+  imageHeight: number;
+  textPadding: number;
+
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
+  convertCategoryToIndex?(cat:string) : string;
 }

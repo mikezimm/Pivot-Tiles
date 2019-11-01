@@ -20,6 +20,15 @@ gulp
 npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp --save
 npm install @microsoft/sp-listview-extensibility   (Required from copying services folder from react repo)
 npm install @pnp/sp  ( Required to get list items from web )
+npm install --save @pnp/polyfill-ie11 ( Required for Internet Explorer Expand/Select calls )
+npm install swiper ( Required for React Swipe gallery )
+    close VSCode and restart to see folder
+    change import 
+        from  @import '~swiper/dist/css/swiper.min.css';
+        to:  @import '~swiper/css/swiper.min.css';
+        from  const Swiper: any = require('swiper/dist/js/swiper.min');
+        to  const Swiper: any = require('swiper/js/swiper.min');
+npm install @pnp/spfx-controls-react --save --save-exact  (to test using [react carousel](https://sharepoint.github.io/sp-dev-fx-controls-react/controls/Carousel/))
 
 ```
 ### Create log:

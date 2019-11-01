@@ -17,10 +17,15 @@ import * as strings from 'PivotTilesWebPartStrings';
 import PivotTiles from './components/PivotTiles/PivotTiles';
 import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
-import { string } from 'prop-types';
+import { string, any } from 'prop-types';
+import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
+import { listMapping } from './ListMapping';
+
+import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../services/createAnalytics';
 
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
+  
   //Added for Get List Data:  https://www.youtube.com/watch?v=b9Ymnicb1kc
   public onInit():Promise<void> {
     return super.onInit().then(_ => {
@@ -29,21 +34,40 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         spfxContext: this.context
       });
     });
+
+    
   }
 
   public render(): void {
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
+        startTime: getTheCurrentTime(),
         description: this.properties.description,
         listDefinition: this.properties.listDefinition,
         listWebURL: this.properties.listWebURL,
         listTitle: this.properties.listTitle,
 
+        pageContext: this.context.pageContext,
+        heroType: this.properties.heroType,
+        heroCategory: this.properties.heroCategory,
+        showHero: this.properties.showHero,
+        setHeroFit: this.properties.setHeroFit,
+        setHeroCover: this.properties.setHeroCover,
+
+        onHoverZoom: this.properties.onHoverZoom,
         setSize: this.properties.setSize,
+        setRatio: this.properties.setRatio,
+        setImgFit: this.properties.setImgFit,
+        setImgCover: this.properties.setImgCover,
+        target: this.properties.target,
         setFilter: this.properties.setFilter,
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,
+
+        setPivSize: this.properties.setPivSize,
+        setPivFormat: this.properties.setPivFormat,
+        setPivOptions: this.properties.setPivOptions,
 
         colTitleText: this.properties.colTitleText,
         colHoverText: this.properties.colHoverText,
@@ -57,7 +81,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         colTileStyle: this.properties.colTileStyle,
 
         loadListItems: this.loadListItems,
-        
+
+        imageWidth: this.properties.imageWidth,
+        imageHeight: this.properties.imageHeight,
+        textPadding: this.properties.textPadding,
+
+
       }
     );
 
@@ -136,103 +165,84 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    return {
-      pages: [
-        { // <page1>
-          header: {
-            description: strings.PropertyPaneAbout
-          },
-          groups: [
-            {
-              groupFields: [
-                PropertyPaneLabel('About Text', {
-                  text: 'This webpart gets tile defintion from a list in SharePoint.'
-                }),
+    return propertyPaneBuilder.getPropertyPaneConfiguration(this.properties);
+  }
 
-                PropertyPaneLink('About Link' , {
-                  text: 'Github Repo:  Pivot-Tiles',
-                  href: 'https://github.com/mikezimm/Pivot-Tiles',
-                }),
-              ]
-            }
-          ]
-        }, // </page1>
-        { // <page2>
-          header: {
-            description: strings.PropertyPaneMainDescription
-          },
-          groups: [
-            {
-              groupFields: [
-                PropertyPaneTextField('listDefinition', {
-                    label: strings.listDefinition
-                }),
-                PropertyPaneTextField('listWebURL', {
-                    label: strings.listWebURL
-                }),
-                PropertyPaneTextField('listTitle', {
-                    label: strings.listTitle
-                }),
-                PropertyPaneTextField('setTab', {
-                  label: strings.setTab
-                }),
-                PropertyPaneTextField('setSize', {
-                  label: strings.setSize
-                }),
-                PropertyPaneTextField('setFilter', {
-                    label: strings.setFilter
-                }),
-                PropertyPaneTextField('propURLQuery', {
-                    label: strings.propURLQuery
-                }),
-              
-              ]
-            }
-          ]
-        }, // </page2>
-        { // <page3>
-          header: {
-            description: strings.PropertyPaneColumnsDescription
-          },
-          groups: [
-            {
-              groupName: strings.BasicGroupName,
-              groupFields: [
-              PropertyPaneTextField('colTitleText', {
-                  label: strings.colTitleText
-              }),
-              PropertyPaneTextField('colHoverText', {
-                  label: strings.colHoverText
-              }),
-              PropertyPaneTextField('colCategory', {
-                  label: strings.colCategory
-              }),
-              PropertyPaneTextField('colColor', {
-                  label: strings.colColor
-              }),
-              PropertyPaneTextField('colSize', {
-                  label: strings.colSize
-              }),
-              PropertyPaneTextField('colGoToLink', {
-                  label: strings.colGoToLink
-              }),
-              PropertyPaneTextField('colOpenBehaviour', {
-                  label: strings.colOpenBehaviour
-              }),
-              PropertyPaneTextField('colImageLink', {
-                  label: strings.colImageLink
-              }),
-              PropertyPaneTextField('colSort', {
-                  label: strings.colSort
-              }),
-              PropertyPaneTextField('colTileStyle', {
-                  label: strings.colTileStyle
-              }),
-              ]
-            }
-          ]
-        } // <page3>
-      ]
-    };
+  //Added this per AC Facebook post...
+  protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
+    console.log('path: ' + propertyPath + ' oldValue: ' + oldValue + ' newValue: ' + newValue);
+
+    if (propertyPath === 'listDefinition' && newValue !== oldValue) {
+      //alert("Hey! " +propertyPath +" new value is " + newValue);
+      //this.properties.listTitle = "TitleChanged!";
+      //this.properties.colTitleText = "TitleTextChanged!";
+
+      let newMap = listMapping.getListColumns(newValue);
+      const hasValues = Object.keys(newMap).length;
+
+      if (hasValues !== 0) {
+
+        console.log('Found List Defintion... updating column name props');
+        
+        this.properties.listTitle = newMap.listDisplay;
+        this.properties.colTitleText = newMap.listMapping.colTitleText;
+        this.properties.colHoverText = newMap.listMapping.colHoverText;
+        this.properties.colCategory = newMap.listMapping.colCategory;
+        this.properties.colColor = newMap.listMapping.colColor;
+        this.properties.colSize = newMap.listMapping.colSize;
+        this.properties.colGoToLink = newMap.listMapping.colGoToLink;
+        this.properties.colOpenBehaviour = newMap.listMapping.colOpenBehaviour;
+        this.properties.colImageLink = newMap.listMapping.colImageLink;
+        this.properties.colSort = newMap.listMapping.colSort;
+        this.properties.colTileStyle = newMap.listMapping.colTileStyle;
+
+      } else {
+        console.log('Did NOT List Defintion... updating column name props');
+
+      }
+
+
+      this.context.propertyPane.refresh();
+    }
+
+    let updateOnThese = [
+      'setSize','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
+      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom'
+    ];
+
+    if (updateOnThese.indexOf(propertyPath) > -1 ) {
+      console.log("Hey there! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+      this.properties[propertyPath] = newValue;   
+      this.context.propertyPane.refresh();
+
+    } else { //This can be removed if it works
+     
+      if (propertyPath === 'heroType') {
+        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
+        this.properties.heroType = newValue;
+
+        if (newValue === 'header' || newValue === 'inLine' || newValue === 'footer') {
+          this.properties.setHeroCover = 'portrait';
+          this.properties.setHeroFit = 'centerCover';
+
+        } else if (newValue === 'left' || newValue === 'right') {
+          this.properties.setHeroCover = 'portrait';
+          this.properties.setHeroFit = 'centerContain';
+        }
+
+        this.context.propertyPane.refresh();
+      }
+
+    }
+
+    //this.context.propertyPane.refresh();
+    //super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
+    /*
+    this.context.propertyPane.refresh();
+    this.context.propertyPane.refresh() refreshes Property Pane itself...
+        It doesn't set any values to web part properties and also it doesn't initiate web part's re-render.
+    */
+
+    this.render();
   }
 }

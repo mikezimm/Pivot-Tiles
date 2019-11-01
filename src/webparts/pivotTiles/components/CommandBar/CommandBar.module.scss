@@ -1,58 +1,35 @@
 
 @import '../../../../../node_modules/office-ui-fabric-react/dist/sass/_References';
-.pivotTiles {
+.cmdBar {
 
   .heroContainer {
     max-width:1500px;
-    //margin: auto;
-    margin: 0px;
+    margin: auto;
     display: block !important;
+
   }
 
   .hideMe {
-    display:none;
-  }
-
-  .floatLeft {
-    //width: 1200px;
-    //max-width: 500px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    //align-items: center makes items centered vertically
-    align-items: center;
-
-    //These did nothing to prevent the left icons from shifting on hover.
-    //border: 0px;
-    //margin: 0px;
-    //padding: 0px;
-  }
-
-  .floatRight {
-    //width: 1200px;
-    //max-width: 500px;
-    display: flex;
-    justify-content: space-between;
-    //align-items: center makes items centered vertically
-    align-items: center;
+    display:none
   }
 
   .showErrorMessage {
     display:"";
-    padding-left: 40px;
-    padding-bottom: 40px;
-  }
-
-  .showErrorMessageNoPad {
-    display:"";
-    padding-bottom: 40px;
+    padding-left: 20px;
+    padding-bottom: 20px;
   }
 
   .container {
     max-width: 1200px;
+    //background-color: white;
+    //display:inline-block;
+    float: right;
+    display:flex;
+    align-items: center;
+    //top:  -50px;
+
     //margin: 0px auto;
-    //***ShiftTesting margin: 0px;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
+    //box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1);
   }
 
   .tableRow {
@@ -100,9 +77,11 @@
 
     // Primary Button
     min-width: 80px;
-    background-color: $ms-color-white;
-    //border-color: $ms-color-themePrimary;
+    background-color: white;
+    //background-color: $ms-color-themePrimary;
+//    background-color: $ms-color-white;
 
+    border-color: $ms-color-themePrimary;
     color: $ms-color-white;
 
     // Basic Button
@@ -116,8 +95,8 @@
     text-align: center;
     cursor: pointer;
     display: inline-block;
-    padding: 0 16px;
-//    padding: 0;    //This does not seem to change the padding around the command button
+//    padding: 0 16px;    //This does not seem to change the padding around the command button
+    padding: 0;
 
     .label {
       font-weight: $ms-font-weight-semibold;
