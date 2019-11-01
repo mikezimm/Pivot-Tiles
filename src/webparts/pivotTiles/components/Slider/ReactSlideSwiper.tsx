@@ -18,33 +18,11 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
   }
 
   public componentDidMount(): void {
-    /*
-    this.props.listService.getAll(this.props.listName).then((result: Array<ListItem>) => {
-
-      // List items returned from the ListMock so we can
-      // change the state and display them.
-      this.setState({ listItems: result });
-      console.log(this.state.listItems.length);
-
-      // Since we have list items rendered
-      // we can call the swiper and let it
-      // handle the swipe effect for the items.
-      this.setSwiper();
-    });
-    */
-    //this.setState({ listItems: this.props.listItems });
-    console.log('ReactSlideSwiper > componentDidMount:  this.props.listItems');
-    console.log(this.props.listItems);
     this.setSwiper();
-
   }
 
   public componentDidUpdate(prevProps){
-
-    console.log('ReactSlideSwiper > componentDidUpdate:  this.props.listItems');
-    console.log(this.props.listItems);
     this.setSwiper();
-
   }
 
   public render(): React.ReactElement<IReactSlideSwiperProps> {
@@ -80,14 +58,6 @@ export default class ReactSlideSwiper extends React.Component<IReactSlideSwiperP
 
   private setSwiper(): void {
     const opts = this.props;
-    console.log('setSwiper: this.props');
-    console.log(this.props);
-
-    /*
-          slidesPerView: parseInt(opts.slidesPerView) || 3,
-      slidesPerGroup: parseInt(opts.slidesPerGroup) || 3,
-      spaceBetween: parseInt(opts.spaceBetweenSlides) || 10,
-      */
 
     const options: any = {
       slidesPerView: parseInt(opts.slidesPerView) || 3,

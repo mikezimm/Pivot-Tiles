@@ -29,25 +29,38 @@ export default class Utils {
 //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
 
 
-    console.log("buildTileCollectionFromResponse");
-    console.log(pivotProps);
-    console.log(response);
-
     //console.table(pivotProps);
     //console.table(response);
 
-    let tileCollection = response.map(item => ({
+    function getColumnValue(theseProps, item, getProp){
+      const leftSide = this.parseMe(theseProps[getProp],"/",'left');
+      const rightSide = this.parseMe(theseProps[getProp],"/",'right');
 
+      if (theseProps[getProp].indexOf("/") < 0) {
+          return item[theseProps[getProp]];
+       } else {
+        return item[leftSide][rightSide]; 
+      }
+    }
 
-      imageUrl: 
-      ((pivotProps.colImageLink.indexOf("/") < 0 ))
-      ? item[pivotProps.colImageLink]
-      : item[pivotProps[pivotProps.colImageLink.replace("/",".")]],
-
+/*
       title: 
       ((pivotProps.colTitleText.indexOf("/") < 0 ))
       ? item[pivotProps.colTitleText]
       : item[pivotProps[pivotProps.colTitleText.replace("/",".")]],
+
+            imageUrl: 
+      ((pivotProps.colImageLink.indexOf("/") < 0 ))
+      ? item[pivotProps.colImageLink]
+      : item[pivotProps[this.parseMe(pivotProps.colImageLink,"/",'left')]   ],
+      */
+
+
+    let tileCollection = response.map(item => ({
+
+      imageUrl: (getColumnValue(pivotProps,item,'colImageLink')),
+
+      title: (getColumnValue(pivotProps,item,'colTitleText')),
 
       description: 
       ((pivotProps.colHoverText.indexOf("/") < 0 ))
@@ -114,50 +127,47 @@ export default class Utils {
 
   }
 
+  public static parseMe(str, parser, leftOrRight) {
+    // Usage:
+    // parseMe(theseProps[getProp],"/",'left')
+    // parseMe(theseProps[getProp],"/",'right');
+
+    let splitCol = str.split(parser);
+    if (leftOrRight.toLowerCase() === 'left') {
+      return splitCol[0];
+    } else if (leftOrRight.toLowerCase() === 'right') {
+      return splitCol[1] ? splitCol[1] : ""
+    }
+  };
+
   public static buildTileCategoriesFromResponse(pivotProps, response ){
 
     let tileCategories = [];
-//    console.table("tileCollection:  response");
-//    console.table(response);
-//    console.log(pivotProps);
-
-    //console.log("tileCollection");
-    //console.log(response);    
-    //console.log(pivotProps.colCategory);
-    //console.log(pivotProps.colCategory.replace("/","."));
 
     let splitCol = pivotProps.colCategory.split("/");
     let leftSide = splitCol[0];
     let righttSide = splitCol[1];
-    //console.log('leftSide: ' + leftSide);
-    //console.log('righttSide: ' + righttSide);
 
     for (let tile of response) {
-      //console.log(tile);
       if (righttSide) {
         // Use different notation for drilling down
         console.log('buildTileCategoriesFromResponse category 0');  
         let lookup = tile[leftSide];
-        //console.log(lookup);
-        let detail = lookup[righttSide].toString();
-        //console.log(detail);
 
-          console.log('buildTileCategoriesFromResponse category 1');
-          if(tileCategories.indexOf(detail) === -1) {
-            tileCategories.push(detail);
-          }
+        let detail = lookup[righttSide].toString();
+
+        console.log('buildTileCategoriesFromResponse category 1');
+        if(tileCategories.indexOf(detail) === -1) {
+          tileCategories.push(detail);
+        }
 
         console.log('buildTileCategoriesFromResponse category 0');
       } else {
-        //for (let category of tile[pivotProps.colCategory]) {
-          for (let category of tile.category) {
-          //console.log('buildTileCategoriesFromResponse category 2');
-          //console.log(category);
-          if(tileCategories.indexOf(category) === -1) {
 
-//            console.log('Checking category: ' + category + ' from tile: ' + tile.title );
-//            console.log('Checking category: pivotProps.heroType ' + pivotProps.heroType );
-//            console.log('Checking category: pivotProps.heroCategory ' + pivotProps.heroCategory );            
+          for (let category of tile.category) {
+
+          if(tileCategories.indexOf(category) === -1) {
+          
             if (  pivotProps.showHero === true && category === pivotProps.heroCategory && (
               pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' )) {
               //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
@@ -170,10 +180,9 @@ export default class Utils {
         }
       }
     }
-    console.log('buildTileCategoriesFromResponse:  tileCategories');
-//    console.log(tileCategories);
+
     tileCategories.sort();
-    console.log(tileCategories);
+
     return tileCategories;
 
   }

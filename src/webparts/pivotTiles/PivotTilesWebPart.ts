@@ -94,29 +94,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   private async loadListItems(): Promise<IPivotTileItemProps[]> {
-    /* Filtering example of same one and only retreiving certain columns
-    const result:IListItem[] = await sp.web.lists.getByTitle("Customers").items
-    .select("Title","CustomerID").filter("Title eq 'GM'").orderBy("Id",true).getAll()
-    */
-
-    /*  Be sure to import Web from @pnp/sp first, then use this to get from another web.
-
-        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
-        const result:IListItem[] = await web.lists.getByTitle("Customers").items
-
-        or .... 
-
-        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
-        web.get().then(w => {
-          console.log(w);
-        });
-
-    */
-    console.log("Hello2");
-    console.log("private async loadListItems()");
-    console.log(this);
-    console.log(this.properties.listTitle);
-
 
     let useTileList: string = strings.DefaultTileList;
     
@@ -170,7 +147,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
   //Added this per AC Facebook post...
   protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
-    console.log('path: ' + propertyPath + ' oldValue: ' + oldValue + ' newValue: ' + newValue);
 
     if (propertyPath === 'listDefinition' && newValue !== oldValue) {
       //alert("Hey! " +propertyPath +" new value is " + newValue);
@@ -181,8 +157,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       const hasValues = Object.keys(newMap).length;
 
       if (hasValues !== 0) {
-
-        console.log('Found List Defintion... updating column name props');
         
         this.properties.listTitle = newMap.listDisplay;
         this.properties.colTitleText = newMap.listMapping.colTitleText;
@@ -211,14 +185,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {
-      console.log("Hey there! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
       this.properties[propertyPath] = newValue;   
       this.context.propertyPane.refresh();
 
     } else { //This can be removed if it works
      
       if (propertyPath === 'heroType') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
         this.properties.heroType = newValue;
 
         if (newValue === 'header' || newValue === 'inLine' || newValue === 'footer') {
@@ -234,15 +206,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       }
 
     }
-
-    //this.context.propertyPane.refresh();
-    //super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
-    /*
-    this.context.propertyPane.refresh();
-    this.context.propertyPane.refresh() refreshes Property Pane itself...
-        It doesn't set any values to web part properties and also it doesn't initiate web part's re-render.
-    */
-
     this.render();
   }
 }

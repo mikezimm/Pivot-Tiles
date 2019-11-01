@@ -51,15 +51,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       lookupColumns: [],
 
     };
-    /*
-    this.state = { 
-      allTiles:[],
-      filteredTiles:[],
-      pivtTitles:[],
-      showAllTiles: false,
-      filteredCategory: this.props.setTab,
-    };
-    */
+
     // because our event handler needs access to the component, bind 
     //  the component to the function so it can get access to the
     //  components properties (this.props)... otherwise "this" is undefined
@@ -93,10 +85,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     if (this.props.heroCategory !== prevProps.heroCategory) {  rebuildTiles = true ; }
 
     if (rebuildTiles === true) {
-
       this._updateStateOnPropsChange();
     }
-
   }
 
 
@@ -144,21 +134,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     let slider = (this.state.heroTiles[0]) ? tileBuilders.sliderBuilder(this.props,this.state) : "";
 
-
     return (
       <div>
 
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
-
-        { /*( this.props.heroType === "header" ? ( heroFullLineBuild ) : ""  )*/ }
-        { /*  
-              <DefaultButton
-                iconProps={{ iconName: 'Settings' }}
-                text="Settings"
-              />
-        */ }
 
         <div className={styles.container}>
 
@@ -195,9 +176,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
             { ( tileBuild ) }
             { /* Originally instead of this:  ( tileBuild ) */ }           
-            { /* 
-              */
-            }
+
             <div className={styles.tableRow}>
             { ( loadingSpinner ) }
             { ( noListFound )}
@@ -273,7 +252,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   public createPivots(thisState){
     let piv = thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory);
 
-    //piv = piv + createPivot("&#8213;");
     return (
       piv
     );
@@ -361,13 +339,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       }
     }
 
-
-    //alert('componentDidUpdate 3');
-
-    //console.log('componentDidUpdate 4 State');
-    //console.log(this.state);    
-
-
     this.setState({
       allTiles:newCollection,
       pivtTitles: tileCategories,
@@ -378,8 +349,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       heroIds: heroIds,
       heroStatus: newHeros[0] ? "Ready" : "none",
     });
-
-
   }
 
   //    private async loadListItems(): Promise<IPivotTileItemProps[]> {
@@ -412,16 +381,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       selColumns.length > 0 ? selectCols += "," + selColumns.join(",") : selectCols = selectCols;
       if (expColumns.length > 0) { expandThese = expColumns.join(","); }
   
-      
-      console.log("selectCols = " + selectCols);
-      console.log("expandThese = " + expandThese);
-  
       if ( this.props.listWebURL.length > 0 ){
         let web = new Web(this.props.listWebURL);
   
         const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
-        console.log('fixedURL after fixing');
-        console.log(fixedURL);   
   
         web.lists.getByTitle(useTileList).items
           .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
@@ -432,10 +395,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             });
   
       } else {
-  
+        
+        console.log('useTileList',useTileList);
+        console.log('selectCols',selectCols);
+        console.log('expandThese',expandThese);
+        console.log('restFilter',restFilter);
+        console.log('restSort',restSort);        
+
         sp.web.lists.getByTitle(useTileList).items
           .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
           .then((response) => {
+            console.log('response',response);      
             this.processResponse(response);
           }).catch((e) => {
             this.processCatch(e);
@@ -458,16 +428,30 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
     private processResponse(response){
   
-      if (response.length===0){
+      if (response.length === 0){
         this.setState({  loadStatus: "NoItemsFound"  });
         return ;
       }
   
+      console.log('this.props.listWebURL',this.props.listWebURL);
+      console.log('this.props.pageContext',this.props.pageContext);
       const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+
+      console.log('fixedURL',fixedURL);
+      console.log('this.props.listTitle',this.props.listTitle);
       const listURL = fixedURL + "lists/" + this.props.listTitle;
+      console.log('listURL',listURL);
+
+      console.log('this.props.pageContext.web.absoluteUrl',this.props.pageContext.web.absoluteUrl);
+      console.log('this.props.pageContext.site.serverRequestPath',this.props.pageContext.site.serverRequestPath);      
       const currentPageUrl = this.props.pageContext.web.absoluteUrl + this.props.pageContext.site.serverRequestPath;
+      console.log('currentPageUrl',currentPageUrl);
+
+
+      console.log('this.props.listWebURL',this.props.listWebURL);
       const editItemURL = listURL + "/DispForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
-  
+      console.log('editItemURL',editItemURL);
+
       let pivotProps = this.props;
       let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
   
@@ -475,7 +459,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
       const defaultSelectedKey = defaultSelectedIndex.toString();
-      //defaultselectedkey = tileCategories.indexOf(this.props.setTab).toString;
   
       let heroTiles = this.getHeroTiles(pivotProps, tileCollection);
   
@@ -524,8 +507,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     let heroTiles = [];
             
-    console.log('tileCollection near heroTiles[]');
-    console.log(tileCollection);
     if (thisProps.showHero === true && thisProps.heroCategory) {
       for (let thisTile of tileCollection) {
         if(thisTile.category.indexOf(thisProps.heroCategory) > -1) {
@@ -534,9 +515,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       }
     }
 
-    console.log('Here is heroTiles length');
-    console.log(heroTiles.length);
-    console.log(heroTiles);
     if (this.props.heroType !== 'slider' && this.props.heroType !== 'carousel') {
       //If it's not a slider, then only show one random tile.  Else show all
       var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
@@ -581,9 +559,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     for (let thisProp of foundKeys) {
       if (thisProp && thisProp !== "" ) { foundProps.push(thisProps[thisProp]) ; }
     }
-
-    //console.log(foundKeys);
-    console.log(foundProps);
 
     return foundProps;
   }

@@ -19,14 +19,10 @@ export default class Card extends React.Component<ICardProps, ICardState> {
 
   public mouseOver(event): void {
     this.setState({ hovering: true });
-    console.log('mouseOver: ' + this.props.listItem.title);
-    console.log(this.iHoverZoomStyle);
   }
 
   public mouseOut(event): void {
     this.setState({ hovering: false });
-    console.log('mouseOut: ' + this.props.listItem.title);
-    console.log(iStyles.imgHoverZoom);
   }
 
   public render(): React.ReactElement<ICardProps> {

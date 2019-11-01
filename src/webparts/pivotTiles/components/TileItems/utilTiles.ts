@@ -196,23 +196,12 @@ export default class StyleUtils {
         "iTitle": iTitle,
     };
 
-    
-//    console.log('getHeroStyles:  heroStyle');
-//    console.log(heroStyle);
-
-    /*
-    console.log("getTheseStyles: tileFit =" + tileFit);
-    console.log("getTheseStyles: thisStyle =" + thisStyle);
-    console.log(thisStyle);    
-    */
-
     return heroStyle;
   }
 
   public static getOnHoverStyle(scale) {
 
     var iOnZoomStyle = styles.pTileItemWrapper;
-    //console.log(scale);
 
     if ( scale === '1.0' ) {
       iOnZoomStyle = styles.imgHoverZoomHover10;
