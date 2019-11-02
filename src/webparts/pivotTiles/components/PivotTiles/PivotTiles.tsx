@@ -250,6 +250,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
   public createPivots(thisState){
+    console.log('thisState.pivTitles: ', thisState.pivtTitles);
     let piv = thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory);
 
     return (
@@ -489,8 +490,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     let newFilteredTiles = [];
     for (let thisTile of tileCollection) {
-      if(thisTile.category.indexOf(thisProps.setTab) > -1) {
 
+      //Added this to stop errors when columns are lookups
+      let colType = (thisProps.colCategory.indexOf('/') > 0) ? 'lookup' : 'normal';
+      let countMe : boolean;
+      if (colType === 'normal') {
+        countMe = (thisTile.category && thisTile.category.indexOf(thisProps.setTab) > -1) ? true : false;
+      } else {
+        countMe = (thisTile.category == thisProps.heroCategory) ? true : false
+      }
+
+      if(countMe) {
         let showThisTile = true;
         if (heroIds.length > 0 && thisProps.heroType !== 'none' && heroTiles[0]) {
           showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
@@ -509,9 +519,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             
     if (thisProps.showHero === true && thisProps.heroCategory) {
       for (let thisTile of tileCollection) {
-        if(thisTile.category.indexOf(thisProps.heroCategory) > -1) {
-          heroTiles.push(thisTile);
+        if (thisProps.colCategory.indexOf('/') > 0) {
+          //This is a lookup column and can only contain 1 value
+          if(thisTile.category == thisProps.heroCategory) {
+            heroTiles.push(thisTile);
+          }     
+        } else {
+          //This is not a lookup column, added thisTile.category to check if it is not null (empty)
+          if( thisTile.category && thisTile.category.indexOf(thisProps.heroCategory) > -1) {
+            heroTiles.push(thisTile);
+          }
         }
+
       }
     }
 

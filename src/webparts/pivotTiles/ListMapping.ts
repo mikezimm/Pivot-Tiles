@@ -91,9 +91,9 @@
                     "colCategory" : "Author/ID",
                     "Color" : "",
                     "Size" : "",
-                    "GoToLink" : "",
+                    "GoToLink" : "File/ServerRelativeUrl",
                     "colOpenBehaviour" : "",
-                    "ImageLink" : "AlternateThumbnailUrl.Url",
+                    "ImageLink" : "File/ServerRelativeUrl",
                     "Sort" : "Title"
                 }
             };
@@ -110,9 +110,9 @@
                     "colCategory" : "Author/ID",
                     "Color" : "",
                     "Size" : "",
-                    "GoToLink" : "_ShortcutUrl.Url",
+                    "GoToLink" : "File/ServerRelativeUrl",
                     "colOpenBehaviour" : "",
-                    "ImageLink" : "AlternateThumbnailUrl.Url",
+                    "ImageLink" : "",
                     "Sort" : "Title"
                 }
             };

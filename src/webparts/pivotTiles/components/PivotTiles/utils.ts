@@ -6,12 +6,13 @@ export default class Utils {
   public static convertCategoryToIndex(cat: string) {
     //https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript
     //string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    if (cat){
-      return (cat.replace(" ",'_').replace(/[&]/,'And').replace(/[*]/,'aamp').replace(/[\/\\#,+()$~%.'":*?<>{}]/g,''));
+    const thisCat = cat.toString();
+    if (thisCat == null) { return "" };
+    if (thisCat){
+      return (thisCat.replace(" ",'_').replace(/[&]/,'And').replace(/[*]/,'aamp').replace(/[\/\\#,+()$~%.'":*?<>{}]/g,''));
     } else {
       return ("");
     }
-
   }
 
   public static fixURLs(oldURL,pageContext) {
@@ -32,29 +33,27 @@ export default class Utils {
     //console.table(pivotProps);
     //console.table(response);
 
+    /**
+     * This gets the values of specified columns including if they are expanded.
+     * @param theseProps 
+     * @param item 
+     * @param getProp 
+     */
     function getColumnValue(theseProps, item, getProp){
-      const leftSide = this.parseMe(theseProps[getProp],"/",'left');
-      const rightSide = this.parseMe(theseProps[getProp],"/",'right');
+
+      if (getProp.toLowerCase() === "thumb" || getProp.toLowerCase() === "thumbnail") {
+        getProp = "File/ServerRelativeUrl"
+      }
+
+      const leftSide = Utils.parseMe(theseProps[getProp],"/",'left');
+      const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
 
       if (theseProps[getProp].indexOf("/") < 0) {
           return item[theseProps[getProp]];
-       } else {
+      } else {
         return item[leftSide][rightSide]; 
       }
     }
-
-/*
-      title: 
-      ((pivotProps.colTitleText.indexOf("/") < 0 ))
-      ? item[pivotProps.colTitleText]
-      : item[pivotProps[pivotProps.colTitleText.replace("/",".")]],
-
-            imageUrl: 
-      ((pivotProps.colImageLink.indexOf("/") < 0 ))
-      ? item[pivotProps.colImageLink]
-      : item[pivotProps[this.parseMe(pivotProps.colImageLink,"/",'left')]   ],
-      */
-
 
     let tileCollection = response.map(item => ({
 
@@ -62,20 +61,11 @@ export default class Utils {
 
       title: (getColumnValue(pivotProps,item,'colTitleText')),
 
-      description: 
-      ((pivotProps.colHoverText.indexOf("/") < 0 ))
-      ? item[pivotProps.colHoverText]
-      : item[pivotProps[pivotProps.colHoverText.replace("/",".")]],
+      description: (getColumnValue(pivotProps,item,'colHoverText')),
 
-      href: 
-      ((pivotProps.colGoToLink.indexOf("/") < 0 ))
-      ? item[pivotProps.colGoToLink]
-      : item[pivotProps[pivotProps.colGoToLink.replace("/",".")]],
+      href: (getColumnValue(pivotProps,item,'colGoToLink')),
 
-      category: 
-      ((pivotProps.colCategory.indexOf("/") < 0 ))
-      ? item[pivotProps.colCategory]
-      : item[pivotProps[pivotProps.colCategory.replace("/",".")]],
+      category: (getColumnValue(pivotProps,item,'colCategory')),
 
       setTab: pivotProps.setTab,
       setSize: pivotProps.setSize,
@@ -122,7 +112,7 @@ export default class Utils {
 
     }));
     //console.table("tileCollection");
-    //console.table(tileCollection);
+    console.table(tileCollection);
     return tileCollection;
 
   }
@@ -149,7 +139,8 @@ export default class Utils {
     let righttSide = splitCol[1];
 
     for (let tile of response) {
-      if (righttSide) {
+      //if (righttSide) {
+      if (tileCategories.length===999) {
         // Use different notation for drilling down
         console.log('buildTileCategoriesFromResponse category 0');  
         let lookup = tile[leftSide];
@@ -164,18 +155,34 @@ export default class Utils {
         console.log('buildTileCategoriesFromResponse category 0');
       } else {
 
+        let addCategory : boolean;
+
+        if (splitCol.length === 1) {
+          //Test as normal column
           for (let category of tile.category) {
+            console.log('tileCategories.indexOf(category): ', tileCategories.indexOf(category), tileCategories, category)
+            if(tileCategories.indexOf(category) === -1) {
+              addCategory = true;
+            } else {addCategory = false}
+          }
+        } else {
+          //Test as Lookup column (which is not an array but only one value)
+          if(tileCategories.indexOf(tile.category) === -1) {
+            addCategory = true;
+          } else {addCategory = false}
+        }
 
-          if(tileCategories.indexOf(category) === -1) {
-          
-            if (  pivotProps.showHero === true && category === pivotProps.heroCategory && (
-              pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' )) {
-              //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
-              //  because all tiles will be in those react components.
 
-            } else {
-              tileCategories.push(category);
-            }
+
+        //
+        if (addCategory === true){
+          if (  pivotProps.showHero === true && tile.category === pivotProps.heroCategory && (
+            pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' )) {
+            //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
+            //  because all tiles will be in those react components.
+  
+          } else {
+            tileCategories.push(tile.category);
           }
         }
       }
