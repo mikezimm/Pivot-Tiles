@@ -441,7 +441,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
       console.log('fixedURL',fixedURL);
       console.log('this.props.listTitle',this.props.listTitle);
-      const listURL = fixedURL + "lists/" + this.props.listTitle;
+
+      const listExt = this.props.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
+
+      const listURL = fixedURL + listExt + this.props.listTitle;
       console.log('listURL',listURL);
 
       console.log('this.props.pageContext.web.absoluteUrl',this.props.pageContext.web.absoluteUrl);

@@ -13,7 +13,8 @@ export function buildTips(parentProps,parentState){
 
   const currentPageUrl = parentProps.pageContext.web.absoluteUrl + parentProps.pageContext.site.serverRequestPath;
   const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
-  const listURL = fixedURL + "lists/" + parentProps.listTitle;
+  const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
+  const listURL = fixedURL + listExt + parentProps.listTitle;
   const newItemURL = listURL + "/newform.aspx?Source=" + currentPageUrl;
 
   const theseTips = 
@@ -70,6 +71,8 @@ export function NoListFound (parentProps,parentState) {
 
     const errMessage = SanitizeErrorMessage(parentState.loadError);
 
+    const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
+
     const noListFound = 
     <div className={styles.rowNoPad}>
       <div className={parentState.loadStatus === "ListNotFound" ? styles.showErrorMessage : styles.hideMe }>
@@ -79,9 +82,9 @@ export function NoListFound (parentProps,parentState) {
 
           <h2>Other common causes for this message</h2>
           <h3>You do not have a Tile Category set for a visible tile:</h3>
-          <p><Link href={fixedURL + "lists/" + parentProps.listTitle} 
+          <p><Link href={fixedURL + listExt + parentProps.listTitle} 
               target="_blank">
-              {fixedURL + "lists/" + parentProps.listTitle}
+              {fixedURL + listExt + parentProps.listTitle}
             </Link></p>
           <h3>You do not have permissions to the list :(</h3>
           <p>Please contact your site admin for assistance!</p>
@@ -99,6 +102,8 @@ export function NoItemsFound (parentProps,parentState) {
     const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
 
     const errMessage = SanitizeErrorMessage(parentState.loadError);
+    
+    const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
 
     const noItemsFound = 
     <div className={styles.rowNoPad}>
@@ -108,9 +113,9 @@ export function NoItemsFound (parentProps,parentState) {
         {errMessage}
         <p>This is the filter we are using: <b>{parentProps.setFilter}</b></p>
         <p>Looking here:</p>
-        <p><Link href={fixedURL + "lists/" + parentProps.listTitle} 
+        <p><Link href={fixedURL + listExt + parentProps.listTitle} 
             target="_blank">
-            {fixedURL + "lists/" + parentProps.listTitle}
+            {fixedURL + listExt + parentProps.listTitle}
           </Link></p>
         <p>You can also get this message if you do not have permissions to the list.</p>
       </div>

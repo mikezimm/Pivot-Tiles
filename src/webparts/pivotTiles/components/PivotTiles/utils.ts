@@ -49,9 +49,13 @@ export default class Utils {
       const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
 
       if (theseProps[getProp].indexOf("/") < 0) {
+        if (item[theseProps[getProp]]) {
           return item[theseProps[getProp]];
+        } else { return "" } 
       } else {
-        return item[leftSide][rightSide]; 
+        if (item[leftSide]) {
+          return item[leftSide][rightSide]
+        } else { return "" } 
       }
     }
 
@@ -112,7 +116,7 @@ export default class Utils {
 
     }));
     //console.table("tileCollection");
-    console.table(tileCollection);
+    //console.table(tileCollection);
     return tileCollection;
 
   }
@@ -141,6 +145,7 @@ export default class Utils {
     for (let tile of response) {
       //if (righttSide) {tile.category
       if (!tile.category) {
+        //This allows it to skip if the tile category is empty or blank
       } else if (tileCategories.length===999) {
         // Use different notation for drilling down
         console.log('buildTileCategoriesFromResponse category 0');  
