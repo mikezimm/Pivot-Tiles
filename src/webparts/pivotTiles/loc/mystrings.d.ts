@@ -28,7 +28,8 @@ declare interface IPivotTilesWebPartStrings {
   setPivOptions: string;
   propURLQuery: string;
   setTab: string;
-  
+  otherTab: string;
+
   colTitleText: string;
   colHoverText: string;
   colCategory: string;

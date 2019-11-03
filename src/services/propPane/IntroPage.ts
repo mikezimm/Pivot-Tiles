@@ -41,6 +41,9 @@ export class IntroPage {
           PropertyPaneTextField('setTab', {
             label: strings.setTab
           }),
+          PropertyPaneTextField('otherTab', {
+            label: strings.otherTab
+          }),
         ]}, // this group
         { groupName: 'Filtering',
         groupFields: [

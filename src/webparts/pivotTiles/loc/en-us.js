@@ -28,6 +28,7 @@ define([], function() {
     "setFilter": "Rest Filter like:   ShowColumnName eq 'Yes'",
     "propURLQuery": "Allow URL Query to filter",
     "setTab": "Default Tab",
+    "otherTab": "Uncategorized Tab",
 
     "colTitleText": "Tile Text",
     "colHoverText": "Tile Hover Text",

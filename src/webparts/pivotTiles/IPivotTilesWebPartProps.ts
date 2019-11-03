@@ -26,6 +26,7 @@ export interface IPivotTilesWebPartProps {
   setPivOptions: string[];
   propURLQuery: boolean;
   setTab: string;
+  otherTab: string;
   
   colTitleText: string;
   colHoverText: string;

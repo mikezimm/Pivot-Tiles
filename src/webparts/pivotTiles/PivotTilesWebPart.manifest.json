@@ -33,6 +33,7 @@
       "listWebURL": "",
       "listTitle": "OurTiles",
       "setTab": "Main Menu",
+      "otherTab": "Others",
       "setSize": "300",
       "setRatio": "4x1",
       "setImgFit": "centerCover",

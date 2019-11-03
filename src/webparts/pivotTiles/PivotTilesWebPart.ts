@@ -64,6 +64,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         setFilter: this.properties.setFilter,
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,
+        otherTab: this.properties.otherTab,
 
         setPivSize: this.properties.setPivSize,
         setPivFormat: this.properties.setPivFormat,
@@ -184,7 +185,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     }
 
     let updateOnThese = [
-      'setSize','setTab','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
+      'setSize','setTab','otherTab','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom'
     ];
 

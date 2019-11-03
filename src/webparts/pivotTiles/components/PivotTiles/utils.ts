@@ -69,7 +69,7 @@ export default class Utils {
 
       href: (getColumnValue(pivotProps,item,'colGoToLink')),
 
-      category: (getColumnValue(pivotProps,item,'colCategory')),
+      category: (getColumnValue(pivotProps,item,'colCategory') !== "" ? getColumnValue(pivotProps,item,'colCategory') : [pivotProps.otherTab] ),
 
       setTab: pivotProps.setTab,
       setSize: pivotProps.setSize,
@@ -180,6 +180,12 @@ export default class Utils {
     }
 
     tileCategories.sort();
+
+    const otherIndex = tileCategories.indexOf(pivotProps.otherTab);
+    if ( otherIndex > -1 ) {
+      tileCategories.splice(otherIndex,1);
+      tileCategories.push(pivotProps.otherTab);
+    }
 
     return tileCategories;
 

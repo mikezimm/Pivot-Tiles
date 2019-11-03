@@ -17,6 +17,7 @@ export interface IPivotTilesState {
   showTips?: string;
   loadError?: string;
   lookupColumns?: string[];
+  showOtherTab?: boolean;
 
   endTime?: theTime;
 

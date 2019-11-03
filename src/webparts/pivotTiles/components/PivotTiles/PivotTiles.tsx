@@ -49,6 +49,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       showTips: "none",
       loadError: "",
       lookupColumns: [],
+      showOtherTab: false,
 
     };
 
@@ -153,7 +154,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
                 onLinkClick= { this.onLinkClick }
                 defaultSelectedKey={ defIndex }
                 headersOnly={true}>
-                  {this.createPivots(this.state)}
+                  {this.createPivots(this.state,this.props)}
               </Pivot>
               <MyCommandBar
                 toggleTips= { this.toggleTips }
@@ -250,10 +251,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       );
   }
 
-  public createPivots(thisState){
+  public createPivots(thisState,thisProps){
     console.log('thisState.pivTitles: ', thisState.pivtTitles);
     let piv = thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory);
-
+    if (thisState.showOtherTab && thisState.pivtTitles.indexOf(thisProps.otherTab) === -1) { thisState.pivtTitles.push(thisProps.otherTab) }
     return (
       piv
     );
