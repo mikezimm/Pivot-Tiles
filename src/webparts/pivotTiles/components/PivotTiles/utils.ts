@@ -17,7 +17,7 @@ export default class Utils {
 
   public static fixURLs(oldURL,pageContext) {
     let newURL = oldURL;
-    if (newURL.length === 0) {
+    if (!oldURL || newURL.length === 0) {
       newURL = pageContext.web.absoluteUrl;
     }
     newURL += newURL.endsWith("/") ? "" : "/";
@@ -139,8 +139,9 @@ export default class Utils {
     let righttSide = splitCol[1];
 
     for (let tile of response) {
-      //if (righttSide) {
-      if (tileCategories.length===999) {
+      //if (righttSide) {tile.category
+      if (!tile.category) {
+      } else if (tileCategories.length===999) {
         // Use different notation for drilling down
         console.log('buildTileCategoriesFromResponse category 0');  
         let lookup = tile[leftSide];
@@ -155,36 +156,21 @@ export default class Utils {
         console.log('buildTileCategoriesFromResponse category 0');
       } else {
 
-        let addCategory : boolean;
-
         if (splitCol.length === 1) {
-          //Test as normal column
+
           for (let category of tile.category) {
-            console.log('tileCategories.indexOf(category): ', tileCategories.indexOf(category), tileCategories, category)
             if(tileCategories.indexOf(category) === -1) {
-              addCategory = true;
-            } else {addCategory = false}
+              tileCategories = updatetileCats(pivotProps, category, tileCategories);
+            }
           }
+
         } else {
           //Test as Lookup column (which is not an array but only one value)
           if(tileCategories.indexOf(tile.category) === -1) {
-            addCategory = true;
-          } else {addCategory = false}
-        }
-
-
-
-        //
-        if (addCategory === true){
-          if (  pivotProps.showHero === true && tile.category === pivotProps.heroCategory && (
-            pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' )) {
-            //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
-            //  because all tiles will be in those react components.
-  
-          } else {
             tileCategories.push(tile.category);
           }
         }
+
       }
     }
 
@@ -194,4 +180,18 @@ export default class Utils {
 
   }
 
+}
+
+function updatetileCats(pivotProps, thisCat, allCats) {
+
+    if (  pivotProps.showHero === true && thisCat === pivotProps.heroCategory && (
+      pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' )) {
+      //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
+      //  because all tiles will be in those react components.
+
+    } else {
+      allCats.push(thisCat);
+    }
+
+  return allCats;
 }

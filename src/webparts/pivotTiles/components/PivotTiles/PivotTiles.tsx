@@ -200,9 +200,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private onLinkClick = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
+    console.log('this.state.allTiles: ', this.state);
     let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
-        if(thisTile.category.indexOf(item.props.headerText) > -1) {
+        if(thisTile.category && thisTile.category.indexOf(item.props.headerText) > -1) {
 
           let showThisTile = true;
           if (this.props.heroType !== 'none') {

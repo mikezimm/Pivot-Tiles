@@ -169,6 +169,10 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         this.properties.colImageLink = newMap.listMapping.colImageLink;
         this.properties.colSort = newMap.listMapping.colSort;
         this.properties.colTileStyle = newMap.listMapping.colTileStyle;
+        this.properties.listWebURL = newMap.testSite;
+        this.properties.setFilter = newMap.setFilter;
+        this.properties.setTab = newMap.setTab;        
+        
 
       } else {
         console.log('Did NOT List Defintion... updating column name props');
@@ -180,7 +184,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     }
 
     let updateOnThese = [
-      'setSize','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
+      'setSize','setTab','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom'
     ];
 

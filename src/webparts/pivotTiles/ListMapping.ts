@@ -13,6 +13,10 @@
         {   index: 3,   key: 'QuickLinks', text: "Quick Links"  },
         {   index: 4,   key: 'MediaLibrary', text: "Media Library"  },
         {   index: 5,   key: 'DocumentLibrary', text: "Document Library"  },
+        {   index: 6,   key: 'Icons', text: "Icons Library"  },
+        {   index: 7,   key: 'TestImages', text: "TestImages Library"  },
+        
+        
         {   index: 9,   key: 'none', text: "Unknown"  },
     ];
 
@@ -24,6 +28,7 @@
         // Be sure these values match the default set in the webpart.manifest.json - needs to be done by hand.
         if (findMe === 'OurTiles') {
             listMap = {
+                "testSite" : "",
                 "listDef" : "OurTiles",
                 "listDisplay" : "OurTiles",
                 "listName" : "OurTiles",
@@ -38,11 +43,14 @@
                     "colOpenBehaviour" : strings.defColOpenBehaviour,
                     "colImageLink" : strings.defColImageLink,
                     "colSort" : strings.defColSort,
-                }
+                },
+                "setFilter": "zzzShowAll eq 'Yes'",
+                "setTab": "Main Menu",
             };
 
         } else if (findMe === 'AEInspiredTiles') {
             listMap = {
+                "testSite" : "",
                 "listDef" : "AEInspiredTiles",
                 "listDisplay" : "AE Inspired Tiles",
                 "listName" : "AEInspiredTilesItems",
@@ -57,11 +65,14 @@
                     "colOpenBehaviour" : "",
                     "colImageLink" : "TileBgImageUrl",
                     "colSort" : "Order1"
-                }
+                },
+                "setFilter": "",
+                "setTab": "Main Menu",
             };
             
         } else if (findMe === 'PromotedLinks') {
             listMap = {
+                "testSite" : "",
                 "listDef" : "Promoted Links",
                 "listDisplay" : "Promoted Links",
                 "listName" : "PromotedLinks",
@@ -70,36 +81,42 @@
                     "colTitleText" : "Title",
                     "colHoverText" : "",
                     "colCategory" : "",
-                    "Color" : "",
+                    "colColor" : "",
                     "colSize" : "",
                     "colGoToLink" : "LinkLocation",
                     "colOpenBehaviour" : "LaunchBehavior",
                     "colImageLink" : "BackgroundImageLocation",
                     "colSort" : "TileOrder"
-                }
+                },
+                "setFilter": "",
+                "setTab": "Main Menu",
             };
             
         } else if (findMe === 'MediaLibrary') {
             listMap = {
+                "testSite" : "",
                 "listDef" : "Media Library",
                 "listDisplay" : "Media Library",
-                "listName" : "MediaLibrary",
+                "listName" : "Media Library",
                 "tabDefault" : false,
                 "listMapping" : {
                     "colTitleText" : "File/Name",
                     "colHoverText" : "Editor/Title",
                     "colCategory" : "Author/ID",
-                    "Color" : "",
-                    "Size" : "",
-                    "GoToLink" : "File/ServerRelativeUrl",
+                    "colColor" : "",
+                    "colSize" : "",
+                    "colGoToLink" : "File/ServerRelativeUrl",
                     "colOpenBehaviour" : "",
-                    "ImageLink" : "File/ServerRelativeUrl",
-                    "Sort" : "Title"
-                }
+                    "colImageLink" : "File/ServerRelativeUrl",
+                    "colSort" : "Title"
+                },
+                "setFilter": "",
+                "setTab": "Main Menu",
             };
             
         } else if (findMe === 'DocumentLibrary') {
             listMap = {
+                "testSite" : "",
                 "listDef" : "Document Library",
                 "listDisplay" : "Document Library",
                 "listName" : "DocumentLibrary",
@@ -108,13 +125,59 @@
                     "colTitleText" : "File/Name",
                     "colHoverText" : "Editor/Title",
                     "colCategory" : "Author/ID",
-                    "Color" : "",
-                    "Size" : "",
-                    "GoToLink" : "File/ServerRelativeUrl",
+                    "colColor" : "",
+                    "colSize" : "",
+                    "colGoToLink" : "File/ServerRelativeUrl",
                     "colOpenBehaviour" : "",
-                    "ImageLink" : "",
-                    "Sort" : "Title"
-                }
+                    "colImageLink" : "",
+                    "colSort" : "Title"
+                },
+                "setFilter": "",
+                "setTab": "Main Menu",
+            };
+            
+        } else if (findMe === 'Icons') {
+            listMap = {
+                "testSite" : "https://mcclickster.sharepoint.com/sites/Templates/Icons/",
+                "listDef" : "Icons Library",
+                "listDisplay" : "Icons",
+                "listName" : "Icons",
+                "tabDefault" : false,
+                "listMapping" : {
+                    "colTitleText" : "File/Name",
+                    "colHoverText" : "Editor/Title",
+                    "colCategory" : "zzzTileCategory",
+                    "colColor" : "",
+                    "colSize" : "",
+                    "colGoToLink" : "File/ServerRelativeUrl",
+                    "colOpenBehaviour" : "",
+                    "colImageLink" : "File/ServerRelativeUrl",
+                    "colSort" : "Title"
+                },
+                "setFilter": "",
+                "setTab": "Steps",
+            };
+            
+        } else if (findMe === 'TestImages') {
+            listMap = {
+                "testSite" : "",
+                "listDef" : "Icons Library",
+                "listDisplay" : "TestImages",
+                "listName" : "TestImages",
+                "tabDefault" : false,
+                "listMapping" : {
+                    "colTitleText" : "File/Name",
+                    "colHoverText" : "Editor/Title",
+                    "colCategory" : "User1/Title",
+                    "colColor" : "",
+                    "colSize" : "",
+                    "colGoToLink" : "File/ServerRelativeUrl",
+                    "colOpenBehaviour" : "",
+                    "colImageLink" : "File/ServerRelativeUrl",
+                    "colSort" : ""
+                },
+                "setFilter": "",
+                "setTab": "Mike zimmerman",
             };
             
         }
