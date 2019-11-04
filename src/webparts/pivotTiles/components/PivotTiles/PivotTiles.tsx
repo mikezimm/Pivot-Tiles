@@ -154,7 +154,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
                 onLinkClick= { this.onLinkClick }
                 defaultSelectedKey={ defIndex }
                 headersOnly={true}>
-                  {this.createPivots(this.state,this.props)}
+                  {this.createPivots(this.state)}
               </Pivot>
               <MyCommandBar
                 toggleTips= { this.toggleTips }
@@ -201,10 +201,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private onLinkClick = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
-    console.log('this.state.allTiles: ', this.state);
     let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
-        if(thisTile.category && thisTile.category.indexOf(item.props.headerText) > -1) {
+        if(thisTile.category.indexOf(item.props.headerText) > -1) {
 
           let showThisTile = true;
           if (this.props.heroType !== 'none') {
@@ -251,10 +250,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       );
   }
 
-  public createPivots(thisState,thisProps){
-    console.log('thisState.pivTitles: ', thisState.pivtTitles);
+  public createPivots(thisState){
     let piv = thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory);
-    if (thisState.showOtherTab && thisState.pivtTitles.indexOf(thisProps.otherTab) === -1) { thisState.pivtTitles.push(thisProps.otherTab) }
+
     return (
       piv
     );
@@ -388,9 +386,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         let web = new Web(this.props.listWebURL);
   
         const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
-  
+        // Getting large amount of items (over 100)
+        //          .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
+        //items.getAll().
         web.lists.getByTitle(useTileList).items
-          .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
+          .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).getAll()
           .then((response) => {
               this.processResponse(response);
             }).catch((e) => {
@@ -436,25 +436,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         return ;
       }
   
-      console.log('this.props.listWebURL',this.props.listWebURL);
-      console.log('this.props.pageContext',this.props.pageContext);
       const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
 
-      console.log('fixedURL',fixedURL);
-      console.log('this.props.listTitle',this.props.listTitle);
-
-      const listExt = this.props.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
-
-      const listURL = fixedURL + listExt + this.props.listTitle;
-      console.log('listURL',listURL);
-
-      console.log('this.props.pageContext.web.absoluteUrl',this.props.pageContext.web.absoluteUrl);
-      console.log('this.props.pageContext.site.serverRequestPath',this.props.pageContext.site.serverRequestPath);      
+      const listURL = fixedURL + ( this.props.listDefinition.indexOf("Library") < 0 ? "lists/" : "" ) + this.props.listTitle;
+ 
       const currentPageUrl = this.props.pageContext.web.absoluteUrl + this.props.pageContext.site.serverRequestPath;
-      console.log('currentPageUrl',currentPageUrl);
 
-
-      console.log('this.props.listWebURL',this.props.listWebURL);
       const editItemURL = listURL + "/DispForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
       console.log('editItemURL',editItemURL);
 
@@ -495,17 +482,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     let newFilteredTiles = [];
     for (let thisTile of tileCollection) {
+      if(thisTile.category.indexOf(thisProps.setTab) > -1) {
 
-      //Added this to stop errors when columns are lookups
-      let colType = (thisProps.colCategory.indexOf('/') > 0) ? 'lookup' : 'normal';
-      let countMe : boolean;
-      if (colType === 'normal') {
-        countMe = (thisTile.category && thisTile.category.indexOf(thisProps.setTab) > -1) ? true : false;
-      } else {
-        countMe = (thisTile.category == thisProps.heroCategory) ? true : false
-      }
-
-      if(countMe) {
         let showThisTile = true;
         if (heroIds.length > 0 && thisProps.heroType !== 'none' && heroTiles[0]) {
           showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
@@ -524,18 +502,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             
     if (thisProps.showHero === true && thisProps.heroCategory) {
       for (let thisTile of tileCollection) {
-        if (thisProps.colCategory.indexOf('/') > 0) {
-          //This is a lookup column and can only contain 1 value
-          if(thisTile.category == thisProps.heroCategory) {
-            heroTiles.push(thisTile);
-          }     
-        } else {
-          //This is not a lookup column, added thisTile.category to check if it is not null (empty)
-          if( thisTile.category && thisTile.category.indexOf(thisProps.heroCategory) > -1) {
-            heroTiles.push(thisTile);
-          }
+        if(thisTile.category.indexOf(thisProps.heroCategory) > -1) {
+          heroTiles.push(thisTile);
         }
-
       }
     }
 
