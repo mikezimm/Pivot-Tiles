@@ -3,6 +3,7 @@ import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps'
 import { PageContext } from '@microsoft/sp-page-context';
 
 export interface IPivotTilesWebPartProps {
+  scenario: string;
   description: string;
   listDefinition: string;
   listWebURL: string;
@@ -14,6 +15,7 @@ export interface IPivotTilesWebPartProps {
   setHeroFit: string;
   setHeroCover: string;
   onHoverEffect: string;
+
   
   setSize: string;
   setRatio: string;

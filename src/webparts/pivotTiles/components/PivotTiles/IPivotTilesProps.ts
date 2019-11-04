@@ -9,6 +9,7 @@ export interface theTime {
 
 export interface IPivotTilesProps {
 
+  scenario: string;
   description: string;
   listDefinition: string;
   listWebURL: string;

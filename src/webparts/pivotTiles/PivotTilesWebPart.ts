@@ -43,10 +43,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       PivotTiles,
       {
         startTime: getTheCurrentTime(),
+        scenario: this.properties.scenario,
         description: this.properties.description,
         listDefinition: this.properties.listDefinition,
         listWebURL: this.properties.listWebURL,
         listTitle: this.properties.listTitle,
+
 
         pageContext: this.context.pageContext,
         heroType: this.properties.heroType,
