@@ -13,7 +13,7 @@ export interface IPivotTilesWebPartProps {
   heroCategory: string;
   setHeroFit: string;
   setHeroCover: string;
-  hoverEffect: string;
+  onHoverEffect: string;
   
   setSize: string;
   setRatio: string;

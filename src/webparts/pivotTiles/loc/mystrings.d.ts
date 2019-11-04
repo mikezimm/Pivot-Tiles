@@ -29,7 +29,7 @@ declare interface IPivotTilesWebPartStrings {
   propURLQuery: string;
   setTab: string;
   otherTab: string;
-  hoverEffect: string;
+  onHoverEffect: string;
 
   colTitleText: string;
   colHoverText: string;
