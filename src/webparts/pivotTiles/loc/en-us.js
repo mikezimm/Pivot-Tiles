@@ -29,6 +29,7 @@ define([], function() {
     "propURLQuery": "Allow URL Query to filter",
     "setTab": "Default Tab",
     "otherTab": "Uncategorized Tab",
+    "hoverEffect": "On hover effect",
 
     "colTitleText": "Tile Text",
     "colHoverText": "Tile Hover Text",

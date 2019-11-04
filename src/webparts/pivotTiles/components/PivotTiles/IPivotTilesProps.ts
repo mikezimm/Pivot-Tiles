@@ -24,6 +24,7 @@ export interface IPivotTilesProps {
   propURLQuery: boolean;
   setTab: string;
   otherTab: string;
+  hoverEffect: string;
   
   onHoverZoom: string;
   setRatio: string;

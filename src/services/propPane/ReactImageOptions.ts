@@ -111,29 +111,48 @@ import {
         }
     } 
 
-//onHoverZoom
+    //onHoverZoom
 
-public hoverZoomChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
-    {   index: 0,   key: '1.1', text: "1.1 x"  },
-    {   index: 1,   key: '1.2', text: "1.2 x"  },
-    {   index: 9,   key: '1.0', text: "1.0 - no zoom animation"  },
-];
-/*  These do not seem to  work.
-    {   index: 2,   key: 'self', text: "Same Frame (_self)"  },
-    {   index: 3,   key: 'parent', text: "Parent Frameset (_parent)"  },
-*/
+    public hoverZoomChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
+        {   index: 0,   key: '1.1', text: "1.1 x"  },
+        {   index: 1,   key: '1.2', text: "1.2 x"  },
+        {   index: 9,   key: '1.0', text: "1.0 - no zoom animation"  },
+    ];
+    /*  These do not seem to  work.
+        {   index: 2,   key: 'self', text: "Same Frame (_self)"  },
+        {   index: 3,   key: 'parent', text: "Parent Frameset (_parent)"  },
+    */
 
-public getHoverZoom (findMe) {
-    if (findMe === '1.0') {
-        return 1;
-    } else if (findMe === '1.1') {
-        return 1.1;
-    } else if (findMe === '1.2') {
-        return 1.2;
-    } else {
-        return 0;
-    }
-} 
+    public getHoverZoom (findMe) {
+        if (findMe === '1.0') {
+            return 1;
+        } else if (findMe === '1.1') {
+            return 1.1;
+        } else if (findMe === '1.2') {
+            return 1.2;
+        } else {
+            return 0;
+        }
+    } 
+
+    public hoverEffectChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
+        {   index: 0,   key: 'slideUp', text: 'Slide up panel'  },
+        {   index: 1,   key: 'fadeUp', text: 'Fade up'  },
+    ];
+
+    /**
+     * This is just left as a placeholder in case it's needed but not likely to be used.
+     * @param findMe 
+     */
+    public getHoverEffect (findMe) {
+        if (findMe === 'slideUp') {
+            return findMe;
+        } else if (findMe === 'fadeUp') {
+            return findMe;
+        } else {
+            return findMe;
+        }
+    } 
 
   }
 

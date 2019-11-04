@@ -54,6 +54,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         showHero: this.properties.showHero,
         setHeroFit: this.properties.setHeroFit,
         setHeroCover: this.properties.setHeroCover,
+        hoverEffect: this.properties.hoverEffect,
 
         onHoverZoom: this.properties.onHoverZoom,
         setSize: this.properties.setSize,

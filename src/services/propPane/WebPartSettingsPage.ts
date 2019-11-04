@@ -46,6 +46,12 @@ import {
               options: imageOptionsGroup.hoverZoomChoices,
             }),
 
+            PropertyPaneDropdown('onHoverZoom', <IPropertyPaneDropdownProps>{
+              label: strings.hoverEffect,
+              options: imageOptionsGroup.hoverEffectChoices,
+            }),
+            
+
             PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
               label: strings.setSize,
               options: this.setSize,

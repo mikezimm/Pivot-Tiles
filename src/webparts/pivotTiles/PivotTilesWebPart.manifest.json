@@ -34,6 +34,7 @@
       "listTitle": "OurTiles",
       "setTab": "Main Menu",
       "otherTab": "Others",
+      "hoverEffect": "slideUp",
       "setSize": "300",
       "setRatio": "4x1",
       "setImgFit": "centerCover",
