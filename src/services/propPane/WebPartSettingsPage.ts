@@ -78,13 +78,13 @@ import {
 
               PropertyPaneSlider('imageWidth', {
                 label: strings.Property_ImageWidth_Label,
-                min: 100,
+                min: 50,
                 max: 300,
                 step: 25,
               }),
               PropertyPaneSlider('imageHeight', {
                 label: strings.Property_ImageHeight_Label,
-                min: 100,
+                min: 50,
                 max: 300,
                 step: 25,
               }),
