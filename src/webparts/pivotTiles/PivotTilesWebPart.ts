@@ -19,9 +19,7 @@ import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
-import { devListMapping } from './DevListMapping';
-import { corpListMapping } from './CorpListMapping';
-import { teamListMapping } from './TeamListMapping';
+import { availableListMapping } from './AvailableListMapping';
 
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../services/createAnalytics';
@@ -164,13 +162,13 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
       let newMap : any = {};
       if (this.properties.scenario === 'DEV' ) {
-        newMap = devListMapping.getListColumns(newValue);
+        newMap = availableListMapping.getListColumns(newValue);
 
       } else if (this.properties.scenario === 'TEAM') {
-        newMap = teamListMapping.getListColumns(newValue);  
+        newMap = availableListMapping.getListColumns(newValue);  
 
       } else if (this.properties.scenario === 'CORP') {
-        newMap = corpListMapping.getListColumns(newValue); 
+        newMap = availableListMapping.getListColumns(newValue); 
 
       }
 
