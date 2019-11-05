@@ -161,7 +161,10 @@ export default class Utils {
         console.log('buildTileCategoriesFromResponse category 0');
       } else {
 
-        if (splitCol.length === 1) {
+        const isArray = typeof(tile.category);
+        console.log(isArray);
+
+        if (isArray !== 'string' && splitCol.length === 1) {
 
           for (let category of tile.category) {
             if(tileCategories.indexOf(category) === -1) {

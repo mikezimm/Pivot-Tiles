@@ -8,32 +8,38 @@
     public choiceOurTiles: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
     {   index: 0,   key: 'OurTiles', text: "OurTiles"  }
 
-public choiceAETiles: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 1,   key: 'AEInspiredTiles', text: "AEInspiredTiles"  }
+    public choiceAETiles: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 1,   key: 'AEInspiredTiles', text: "AEInspiredTiles"  }
 
-public choicePromoted: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 2,   key: 'PromotedLinks', text: "PromotedLinks"  }
+    public choicePromoted: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 2,   key: 'PromotedLinks', text: "PromotedLinks"  }
 
-public choiceQuick: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 3,   key: 'QuickLinks', text: "QuickLinks"  }
+    public choiceQuick: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 3,   key: 'QuickLinks', text: "QuickLinks"  }
 
-public choiceMedia: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 4,   key: 'MediaLibrary', text: "MediaLibrary"  }
+    public choiceMedia: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 4,   key: 'MediaLibrary', text: "MediaLibrary"  }
 
-public choiceDocument: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 5,   key: 'DocumentLibrary', text: "DocumentLibrary"  }
+    public choiceDocument: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 5,   key: 'DocumentLibrary', text: "DocumentLibrary"  }
 
-public choiceIcons: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 6,   key: 'Icons', text: "Icons Library"  }
+    public choiceIcons: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 6,   key: 'Icons', text: "Icons Library"  }
 
-public choiceTestImages: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 7,   key: 'TestImages', text: "TestImages Library"  }
+    public choiceTestImages: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 7,   key: 'TestImages', text: "TestImages Library"  }
 
-public choiceUnk: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 9,   key: 'none', text: "Unknown"  }
+    public choicePolicy: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+    {   index: 8,   key: 'Policy', text: "Policy Library"  }
 
-public getListColumns (findMe) :any {
-    let listMap = {};
+    public choiceStandards: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+    {   index: 10,   key: 'Standards', text: "Standards Library"  }
+
+    public choiceUnk: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+        {   index: 9,   key: 'none', text: "Unknown"  }
+
+    public getListColumns (findMe) :any {
+        let listMap = {};
 
     //NOTE:
     //This should be the default list structure for the webpart.
@@ -191,7 +197,48 @@ public getListColumns (findMe) :any {
             "setFilter": "",
             "setTab": "Mike zimmerman",
         };
-        
+    } else if (findMe === 'Policy') {
+        listMap = {
+            "testSite" : "https://mcclickster.sharepoint.com/sites/Templates/CorpIntra/",
+            "listDef" : "Policy Library",
+            "listDisplay" : "Policy",
+            "listName" : "Policy",
+            "tabDefault" : false,
+            "listMapping" : {
+                "colTitleText" : "File/Name",
+                "colHoverText" : "Location",
+                "colCategory" : "Function",
+                "colColor" : "",
+                "colSize" : "",
+                "colGoToLink" : "File/ServerRelativeUrl",
+                "colOpenBehaviour" : "",
+                "colImageLink" : "File/ServerRelativeUrl",
+                "colSort" : "Title"
+            },
+            "setFilter": "",
+            "setTab": "Quality",
+        };
+    } else if (findMe === 'Standards') {
+        listMap = {
+            "testSite" : "https://mcclickster.sharepoint.com/sites/Templates/CorpIntra/",
+            "listDef" : "Standards Library",
+            "listDisplay" : "Standards",
+            "listName" : "Standards",
+            "tabDefault" : false,
+            "listMapping" : {
+                "colTitleText" : "File/Name",
+                "colHoverText" : "Function",
+                "colCategory" : "Location",
+                "colColor" : "",
+                "colSize" : "",
+                "colGoToLink" : "File/ServerRelativeUrl",
+                "colOpenBehaviour" : "",
+                "colImageLink" : "File/ServerRelativeUrl",
+                "colSort" : "Title"
+            },
+            "setFilter": "",
+            "setTab": "EU",
+        };
     }
     console.log('List Mapping for: ' + findMe );
     console.log( listMap );        

@@ -14,6 +14,8 @@
      */
 
     public listChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
+        availableListMapping.choicePolicy,
+        availableListMapping.choiceStandards,
         availableListMapping.choiceOurTiles,
         availableListMapping.choiceMedia,
         availableListMapping.choiceDocument,

@@ -11,7 +11,6 @@ import {
   } from '@microsoft/sp-webpart-base';
   
   import * as strings from 'PivotTilesWebPartStrings';
-  import { listMapping } from './../../webparts/pivotTiles/ListMapping';
   import { devListMapping } from './../../webparts/pivotTiles/DevListMapping';
   import { corpListMapping } from './../../webparts/pivotTiles/CorpListMapping';
   import { teamListMapping } from './../../webparts/pivotTiles/TeamListMapping';
