@@ -63,5 +63,7 @@ define([], function() {
     "Property_ShowHero_OffText": "Toggle to Show",
     "Property_ShowHero_OnText": "Toggle to Hide",
 
+    "Property_getAll_Label": "Get All items (large qty items)",
+
   }
 });

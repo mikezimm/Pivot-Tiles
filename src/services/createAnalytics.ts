@@ -82,7 +82,7 @@ export function getTheCurrentTime () {
         'now': now,
         'theTime' : theTime,
         'milliseconds' : now.getMilliseconds(),
-    }
+    };
 
     return result;
 

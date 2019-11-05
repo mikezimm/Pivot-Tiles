@@ -6,6 +6,7 @@ export interface IPivotTilesWebPartProps {
   scenario: string;
   description: string;
   listDefinition: string;
+  getAll: boolean;
   listWebURL: string;
   listTitle: string;
   pageContext: PageContext;

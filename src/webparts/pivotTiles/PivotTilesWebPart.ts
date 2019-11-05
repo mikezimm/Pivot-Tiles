@@ -19,7 +19,10 @@ import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
-import { listMapping } from './ListMapping';
+import { devListMapping } from './DevListMapping';
+import { corpListMapping } from './CorpListMapping';
+import { teamListMapping } from './TeamListMapping';
+
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../services/createAnalytics';
 
@@ -48,7 +51,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         listDefinition: this.properties.listDefinition,
         listWebURL: this.properties.listWebURL,
         listTitle: this.properties.listTitle,
-
+        getAll: this.properties.getAll,
 
         pageContext: this.context.pageContext,
         heroType: this.properties.heroType,
@@ -157,7 +160,18 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       //this.properties.listTitle = "TitleChanged!";
       //this.properties.colTitleText = "TitleTextChanged!";
 
-      let newMap = listMapping.getListColumns(newValue);
+      let newMap : any = {};
+      if (this.properties.scenario === 'DEV' ) {
+        newMap = devListMapping.getListColumns(newValue);
+
+      } else if (this.properties.scenario === 'TEAM') {
+        newMap = teamListMapping.getListColumns(newValue);  
+
+      } else if (this.properties.scenario === 'CORP') {
+        newMap = corpListMapping.getListColumns(newValue); 
+               
+      }
+
       const hasValues = Object.keys(newMap).length;
 
       if (hasValues !== 0) {

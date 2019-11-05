@@ -64,6 +64,8 @@ declare interface IPivotTilesWebPartStrings {
   Property_ShowHero_OffText: string;
   Property_ShowHero_OnText: string;
 
+  Property_getAll_Label: string;
+
   onHoverZoom: string;
 
   

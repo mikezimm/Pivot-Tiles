@@ -135,22 +135,30 @@ import {
         }
     } 
 
+    //hoverEffectChoices
     public hoverEffectChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
-        {   index: 0,   key: 'slideUp', text: 'Slide up panel'  },
-        {   index: 1,   key: 'fadeUp', text: 'Fade up'  },
+        {   index: 0,   key: 'slideUp', text: "Slide panel up"  },
+        {   index: 1,   key: 'fadeUp', text: "Fade panel"  },
+        {   index: 9,   key: 'none', text: "None"  },
     ];
+    /*  These do not seem to  work.
+        {   index: 2,   key: 'self', text: "Same Frame (_self)"  },
+        {   index: 3,   key: 'parent', text: "Parent Frameset (_parent)"  },
+    */
 
     /**
-     * This is just left as a placeholder in case it's needed but not likely to be used.
+     * Currently just place holder in case needed.
      * @param findMe 
      */
     public getHoverEffect (findMe) {
-        if (findMe === 'slideUp') {
-            return findMe;
-        } else if (findMe === 'fadeUp') {
-            return findMe;
+        if (findMe === '1.0') {
+            return 1;
+        } else if (findMe === '1.1') {
+            return 1.1;
+        } else if (findMe === '1.2') {
+            return 1.2;
         } else {
-            return findMe;
+            return 0;
         }
     } 
 

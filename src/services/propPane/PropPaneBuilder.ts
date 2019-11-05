@@ -21,7 +21,7 @@ export class PropertyPaneBuilder {
       pages: [
         introPage.getPropertyPanePage(webPartProps),
         webPartSettingsPage.getPropertyPanePage(webPartProps),
-        listMappingPage1.getPropertyPanePage(),
+        listMappingPage1.getPropertyPanePage(webPartProps),
         listMappingPage2.getPropertyPanePage(),
       ]
     };

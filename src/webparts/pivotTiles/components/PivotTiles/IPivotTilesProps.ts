@@ -2,14 +2,15 @@ import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 import { PageContext } from '@microsoft/sp-page-context';
 
 export interface theTime {
-  now: Date,
-  theTime : string,
-  milliseconds : number,
+  now: Date;
+  theTime : string;
+  milliseconds : number;
 }
 
 export interface IPivotTilesProps {
 
   scenario: string;
+  getAll: boolean;
   description: string;
   listDefinition: string;
   listWebURL: string;

@@ -7,7 +7,7 @@ export default class Utils {
     //https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript
     //string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
     const thisCat = cat.toString();
-    if (thisCat == null) { return "" };
+    if (thisCat == null) { return ""; }
     if (thisCat){
       return (thisCat.replace(" ",'_').replace(/[&]/,'And').replace(/[*]/,'aamp').replace(/[\/\\#,+()$~%.'":*?<>{}]/g,''));
     } else {
@@ -42,7 +42,7 @@ export default class Utils {
     function getColumnValue(theseProps, item, getProp){
 
       if (getProp.toLowerCase() === "thumb" || getProp.toLowerCase() === "thumbnail") {
-        getProp = "File/ServerRelativeUrl"
+        getProp = "File/ServerRelativeUrl";
       }
 
       const leftSide = Utils.parseMe(theseProps[getProp],"/",'left');
@@ -51,11 +51,11 @@ export default class Utils {
       if (theseProps[getProp].indexOf("/") < 0) {
         if (item[theseProps[getProp]]) {
           return item[theseProps[getProp]];
-        } else { return "" } 
+        } else { return ""; } 
       } else {
         if (item[leftSide]) {
-          return item[leftSide][rightSide]
-        } else { return "" } 
+          return item[leftSide][rightSide];
+        } else { return ""; } 
       }
     }
 
@@ -130,9 +130,9 @@ export default class Utils {
     if (leftOrRight.toLowerCase() === 'left') {
       return splitCol[0];
     } else if (leftOrRight.toLowerCase() === 'right') {
-      return splitCol[1] ? splitCol[1] : ""
+      return splitCol[1] ? splitCol[1] : "";
     }
-  };
+  }
 
   public static buildTileCategoriesFromResponse(pivotProps, response ){
 
