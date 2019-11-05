@@ -31,6 +31,27 @@ npm install swiper ( Required for React Swipe gallery )
 npm install @pnp/spfx-controls-react --save --save-exact  (to test using [react carousel](https://sharepoint.github.io/sp-dev-fx-controls-react/controls/Carousel/))
 
 ```
+### Configuration and Setup
+## List based analytics
+1. update strings in en-us.js for your analytics web and list.
+    "analyticsList": "TilesCycleTesting",
+    "analyticsWeb": "https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/",
+2. update analytics save details in /src/services/createAnalytics.ts
+    refer to: export function saveAnalytics
+    update variables and static column names in your list to save information you want
+    insure that "Everyone" can at least create items on your analytics list
+
+## Pre-configured options
+The web part has 3 built in configurations defined in the manifest.json file.
+1. DEV - Developer web part which eventually will include all CORP and TEAM definitions plus custom/test definitions.
+2. CORP - Corporate standard tile definitions
+* Intended to have web part option that can make it easy to display slices of standard corporate libraries.
+3. TEAM - Intended more for Team site with total customization features
+
+* uses **scenario** prop in pre-configured properties to determine prop pane dropdown for list definition.
+* eventually you could use the **secnario** prop to limit access to other parts of the property pane.
+* possibly even limit which tile list/library urls could be used with different configurations.
+
 ### Create log:
 * Copied prop pane strings/interface/props from SPFx Properties Formulas Apr 30 - Editable.xlsx (5 places).
 * Removed un-neccessary modules from common and services folder that were causing serve errors.

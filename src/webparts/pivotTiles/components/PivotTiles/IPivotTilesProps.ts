@@ -58,4 +58,8 @@ export interface IPivotTilesProps {
 
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
   convertCategoryToIndex?(cat:string) : string;
+
+  analyticsList: string;
+  analyticsWeb: string;
+  
 }

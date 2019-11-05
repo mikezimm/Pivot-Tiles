@@ -47,5 +47,8 @@ export interface IPivotTilesWebPartProps {
   imageHeight: number;
   textPadding: number;
   onHoverZoom: string;
+  
+  analyticsList: string;
+  analyticsWeb: string;
 
   }

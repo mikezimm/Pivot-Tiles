@@ -1,5 +1,9 @@
 define([], function() {
   return {
+    
+    "analyticsList": "TilesCycleTesting",
+    "analyticsWeb": "https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/",
+    
     "PropertyPaneAbout": "About",
     "PropertyPaneDescription": "Description",
     "PropertyPaneMainDescription": "Web Part Settings",
@@ -64,6 +68,7 @@ define([], function() {
     "Property_ShowHero_OnText": "Toggle to Hide",
 
     "Property_getAll_Label": "Get All items (large qty items)",
+
 
   }
 });

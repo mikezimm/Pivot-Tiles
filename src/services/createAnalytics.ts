@@ -7,15 +7,22 @@ export function getBrowser(validTypes,changeSiteIcon){
 
 }
 
-
+/**
+ * Be sure to update your analyticsList and analyticsWeb in en-us.js strings file
+ * @param theProps 
+ * @param theState 
+ */
 export function saveAnalytics (theProps,theState) {
 
+    //Do nothing if either of these strings is blank
+    if (!theProps.analyticsList) { return };
+    if (!theProps.analyticsWeb) { return };
 
     //console.log('saveAnalytics: ', theProps, theState);
-    let analyticsList = "TilesCycleTesting";
+    let analyticsList = theProps.analyticsList;
     let startTime = theProps.startTime;
     let endTime = theState.endTime;
-    let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/');
+    let web = new Web(theProps.analyticsWeb);
     const delta = endTime.now - startTime.now;
     //alert(delta);
     //alert(getBrowser("Chrome",false));
@@ -23,21 +30,20 @@ export function saveAnalytics (theProps,theState) {
 
     */
 
+
     let itemInfo1 = "(" + theState.allTiles.length + ")"  + " - " +  theProps.getAll + " - " + " - " + theProps.listDefinition;
     let itemInfo2 = "(" + theProps.listTitle + ")"  + " - " +  theProps.listWebURL;
 
     let itemInfoProps = theProps.setSize +
             " ImgFit: " +  theProps.setImgFit;
 
-
-
+    let heroCount;
     if (theProps.heroTiles) { 
         let itemInfoHero = 
         " ShowHero: " +  theProps.showHero +
         " HeroType: " +  theProps.heroType +
-        " HeroFit: " +  theProps.setHeroFit +
-        " HeroLength: " +  theProps.heroTiles.length;
-        
+        " HeroFit: " +  theProps.setHeroFit
+        heroCount = theProps.heroTiles.length;
         itemInfoProps += ' -Hero: ' + itemInfoHero }
   
     web.lists.getByTitle(analyticsList).items.add({
@@ -49,6 +55,8 @@ export function saveAnalytics (theProps,theState) {
         'zzzText4': endTime.theTime,
         'zzzNumber2': endTime.milliseconds,
         'zzzNumber3': delta,
+        'zzzNumber4': theState.allTiles.length,
+        'zzzNumber5': heroCount,
         'zzzText5': itemInfo1,
         'zzzText6': itemInfo2,
         'zzzText7': itemInfoProps,

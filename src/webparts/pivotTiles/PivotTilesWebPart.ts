@@ -93,6 +93,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         imageHeight: this.properties.imageHeight,
         textPadding: this.properties.textPadding,
 
+        analyticsList: strings.analyticsList,
+        analyticsWeb: strings.analyticsWeb,
 
       }
     );
@@ -169,7 +171,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
       } else if (this.properties.scenario === 'CORP') {
         newMap = corpListMapping.getListColumns(newValue); 
-               
+
       }
 
       const hasValues = Object.keys(newMap).length;
