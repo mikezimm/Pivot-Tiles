@@ -11,6 +11,7 @@ export function getBrowser(validTypes,changeSiteIcon){
 export function saveAnalytics (theProps,theState) {
 
 
+    //console.log('saveAnalytics: ', theProps, theState);
     let analyticsList = "TilesCycleTesting";
     let startTime = theProps.startTime;
     let endTime = theState.endTime;
@@ -22,8 +23,25 @@ export function saveAnalytics (theProps,theState) {
 
     */
 
+    let itemInfo1 = "(" + theState.allTiles.length + ")"  + " - " +  theProps.getAll + " - " + " - " + theProps.listDefinition;
+    let itemInfo2 = "(" + theProps.listTitle + ")"  + " - " +  theProps.listWebURL;
+
+    let itemInfoProps = theProps.setSize +
+            " ImgFit: " +  theProps.setImgFit;
+
+
+
+    if (theProps.heroTiles) { 
+        let itemInfoHero = 
+        " ShowHero: " +  theProps.showHero +
+        " HeroType: " +  theProps.heroType +
+        " HeroFit: " +  theProps.setHeroFit +
+        " HeroLength: " +  theProps.heroTiles.length;
+        
+        itemInfoProps += ' -Hero: ' + itemInfoHero }
+  
     web.lists.getByTitle(analyticsList).items.add({
-        'Title': 'Pivot-Tiles x1asdf',
+        'Title': 'Pivot-Tiles: ' + theProps.scenario,
         'zzzText1': startTime.now,      
         'zzzText2': startTime.theTime,
         'zzzNumber1': startTime.milliseconds,
@@ -31,6 +49,9 @@ export function saveAnalytics (theProps,theState) {
         'zzzText4': endTime.theTime,
         'zzzNumber2': endTime.milliseconds,
         'zzzNumber3': delta,
+        'zzzText5': itemInfo1,
+        'zzzText6': itemInfo2,
+        'zzzText7': itemInfoProps,
         }).then((response) => {
         //Reload the page
             //location.reload();
