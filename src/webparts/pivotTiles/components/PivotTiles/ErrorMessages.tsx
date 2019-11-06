@@ -21,7 +21,7 @@ export function buildTips(parentProps,parentState){
   <div className={styles.rowNoPad}>
       <div className={parentState.showTips === "yes" ? styles.showErrorMessage : styles.hideMe }>
 
-          <div className={(parentProps.heroType !== "none" && parentState.heroStatus === "none") ? styles.showErrorMessageNoPad : styles.hideMe }>
+          <div className={(parentProps.showHero === true && parentProps.heroType !== "none" && parentState.heroStatus === "none") ? styles.showErrorMessageNoPad : styles.hideMe }>
             <h3>There may be a problem with your webpart settings for <mark>Hero Category</mark></h3>
             <p>Property pane setting for Hero Type is: <mark><b>{parentProps.heroType }</b></mark></p>
             <p>Property pane setting for Hero Category is:  <mark><b>{parentProps.heroCategory !== "" ?parentProps.heroCategory : "<It's Empty>"}</b></mark></p>

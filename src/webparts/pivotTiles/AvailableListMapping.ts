@@ -18,22 +18,22 @@
         {   index: 3,   key: 'QuickLinks', text: "QuickLinks"  }
 
     public choiceMedia: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 4,   key: 'MediaLibrary', text: "MediaLibrary"  }
+        {   index: 4,   key: 'MediaLibrary', text: "Media Library"  }
 
     public choiceDocument: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 5,   key: 'DocumentLibrary', text: "DocumentLibrary"  }
+        {   index: 5,   key: 'DocumentLibrary', text: "Document Library"  }
 
     public choiceIcons: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 6,   key: 'Icons', text: "Icons Library"  }
+        {   index: 6,   key: 'IconsLibrary', text: "Icons Library"  }
 
     public choiceTestImages: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 7,   key: 'TestImages', text: "TestImages Library"  }
+        {   index: 7,   key: 'TestImagesLibrary', text: "TestImages Library"  }
 
     public choicePolicy: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 8,   key: 'Policy', text: "Policy Library"  }
+    {   index: 8,   key: 'PolicyLibrary', text: "Policy Library"  }
 
     public choiceStandards: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 10,   key: 'Standards', text: "Standards Library"  }
+    {   index: 10,   key: 'StandardsLibrary', text: "Standards Library"  }
 
     public choiceUnk: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
         {   index: 9,   key: 'none', text: "Unknown"  }
@@ -91,7 +91,7 @@
     } else if (findMe === 'PromotedLinks') {
         listMap = {
             "testSite" : "",
-            "listDef" : "Promoted Links",
+            "listDef" : "PromotedLinks",
             "listDisplay" : "Promoted Links",
             "listName" : "PromotedLinks",
             "tabDefault" : false,
@@ -113,7 +113,7 @@
     } else if (findMe === 'MediaLibrary') {
         listMap = {
             "testSite" : "",
-            "listDef" : "Media Library",
+            "listDef" : "MediaLibrary",
             "listDisplay" : "Media Library",
             "listName" : "Media Library",
             "tabDefault" : false,
@@ -135,9 +135,9 @@
     } else if (findMe === 'DocumentLibrary') {
         listMap = {
             "testSite" : "",
-            "listDef" : "Document Library",
+            "listDef" : "DocumentLibrary",
             "listDisplay" : "Document Library",
-            "listName" : "DocumentLibrary",
+            "listName" : "Documents",
             "tabDefault" : false,
             "listMapping" : {
                 "colTitleText" : "File/Name",
@@ -154,10 +154,10 @@
             "setTab": "Main Menu",
         };
         
-    } else if (findMe === 'Icons') {
+    } else if (findMe === 'IconsLibrary') {
         listMap = {
             "testSite" : "https://mcclickster.sharepoint.com/sites/Templates/Icons/",
-            "listDef" : "Icons Library",
+            "listDef" : "IconsLibrary",
             "listDisplay" : "Icons",
             "listName" : "Icons",
             "tabDefault" : false,
@@ -176,10 +176,10 @@
             "setTab": "Steps",
         };
         
-    } else if (findMe === 'TestImages') {
+    } else if (findMe === 'TestImagesLibrary') {
         listMap = {
             "testSite" : "",
-            "listDef" : "Icons Library",
+            "listDef" : "TestImagesLibrary",
             "listDisplay" : "TestImages",
             "listName" : "TestImages",
             "tabDefault" : false,
@@ -197,10 +197,10 @@
             "setFilter": "",
             "setTab": "Mike zimmerman",
         };
-    } else if (findMe === 'Policy') {
+    } else if (findMe === 'PolicyLibrary') {
         listMap = {
             "testSite" : "https://mcclickster.sharepoint.com/sites/Templates/CorpIntra/",
-            "listDef" : "Policy Library",
+            "listDef" : "PolicyLibrary",
             "listDisplay" : "Policy",
             "listName" : "Policy",
             "tabDefault" : false,
@@ -218,10 +218,10 @@
             "setFilter": "",
             "setTab": "Quality",
         };
-    } else if (findMe === 'Standards') {
+    } else if (findMe === 'StandardsLibrary') {
         listMap = {
             "testSite" : "https://mcclickster.sharepoint.com/sites/Templates/CorpIntra/",
-            "listDef" : "Standards Library",
+            "listDef" : "StandardsLibrary",
             "listDisplay" : "Standards",
             "listName" : "Standards",
             "tabDefault" : false,

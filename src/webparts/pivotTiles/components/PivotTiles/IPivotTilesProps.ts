@@ -9,36 +9,48 @@ export interface theTime {
 
 export interface IPivotTilesProps {
 
+  //Main webpart properties
   scenario: string;
-  getAll: boolean;
   description: string;
-  listDefinition: string;
-  listWebURL: string;
-  listTitle: string;
   pageContext: PageContext;
+
+  //Hero tile properties
+  showHero: boolean;
   heroType: string;
   heroCategory: string;
-  showHero: boolean;
   setHeroFit: string;
   setHeroCover: string;
-  
-  setFilter: string;
-  propURLQuery: boolean;
-  setTab: string;
-  otherTab: string;
-  onHoverEffect: string;
-  
+
+  //Image & main tile properties
   onHoverZoom: string;
-  setRatio: string;
+  onHoverEffect: string;
   setSize: string;
+  setRatio: string;
   setImgFit: string;
   setImgCover: string;
   target: string;
-  
+
+  //Custom image properties
+  imageWidth: number;
+  imageHeight: number;
+  textPadding: number;
+
+  //Pivot Tab properties
+  setTab: string;
   setPivSize: string;
   setPivFormat: string;
   setPivOptions: string[];
+  otherTab: string;
+  
+  //List primary settings
+  listDefinition: string;
+  listWebURL: string;
+  listTitle: string;
+  setFilter: string;
+  propURLQuery: boolean;
+  getAll: boolean;
 
+  //List column mapping
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
@@ -49,17 +61,16 @@ export interface IPivotTilesProps {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
+  
+  //List based analytics properties
+  analyticsList: string;
+  analyticsWeb: string;
 
+  //Properties NOT in main webpart properties
+  
   startTime: theTime;
-
-  imageWidth: number;
-  imageHeight: number;
-  textPadding: number;
 
   loadListItems?: () => Promise<IPivotTileItemProps[]>;
   convertCategoryToIndex?(cat:string) : string;
 
-  analyticsList: string;
-  analyticsWeb: string;
-  
 }

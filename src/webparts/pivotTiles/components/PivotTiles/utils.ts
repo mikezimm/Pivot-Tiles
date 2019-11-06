@@ -162,7 +162,7 @@ export default class Utils {
       } else {
 
         const isArray = typeof(tile.category);
-        console.log(isArray);
+        //console.log(isArray);
 
         if (isArray !== 'string' && splitCol.length === 1) {
 
@@ -181,6 +181,18 @@ export default class Utils {
 
       }
     }
+
+    //Added to remove hero category if it is either carousel or slider which should have all these tiles.
+    if (pivotProps.showHero === true &&
+      ( pivotProps.heroType === 'carousel' || pivotProps.heroType === 'slider')) {
+      //Remove this hero tile category because all tiles are in component
+      const heroIndex = tileCategories.indexOf(pivotProps.heroCategory);
+      if ( heroIndex > -1 ) {
+        tileCategories.splice(heroIndex,1);
+      }
+
+    }
+
 
     tileCategories.sort();
 

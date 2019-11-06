@@ -3,35 +3,49 @@ import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps'
 import { PageContext } from '@microsoft/sp-page-context';
 
 export interface IPivotTilesWebPartProps {
+
+  //Main webpart properties
   scenario: string;
   description: string;
-  listDefinition: string;
-  getAll: boolean;
-  listWebURL: string;
-  listTitle: string;
   pageContext: PageContext;
+
+  //Hero tile properties
   showHero: boolean;
   heroType: string;
   heroCategory: string;
   setHeroFit: string;
   setHeroCover: string;
-  onHoverEffect: string;
 
-  
+  //Image & main tile properties
+  onHoverZoom: string;
+  onHoverEffect: string;
   setSize: string;
   setRatio: string;
   setImgFit: string;
   setImgCover: string;
   target: string;
 
-  setFilter: string;
+  //Custom image properties
+  imageWidth: number;
+  imageHeight: number;
+  textPadding: number;
+
+  //Pivot Tab properties
+  setTab: string;
   setPivSize: string;
   setPivFormat: string;
   setPivOptions: string[];
-  propURLQuery: boolean;
-  setTab: string;
   otherTab: string;
   
+  //List primary settings
+  listDefinition: string;
+  listWebURL: string;
+  listTitle: string;
+  setFilter: string;
+  propURLQuery: boolean;
+  getAll: boolean;
+
+  //List column mapping
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
@@ -42,12 +56,8 @@ export interface IPivotTilesWebPartProps {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
-
-  imageWidth: number;
-  imageHeight: number;
-  textPadding: number;
-  onHoverZoom: string;
   
+  //List based analytics properties
   analyticsList: string;
   analyticsWeb: string;
 
