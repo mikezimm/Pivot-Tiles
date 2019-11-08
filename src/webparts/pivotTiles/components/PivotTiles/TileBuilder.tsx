@@ -10,6 +10,8 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper';
 
 import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
 
+
+
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
 
@@ -33,6 +35,10 @@ export function tileBuilder(parentProps,parentState){
  * @param parentProps 
  * @param parentState 
  */
+
+
+
+
 
 export function carouselBuilder(parentProps,parentState){
   

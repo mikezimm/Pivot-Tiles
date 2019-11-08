@@ -21,4 +21,6 @@ export interface IPivotTilesState {
 
   endTime?: theTime;
 
+  items?:any[];
+
 }

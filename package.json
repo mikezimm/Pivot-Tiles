@@ -31,6 +31,7 @@
     "office-ui-fabric-react": "6.189.2",
     "react": "16.8.5",
     "react-dom": "16.8.5",
+    "react-slick": "^0.25.2",
     "swipejs": "^2.2.14",
     "swiper": "^5.2.0"
   },

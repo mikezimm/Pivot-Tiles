@@ -29,6 +29,8 @@ import * as tileBuilders from './TileBuilder';
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../../../services/createAnalytics';
 
+//From https://tahoeninjas.blog/2019/08/07/sharepoint-framework-design-series-layout-patterns-part-iii/
+import { CarouselLayout, ICarouselItem } from '../../components/carouselLayout';
 
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -50,6 +52,23 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       loadError: "",
       lookupColumns: [],
       showOtherTab: false,
+      items: [{
+        imageSrc: "https://lorempixel.com/744/418/technics/1/",
+        title: "Adventures in SPFx",
+        location: "SharePoint",
+      }, {
+        imageSrc: "https://lorempixel.com/744/418/technics/2",
+        title: "The Wild, Untold Story of SharePoint!",
+        location: "SharePoint",
+      }, {
+        imageSrc: "https://lorempixel.com/744/418/technics/4",
+        title: "Not Your Grandpa's SharePoint",
+        location: "SharePoint",
+      }, {
+        thumbnail: "https://lorempixel.com/744/418/technics/5/",
+        title: "Get with the Flow",
+        location: "Flow",
+      }]
 
     };
 
@@ -138,6 +157,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
+<CarouselLayout
+    pagingTemplate={'{0} of {1}'}
+    ariaLabel={'Use right and left arrow keys to navigate between images in the carousel. Use up and down arrow keys to access the edit and remove buttons for any image.'}
+    items={this.state.items}
+    onSlideClick={(currentSlide) => { alert(`You clicked on slide ${currentSlide+1}`); }}
+  >
+  </CarouselLayout>
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
