@@ -17,7 +17,13 @@
   }
 
   .sliderButtons {
-    opacity: 0;
+    //Increased starting opacity so you see light buttons and know you can slide
+    opacity: 0.3;
+    //Added transition to ease up opacity
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+    transition:all 0.7s ease;
+
   }
 
   .sliderButtonRight {
@@ -30,6 +36,10 @@
 
   &:hover .sliderButtons {
     opacity: 1;
+    //Added transition to ease down opacity
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+    transition:all 0.7s ease;
 
     &:hover {
       color: $ms-color-white;

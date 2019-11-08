@@ -29,6 +29,7 @@ npm install swiper ( Required for React Swipe gallery )
         from  const Swiper: any = require('swiper/dist/js/swiper.min');
         to  const Swiper: any = require('swiper/js/swiper.min');
 npm install @pnp/spfx-controls-react --save --save-exact  (to test using [react carousel](https://sharepoint.github.io/sp-dev-fx-controls-react/controls/Carousel/))
+npm install react-slick
 
 ```
 # Configuration and Setup
