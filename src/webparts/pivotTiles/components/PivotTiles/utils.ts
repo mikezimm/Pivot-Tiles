@@ -47,17 +47,36 @@ export default class Utils {
 
       const leftSide = Utils.parseMe(theseProps[getProp],"/",'left');
       const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
-
+      var itemVal :any ;
       if (theseProps[getProp].indexOf("/") < 0) {
         if (item[theseProps[getProp]]) {
-          return item[theseProps[getProp]];
+          itemVal = item[theseProps[getProp]];
+          itemVal = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemVal) :itemVal;
+          return itemVal;
         } else { return ""; } 
       } else {
         if (item[leftSide]) {
-          return item[leftSide][rightSide];
+          itemVal = item[leftSide][rightSide];
+          itemVal = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemVal) :itemVal;
+          return itemVal;
         } else { return ""; } 
       }
     }
+
+    /**
+     * The purpose of this function is to convert links such as relative shortcut links ../SitePages etc...
+     * @param theseProps 
+     * @param itemVal 
+     */
+    function convertLinks(theseProps, itemVal){
+      let itemVal2 = itemVal
+      if (itemVal && itemVal.indexOf('../') === 0){
+        itemVal2 = itemVal2.replace('../', (theseProps.pageContext.web.absoluteUrl + '/'));
+      }
+      return itemVal2;
+    }
+
+    console.log('pivotProps', pivotProps, response )
 
     let tileCollection = response.map(item => ({
 
@@ -178,13 +197,12 @@ export default class Utils {
             tileCategories.push(tile.category);
           }
         }
-
       }
     }
 
     //Added to remove hero category if it is either carousel or slider which should have all these tiles.
     if (pivotProps.showHero === true &&
-      ( pivotProps.heroType === 'carousel' || pivotProps.heroType === 'slider')) {
+      ( pivotProps.heroType === 'carousel' || pivotProps.heroType === 'slider' || pivotProps.heroType === 'carouselLayout')) {
       //Remove this hero tile category because all tiles are in component
       const heroIndex = tileCategories.indexOf(pivotProps.heroCategory);
       if ( heroIndex > -1 ) {
@@ -211,7 +229,7 @@ export default class Utils {
 function updatetileCats(pivotProps, thisCat, allCats) {
 
     if (  pivotProps.showHero === true && thisCat === pivotProps.heroCategory && (
-      pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' )) {
+      pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' || pivotProps.heroType === 'carouselLayout' )) {
       //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
       //  because all tiles will be in those react components.
 

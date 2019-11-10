@@ -17,4 +17,7 @@ export interface ICarouselLayoutState {
   imageSrc: string;
   title: string;
   location: string;
+  //Added to make it easier for opening based on parent item link
+  href?: string;
+  target?: string;
  }

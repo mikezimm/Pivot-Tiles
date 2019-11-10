@@ -29,8 +29,6 @@ import * as tileBuilders from './TileBuilder';
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../../../services/createAnalytics';
 
-//From https://tahoeninjas.blog/2019/08/07/sharepoint-framework-design-series-layout-patterns-part-iii/
-import { CarouselLayout, ICarouselItem } from '../../components/carouselLayout';
 
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -140,6 +138,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     
     let carouselBuilder = (this.state.heroTiles[0]) ? tileBuilders.carouselBuilder(this.props,this.state) : "";
 
+    let carouselLayout = (this.state.heroTiles[0]) ? tileBuilders.carouselLayout(this.props,this.state,this.state.heroTiles) : "";
+
     let buildTips = myErrors.buildTips(this.props,this.state);
     
     let tileBuild = tileBuilders.tileBuilder(this.props,this.state);
@@ -157,13 +157,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return (
       <div>
 
-<CarouselLayout
-    pagingTemplate={'{0} of {1}'}
-    ariaLabel={'Use right and left arrow keys to navigate between images in the carousel. Use up and down arrow keys to access the edit and remove buttons for any image.'}
-    items={this.state.items}
-    onSlideClick={(currentSlide) => { alert(`You clicked on slide ${currentSlide+1}`); }}
-  >
-  </CarouselLayout>
+
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
@@ -197,6 +191,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
           { ( this.props.showHero === true && this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }
+          { ( (this.props.showHero === true && this.props.heroType === "carouselLayout" &&  this.state.heroStatus === "Ready") ? ( carouselLayout ) : ""  ) }
+
+
+
           { ( (this.props.showHero === true && this.props.heroType === "carousel" &&  this.state.heroStatus === "Ready") ? ( carouselBuilder ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "slider" ? ( slider ) : ""  ) }
           { ( ( this.props.showHero === true && this.props.heroType === "inLine"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
@@ -536,7 +534,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       }
     }
 
-    if (this.props.heroType !== 'slider' && this.props.heroType !== 'carousel') {
+    if (this.props.heroType !== 'slider' && this.props.heroType !== 'carousel' && this.props.heroType !== 'carouselLayout') {
       //If it's not a slider, then only show one random tile.  Else show all
       var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
       heroTiles = [randomItem];

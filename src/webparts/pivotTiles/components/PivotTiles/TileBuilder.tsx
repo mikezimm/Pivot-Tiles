@@ -11,6 +11,8 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper';
 import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
 
 
+//From https://tahoeninjas.blog/2019/08/07/sharepoint-framework-design-series-layout-patterns-part-iii/
+import { CarouselLayout, ICarouselItem } from '../../components/carouselLayout';
 
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
@@ -35,10 +37,6 @@ export function tileBuilder(parentProps,parentState){
  * @param parentProps 
  * @param parentState 
  */
-
-
-
-
 
 export function carouselBuilder(parentProps,parentState){
   
@@ -159,3 +157,32 @@ export function oneTileBuilder(parentProps,parentState, tType, newTile ){
   return thisTile;
 
 }
+
+
+export function carouselLayout(parentProps,parentState, theseAreItems){
+  // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
+
+  //remap props to correct ones for HGcarouselLayout
+  let items = theseAreItems.map(item => ({
+
+    imageSrc: item.imageUrl,
+    title: item.title,
+    location: item.description,
+    href: item.href,
+    target: item.target,
+
+  }));
+
+  let carousel = 
+    <CarouselLayout
+      pagingTemplate={'{0} of {1}'}
+      ariaLabel={'Use right and left arrow keys to navigate between images in the carousel. Use up and down arrow keys to access the edit and remove buttons for any image.'}
+      items={items}
+      onSlideClick={(currentSlide) => { alert(`You clicked on slide ${currentSlide+1}`); }}
+    >
+    </CarouselLayout>;
+
+  return carousel;
+
+}
+

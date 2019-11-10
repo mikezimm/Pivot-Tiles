@@ -4,6 +4,8 @@ export interface ICarouselSlideProps {
   location: string;
   height: number;
   width: number;
+  href?: string;
+  target?: string;
   onClick?: () => void;
 }
 

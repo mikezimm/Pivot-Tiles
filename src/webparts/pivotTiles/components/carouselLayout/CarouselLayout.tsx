@@ -33,6 +33,8 @@ export class CarouselLayout extends React.Component<
 
   constructor(props: ICarouselLayoutProps) {
     super(props);
+  
+
 
     // Load the slick CSS
     SPComponentLoader.loadCss('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css');
@@ -126,6 +128,8 @@ export class CarouselLayout extends React.Component<
                 imageSrc={item.imageSrc}
                 width={this.state.width}
                 height={this.state.height}
+                href={item.href}
+                target={item.target}
                 onClick={() => { this.props.onSlideClick(this.state.currentSlide); }}
               />;
             })}
@@ -173,6 +177,11 @@ export class CarouselLayout extends React.Component<
       </div>
     );
   }
+
+
+
+
+
 }
 
 /**

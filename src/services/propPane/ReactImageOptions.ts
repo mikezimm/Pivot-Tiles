@@ -83,6 +83,7 @@ import {
     public heroChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
         {   index: 0,   key: 'inLine', text: "Single In Line (below pivot)"  },
         {   index: 6,   key: 'slider', text: "Slider (below pivot)"  },
+        {   index: 8,   key: 'carouselLayout', text: "Carousel Layout (below pivot)"  },        
         {   index: 7,   key: 'carousel', text: "Carousel (below pivot)"  },      
         {   index: 3,   key: 'header', text: "Above"  },
         {   index: 4,   key: 'footer', text: "Below"  },  

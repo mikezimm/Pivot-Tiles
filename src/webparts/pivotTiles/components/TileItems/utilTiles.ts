@@ -139,7 +139,7 @@ export default class StyleUtils {
       iWrap = styles.pTileItemWrapper100by1x1;
       iWrapExp = styles.pTileItemWrapperExpanded100by1x1;
 
-    } else if (heroType === "inLine" || heroType === "carousel") {
+    } else if (heroType === "inLine" || heroType === "carousel" || heroType === "carouselLayout") {
       tileFit = "300by1x1";
       iWrap = styles.pTileItemWrapper300by1x1;
       iWrapExp = styles.pTileItemWrapperExpanded300by1x1;
@@ -184,7 +184,6 @@ export default class StyleUtils {
         iHovPanNot = styles.pTileItemHoverPanelNotExpanded300;
 
     } 
-
 
     var heroStyle = {
         "iWrap": iWrap,
