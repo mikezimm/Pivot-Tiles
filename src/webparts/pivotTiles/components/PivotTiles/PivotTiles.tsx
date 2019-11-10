@@ -53,6 +53,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     };
 
+    
     // because our event handler needs access to the component, bind 
     //  the component to the function so it can get access to the
     //  components properties (this.props)... otherwise "this" is undefined
