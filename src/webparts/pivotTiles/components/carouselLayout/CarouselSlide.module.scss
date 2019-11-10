@@ -71,15 +71,16 @@
           text-overflow: ellipsis;
 
           .carouselSlideName {
-            font-size: 15px;
-            line-height: 20px;
+
+            font-size: 25px;      //Increased font size of Title:  was 15px
+            line-height: 30px;    //was 20px
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
           }
 
           .carouselSlideSubText {
-            font-size: 11px;
+            font-size: 20px;     //Increased font size of Description:  was 7px
             opacity: 0.7;
             overflow: hidden;
             white-space: nowrap;

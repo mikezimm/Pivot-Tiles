@@ -10,22 +10,13 @@ export class CarouselSlide extends React.Component<ICarouselSlideProps, ICarouse
 
   }
 
-  
   private onLinkClick = (item: ICarouselSlideProps): void => {
-    //This sends back the correct pivot category which matches the category on the tile.
-     
-    //    usage for this function:
-    //    this.onLinkClick = this.onLinkClick.bind(this);
-    //    onClick={this.specialClick.bind(this)}
-    console.log(this);
-    console.log(item);
-    window.open(this.props.href, '_blank');
-    event.preventDefault();
+    if (this.props.href){
+      window.open(this.props.href, '_blank');
+      event.preventDefault();
+    }
     return ;
-
-
   } //End onClick
-
 
   public render(): React.ReactElement<ICarouselSlideProps> {
     const { imageSrc, title, location, height, width, onClick, href, target } = this.props;
