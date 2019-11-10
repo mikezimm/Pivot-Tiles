@@ -17,6 +17,15 @@ export function buildTips(parentProps,parentState){
   const listURL = fixedURL + listExt + parentProps.listTitle;
   const newItemURL = listURL + "/newform.aspx?Source=" + currentPageUrl;
 
+  let delta : any;
+  let statsMessage : string = 'Could not determine load time.';
+  let startTime = parentProps.startTime;
+  if (parentState.endTime) {
+    let endTime = parentState.endTime;
+    delta = endTime.now - startTime.now;
+    statsMessage = parentState.allTiles.length.toString() + ' items found in ' + delta + ' milliseconds '
+  }
+ 
   const theseTips = 
   <div className={styles.rowNoPad}>
       <div className={parentState.showTips === "yes" ? styles.showErrorMessage : styles.hideMe }>
@@ -30,7 +39,7 @@ export function buildTips(parentProps,parentState){
             <p></p>
           </div>
 
-          <h3>Tile details are saved in your tile list called: {parentProps.listTitle}</h3>
+          <h3>{statsMessage} from list called: {parentProps.listTitle}</h3>
           <p><Link href={listURL} 
               target="_blank">
               {listURL}

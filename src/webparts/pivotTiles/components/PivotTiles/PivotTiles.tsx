@@ -50,23 +50,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       loadError: "",
       lookupColumns: [],
       showOtherTab: false,
-      items: [{
-        imageSrc: "https://lorempixel.com/744/418/technics/1/",
-        title: "Adventures in SPFx",
-        location: "SharePoint",
-      }, {
-        imageSrc: "https://lorempixel.com/744/418/technics/2",
-        title: "The Wild, Untold Story of SharePoint!",
-        location: "SharePoint",
-      }, {
-        imageSrc: "https://lorempixel.com/744/418/technics/4",
-        title: "Not Your Grandpa's SharePoint",
-        location: "SharePoint",
-      }, {
-        thumbnail: "https://lorempixel.com/744/418/technics/5/",
-        title: "Get with the Flow",
-        location: "Flow",
-      }]
 
     };
 
