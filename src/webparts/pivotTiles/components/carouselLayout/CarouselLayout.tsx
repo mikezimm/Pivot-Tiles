@@ -55,6 +55,9 @@ export class CarouselLayout extends React.Component<
     });
   }
 
+  public componentDidUpdate(prevProps){
+  
+  }
 
   /**
    * Renders a slick switch, a slide for each child, and next/previous arrows
@@ -169,7 +172,9 @@ export class CarouselLayout extends React.Component<
             />
           </div>
           {this.props.pagingTemplate &&
-            <div data-automation-id="item-count" className={styles.currentActiveItem}>
+            <div data-automation-id="item-count" className={styles.currentActiveItem}
+          
+            >
               {pagingLabel}
             </div>
           }

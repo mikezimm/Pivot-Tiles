@@ -23,7 +23,7 @@ export function buildTips(parentProps,parentState){
   if (parentState.endTime) {
     let endTime = parentState.endTime;
     delta = endTime.now - startTime.now;
-    statsMessage = parentState.allTiles.length.toString() + ' items found in ' + delta + ' milliseconds '
+    statsMessage = parentState.allTiles.length.toString() + ' items found in ' + delta + ' milliseconds (' + parentState.heroCategory + ')';
   }
  
   const theseTips = 

@@ -24,7 +24,7 @@ export default class Utils {
     return newURL;
   }
 
-  public static buildTileCollectionFromResponse(response, pivotProps, fixedURL){
+  public static buildTileCollectionFromResponse(response, pivotProps, fixedURL, currentHero){
 
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
@@ -93,7 +93,7 @@ export default class Utils {
       setTab: pivotProps.setTab,
       setSize: pivotProps.setSize,
       heroType: pivotProps.heroType,
-      heroCategory: pivotProps.heroCategory,      
+      heroCategory: currentHero,      
 
       Id: item.Id,
 
@@ -153,7 +153,7 @@ export default class Utils {
     }
   }
 
-  public static buildTileCategoriesFromResponse(pivotProps, response ){
+  public static buildTileCategoriesFromResponse(pivotProps, response, currentHero ){
 
     let tileCategories = [];
 
@@ -187,7 +187,7 @@ export default class Utils {
 
           for (let category of tile.category) {
             if(tileCategories.indexOf(category) === -1) {
-              tileCategories = updatetileCats(pivotProps, category, tileCategories);
+              tileCategories = updatetileCats(pivotProps, category, tileCategories, currentHero);
             }
           }
 
@@ -204,7 +204,7 @@ export default class Utils {
     if (pivotProps.showHero === true &&
       ( pivotProps.heroType === 'carousel' || pivotProps.heroType === 'slider' || pivotProps.heroType === 'carouselLayout')) {
       //Remove this hero tile category because all tiles are in component
-      const heroIndex = tileCategories.indexOf(pivotProps.heroCategory);
+      const heroIndex = tileCategories.indexOf(currentHero);
       if ( heroIndex > -1 ) {
         tileCategories.splice(heroIndex,1);
       }
@@ -226,9 +226,9 @@ export default class Utils {
 
 }
 
-function updatetileCats(pivotProps, thisCat, allCats) {
+function updatetileCats(pivotProps, thisCat, allCats, currentHero) {
 
-    if (  pivotProps.showHero === true && thisCat === pivotProps.heroCategory && (
+    if (  pivotProps.showHero === true && thisCat === currentHero && (
       pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' || pivotProps.heroType === 'carouselLayout' )) {
       //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
       //  because all tiles will be in those react components.

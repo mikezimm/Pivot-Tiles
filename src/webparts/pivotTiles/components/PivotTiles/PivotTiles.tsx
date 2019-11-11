@@ -50,10 +50,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       loadError: "",
       lookupColumns: [],
       showOtherTab: false,
+      heroCategory: this.props.heroCategory,
 
     };
 
-    
+
     // because our event handler needs access to the component, bind 
     //  the component to the function so it can get access to the
     //  components properties (this.props)... otherwise "this" is undefined
@@ -87,10 +88,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     if (this.props.heroCategory !== prevProps.heroCategory) {  rebuildTiles = true ; }
 
     if (rebuildTiles === true) {
-      this._updateStateOnPropsChange();
+      this._updateStateOnPropsChange({});
     }
   }
-
 
   public createCarousels(thisState){
     let elemnts = [];
@@ -110,7 +110,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   public render(): React.ReactElement<IPivotTilesProps> {
     let heroFullLineBuild : any = "";
 
-    if (this.props.showHero === true && this.props.heroCategory) {
+    if (this.props.showHero === true && this.state.heroCategory) {
       if (this.state.loadStatus === "Ready" &&  this.state.heroStatus === "Ready") {
         heroFullLineBuild = tileBuilders.heroBuilder(this.props,this.state);
       }
@@ -122,7 +122,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     
     let carouselBuilder = (this.state.heroTiles[0]) ? tileBuilders.carouselBuilder(this.props,this.state) : "";
 
-    let carouselLayout = (this.state.heroTiles[0]) ? tileBuilders.carouselLayout(this.props,this.state,this.state.heroTiles) : "";
+    let carouselLayout = (this.state.heroTiles[0]) ? tileBuilders.carouselLayout(this.props,this.state,this.state.heroTiles, this.state.heroCategory) : "";
 
     let buildTips = myErrors.buildTips(this.props,this.state);
     
@@ -155,7 +155,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
                 style={{ flexGrow: 1, paddingLeft: '10px' }}
                 linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
                 linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
-                onLinkClick= { this.onLinkClick }
+                onLinkClick= { this.onLinkClick.bind(this) }  //{this.specialClick.bind(this)}
                 defaultSelectedKey={ defIndex }
                 headersOnly={true}>
                   {this.createPivots(this.state,this.props)}
@@ -165,7 +165,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
                 minimizeTiles= { this.minimizeTiles }
               />
             </div>
-
           <div>
           </div>
           <br/>
@@ -206,10 +205,38 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
 
-  private onLinkClick = (item: PivotItem): void => {
+  public onLinkClick = (item): void => {
     //This sends back the correct pivot category which matches the category on the tile.
+    let e: any = event;
+    
+/*
+    if (e.shiftKey) {
+      if (e.altKey) {
+        if (e.ctrlKey) {      
+          //window.open(this.props.listWebURL, '_blank');
+          //event.preventDefault();
+          //return ;
+          alert('Hi! All kyes were pressed for:  ' + item.props.headerText);
+          this.setState({
+            heroCategory: item.props.headerText,
+          });
+          this._updateStateOnPropsChange();
+        }
+      }
+    }
+*/
 
-    let newFilteredTiles = [];
+    if (e.shiftKey && e.altKey && e.ctrlKey) {
+      //alert('Hi! All kyes were pressed for:  ' + item.props.headerText);
+      /*
+      this.setState({
+        heroCategory: item.props.headerText,
+      });
+      */
+      this._updateStateOnPropsChange({heroCategory: item.props.headerText});
+
+    } else {
+      let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
         if(thisTile.category.indexOf(item.props.headerText) > -1) {
 
@@ -219,12 +246,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           }
           if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
         }
+      }
+
+      this.setState({
+        filteredCategory: item.props.headerText,
+        filteredTiles: newFilteredTiles,
+      });
+
     }
 
-    this.setState({
-      filteredCategory: item.props.headerText,
-      filteredTiles: newFilteredTiles,
-    });
+    
+
 
   } //End onClick
 
@@ -281,15 +313,22 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   }
 
-  private _updateStateOnPropsChange(): void {
+  private _updateStateOnPropsChange(params: any ): void {
+
+    console.log('params: heroCategory', params);
+
+    let currentHero = (params.heroCategory) ? params.heroCategory : this.props.heroCategory;
+
+    console.log('params: currentHero', currentHero);
 
     let newCollection = this.state.allTiles;
     let pivotProps = this.props;
-    let newHeros = this.getHeroTiles(pivotProps, newCollection);
+    let pivotState = this.state;
+    let newHeros = this.getHeroTiles(pivotProps, pivotState, newCollection, currentHero);
     let heroIds = this.getHeroIds(newHeros);
     let newFiltered = this.getNewFilteredTiles(pivotProps, newCollection, heroIds, newHeros);
 
-    let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, newCollection);
+    let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, newCollection, currentHero);
 
     const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
     const defaultSelectedKey = defaultSelectedIndex.toString();
@@ -349,7 +388,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         thisTile.setImgCover = heroCover;
       }
     }
-
+    
     this.setState({
       allTiles:newCollection,
       pivtTitles: tileCategories,
@@ -359,6 +398,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       heroTiles : newHeros,
       heroIds: heroIds,
       heroStatus: newHeros[0] ? "Ready" : "none",
+      heroCategory: this.props.heroCategory,
     });
   }
 
@@ -456,14 +496,15 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       console.log('editItemURL',editItemURL);
 
       let pivotProps = this.props;
-      let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL);
+      let pivotState = this.state;
+      let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
   
-      let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection);
+      let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection, pivotProps.heroCategory);
       
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
       const defaultSelectedKey = defaultSelectedIndex.toString();
-  
-      let heroTiles = this.getHeroTiles(pivotProps, tileCollection);
+      
+      let heroTiles = this.getHeroTiles(pivotProps, pivotState, tileCollection, pivotProps.heroCategory);
   
       let heroIds = this.getHeroIds(heroTiles);
   
@@ -480,6 +521,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         heroIds: heroIds,
         loadError: "",
         endTime: this.state.endTime ? this.state.endTime : getTheCurrentTime(),
+        heroCategory: this.props.heroCategory,
       });
       
       saveAnalytics(this.props,this.state);
@@ -506,13 +548,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
 
-  private getHeroTiles(thisProps, tileCollection) {
+  private getHeroTiles(thisProps, thisState, tileCollection, theseHeros) {
 
     let heroTiles = [];
             
-    if (thisProps.showHero === true && thisProps.heroCategory) {
+    if (thisProps.showHero === true && theseHeros) {
       for (let thisTile of tileCollection) {
-        if(thisTile.category.indexOf(thisProps.heroCategory) > -1) {
+        if(thisTile.category.indexOf(theseHeros) > -1) {
           heroTiles.push(thisTile);
         }
       }

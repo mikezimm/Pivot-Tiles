@@ -159,7 +159,7 @@ export function oneTileBuilder(parentProps,parentState, tType, newTile ){
 }
 
 
-export function carouselLayout(parentProps,parentState, theseAreItems){
+export function carouselLayout(parentProps,parentState, theseAreItems, thisCategory){
   // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
 
   //remap props to correct ones for HGcarouselLayout
@@ -175,7 +175,7 @@ export function carouselLayout(parentProps,parentState, theseAreItems){
 
   let carousel = 
     <CarouselLayout
-      pagingTemplate={'{0} of {1}'}
+      pagingTemplate={'{0} of {1} in ' + thisCategory}
       ariaLabel={'Use right and left arrow keys to navigate between images in the carousel. Use up and down arrow keys to access the edit and remove buttons for any image.'}
       items={items}
       onSlideClick={(currentSlide) => { alert(`You clicked on slide ${currentSlide+1}`); }}

@@ -5,6 +5,8 @@ export interface IPivotTilesState {
 
   heroTiles?: IPivotTileItemProps[];
   heroIds?: string[];
+  heroCategory: string;
+  
   allTiles?:IPivotTileItemProps[];
   filteredTiles?: IPivotTileItemProps[];
   pivtTitles?:string[];
