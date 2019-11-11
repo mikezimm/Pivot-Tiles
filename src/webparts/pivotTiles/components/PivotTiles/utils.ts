@@ -69,14 +69,14 @@ export default class Utils {
      * @param itemVal 
      */
     function convertLinks(theseProps, itemVal){
-      let itemVal2 = itemVal
+      let itemVal2 = itemVal;
       if (itemVal && itemVal.indexOf('../') === 0){
         itemVal2 = itemVal2.replace('../', (theseProps.pageContext.web.absoluteUrl + '/'));
       }
       return itemVal2;
     }
 
-    console.log('pivotProps', pivotProps, response )
+    console.log('pivotProps', pivotProps, response );
 
     let tileCollection = response.map(item => ({
 

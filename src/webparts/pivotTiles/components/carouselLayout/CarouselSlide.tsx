@@ -34,7 +34,7 @@ export class CarouselSlide extends React.Component<ICarouselSlideProps, ICarouse
                   {/*//Added this as a function to accomodate handling item links*/}
                   {buildLink(this.props)}
 
-                  <Image src={imageSrc} width={width} height={height} imageFit={ImageFit.centerCover} />
+                  {/*<Image src={imageSrc} width={width} height={height} imageFit={ImageFit.centerCover} />*/}
                 </div>
                 <div className={styles.carouselSlideNamePlate}>
                   <div className={styles.carouselSlideName}>
@@ -68,10 +68,10 @@ export function  buildLink(thisProps){
       target={target}
       >
         <Image src={imageSrc} width={width} height={height} imageFit={ImageFit.centerCover} />
-      </a>
+      </a>;
   } else {
     link=
-      <Image src={imageSrc} width={width} height={height} imageFit={ImageFit.centerCover} />
+      <Image src={imageSrc} width={width} height={height} imageFit={ImageFit.centerCover} />;
   }
 
   return link;

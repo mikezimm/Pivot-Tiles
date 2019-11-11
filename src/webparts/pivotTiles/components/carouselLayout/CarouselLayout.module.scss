@@ -1,5 +1,7 @@
 @import "~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss";
 
+//slick-dots
+
 :export {
   centerPadding: 50px;
 }
@@ -45,6 +47,10 @@
       color: $ms-color-white;
     }
   }
+}
+
+.customDots li button:before{
+  font-size: 12px !important;
 }
 
 .indexButtonContainer {

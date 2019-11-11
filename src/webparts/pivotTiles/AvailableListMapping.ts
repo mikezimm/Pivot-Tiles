@@ -6,37 +6,37 @@
 
   export class ListMapping {
     public choiceOurTiles: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 0,   key: 'OurTiles', text: "OurTiles"  }
+    {   index: 0,   key: 'OurTiles', text: "OurTiles"  };
 
     public choiceAETiles: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 1,   key: 'AEInspiredTiles', text: "AEInspiredTiles"  }
+        {   index: 1,   key: 'AEInspiredTiles', text: "AEInspiredTiles"  };
 
     public choicePromoted: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 2,   key: 'PromotedLinks', text: "PromotedLinks"  }
+        {   index: 2,   key: 'PromotedLinks', text: "PromotedLinks"  };
 
     public choiceQuick: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 3,   key: 'QuickLinks', text: "QuickLinks"  }
+        {   index: 3,   key: 'QuickLinks', text: "QuickLinks"  };
 
     public choiceMedia: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 4,   key: 'MediaLibrary', text: "Media Library"  }
+        {   index: 4,   key: 'MediaLibrary', text: "Media Library"  };
 
     public choiceDocument: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 5,   key: 'DocumentLibrary', text: "Document Library"  }
+        {   index: 5,   key: 'DocumentLibrary', text: "Document Library"  };
 
     public choiceIcons: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 6,   key: 'IconsLibrary', text: "Icons Library"  }
+        {   index: 6,   key: 'IconsLibrary', text: "Icons Library"  };
 
     public choiceTestImages: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 7,   key: 'TestImagesLibrary', text: "TestImages Library"  }
+        {   index: 7,   key: 'TestImagesLibrary', text: "TestImages Library"  };
 
     public choicePolicy: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 8,   key: 'PolicyLibrary', text: "Policy Library"  }
+    {   index: 8,   key: 'PolicyLibrary', text: "Policy Library"  };
 
     public choiceStandards: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 10,   key: 'StandardsLibrary', text: "Standards Library"  }
+    {   index: 10,   key: 'StandardsLibrary', text: "Standards Library"  };
 
     public choiceUnk: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-        {   index: 9,   key: 'none', text: "Unknown"  }
+        {   index: 9,   key: 'none', text: "Unknown"  };
 
     public getListColumns (findMe) :any {
         let listMap = {};

@@ -293,7 +293,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   public createPivots(thisState,thisProps){
     let piv = thisState.pivtTitles.map(this.createPivot,thisState.filteredCategory);
     if (thisState.showOtherTab && thisState.pivtTitles.indexOf(thisProps.otherTab) === -1) {
-       thisState.pivtTitles.push(thisProps.otherTab)
+       thisState.pivtTitles.push(thisProps.otherTab);
     }
     return (
       piv
@@ -320,6 +320,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let currentHero = (params.heroCategory) ? params.heroCategory : this.props.heroCategory;
 
     console.log('params: currentHero', currentHero);
+    console.log('params: state', this.state);
 
     let newCollection = this.state.allTiles;
     let pivotProps = this.props;
@@ -398,7 +399,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       heroTiles : newHeros,
       heroIds: heroIds,
       heroStatus: newHeros[0] ? "Ready" : "none",
-      heroCategory: this.props.heroCategory,
+      heroCategory: currentHero,
     });
   }
 

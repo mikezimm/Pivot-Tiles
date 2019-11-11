@@ -3,6 +3,7 @@ define([], function() {
     
     "analyticsList": "TilesCycleTesting",
     "analyticsWeb": "https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/",
+    "minClickWeb": "https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/SitePages/Contents_.aspx?Web=",
     
     "PropertyPaneAbout": "About",
     "PropertyPaneDescription": "Description",

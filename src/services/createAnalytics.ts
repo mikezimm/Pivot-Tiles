@@ -15,8 +15,8 @@ export function getBrowser(validTypes,changeSiteIcon){
 export function saveAnalytics (theProps,theState) {
 
     //Do nothing if either of these strings is blank
-    if (!theProps.analyticsList) { return };
-    if (!theProps.analyticsWeb) { return };
+    if (!theProps.analyticsList) { return ; }
+    if (!theProps.analyticsWeb) { return ; }
 
     //console.log('saveAnalytics: ', theProps, theState);
     let analyticsList = theProps.analyticsList;
@@ -42,9 +42,9 @@ export function saveAnalytics (theProps,theState) {
         let itemInfoHero = 
         " ShowHero: " +  theProps.showHero +
         " HeroType: " +  theProps.heroType +
-        " HeroFit: " +  theProps.setHeroFit
+        " HeroFit: " +  theProps.setHeroFit;
         heroCount = theProps.heroTiles.length;
-        itemInfoProps += ' -Hero: ' + itemInfoHero }
+        itemInfoProps += ' -Hero: ' + itemInfoHero; }
   
     web.lists.getByTitle(analyticsList).items.add({
         'Title': 'Pivot-Tiles: ' + theProps.scenario,

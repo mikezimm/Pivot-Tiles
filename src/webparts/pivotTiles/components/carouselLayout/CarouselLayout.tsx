@@ -65,6 +65,7 @@ export class CarouselLayout extends React.Component<
   public render(): React.ReactElement<ICarouselLayoutProps> {
     // slick seems to have an issue with having "infinite" mode set to true and having less items than the number of slides per page
     // set infinite to true only if there are more than 1 children
+    // Definition of all options:  https://react-slick.neostack.com/docs/api/
     var isInfinite: boolean = this.props.items.length > 1;
     var settings: any = {
       accessibility: false,
@@ -74,8 +75,9 @@ export class CarouselLayout extends React.Component<
       centerMode: false,
       centerPadding: styles.centerPadding,
       dots: true,    //was false
+      dotsClass: [styles.customDots,"slick-dots"].join(" "),
       cssEase: "ease",
-      draggable: false,
+      draggable: false, //This makes it so you can drag slide... but it will conflict with onclick events.
       easing: "linear",
       edgeFriction: 0.35,
       fade: false,
@@ -90,7 +92,7 @@ export class CarouselLayout extends React.Component<
       slidesToShow: 1,
       speed: 500,
       swipe: true,
-      swipeToSlide: false,
+      swipeToSlide: false,  //This didn't seem to make it click and drag.
       touchMove: true,
       touchThreshold: 5,
       useCSS: true,
