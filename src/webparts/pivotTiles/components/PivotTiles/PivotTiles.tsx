@@ -125,8 +125,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let carouselLayout = (this.state.heroTiles[0]) ? tileBuilders.carouselLayout(this.props,this.state,this.state.heroTiles, this.state.heroCategory) : "";
 
     let buildTips = myErrors.buildTips(this.props,this.state);
-    
-    let tileBuild = tileBuilders.tileBuilder(this.props,this.state);
+
+    let gridLayout = (this.state.heroTiles[0]) ? tileBuilders.gridLayout(this.props,this.state,this.state.heroTiles, this.state.heroCategory) : "";
+        
+    let tileBuild;
+
+    if (this.props.setSize === "Card") {
+      tileBuild = tileBuilders.gridLayout(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
+    } else {
+      tileBuild = tileBuilders.tileBuilder(this.props,this.state);
+    }
 
     let noListFound = myErrors.NoListFound(this.props,this.state);
 
@@ -147,6 +155,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       <div className={styles.pivotTiles}>
 
         <div className={styles.container}>
+          
+          {/*( gridLayout  )*/}
 
           {/*//https://developer.microsoft.com/en-us/fabric#/controls/web/pivot*/}
 

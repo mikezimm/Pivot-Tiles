@@ -8,11 +8,15 @@ import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import PivotTileItem from './../TileItems/PivotTileItem';
 import ReactSlideSwiper from '../Slider/ReactSlideSwiper';
 
+
 import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
 
 
 //From https://tahoeninjas.blog/2019/08/07/sharepoint-framework-design-series-layout-patterns-part-iii/
 import { CarouselLayout, ICarouselItem } from '../../components/carouselLayout';
+
+import Grid from './../../components/gridComponent/Grid';
+import { IGridProps, IGridItem } from './../../components/gridComponent/Grid.types';
 
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
@@ -186,3 +190,29 @@ export function carouselLayout(parentProps,parentState, theseAreItems, thisCateg
 
 }
 
+export function gridLayout(parentProps,parentState, theseAreItems, thisCategory){
+  // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
+
+  let items = theseAreItems.map(item => ({
+
+    thumbnail: item.imageUrl,
+    title: item.title,
+    name: item.description,
+    profileImageSrc: "",
+    location: thisCategory,
+    activity: "",
+    //href: item.href,
+    //target: item.target,
+
+  }));
+
+
+  let grid: React.ReactElement<IGridProps> = React.createElement(
+    Grid,
+    { items: items,
+    }
+  );
+
+  return grid;
+
+}
