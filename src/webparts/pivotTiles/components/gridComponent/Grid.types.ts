@@ -13,4 +13,6 @@ export interface IGridItem {
   profileImageSrc: string;
   location: string;
   activity: string;
+  target?: boolean;
+  href?: string;
 }
