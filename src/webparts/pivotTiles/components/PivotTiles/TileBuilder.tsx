@@ -201,8 +201,9 @@ export function gridLayout(parentProps,parentState, theseAreItems, thisCategory)
     profileImageSrc: "",
     location: thisCategory,
     activity: "",
-    //href: item.href,
-    //target: item.target,
+    href: item.href,
+    target: item.target,
+    listWebURL:item.listWebURL,
 
   }));
 

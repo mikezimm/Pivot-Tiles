@@ -15,4 +15,5 @@ export interface IGridItem {
   activity: string;
   target?: boolean;
   href?: string;
+  listWebURL?: string;
 }

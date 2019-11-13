@@ -56,9 +56,10 @@ export default class Grid extends React.Component<IGridProps, IGridState> {
       role="listitem"
       aria-label={item.title}
     >
+      {/* onClick={(ev: React.SyntheticEvent<HTMLElement>) => alert(ev)} */}
       <DocumentCard
         type={isCompact ? DocumentCardType.compact : DocumentCardType.normal}
-        onClick={(ev: React.SyntheticEvent<HTMLElement>) => alert(ev)}
+        onClick={(ev: React.SyntheticEvent<HTMLElement>) => this.onLinkClick(item)}
       >
         <DocumentCardPreview {...previewProps} />
         {!isCompact && <DocumentCardLocation location={item.location} />}
@@ -78,10 +79,31 @@ export default class Grid extends React.Component<IGridProps, IGridState> {
 /*
 onLinkClick= { this.onLinkClick.bind(this) }
 
+*/
 
+  public onLinkClick(item): void {
+    let e: any = event;
+    console.log('onLinkClickX');
+    console.log('this', item);
+    console.log('event', e);   
+    if (e.shiftKey) {
+      if (e.altKey) {
+        if (e.ctrlKey) {      
+          window.open(item.listWebURL, '_blank');
+          event.preventDefault();
+          return ;
+        }
+      }
+    }
 
-  public specialClick(event): void {
+    if (item.href){
+      window.open(item.href, item.target);
+      event.preventDefault();
+    }
 
+    return ;
+
+/*
     if (event.ctrlKey) {      
       window.open(item.href, item.props.target);
       event.preventDefault();
@@ -97,6 +119,7 @@ onLinkClick= { this.onLinkClick.bind(this) }
         }
       }
     }
+    */
   }
-*/
+
 }
