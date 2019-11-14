@@ -129,13 +129,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let gridLayout = (this.state.heroTiles[0]) ? tileBuilders.gridLayout(this.props,this.state,this.state.heroTiles, this.state.heroCategory) : "";
         
     let tileBuild;
+    let listBuild = tileBuilders.listViewBuilder(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
 
     if (this.props.setSize === "Card") {
       tileBuild = tileBuilders.gridLayout(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
+    } else if (this.props.setSize === "List") {
+      tileBuild = tileBuilders.listViewBuilder(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
     } else {
       tileBuild = tileBuilders.tileBuilder(this.props,this.state);
     }
-
+    
     let noListFound = myErrors.NoListFound(this.props,this.state);
 
     let noItemsFound = myErrors.NoItemsFound(this.props,this.state);

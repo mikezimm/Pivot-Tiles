@@ -20,7 +20,8 @@ import {
       {        index: 0,        key: '100',        text: '100px high'      },
       {        index: 1,        key: '150',        text: '150px high'      },
       {        index: 2,        key: '300',        text: '300px high'      },
-      {        index: 4,        key: 'Card',        text: 'Document Card'      },      
+      {        index: 4,        key: 'Card',        text: 'Document Card'      },
+      {        index: 5,        key: 'List',        text: 'List View'      },      
       {        index: 3,        key: 'Custom',        text: 'Custom'      },      
     ];
 

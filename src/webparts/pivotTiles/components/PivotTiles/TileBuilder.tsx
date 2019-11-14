@@ -10,7 +10,7 @@ import ReactSlideSwiper from '../Slider/ReactSlideSwiper';
 
 
 import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
-
+import { ListView, IViewField, SelectionMode, GroupOrder, IGrouping } from "@pnp/spfx-controls-react/lib/ListView";
 
 //From https://tahoeninjas.blog/2019/08/07/sharepoint-framework-design-series-layout-patterns-part-iii/
 import { CarouselLayout, ICarouselItem } from '../../components/carouselLayout';
@@ -26,6 +26,7 @@ import { IGridProps, IGridItem } from './../../components/gridComponent/Grid.typ
  * @param parentProps 
  * @param parentState 
  */
+
 export function tileBuilder(parentProps,parentState){
 
   const tileBuild = parentState.filteredTiles.map(newTile => (
@@ -34,6 +35,74 @@ export function tileBuilder(parentProps,parentState){
     //      setImgFit={newTile.setRatio = '1x1'? 'portrait' : newTile.setImgFit}
 
   return tileBuild;
+}
+
+export function listViewBuilder(parentProps,parentState, theseAreItems, thisCategory){
+  // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
+
+  let items = [];
+
+  for (let item of theseAreItems){
+    item.txtCategory = item.category.join(", ");
+    items.push(item);
+  }
+
+  //remap props to correct ones for HGcarouselLayout
+  const viewFields: IViewField[]=[
+    {
+      name: "txtCategory",
+      displayName: "Category",
+      isResizable: true,
+      sorting: true,
+      minWidth: 30,
+      maxWidth: 200
+    },{    
+      name: "title",
+      displayName: "Title",
+      linkPropertyName: "href",
+      isResizable: true,
+      sorting: true,
+      minWidth: 50,
+      maxWidth: 200
+    },{
+      name: "description",
+      displayName: "Description",
+      //linkPropertyName: "c",
+      isResizable: true,
+      sorting: true,
+      minWidth: 30,
+      maxWidth: 200
+    },
+  ]
+  
+
+  /**
+    name: string;
+    displayName?: string;
+    linkPropertyName?: string;
+    sorting?: boolean;
+    minWidth?: number;
+    maxWidth?: number;
+    isResizable?: boolean;
+  */
+
+
+  let listView = 
+    <ListView
+      items={items}
+      viewFields={viewFields}
+      iconFieldName="href"
+      compact={false}
+      selectionMode={SelectionMode.none}
+      selection={this._getSelection}
+      showFilter={true}
+      //defaultFilter="John"
+      filterPlaceHolder="Search..."
+      //groupByFields={groupByFields}
+       />
+
+  return listView;
+
 }
 
 /**
