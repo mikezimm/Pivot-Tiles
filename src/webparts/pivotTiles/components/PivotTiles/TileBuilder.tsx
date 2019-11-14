@@ -43,7 +43,17 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
   let items = [];
 
   for (let item of theseAreItems){
-    item.txtCategory = item.category.join(", ");
+    const isArray = typeof(item.category);
+    //console.log(isArray);
+
+    if (isArray === 'string') {
+      item.txtCategory = item.category;
+    } else if (isArray === 'object' && item.category.length === 1) {
+      item.txtCategory = item.category[0];
+    } else if (isArray === 'object' && item.category.length > 1) {
+      item.txtCategory = item.category.join(", ");
+    }
+
     items.push(item);
   }
 

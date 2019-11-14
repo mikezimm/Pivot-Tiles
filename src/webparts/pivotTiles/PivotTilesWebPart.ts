@@ -31,6 +31,10 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   public onInit():Promise<void> {
     return super.onInit().then(_ => {
       // other init code may be present
+
+      //https://stackoverflow.com/questions/52010321/sharepoint-online-full-width-page
+      document.getElementById("workbenchPageContent").style.maxWidth = "none";
+
       sp.setup({
         spfxContext: this.context
       });
