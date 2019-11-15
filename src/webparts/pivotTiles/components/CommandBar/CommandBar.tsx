@@ -70,7 +70,7 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
 //      const _utils = new Utils();
 //      let ttips = new this.props.toggleTips();
 //      let farItems = _utils.getFarItems(ttips);
-      let farItems = Utils.getFarItems(this.props.toggleTips, this.props.minimizeTiles);
+      let farItems = Utils.getFarItems(this.props.toggleTips, this.props.minimizeTiles, this.props.searchMe);
 
         return (
           <div className={ styles.container }>

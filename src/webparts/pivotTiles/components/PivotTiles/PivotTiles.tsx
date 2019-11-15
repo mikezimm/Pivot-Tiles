@@ -54,14 +54,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     };
 
-
     // because our event handler needs access to the component, bind 
     //  the component to the function so it can get access to the
     //  components properties (this.props)... otherwise "this" is undefined
     this.onLinkClick = this.onLinkClick.bind(this);
     this.toggleTips = this.toggleTips.bind(this);
     this.minimizeTiles = this.minimizeTiles.bind(this);
-    
+    this.searchMe = this.searchMe.bind(this);
     
   }
 
@@ -176,6 +175,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               <MyCommandBar
                 toggleTips= { this.toggleTips }
                 minimizeTiles= { this.minimizeTiles.bind(this) }
+                searchMe= { this.searchMe.bind(this) }
               />
             </div>
           <div>
@@ -271,6 +271,25 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     
 
 
+  } //End onClick
+
+  private searchMe = (item: PivotItem): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+    let e: any = event;
+    console.log(e);
+    if (e.altKey && e.shiftKey && !e.ctrlKey) { 
+
+    } else if (e.ctrlKey) { 
+
+    } else {
+      let newFilteredTiles = [];
+
+      this.setState({
+        filteredTiles: newFilteredTiles,
+        pivotDefSelKey: "-100",
+      });
+    }
+    
   } //End onClick
 
   private minimizeTiles = (item: PivotItem): void => {

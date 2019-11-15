@@ -10,8 +10,18 @@ export class Utils {
       return [];
     }
     
-    public static getFarItems(toggleTips,minimize) {
+    public static getFarItems(toggleTips, minimize, searchMe) {
       return [
+        {
+          key: 'search',
+          name: '',
+          ariaLabel: 'Search',
+          iconProps: {
+            iconName: 'Search',
+
+          },
+          onClick: () => searchMe()
+        },
         {
           key: 'mini',
           name: '',
