@@ -175,7 +175,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               </Pivot>
               <MyCommandBar
                 toggleTips= { this.toggleTips }
-                minimizeTiles= { this.minimizeTiles }
+                minimizeTiles= { this.minimizeTiles.bind(this) }
               />
             </div>
           <div>
@@ -275,13 +275,40 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   private minimizeTiles = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
+    let e: any = event;
+    console.log(e);
+    if (e.altKey && e.shiftKey && !e.ctrlKey) { 
 
-    let newFilteredTiles = [];
+      if (strings.analyticsWeb.indexOf(this.props.tenant) === 0 ) {
+        let openThisWindow = strings.analyticsWeb + '/lists/' + strings.analyticsList;
+        window.open(openThisWindow, '_blank');
+        event.preventDefault();
+      } else {
 
-    this.setState({
-      filteredTiles: newFilteredTiles,
-      pivotDefSelKey: "-100",
-    });
+        console.log('the analyticsWeb is not in the same tenant...',strings.analyticsWeb,this.props.tenant);
+
+      }
+    } else if (e.ctrlKey) { 
+
+      if (strings.minClickWeb.indexOf(this.props.tenant) === 0 ) {
+        let openThisWindow = strings.minClickWeb + this.props.pageContext.web.absoluteUrl;
+        window.open(openThisWindow, '_blank');
+        event.preventDefault();
+      } else {
+
+        console.log('the minClickWeb is not in the same tenant...',strings.minClickWeb,this.props.tenant);
+
+      }
+    } else {
+      let newFilteredTiles = [];
+
+      this.setState({
+        filteredTiles: newFilteredTiles,
+        pivotDefSelKey: "-100",
+      });
+    }
+    
+
 
   } //End onClick
   public toggleTips = (item: any): void => {

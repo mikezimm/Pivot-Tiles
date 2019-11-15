@@ -13,6 +13,8 @@ export interface IPivotTilesProps {
   scenario: string;
   description: string;
   pageContext: PageContext;
+  tenant: string;
+  urlVars: {};
 
   //Hero tile properties
   showHero: boolean;

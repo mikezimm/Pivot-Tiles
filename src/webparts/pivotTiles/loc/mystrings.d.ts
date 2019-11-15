@@ -2,6 +2,7 @@ declare interface IPivotTilesWebPartStrings {
   
   analyticsList: string;
   analyticsWeb: string;
+  minClickWeb: string;
   
   setRatio: string;
   PropertyPaneDescription: string;
