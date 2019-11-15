@@ -29,6 +29,8 @@ import * as tileBuilders from './TileBuilder';
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../../../services/createAnalytics';
 
+import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
+
 
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -181,7 +183,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <div>
           </div>
           <br/>
-          
+          {/*https://developer.microsoft.com/en-us/fabric#/controls/web/searchbox*/}
+          <SearchBox
+            placeholder="Search"
+            onSearch={newValue => this.searchForItems.bind(this)}
+            onFocus={ () => console.log('onFocus called') }
+            onBlur={ () => console.log('onBlur called') }
+            onChange={ this.searchForItems.bind(this) }
+          />
           { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
           
 
@@ -217,35 +226,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     alert('Hi!');
   }
 
-
-  public onLinkClick = (item): void => {
+  public searchForItems = (item): void => {
     //This sends back the correct pivot category which matches the category on the tile.
     let e: any = event;
-    
-/*
-    if (e.shiftKey) {
-      if (e.altKey) {
-        if (e.ctrlKey) {      
-          //window.open(this.props.listWebURL, '_blank');
-          //event.preventDefault();
-          //return ;
-          alert('Hi! All kyes were pressed for:  ' + item.props.headerText);
-          this.setState({
-            heroCategory: item.props.headerText,
-          });
-          this._updateStateOnPropsChange();
-        }
-      }
-    }
-*/
+
+    console.log('searchForItems: e',e);
+    console.log('searchForItems: item', item);
+    console.log('searchForItems: this', this);
+
+    return ;
 
     if (e.shiftKey && e.altKey && e.ctrlKey) {
-      //alert('Hi! All kyes were pressed for:  ' + item.props.headerText);
-      /*
-      this.setState({
-        heroCategory: item.props.headerText,
-      });
-      */
+
       this._updateStateOnPropsChange({heroCategory: item.props.headerText});
 
     } else {
@@ -267,9 +259,36 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       });
 
     }
-
     
+  } //End onClick
 
+  public onLinkClick = (item): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+    let e: any = event;
+
+    if (e.shiftKey && e.altKey && e.ctrlKey) {
+
+      this._updateStateOnPropsChange({heroCategory: item.props.headerText});
+
+    } else {
+      let newFilteredTiles = [];
+      for (let thisTile of this.state.allTiles) {
+        if(thisTile.category.indexOf(item.props.headerText) > -1) {
+
+          let showThisTile = true;
+          if (this.props.heroType !== 'none') {
+            showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
+          }
+          if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
+        }
+      }
+
+      this.setState({
+        filteredCategory: item.props.headerText,
+        filteredTiles: newFilteredTiles,
+      });
+
+    }
 
   } //End onClick
 
