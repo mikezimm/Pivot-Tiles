@@ -23,6 +23,10 @@ export interface IPivotTilesState {
   showOtherTab?: boolean;
 
   searchType?: string;
+  searchShow?: boolean;
+  searchCount?: number;
+  searchWhere?: string;
+
   endTime?: theTime;
 
   items?:any[];

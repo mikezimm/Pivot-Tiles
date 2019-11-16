@@ -54,6 +54,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       lookupColumns: [],
       showOtherTab: false,
       heroCategory: this.props.heroCategory,
+      searchShow: true,
+      searchCount: 0,
+      searchWhere: '',
+      searchType: '',
 
     };
 
@@ -185,18 +189,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           </div>
           <br/>
           {/*https://developer.microsoft.com/en-us/fabric#/controls/web/searchbox*/}
-          <div className={[styles.floatLeft,styles.padLeft20].join(' ')} >
+          <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
             <SearchBox
               className={styles.searchBox}
               styles={{ root: { maxWidth: 300 } }}
               placeholder="Search"
               onSearch={ this.searchForItems.bind(this) }
-              onFocus={ () => console.log('onFocus called') }
+              onFocus={ () => console.log('this.state',  this.state) }
               onBlur={ () => console.log('onBlur called') }
               onChange={ this.searchForItems.bind(this) }
             />
             <div className={styles.searchStatus}>
-              { 'Searching ' + this.state.filteredTiles.length + ' items' }
+              { 'Searching about ' + this.state.searchCount + ' items' + this.state.searchWhere }
               { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
             </div>
           </div>
@@ -241,12 +245,23 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let e: any = event;
     console.log(e);
     let searchType = "";
+    let newSearchShow =  e.altKey === true ? true : !this.state.searchShow;
+    let searchCount = this.state.lastFilteredTiles.length;
+    let searchWhere = this.state.searchWhere;
     if (e.altKey) { 
       searchType = "all";
+      newSearchShow = true;
+      searchCount = this.state.allTiles.length;
+      searchWhere = ' in all categories'
     }
-
+    
+    console.log('newSearchShow: ', newSearchShow, searchType)
     this.setState({
       searchType: searchType,
+      searchShow: ( e.altKey === true ? true : !this.state.searchShow ),
+      lastFilteredTiles: (searchType === 'all' ? this.state.allTiles : this.state.lastFilteredTiles ),
+      searchCount: searchCount,
+      searchWhere: searchWhere,
     });
 
     
@@ -269,7 +284,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     } else {
       searchItems =this.state.lastFilteredTiles;
     }
-
+    let searchCount = searchItems.length;
     let newFilteredTiles = [];
     for (let thisTile of searchItems) {
       let fileName = thisTile.href.substring(thisTile.href.lastIndexOf('/'));
@@ -281,8 +296,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       }
     }
 
+    searchCount = newFilteredTiles.length;
+
     this.setState({
       filteredTiles: newFilteredTiles,
+      searchCount: searchCount,
     });
 
 
@@ -339,6 +357,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         filteredCategory: item.props.headerText,
         filteredTiles: newFilteredTiles,
         lastFilteredTiles: newFilteredTiles,
+        searchCount: newFilteredTiles.length,
+        searchType: '',
+        searchWhere: ' in ' + item.props.headerText,
       });
 
     }
@@ -378,7 +399,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       this.setState({
         filteredTiles: newFilteredTiles,
         lastFilteredTiles: this.state.allTiles,
+        searchCount: this.state.allTiles.length,
         pivotDefSelKey: "-100",
+        searchWhere: ' in all categories'
       });
     }
     
@@ -515,6 +538,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       heroIds: heroIds,
       heroStatus: newHeros[0] ? "Ready" : "none",
       heroCategory: currentHero,
+      searchType: '',
+      searchCount: newFiltered.length,
+      searchWhere: this.props.setTab,
     });
   }
 
@@ -639,6 +665,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         loadError: "",
         endTime: this.state.endTime ? this.state.endTime : getTheCurrentTime(),
         heroCategory: this.props.heroCategory,
+        searchCount: newFilteredTiles.length,
+        searchWhere: ' in ' + this.props.setTab,
       });
       
       saveAnalytics(this.props,this.state);

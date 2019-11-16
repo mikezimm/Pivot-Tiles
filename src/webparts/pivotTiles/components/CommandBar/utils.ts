@@ -16,6 +16,16 @@ export class Utils {
           key: 'search',
           name: '',
           ariaLabel: 'Search',
+          /* this will do a tool tip but make the icon above the button.
+          iconOnly: true,
+            tooltipHostProps: {
+              content: 'tooltipHostProps content',
+            },
+            // This does not work on the command bar icons.
+            keytipProps: {
+              content: 'tooltipHostProps content',
+            }
+          */
           iconProps: {
             iconName: 'Search',
 
