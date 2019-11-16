@@ -45,19 +45,27 @@ export default class Utils {
         getProp = "File/ServerRelativeUrl";
       }
 
+      function convertValues(itemVal) {
+        // Cleans up values into right syntax, no numbers and some must be arrays.
+        itemVal = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemVal) :itemVal;
+        itemVal = (Array.isArray(itemVal)) ? itemVal.map(String) : itemVal;  //Convert number arrays (like Author/ID) to string arrays
+        itemVal = (typeof(itemVal) === 'number') ? itemVal.toString() : itemVal;
+        return itemVal;
+      }
+
       const leftSide = Utils.parseMe(theseProps[getProp],"/",'left');
       const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
       var itemVal :any ;
       if (theseProps[getProp].indexOf("/") < 0) {
         if (item[theseProps[getProp]]) {
           itemVal = item[theseProps[getProp]];
-          itemVal = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemVal) :itemVal;
+          itemVal = convertValues(itemVal);
           return itemVal;
         } else { return ""; } 
       } else {
         if (item[leftSide]) {
           itemVal = item[leftSide][rightSide];
-          itemVal = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemVal) :itemVal;
+          itemVal = convertValues(itemVal);
           return itemVal;
         } else { return ""; } 
       }
@@ -161,23 +169,18 @@ export default class Utils {
     let leftSide = splitCol[0];
     let righttSide = splitCol[1];
 
+    console.log('buildTileCategoriesFromResponse');
+    console.log('pivotProps',pivotProps);
+    console.log('currentHero',currentHero);
+    console.log('response',response);
+
     for (let tile of response) {
       //if (righttSide) {tile.category
+      console.log(tile.category);
       if (!tile.category) {
         //This allows it to skip if the tile category is empty or blank
-      } else if (tileCategories.length===999) {
-        // Use different notation for drilling down
-        console.log('buildTileCategoriesFromResponse category 0');  
-        let lookup = tile[leftSide];
-
-        let detail = lookup[righttSide].toString();
-
-        console.log('buildTileCategoriesFromResponse category 1');
-        if(tileCategories.indexOf(detail) === -1) {
-          tileCategories.push(detail);
-        }
-
-        console.log('buildTileCategoriesFromResponse category 0');
+      } else if (tile.category[0] === pivotProps.otherTab) {
+        //Skip because this one was assigned the "Others" category
       } else {
 
         const isArray = typeof(tile.category);

@@ -292,7 +292,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
       let searchString = 'title:' + thisTile.title.toLowerCase() + 'tescription:' + thisTile.description.toLowerCase() + 'href:' + fileName;
       if(searchString.indexOf(item.toLowerCase()) > -1) {
-        console.log('fileName', fileName);
+        //console.log('fileName', fileName);
         newFilteredTiles.push(thisTile);
       }
     }
@@ -691,7 +691,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     let newFilteredTiles = [];
     for (let thisTile of tileCollection) {
-      if(thisTile.category.indexOf(thisProps.setTab) > -1) {
+      const isNumber = typeof(thisTile.category);
+      console.log('isNumber',isNumber);
+      if (isNumber === 'number'){
+
+      } else if(thisTile.category.indexOf(thisProps.setTab) > -1) {
 
         let showThisTile = true;
         if (heroIds.length > 0 && thisProps.heroType !== 'none' && heroTiles[0]) {
