@@ -31,5 +31,6 @@ export interface IPivotTilesState {
 
   items?:any[];
 
+  listStaticName: string;
 
 }

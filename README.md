@@ -58,6 +58,17 @@ The web part has 3 built in configurations defined in the manifest.json file.
 * uses **scenario** prop in pre-configured properties to determine prop pane dropdown for list definition.
 * eventually you could use the **secnario** prop to limit access to other parts of the property pane.
 * possibly even limit which tile list/library urls could be used with different configurations.
+### ToDos:
+- [ ] Fix TestImages listDefinition with multiple **Others** categories.
+- [ ] Add **maxDynamicSearchQty** property so that search only happens upon Enter when exceeding that quantity
+- [ ] Add webPartProperty to **enableSearch**
+- [ ] Create alternate **Hover** styles besides slide up panel
+- [ ] Improve **Help** panel layout/look/feel
+- [ ] **CTRL-ALT-SHFT-Click** on Icons does not go to correct Url:  /sites/Templates/Icons/sites/Forms/DispForm.aspx
+        This seems to be because Site and Library are the same *Icons*
+        This also impacts the Links in help panel (only on this list)
+- [ ] Fix when Category columns are number arrays (like Author/ID)
+
 
 ### Create log:
 * Copied prop pane strings/interface/props from SPFx Properties Formulas Apr 30 - Editable.xlsx (5 places).

@@ -58,6 +58,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       searchCount: 0,
       searchWhere: '',
       searchType: '',
+      listStaticName: this.props.listTitle,
 
     };
 
@@ -630,15 +631,25 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
       const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
 
-      const listURL = fixedURL + ( this.props.listDefinition.indexOf("Library") < 0 ? "lists/" : "" ) + this.props.listTitle;
+      let listStaticName = this.props.listTitle;
+
+      if (this.props.listDefinition.toLowerCase().indexOf('library') > -1) {
+        listStaticName = response[0].File.ServerRelativeUrl.replace(this.props.pageContext.web.serverRelativeUrl,"");
+        listStaticName = listStaticName.substring(1,listStaticName.indexOf('/',1));
+      }
+      console.log('listStaticName',listStaticName);
+      
+      const listURL = fixedURL + ( this.props.listDefinition.indexOf("Library") < 0 ? "lists/" : "" ) + listStaticName;
  
       const currentPageUrl = this.props.pageContext.web.absoluteUrl + this.props.pageContext.site.serverRequestPath;
 
-      const editItemURL = listURL + "/DispForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
+      const editItemURL = listURL + (listURL.indexOf('/lists/') > -1 ? '' : '/Forms') + "/DispForm.aspx?ID=" + "ReplaceID" + "&Source=" + currentPageUrl;
       console.log('editItemURL',editItemURL);
 
       let pivotProps = this.props;
       let pivotState = this.state;
+
+
       let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
   
       let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection, pivotProps.heroCategory);
@@ -667,6 +678,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         heroCategory: this.props.heroCategory,
         searchCount: newFilteredTiles.length,
         searchWhere: ' in ' + this.props.setTab,
+        listStaticName: listStaticName,
       });
       
       saveAnalytics(this.props,this.state);

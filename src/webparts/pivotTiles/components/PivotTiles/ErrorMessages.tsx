@@ -14,8 +14,8 @@ export function buildTips(parentProps,parentState){
   const currentPageUrl = parentProps.pageContext.web.absoluteUrl + parentProps.pageContext.site.serverRequestPath;
   const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
   const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
-  const listURL = fixedURL + listExt + parentProps.listTitle;
-  const newItemURL = listURL + "/newform.aspx?Source=" + currentPageUrl;
+  const listURL = fixedURL + listExt + parentState.listStaticName;
+  const newItemURL = listURL + (listExt === "" ? "" : "/newform.aspx") + "?Source=" + currentPageUrl;
 
   let delta : any;
   let statsMessage : string = 'Could not determine load time.';
