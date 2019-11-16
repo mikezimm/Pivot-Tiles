@@ -65,8 +65,8 @@ The web part has 3 built in configurations defined in the manifest.json file.
 - [ ] Create alternate **Hover** styles besides slide up panel
 - [ ] Improve **Help** panel layout/look/feel
 - [ ] **CTRL-ALT-SHFT-Click** on Icons does not go to correct Url:  /sites/Templates/Icons/sites/Forms/DispForm.aspx
-        This seems to be because Site and Library are the same **Icons**
-        This also impacts the **Links in help panel** (only on this list)
+       * This seems to be because Site and Library are the same **Icons**
+       * This also impacts the **Links in help panel** (only on this list)
 - [ ] Fix when Category columns are number arrays (like Author/ID)
 - [ ] Add image **cover/fit** options to **DocumentCard** layout (Icons are very big and not correct aspect ratio)
 - [ ] Add image **cover/fit/size** options in **Carousel**.   9/16 can sometimes just be to wide and tall on full page
