@@ -105,7 +105,7 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
       compact={false}
       selectionMode={SelectionMode.none}
       selection={this._getSelection}
-      showFilter={true}
+      showFilter={false}
       //defaultFilter="John"
       filterPlaceHolder="Search..."
       //groupByFields={groupByFields}

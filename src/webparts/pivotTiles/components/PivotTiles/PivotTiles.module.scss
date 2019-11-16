@@ -28,6 +28,22 @@
     //padding: 0px;
   }
 
+  .searchBox {
+    //@extend .floatLeft;
+    width: 100%;
+    //padding-bottom: 20px;
+  }
+
+  .searchStatus {
+    @extend .floatRight;
+    padding-right: 60px;
+    //text-align: right;
+  }
+
+  .padLeft20 {
+    padding-left: 20px;
+  }
+
   .floatRight {
     //width: 1200px;
     //max-width: 500px;

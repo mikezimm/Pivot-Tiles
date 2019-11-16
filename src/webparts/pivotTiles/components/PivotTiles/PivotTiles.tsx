@@ -42,6 +42,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this.state = { 
       allTiles:[],
       filteredTiles:[],
+      lastFilteredTiles:[],
       heroTiles:[],
       pivtTitles:[],
       showAllTiles: false,
@@ -184,13 +185,22 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           </div>
           <br/>
           {/*https://developer.microsoft.com/en-us/fabric#/controls/web/searchbox*/}
-          <SearchBox
-            placeholder="Search"
-            onSearch={newValue => this.searchForItems.bind(this)}
-            onFocus={ () => console.log('onFocus called') }
-            onBlur={ () => console.log('onBlur called') }
-            onChange={ this.searchForItems.bind(this) }
-          />
+          <div className={[styles.floatLeft,styles.padLeft20].join(' ')} >
+            <SearchBox
+              className={styles.searchBox}
+              styles={{ root: { maxWidth: 300 } }}
+              placeholder="Search"
+              onSearch={ this.searchForItems.bind(this) }
+              onFocus={ () => console.log('onFocus called') }
+              onBlur={ () => console.log('onBlur called') }
+              onChange={ this.searchForItems.bind(this) }
+            />
+            <div className={styles.searchStatus}>
+              { 'Searching ' + this.state.filteredTiles.length + ' items' }
+              { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
+            </div>
+          </div>
+
           { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
           
 
@@ -226,13 +236,55 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     alert('Hi!');
   }
 
+  private searchMe = (item: PivotItem): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+    let e: any = event;
+    console.log(e);
+    let searchType = "";
+    if (e.altKey) { 
+      searchType = "all";
+    }
+
+    this.setState({
+      searchType: searchType,
+    });
+
+    
+  } //End searchMe
+
   public searchForItems = (item): void => {
     //This sends back the correct pivot category which matches the category on the tile.
     let e: any = event;
-
+ 
     console.log('searchForItems: e',e);
-    console.log('searchForItems: item', item);
-    console.log('searchForItems: this', this);
+
+      console.log('searchForItems: item', item);
+      console.log('searchForItems: this', this);
+          /*
+    */
+
+    let searchItems = [];
+    if (this.state.searchType === 'all'){
+      searchItems =this.state.allTiles;
+    } else {
+      searchItems =this.state.lastFilteredTiles;
+    }
+
+    let newFilteredTiles = [];
+    for (let thisTile of searchItems) {
+      let fileName = thisTile.href.substring(thisTile.href.lastIndexOf('/'));
+
+      let searchString = 'title:' + thisTile.title.toLowerCase() + 'tescription:' + thisTile.description.toLowerCase() + 'href:' + fileName;
+      if(searchString.indexOf(item.toLowerCase()) > -1) {
+        console.log('fileName', fileName);
+        newFilteredTiles.push(thisTile);
+      }
+    }
+
+    this.setState({
+      filteredTiles: newFilteredTiles,
+    });
+
 
     return ;
 
@@ -260,7 +312,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     }
     
-  } //End onClick
+  } //End searchForItems
 
   public onLinkClick = (item): void => {
     //This sends back the correct pivot category which matches the category on the tile.
@@ -286,30 +338,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       this.setState({
         filteredCategory: item.props.headerText,
         filteredTiles: newFilteredTiles,
+        lastFilteredTiles: newFilteredTiles,
       });
 
     }
 
   } //End onClick
 
-  private searchMe = (item: PivotItem): void => {
-    //This sends back the correct pivot category which matches the category on the tile.
-    let e: any = event;
-    console.log(e);
-    if (e.altKey && e.shiftKey && !e.ctrlKey) { 
-
-    } else if (e.ctrlKey) { 
-
-    } else {
-      let newFilteredTiles = [];
-
-      this.setState({
-        filteredTiles: newFilteredTiles,
-        pivotDefSelKey: "-100",
-      });
-    }
-    
-  } //End onClick
 
   private minimizeTiles = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
@@ -342,6 +377,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
       this.setState({
         filteredTiles: newFilteredTiles,
+        lastFilteredTiles: this.state.allTiles,
         pivotDefSelKey: "-100",
       });
     }
@@ -473,6 +509,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       pivtTitles: tileCategories,
       pivotDefSelKey: defaultSelectedKey,
       filteredTiles: newFiltered,
+      lastFilteredTiles: newFiltered,
       loadStatus:"Ready",
       heroTiles : newHeros,
       heroIds: heroIds,
@@ -593,6 +630,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         allTiles:tileCollection,
         pivtTitles: tileCategories,
         filteredTiles: newFilteredTiles,
+        lastFilteredTiles: newFilteredTiles,
         pivotDefSelKey: defaultSelectedKey,
         loadStatus:"Ready",
         heroStatus: heroTiles[0] ? "Ready" : "none",

@@ -9,6 +9,7 @@ export interface IPivotTilesState {
   
   allTiles?:IPivotTileItemProps[];
   filteredTiles?: IPivotTileItemProps[];
+  lastFilteredTiles?: IPivotTileItemProps[];
   pivtTitles?:string[];
   filteredCategory?: string;
   showAllTiles?: boolean;
@@ -21,6 +22,7 @@ export interface IPivotTilesState {
   lookupColumns?: string[];
   showOtherTab?: boolean;
 
+  searchType?: string;
   endTime?: theTime;
 
   items?:any[];
