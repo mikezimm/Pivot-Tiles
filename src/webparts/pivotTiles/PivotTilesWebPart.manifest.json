@@ -79,6 +79,7 @@
       "DescriptionFieldLabel": "Description Field",
       "heroType": "carousel",
       "heroCategory": "Mike zimmerman",
+      "heroRatio": 9,
       "setHeroFit": "centerCover",
       "setHeroCover": "portrait",
       "listDefinition": "PolicyLibrary",

@@ -131,6 +131,13 @@ import {
                 label: strings.heroCategory
               }),
 
+              PropertyPaneSlider('heroRatio', {
+                label: strings.heroRatio,
+                min: 3,
+                max: 24,
+                step: 1,
+              }),
+              
               PropertyPaneDropdown('setHeroFit', <IPropertyPaneDropdownProps>{
                 label: strings.setImgFit,
                 options: imageOptionsGroup.imgFitChoices,

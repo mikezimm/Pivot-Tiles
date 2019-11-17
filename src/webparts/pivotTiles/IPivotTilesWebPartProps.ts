@@ -13,6 +13,7 @@ export interface IPivotTilesWebPartProps {
   showHero: boolean;
   heroType: string;
   heroCategory: string;
+  heroRatio: number;
   setHeroFit: string;
   setHeroCover: string;
 
@@ -60,5 +61,6 @@ export interface IPivotTilesWebPartProps {
   //List based analytics properties
   analyticsList: string;
   analyticsWeb: string;
+
 
   }

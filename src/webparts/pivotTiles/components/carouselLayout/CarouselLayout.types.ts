@@ -2,6 +2,7 @@ export interface ICarouselLayoutProps {
   ariaLabel?: string;
   pagingTemplate?: string;
   items: ICarouselItem[];
+  heroRatio: number;
   onSlideClick?: (currentIndex: number) => void;
   onBeforeChange?: (currentIndex: number) => void;
   onAfterChange?: (currentIndex: number) => void;

@@ -26,6 +26,7 @@ define([], function() {
     "setImgFit": "Image Fit",
     "setImgCover": "Image Cover",
     "heroCategory": "Hero Category",
+    "heroRatio": "Hero aspect ratio ( X / 16 )",
 
     "setPivFormat": "Set Pivot Format",
     "setPivSize": "Set Pivot Size",

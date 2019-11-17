@@ -16,7 +16,7 @@ import { SPComponentLoader } from '@microsoft/sp-loader';
 import styles from "./CarouselLayout.module.scss";
 
 //const ASPECT_RATIO: number = 9 / 16;
-const ASPECT_RATIO: number = 5 / 16;
+
 
 
 /**
@@ -31,11 +31,10 @@ export class CarouselLayout extends React.Component<
   // Reference to the slick slider
   private _wrapperDiv: HTMLDivElement;
   private _slider: Slider;
-
+  private ASPECT_RATIO: number = this.props.heroRatio / 16;
   constructor(props: ICarouselLayoutProps) {
     super(props);
   
-
 
     // Load the slick CSS
     SPComponentLoader.loadCss('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css');
@@ -52,12 +51,20 @@ export class CarouselLayout extends React.Component<
   public componentDidMount(): void {
     this.setState({
       width: this._wrapperDiv && this._wrapperDiv.clientWidth,
-      height: this._wrapperDiv && Math.floor(this._wrapperDiv.clientWidth * ASPECT_RATIO)
+      height: this._wrapperDiv && Math.floor(this._wrapperDiv.clientWidth * this.props.heroRatio / 16)
     });
   }
 
   public componentDidUpdate(prevProps){
-  
+    let rebuildTiles = false;
+
+    if (this.props.heroRatio !== prevProps.heroRatio) {  rebuildTiles = true ; }
+    if (rebuildTiles){
+      this.setState({
+        width: this._wrapperDiv && this._wrapperDiv.clientWidth,
+        height: this._wrapperDiv && Math.floor(this._wrapperDiv.clientWidth * this.props.heroRatio / 16)
+      });
+    }
   }
 
   /**

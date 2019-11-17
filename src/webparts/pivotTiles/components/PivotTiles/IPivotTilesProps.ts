@@ -20,6 +20,7 @@ export interface IPivotTilesProps {
   showHero: boolean;
   heroType: string;
   heroCategory: string;
+  heroRatio: number;
   setHeroFit: string;
   setHeroCover: string;
 

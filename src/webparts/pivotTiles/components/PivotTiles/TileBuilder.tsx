@@ -262,6 +262,7 @@ export function carouselLayout(parentProps,parentState, theseAreItems, thisCateg
       ariaLabel={'Use right and left arrow keys to navigate between images in the carousel. Use up and down arrow keys to access the edit and remove buttons for any image.'}
       items={items}
       onSlideClick={(currentSlide) => { alert(`You clicked on slide ${currentSlide+1}`); }}
+      heroRatio={parentProps.heroRatio}
     >
     </CarouselLayout>;
 

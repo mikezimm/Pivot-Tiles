@@ -15,6 +15,7 @@ declare interface IPivotTilesWebPartStrings {
   DefaultTileList: string;
   heroChoices: string;
   heroCategory: string;
+  heroRatio: string;
   
   description: string;
   listDefinition: string;
