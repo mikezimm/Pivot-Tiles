@@ -69,6 +69,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this.toggleTips = this.toggleTips.bind(this);
     this.minimizeTiles = this.minimizeTiles.bind(this);
     this.searchMe = this.searchMe.bind(this);
+    this.showAll = this.showAll.bind(this);
+    
+
     
   }
 
@@ -184,6 +187,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
                 toggleTips= { this.toggleTips }
                 minimizeTiles= { this.minimizeTiles.bind(this) }
                 searchMe= { this.searchMe.bind(this) }
+                showAll= { this.showAll.bind(this) }
+                
               />
             </div>
           <div>
@@ -367,6 +372,33 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   } //End onClick
 
+  
+  private showAll = (item: PivotItem): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+    let e: any = event;
+    if (e.altKey && e.shiftKey && !e.ctrlKey) { 
+
+    } else if (e.ctrlKey) { 
+
+    } else {
+      let newFilteredTiles = [];
+      for (let thisTile of this.state.allTiles) {
+          let showThisTile = true;
+          if (this.props.heroType !== 'none') {
+            showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
+          }
+          if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
+      }
+      this.setState({
+        filteredTiles: newFilteredTiles,
+        lastFilteredTiles: this.state.allTiles,
+        searchCount: this.state.allTiles.length,
+        pivotDefSelKey: "-100",
+        searchWhere: ' in all categories'
+      });
+    }
+    
+  }
 
   private minimizeTiles = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.

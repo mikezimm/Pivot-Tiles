@@ -169,14 +169,8 @@ export default class Utils {
     let leftSide = splitCol[0];
     let righttSide = splitCol[1];
 
-    console.log('buildTileCategoriesFromResponse');
-    console.log('pivotProps',pivotProps);
-    console.log('currentHero',currentHero);
-    console.log('response',response);
-
     for (let tile of response) {
       //if (righttSide) {tile.category
-      console.log(tile.category);
       if (!tile.category) {
         //This allows it to skip if the tile category is empty or blank
       } else if (tile.category[0] === pivotProps.otherTab) {

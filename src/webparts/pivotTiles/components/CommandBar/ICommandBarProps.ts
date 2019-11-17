@@ -5,6 +5,7 @@ export interface ICommandBarProps {
     toggleTips?: (item?: any, ev?: React.MouseEvent<HTMLElement>) => void;
     minimizeTiles?: (item?: any, ev?: React.MouseEvent<HTMLElement>) => void;
     searchMe?: (item?: any, ev?: React.MouseEvent<HTMLElement>) => void;
+    showAll?: (item?: any, ev?: React.MouseEvent<HTMLElement>) => void;
 
   }
 

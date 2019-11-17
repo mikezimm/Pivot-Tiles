@@ -71,6 +71,8 @@ The web part has 3 built in configurations defined in the manifest.json file.
 - [ ] Add image **cover/fit/size** options in **Carousel**.   9/16 can sometimes just be to wide and tall on full page
 - [ ] Improve **onHover** on **DocumentCard** layout
 - [ ] Add ShowAll button
+- [ ] What to do about Hero Carousel during search?
+
 
 - [x] Fix when Category columns are number arrays (like Author/ID):  done - PivotTiles\utils.ts: convertValues
 - [x] Fix TestImages listDefinition with multiple **Others** categories. done - PivotTiles\utils.ts: buildTileCategoriesFromResponse

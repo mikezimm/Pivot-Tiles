@@ -15,7 +15,8 @@ import { CarouselSlide } from './CarouselSlide';
 import { SPComponentLoader } from '@microsoft/sp-loader';
 import styles from "./CarouselLayout.module.scss";
 
-const ASPECT_RATIO: number = 9 / 16;
+//const ASPECT_RATIO: number = 9 / 16;
+const ASPECT_RATIO: number = 5 / 16;
 
 
 /**

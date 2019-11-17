@@ -10,7 +10,7 @@ export class Utils {
       return [];
     }
     
-    public static getFarItems(toggleTips, minimize, searchMe) {
+    public static getFarItems(toggleTips, minimize, searchMe, showAll) {
       return [
         {
           key: 'search',
@@ -41,6 +41,16 @@ export class Utils {
 
           },
           onClick: () => minimize()
+        },
+        {
+          key: 'all',
+          name: '',
+          ariaLabel: 'ShowAll',
+          iconProps: {
+            iconName: 'ClearFilter',
+
+          },
+          onClick: () => showAll()
         },
         {
           key: 'tips',
