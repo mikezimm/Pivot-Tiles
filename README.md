@@ -71,6 +71,7 @@ The web part has 3 built in configurations defined in the manifest.json file.
 
 
 ### ToDos:
+- [ ] Special Click to go into list mode
 - [ ] Finalize ShowAll items icon... currently filter-x, maybe make it a pivot choice?
 - [ ] webPartProperty to pick Search Capability:  Dropdown - Visible, Collapsed, None (disabled)
 - [ ] Check DocumentCard Text below image is Hero Category, not description.
