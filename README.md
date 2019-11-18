@@ -65,9 +65,9 @@ The web part has 3 built in configurations defined in the manifest.json file.
 * [x] CTRL-Click Pivot to make that category the "Hero" category
 * [x] ALT-SHFT-Click "Minimize ---" button to see analytics
 * [x] ALT-Click "Search" to search All tiles (not just the ones currently filtered)
-* [ ]
-* [ ]
-* [ ]
+- [ ]
+- [ ]
+- [ ]
 
 
 ### ToDos:
