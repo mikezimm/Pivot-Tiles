@@ -59,10 +59,25 @@ The web part has 3 built in configurations defined in the manifest.json file.
 * eventually you could use the **secnario** prop to limit access to other parts of the property pane.
 * possibly even limit which tile list/library urls could be used with different configurations.
 
+## End-user Short-cuts and features
+* [x] CTRL-ALT-SHFT-Click a tile to edit it's properties
+* [x] CTRL-CLick "Minimize ---" button to go to site contents
+* [x] CTRL-Click Pivot to make that category the "Hero" category
+* [x] ALT-SHFT-Click "Minimize ---" button to see analytics
+* [x] ALT-Click "Search" to search All tiles (not just the ones currently filtered)
+* [ ]
+* [ ]
+* [ ]
+
+
 ### ToDos:
+- [ ] Finalize ShowAll items icon... currently filter-x, maybe make it a pivot choice?
+- [ ] webPartProperty to pick Search Capability:  Dropdown - Visible, Collapsed, None (disabled)
+- [ ] Check DocumentCard Text below image is Hero Category, not description.
 - [ ] Add **maxDynamicSearchQty** property so that search only happens upon Enter when exceeding that quantity
 - [ ] Add webPartProperty to **enableSearch**
 - [ ] Create alternate **Hover** styles besides slide up panel - like fadding or white overlay and black text
+- [ ] Add Hero Aspect Ratio to all Hero Types
 - [ ] Improve **Help** panel layout/look/feel
 - [ ] **CTRL-ALT-SHFT-Click** on Icons does not go to correct Url:  /sites/Templates/Icons/sites/Forms/DispForm.aspx
        * This seems to be because Site and Library are the same **Icons**
@@ -76,6 +91,7 @@ The web part has 3 built in configurations defined in the manifest.json file.
 
 - [x] Fix when Category columns are number arrays (like Author/ID):  done - PivotTiles\utils.ts: convertValues
 - [x] Fix TestImages listDefinition with multiple **Others** categories. done - PivotTiles\utils.ts: buildTileCategoriesFromResponse
+
 ### Create log:
 * Copied prop pane strings/interface/props from SPFx Properties Formulas Apr 30 - Editable.xlsx (5 places).
 * Removed un-neccessary modules from common and services folder that were causing serve errors.
