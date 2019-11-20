@@ -45,11 +45,26 @@ export default class Utils {
         getProp = "File/ServerRelativeUrl";
       }
 
+      function convertDates(itemVal){
+        let result = itemVal;
+        let dp = Date.parse(itemVal);   
+        if (isNaN(dp)){
+          // value is not a number
+        } else {
+          // value is likely a date
+          var d = new Date(itemVal);
+          var n = d.getFullYear();
+          result = n.toString();
+        }
+        return result;
+      }
+
       function convertValues(itemVal) {
         // Cleans up values into right syntax, no numbers and some must be arrays.
         itemVal = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemVal) :itemVal;
         itemVal = (Array.isArray(itemVal)) ? itemVal.map(String) : itemVal;  //Convert number arrays (like Author/ID) to string arrays
         itemVal = (typeof(itemVal) === 'number') ? itemVal.toString() : itemVal;
+        itemVal = convertDates(itemVal);
         return itemVal;
       }
 
