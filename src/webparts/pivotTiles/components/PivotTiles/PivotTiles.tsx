@@ -59,7 +59,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       searchWhere: '',
       searchType: '',
       listStaticName: this.props.listTitle,
-
+      heroCategoryError: false,
+      listError: false,
+      itemsError: false,
+      heroError: false,
+      setLayout: this.props.setSize,
     };
 
     // because our event handler needs access to the component, bind 
@@ -70,8 +74,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this.minimizeTiles = this.minimizeTiles.bind(this);
     this.searchMe = this.searchMe.bind(this);
     this.showAll = this.showAll.bind(this);
-    
-
+    this.toggleLayout = this.toggleLayout.bind(this);
     
   }
 
@@ -142,9 +145,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let tileBuild;
     let listBuild = tileBuilders.listViewBuilder(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
 
-    if (this.props.setSize === "Card") {
+    if (this.state.setLayout === "Card") {
       tileBuild = tileBuilders.gridLayout(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
-    } else if (this.props.setSize === "List") {
+    } else if (this.state.setLayout === "List") {
       tileBuild = tileBuilders.listViewBuilder(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
     } else {
       tileBuild = tileBuilders.tileBuilder(this.props,this.state);
@@ -159,6 +162,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     const defIndex = Utils.convertCategoryToIndex(this.props.setTab);
 
     let slider = (this.state.heroTiles[0]) ? tileBuilders.sliderBuilder(this.props,this.state) : "";
+
+    let tipError = false;
+    if (this.state.itemsError || this.state.listError || this.state.heroError){ tipError = true }
 
     return (
       <div>
@@ -189,6 +195,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
                 minimizeTiles= { this.minimizeTiles.bind(this) }
                 searchMe= { this.searchMe.bind(this) }
                 showAll= { this.showAll.bind(this) }
+                toggleLayout= { this.toggleLayout.bind(this) }
+                commandClass = {(tipError ? 'warnTips' : '') }
+                setLayout = { this.state.setLayout }
                 
               />
             </div>
@@ -442,6 +451,24 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 
   } //End onClick
+
+  public toggleLayout = (item: any): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+
+    let setLayout = this.state.setLayout;
+
+    if (setLayout === "Card") {
+      setLayout = this.props.setSize
+    } else if (setLayout === "List") {
+      setLayout = "Card"
+    } else {       setLayout = "List" }
+
+    this.setState({
+      setLayout: setLayout,
+    });
+
+  } //End toggleTips  
+
   public toggleTips = (item: any): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
@@ -571,6 +598,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       heroTiles : newHeros,
       heroIds: heroIds,
       heroStatus: newHeros[0] ? "Ready" : "none",
+//      heroCategoryError: (this.props.showHero === true && this.props.heroType !== "none" && this.state.heroStatus === "none") ? true : false,
+      heroCategoryError: (this.props.showHero === true && this.props.heroType !== "none" && !newHeros[0]) ? true : false,
+      heroError: (this.props.showHero === true && this.props.heroType !== "none" && !newHeros[0]) ? true : false,
       heroCategory: currentHero,
       searchType: '',
       searchCount: newFiltered.length,
@@ -651,14 +681,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       console.log(e.status);
       console.log(e.message);
       let sendMessage = e.status + " - " + e.message;
-      this.setState({  loadStatus: "ListNotFound", loadError: e.message });
+      this.setState({  loadStatus: "ListNotFound", loadError: e.message, listError: true, });
   
     }
   
     private processResponse(response){
   
       if (response.length === 0){
-        this.setState({  loadStatus: "NoItemsFound"  });
+        this.setState({  loadStatus: "NoItemsFound", itemsError: true,  });
         return ;
       }
   
@@ -682,7 +712,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let pivotProps = this.props;
       let pivotState = this.state;
 
-
       let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
   
       let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection, pivotProps.heroCategory);
@@ -704,6 +733,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         pivotDefSelKey: defaultSelectedKey,
         loadStatus:"Ready",
         heroStatus: heroTiles[0] ? "Ready" : "none",
+//      heroCategoryError: (this.props.showHero === true && this.props.heroType !== "none" && this.state.heroStatus === "none") ? true : false,
+        heroCategoryError: (this.props.showHero === true && this.props.heroType !== "none" && !heroTiles[0]) ? true : false,
+        heroError: (this.props.showHero === true && this.props.heroType !== "none" && !heroTiles[0]) ? true : false,
         heroTiles : heroTiles,
         heroIds: heroIds,
         loadError: "",

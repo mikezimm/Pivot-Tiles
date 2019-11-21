@@ -21,6 +21,10 @@ export interface IPivotTilesState {
   loadError?: string;
   lookupColumns?: string[];
   showOtherTab?: boolean;
+  heroCategoryError?: boolean;
+  listError?: boolean;
+  itemsError?: boolean;
+  heroError?: boolean;
 
   searchType?: string;
   searchShow?: boolean;
@@ -32,5 +36,7 @@ export interface IPivotTilesState {
   items?:any[];
 
   listStaticName: string;
+
+  setLayout?: string;
 
 }

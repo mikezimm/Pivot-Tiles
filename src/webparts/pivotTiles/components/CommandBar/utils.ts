@@ -10,7 +10,10 @@ export class Utils {
       return [];
     }
     
-    public static getFarItems(toggleTips, minimize, searchMe, showAll) {
+    public static getFarItems(thisProps, thisState ,toggleTips, minimize, searchMe, showAll, toggleLayout) {
+      //console.log('getFarItems: thisProps', thisProps);
+      //console.log('getFarItems: thisState', thisState);
+
       return [
         {
           key: 'search',
@@ -48,9 +51,17 @@ export class Utils {
           ariaLabel: 'ShowAll',
           iconProps: {
             iconName: 'ClearFilter',
-
           },
           onClick: () => showAll()
+        },
+        {
+          key: 'layout',
+          name: '',
+          ariaLabel: 'Layout',
+          iconProps: {
+            iconName: ( thisProps.setLayout === "List" ? 'NumberedList' : thisProps.setLayout === "Card" ? "Tiles" : "GridViewSmall" ),
+          }, 
+          onClick: () => toggleLayout()
         },
         {
           key: 'tips',
@@ -58,9 +69,12 @@ export class Utils {
           ariaLabel: 'Tips',
           iconProps: {
             iconName: 'Help',
-          },
+            style: {color:( thisProps.commandClass.indexOf('warnTips') > -1 ? 'red' : '')},
+          }, 
           onClick: () => toggleTips()
         },
+
+
       ];
     }
 

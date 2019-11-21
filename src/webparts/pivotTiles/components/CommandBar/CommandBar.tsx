@@ -20,12 +20,15 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
           hovering: 10,
           visible:10
         };
-/*
-        console.log('Constructor: MyCommandBar');
+        /*
+                console.log('Constructor: MyCommandBar');
+                console.log(this.props);
+                console.log(this.state);
+        */
         console.log(this.props);
         console.log(this.state);
-*/
       }
+
 
     public render(): JSX.Element {
 
@@ -49,12 +52,14 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
             rootFocused : {backgroundColor: 'white',padding:'0px !important'},
             putting padding on role="menubar" class="ms-FocusZone css-50 ms-CommandBar root-47" does do it.
         */
+       //console.log(this.props);
+       //console.log(this.state);
         return (
           <CommandBarButton
             {...props}
             styles={{
               ...props.styles,
-              root: {backgroundColor: 'white',padding:'0px !important'},
+              root: {backgroundColor: 'white'  ,padding:'0px !important'},
               textContainer: { fontSize: 12 },
               icon: { 
                 fontSize: 18,
@@ -70,7 +75,7 @@ export default class MyCommandBar extends React.Component<ICommandBarProps, ICom
 //      const _utils = new Utils();
 //      let ttips = new this.props.toggleTips();
 //      let farItems = _utils.getFarItems(ttips);
-      let farItems = Utils.getFarItems(this.props.toggleTips, this.props.minimizeTiles, this.props.searchMe, this.props.showAll);
+      let farItems = Utils.getFarItems(this.props, this.state, this.props.toggleTips, this.props.minimizeTiles, this.props.searchMe, this.props.showAll, this.props.toggleLayout);
 
         return (
           <div className={ styles.container }>
