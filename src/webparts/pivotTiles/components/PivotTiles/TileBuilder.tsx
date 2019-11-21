@@ -234,6 +234,11 @@ export function oneTileBuilder(parentProps,parentState, tType, newTile ){
       imageHeight = {parentProps.imageHeight}
       textPadding = {parentProps.textPadding}
 
+      created = {newTile.created}
+      modified = {newTile.modified}
+      editor = {newTile.editor}
+      author = {newTile.Author}
+
       />;
 
     //      setImgFit={newTile.setRatio = '1x1'? 'portrait' : newTile.setImgFit}

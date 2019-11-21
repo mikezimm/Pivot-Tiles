@@ -43,4 +43,9 @@ export interface IPivotTileItemProps {
   
   parentCat?:string;
 
+  modified: string;
+  created: string;
+  editor: string;
+  author: string;
+
 }
