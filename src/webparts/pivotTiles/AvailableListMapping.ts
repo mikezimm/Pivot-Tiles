@@ -38,6 +38,9 @@
     public choiceUnk: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
         {   index: 9,   key: 'none', text: "Unknown"  };
 
+    public choiceTestDateCat: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+    {   index: 9,   key: 'TestDateCatLibrary', text: "TestImages Date Category"  };
+
     public getListColumns (findMe) :any {
         let listMap = {};
 
@@ -175,7 +178,7 @@
             "setFilter": "",
             "setTab": "Steps",
         };
-        
+          
     } else if (findMe === 'TestImagesLibrary') {
         listMap = {
             "testSite" : "",
@@ -196,6 +199,28 @@
             },
             "setFilter": "",
             "setTab": "Mike zimmerman",
+        };
+
+    } else if (findMe === 'TestDateCatLibrary') {
+        listMap = {
+            "testSite" : "",
+            "listDef" : "TestDateCatLibrary",
+            "listDisplay" : "TestImages",
+            "listName" : "TestImages",
+            "tabDefault" : false,
+            "listMapping" : {
+                "colTitleText" : "File/Name",
+                "colHoverText" : "Editor/Title",
+                "colCategory" : "DateCol",
+                "colColor" : "",
+                "colSize" : "",
+                "colGoToLink" : "File/ServerRelativeUrl",
+                "colOpenBehaviour" : "",
+                "colImageLink" : "File/ServerRelativeUrl",
+                "colSort" : ""
+            },
+            "setFilter": "",
+            "setTab": "2020",
         };
     } else if (findMe === 'PolicyLibrary') {
         listMap = {
