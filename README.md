@@ -71,6 +71,7 @@ The web part has 3 built in configurations defined in the manifest.json file.
 
 
 ### ToDos:
+- [ ] Add prop pane prop to define format for dates for Tile Category and Title/Description.
 - [ ] Special Click to go into list mode, maybe one that toggles back and icon changes from list to grid.
 - [ ] Finalize ShowAll items icon... currently filter-x, maybe make it a pivot choice?
 - [ ] webPartProperty to pick Search Capability:  Dropdown - Visible, Collapsed, None (disabled)
@@ -90,8 +91,10 @@ The web part has 3 built in configurations defined in the manifest.json file.
 - [ ] What to do about Hero Carousel during search?
 
 
+
 - [x] Fix when Category columns are number arrays (like Author/ID):  done - PivotTiles\utils.ts: convertValues
 - [x] Fix TestImages listDefinition with multiple **Others** categories. done - PivotTiles\utils.ts: buildTileCategoriesFromResponse
+- [x] Add way to convert dates in Tile Category to Year or Month.
 
 ### Create log:
 * Copied prop pane strings/interface/props from SPFx Properties Formulas Apr 30 - Editable.xlsx (5 places).

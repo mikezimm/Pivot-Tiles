@@ -57,8 +57,30 @@ export default class Utils {
       const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
       var itemVal :any ;
       if (theseProps[getProp].indexOf("/") < 0) {
+
         if (item[theseProps[getProp]]) {
+
           itemVal = item[theseProps[getProp]];
+
+          if (getProp === 'colCategory'){
+            //Check for date value and then convert to bucket
+            let check4Date = Date.parse(itemVal);
+            //console.log('check4Date: ', check4Date);
+            //console.log('check4Date type: ', typeof check4Date);
+            //console.log('check4Date isNaN: ', isNaN(check4Date));   
+
+            if (isNaN(check4Date)){
+              //This is not a date, do nothing
+            } else { //This is a date, convert it to a group of dates like year
+              var d = new Date(itemVal);
+              itemVal = d.getFullYear();
+            }
+
+          }
+
+  
+
+
           itemVal = convertValues(itemVal);
           return itemVal;
         } else { return ""; } 
@@ -190,6 +212,7 @@ export default class Utils {
 
         } else {
           //Test as Lookup column (which is not an array but only one value)
+     
           if(tileCategories.indexOf(tile.category) === -1) {
             tileCategories.push(tile.category);
           }
