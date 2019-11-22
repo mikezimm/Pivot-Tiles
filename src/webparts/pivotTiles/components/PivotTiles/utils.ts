@@ -52,11 +52,28 @@ export default class Utils {
         return itemVal;
       }
 
-      const leftSide = Utils.parseMe(theseProps[getProp],"/",'left');
-      const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
+      let isWebPartColProp = (theseProps[getProp]) ? true : false; 
       var itemVal :any ;
-      if (theseProps[getProp].indexOf("/") < 0) {
 
+      if (!isWebPartColProp) {
+        //the property is NOT a web part prop (but predefined one like Modified)
+        //Therefore assume it is a Category and check if it's a date
+
+        itemVal = item[getProp];
+
+        let check4Date = Date.parse(itemVal);
+
+        if (isNaN(check4Date)){
+          //This is not a date, do nothing
+        } else { //This is a date, convert it to a group of dates like year
+          var d = new Date(itemVal);
+          itemVal = d.getFullYear();
+        }
+
+        return itemVal;
+
+      } else if (theseProps[getProp].indexOf("/") < 0) {
+        //the property does not have a / so you do want to check for a date.
         if (item[theseProps[getProp]]) {
 
           itemVal = item[theseProps[getProp]];
@@ -81,6 +98,10 @@ export default class Utils {
           return itemVal;
         } else { return ""; } 
       } else {
+        //console.log('getColumnValue: ', getProp, theseProps[getProp]);
+        const leftSide =  Utils.parseMe(theseProps[getProp],"/",'left');
+        const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
+
         if (item[leftSide]) {
           itemVal = item[leftSide][rightSide];
           itemVal = convertValues(itemVal);
@@ -159,8 +180,8 @@ export default class Utils {
       setImgCover: pivotProps.setImgCover,
       onHoverZoom: pivotProps.onHoverZoom,
 
-      modified: item.Modified,
-      created: item.Created,
+      modified: getColumnValue(pivotProps,item,'Modified'),
+      created: getColumnValue(pivotProps,item,'Created'),
       createdByTitle: item['Author']['Title'],
       modifiedByTitle: item['Editor']['Title'],
       createdByID: item['Author']['ID'].toString(),
@@ -186,9 +207,10 @@ export default class Utils {
     }
   }
 
-  public static buildTileCategoriesFromResponse(pivotProps, response, currentHero ){
+  public static buildTileCategoriesFromResponse(pivotProps, response, currentHero, thisCatColumn ){
 
     let tileCategories = [];
+    let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
 
     let splitCol = pivotProps.colCategory.split("/");
     let leftSide = splitCol[0];
@@ -200,6 +222,12 @@ export default class Utils {
         //This allows it to skip if the tile category is empty or blank
       } else if (tile.category[0] === pivotProps.otherTab) {
         //Skip because this one was assigned the "Others" category
+      } else if (!usingDefinedCategoryColumn) {
+        //This is an alternate cateogry column so heroCategory and /Props are ignored because they are already flattened.
+        if(tileCategories.indexOf(tile[thisCatColumn]) === -1) {
+          tileCategories.push(tile[thisCatColumn]);
+        }
+
       } else {
 
         const isArray = typeof(tile.category);

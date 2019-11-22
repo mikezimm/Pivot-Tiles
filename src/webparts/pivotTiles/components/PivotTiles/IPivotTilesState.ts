@@ -40,5 +40,10 @@ export interface IPivotTilesState {
   listStaticName: string;
 
   setLayout?: string;
+  
+  colCategory: string;
+
+  thisCatColumn: string;
+
 
 }
