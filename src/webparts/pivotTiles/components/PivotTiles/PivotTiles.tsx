@@ -55,6 +55,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       showOtherTab: false,
       heroCategory: this.props.heroCategory,
       searchShow: true,
+      shuffleShow: true,
       searchCount: 0,
       searchWhere: '',
       searchType: '',
@@ -206,6 +207,29 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <br/>
           {/*https://developer.microsoft.com/en-us/fabric#/controls/web/searchbox*/}
           <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
+            <div className={styles.quickTabsGroup}>
+              <div className={styles.quickTabsLable}>
+                { 'Change Pivots' }
+              </div>
+              <div className={styles.quickTabsCat}>
+                { this.props.colCategory }
+              </div>
+              <div className={styles.quickTabs}>
+                { 'Modified' }
+              </div>
+              <div className={styles.quickTabs}>
+                { 'Created' }
+              </div>
+              <div className={styles.quickTabs}>
+                { 'Modified By' }
+              </div>
+              <div className={styles.quickTabs}>
+                { 'Created By' }
+              </div>
+              { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
+            </div>
+          </div>
+          <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
             <SearchBox
               className={styles.searchBox}
               styles={{ root: { maxWidth: 300 } }}
@@ -215,6 +239,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               onBlur={ () => console.log('onBlur called') }
               onChange={ this.searchForItems.bind(this) }
             />
+
+
             <div className={styles.searchStatus}>
               { 'Searching about ' + this.state.searchCount + ' items' + this.state.searchWhere }
               { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
@@ -633,8 +659,25 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let allColumns = this.getKeysLike(this.props,"col","Begins");
       let expColumns = this.getExpandColumns(allColumns);
       let selColumns = this.getSelectColumns(allColumns);
-  
-  
+
+      console.log('expColumns', expColumns);
+      console.log('selColumns', selColumns);
+/*
+  */
+      // expColumns are the root columns required to be expanded
+//      if (expColumns.indexOf("Modified") < 0) { expColumns.push("Modified") }
+//      if (expColumns.indexOf("Created") < 0) { expColumns.push("Created") }
+      if (expColumns.indexOf("Editor") < 0) { expColumns.push("Editor") }
+      if (expColumns.indexOf("Author") < 0) { expColumns.push("Author") }
+
+      // selColumns are all the columns that need to be fetched
+//      if (selColumns.indexOf("Modified") < 0) { selColumns.push("Modified") }
+//      if (selColumns.indexOf("Created") < 0) { selColumns.push("Created") }
+      if (selColumns.indexOf("Editor/Title") < 0) { selColumns.push("Editor/Title") }
+      if (selColumns.indexOf("Author/Title") < 0) { selColumns.push("Author/Title") }
+      if (selColumns.indexOf("Editor/ID") < 0) { selColumns.push("Editor/ID") }
+      if (selColumns.indexOf("Author/ID") < 0) { selColumns.push("Author/ID") }
+
       selColumns.length > 0 ? selectCols += "," + selColumns.join(",") : selectCols = selectCols;
       if (expColumns.length > 0) { expandThese = expColumns.join(","); }
   
@@ -713,7 +756,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let pivotState = this.state;
 
       let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
-  
+      console.log('tileCollection: ', tileCollection);
+
       let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection, pivotProps.heroCategory);
       
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);

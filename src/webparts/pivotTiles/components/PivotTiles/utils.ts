@@ -2,7 +2,6 @@
 
 export default class Utils {
 
-    
   public static convertCategoryToIndex(cat: string) {
     //https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript
     //string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
@@ -77,9 +76,6 @@ export default class Utils {
             }
 
           }
-
-  
-
 
           itemVal = convertValues(itemVal);
           return itemVal;
@@ -162,6 +158,13 @@ export default class Utils {
       setImgFit: pivotProps.setImgFit,
       setImgCover: pivotProps.setImgCover,
       onHoverZoom: pivotProps.onHoverZoom,
+
+      modified: item.Modified,
+      created: item.Created,
+      createdByTitle: item['Author']['Title'],
+      modifiedByTitle: item['Editor']['Title'],
+      createdByID: item['Author']['ID'].toString(),
+      modifiedByID: item['Editor']['ID'].toString(),
 
     }));
     //console.table("tileCollection");

@@ -31,6 +31,8 @@ export interface IPivotTilesState {
   searchCount?: number;
   searchWhere?: string;
 
+  shuffleShow?: boolean;
+
   endTime?: theTime;
 
   items?:any[];
