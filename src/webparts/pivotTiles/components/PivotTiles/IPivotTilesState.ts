@@ -31,6 +31,8 @@ export interface IPivotTilesState {
   searchCount?: number;
   searchWhere?: string;
 
+  shuffleShow?: boolean;
+
   endTime?: theTime;
 
   items?:any[];
@@ -38,5 +40,9 @@ export interface IPivotTilesState {
   listStaticName: string;
 
   setLayout?: string;
+  
+  colCategory: string;
+
+  thisCatColumn: string;
 
 }

@@ -55,6 +55,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       showOtherTab: false,
       heroCategory: this.props.heroCategory,
       searchShow: true,
+      shuffleShow: true,
       searchCount: 0,
       searchWhere: '',
       searchType: '',
@@ -64,6 +65,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       itemsError: false,
       heroError: false,
       setLayout: this.props.setSize,
+      colCategory: this.props.colCategory,
+      thisCatColumn: 'category',
     };
 
     // because our event handler needs access to the component, bind 
@@ -75,6 +78,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     this.searchMe = this.searchMe.bind(this);
     this.showAll = this.showAll.bind(this);
     this.toggleLayout = this.toggleLayout.bind(this);
+    this.onChangePivotClick = this.onChangePivotClick.bind(this);
     
   }
 
@@ -204,6 +208,32 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <div>
           </div>
           <br/>
+          <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
+            <div className={styles.quickTabsGroup}>
+
+              <div className={styles.quickTabsLable}>
+                { 'Change Pivots' }
+              </div>
+              { /* New Pivot for dynamic categories */ }
+              <Pivot 
+                style={{ flexGrow: 1, paddingLeft: '10px' }}
+                //linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
+                //linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
+                onLinkClick= { this.onChangePivotClick.bind(this) }  //{this.specialClick.bind(this)}
+                defaultSelectedKey={ this.props.colCategory }
+                headersOnly={true}>
+
+                  <PivotItem headerText={this.props.colCategory} itemKey={'category'}/>
+                  <PivotItem headerText={'Modified'} itemKey={'modified'}/>
+                  <PivotItem headerText={'Created'} itemKey={'created'}/>
+                  <PivotItem headerText={'Modified By'} itemKey={'modifiedByTitle'}/>
+                  <PivotItem headerText={'Created By'} itemKey={'createdByTitle'}/>
+              </Pivot>
+
+              { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
+            </div>
+          </div>
+
           {/*https://developer.microsoft.com/en-us/fabric#/controls/web/searchbox*/}
           <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
             <SearchBox
@@ -382,7 +412,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   } //End onClick
 
-  
+  public onChangePivotClick = (item): void => {
+    //This sends back the correct pivot category which matches the category on the tile.
+    let e: any = event;
+
+    this._updateStateOnPropsChange({
+      heroCategory: 'randDomTextIsNotACategory',
+      newCatColumn: item.props.itemKey,
+    });
+
+  } //End onClick
+
   private showAll = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
     let e: any = event;
@@ -752,6 +792,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
     }
 
+  /**
+   * This function gets the array of tiles that should be visible by removing the items that are in the heroTiles array
+   * @param thisProps 
+   * @param tileCollection 
+   * @param heroIds 
+   * @param heroTiles 
+   */
   private getNewFilteredTiles(thisProps, tileCollection, heroIds, heroTiles) {
 
     let newFilteredTiles = [];
@@ -773,7 +820,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return newFilteredTiles;
   }
 
-
+  /**
+   * This function will get all tiles where the category matches theseHeros
+   * @param thisProps 
+   * @param thisState 
+   * @param tileCollection 
+   * @param theseHeros 
+   */
   private getHeroTiles(thisProps, thisState, tileCollection, theseHeros) {
 
     let heroTiles = [];
@@ -795,6 +848,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   }
 
+    /**
+   * This function gets an array of the hero id's based on the array of heroTiles passed in
+   * @param heroTiles 
+   */
   private getHeroIds(heroTiles){
     let heroIds = [];
     if (heroTiles.length > 0){

@@ -36,7 +36,47 @@
 
   .searchStatus {
     @extend .floatRight;
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 60px;
     padding-right: 60px;
+    //text-align: right;
+  }
+
+  .quickTabsGroup {
+    @extend .floatRight;
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 10px;
+    //text-align: right;
+  }
+
+  //May not be neccessary
+  .quickTabsLable {
+    @extend .floatRight;
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 60px;
+    font-weight: 900;
+    //text-align: right;
+  }
+
+  .pivotRightPad {
+    padding-right: 60px;
+  }
+  .quickTabsCat {
+    @extend .floatRight;
+    display: inline-block;
+    white-space: nowrap;
+    padding-right: 60px;
+    //text-align: right;
+  }
+
+  .quickTabs {
+    @extend .quickTabs;
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 15px;
     //text-align: right;
   }
 
