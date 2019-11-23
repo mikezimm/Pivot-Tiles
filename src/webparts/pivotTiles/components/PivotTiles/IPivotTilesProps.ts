@@ -64,6 +64,15 @@ export interface IPivotTilesProps {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
+
+  //List column mapping - always available columns
+  colModified: string;
+  colModifiedById: string;
+  colModifiedByTitle: string;
+  colCreated: string;
+  colCreatedById: string;
+  colCreatedByTitle: string;
+
   
   //List based analytics properties
   analyticsList: string;

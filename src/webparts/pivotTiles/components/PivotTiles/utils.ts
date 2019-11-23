@@ -78,9 +78,6 @@ export default class Utils {
 
           }
 
-  
-
-
           itemVal = convertValues(itemVal);
           return itemVal;
         } else { return ""; } 
@@ -162,6 +159,13 @@ export default class Utils {
       setImgFit: pivotProps.setImgFit,
       setImgCover: pivotProps.setImgCover,
       onHoverZoom: pivotProps.onHoverZoom,
+
+      modified: (getColumnValue(pivotProps,item,'colModified')),
+      modifiedByID: (getColumnValue(pivotProps,item,'colModifiedById')),
+      modifiedByTitle: (getColumnValue(pivotProps,item,'colModifiedByTitle')),
+      created: (getColumnValue(pivotProps,item,'colCreated')),
+      createdByID: (getColumnValue(pivotProps,item,'colCreatedById')),
+      createdByTitle: (getColumnValue(pivotProps,item,'colCreatedByTitle')),
 
     }));
     //console.table("tileCollection");

@@ -112,6 +112,14 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         tenant: this.context.pageContext.web.absoluteUrl.replace(this.context.pageContext.web.serverRelativeUrl,""),
         urlVars: this.getUrlVars(),
 
+        //List column mapping - always available columns
+        colModified: "Modified",
+        colModifiedById: "Editor/ID",
+        colModifiedByTitle: "Editor/Title",
+        colCreated: "Created",
+        colCreatedById: "Author/ID",
+        colCreatedByTitle: "Author/Title",
+
       }
     );
 
