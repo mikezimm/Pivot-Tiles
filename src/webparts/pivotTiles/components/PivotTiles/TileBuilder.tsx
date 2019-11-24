@@ -83,7 +83,7 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
       minWidth: 30,
       maxWidth: 200
     },
-  ]
+  ];
   
 
   /**
@@ -109,7 +109,7 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
       //defaultFilter="John"
       filterPlaceHolder="Search..."
       //groupByFields={groupByFields}
-       />
+       />;
 
   return listView;
 

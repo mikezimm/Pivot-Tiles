@@ -1,7 +1,67 @@
 //Utils Concept from:  https://stackoverflow.com/questions/32790311/how-to-structure-utility-class
 
 import { getTheCurrentTime,} from '../../../../services/createAnalytics';
-import {tileTime} from '../TileItems/IPivotTileItemProps'
+import {tileTime} from '../TileItems/IPivotTileItemProps';
+
+interface IDateCategoryObject {
+  yr?: number;
+  mo?: number;
+  day?: number;
+  date?: number;
+  hr?: number;
+
+  age?: number;
+
+  yrMo?: string;
+  moDay?: string;
+
+  locDate?: string;
+  locTime?: string;
+
+  time?: Date;
+
+}
+
+interface IDateCategoryArrays {
+  yr: number[];
+  mo: number[];
+  day: number[];
+  date: number[];
+  hr: number[];
+
+  age: number[];
+
+  yrMo: string[];
+  moDay: string[];
+
+  locDate: string[];
+  locTime: string[];
+
+  time: Date[];
+
+}
+
+function createIDateCategoryArrays() {
+  let cats = {} as IDateCategoryArrays;
+  cats.yr = [];
+  cats.mo = [];
+  cats.day = [];
+  cats.date = [];
+  cats.hr = [];
+
+  cats.age = [];
+
+  cats.yrMo = [];
+  cats.moDay = [];
+
+  cats.locDate = [];
+  cats.locTime = [];
+
+  cats.time = [];
+
+  return cats;
+
+}
 
 export default class Utils {
 
@@ -10,7 +70,7 @@ export default class Utils {
     //https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript
     //string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
     console.log('convertCategoryToIndex', cat);
-    if (!cat) { return ""};
+    if (!cat) { return "";}
 
     const thisCat = cat.toString();
     if (thisCat == null) { return ""; }
@@ -132,33 +192,6 @@ export default class Utils {
       }
       return itemVal2;
     }
-
-    
-    let tileCats1 = [];
-    let tileCats2 = [];
-    let tileCats3 = [];
-/*
-    for (let tile of response) {
-      //This is an alternate cateogry column so heroCategory and /Props are ignored because they are already flattened.
-      let catValue = tile[thisCatColumn];
-      if(tileCategories.indexOf(catValue) === -1) {
-        tileCategories.push(catValue);
-      }
-      if (thisCatColumn === 'modified' || thisCatColumn === 'created'){
-        // add to array of years
-        let itemYr = catValue.getFullYear();
-        let itemMo = catValue.getFullMonth();
-        let itemDay = catValue.getFullDay();
-        let cat2 = itemYr + '-' + itemMo;
-        let cat3 = itemYr + '-' + itemMo;
-        if(tileCats1.indexOf(itemYr) === -1) { tileCats1.push(itemYr); }
-        // add to array of months
-
-        if(tileCats2.indexOf() === -1) { tileCats2.push(itemVal); }
-        // add to array of days
-        itemVal = itemVal + '-' + catValue.getFullMonth();
-        if(tileCats3.indexOf(itemVal) === -1) { tileCats3.push(itemVal); }
-*/
     
     /**
      * This just gets all the possible date labels so we can determine best one for pivots
@@ -167,44 +200,52 @@ export default class Utils {
      */
 
     function addDateVariations(item,col){
-      let result = item;
-      let tileTime : tileTime = {};
+      let newItem = item;
+
+      let tileTime = createIDateCategoryArrays();
       let thisTime = new Date(item[col]);
 
-      tileTime.time = thisTime;
-      tileTime.yr = thisTime.getFullYear();
-      tileTime.mo = thisTime.getMonth() + 1;
-      tileTime.date = thisTime.getDate();
-      tileTime.day = thisTime.getDay() + 1;
-      tileTime.hr = thisTime.getHours();
-      tileTime.locDate = thisTime.toLocaleDateString();
-      tileTime.locTime = thisTime.toLocaleTimeString();
-      tileTime.age = (pivotProps.startTime.now.valueOf() - thisTime.valueOf()) / (1000 * 60 * 60 *24 ) ;
-      let monthPrefix = (tileTime.mo < 10 ? '0' : '');
-      let datePrefix = (tileTime.date < 10 ? '0' : '');
-      tileTime.yrMo = tileTime.yr + '-' + monthPrefix + tileTime.mo;
-      tileTime.moDay = monthPrefix + tileTime.mo + '-' +  datePrefix + tileTime.date;
+      tileTime.time[0] = thisTime;
+      tileTime.yr[0] = thisTime.getFullYear();
+      tileTime.mo[0] = thisTime.getMonth() + 1;
+      tileTime.date[0] = thisTime.getDate();
+      tileTime.day[0] = thisTime.getDay() + 1;
+      tileTime.hr[0] = thisTime.getHours();
+      tileTime.locDate[0] = thisTime.toLocaleDateString();
+      tileTime.locTime[0] = thisTime.toLocaleTimeString();
+      tileTime.age[0] = (pivotProps.startTime.now.valueOf() - thisTime.valueOf()) / (1000 * 60 * 60 *24 ) ;
+      let monthPrefix = (tileTime.mo[0] < 10 ? '0' : '');
+      let datePrefix = (tileTime.date[0] < 10 ? '0' : '');
+      tileTime.yrMo[0] = tileTime.yr + '-' + monthPrefix + tileTime.mo;
+      tileTime.moDay[0] = monthPrefix + tileTime.mo + '-' +  datePrefix + tileTime.date;
       
-      result[col + 'Time'] = tileTime; 
-      
-      return result;
+      newItem[col + 'Time'] = tileTime; 
+
+      return newItem;
+
+    }
+  
+    function pushDatesToCategories(cats: IDateCategoryArrays, thisTime:IDateCategoryArrays ){
+      //This updates the possible new categories for this date column
+      let newCats = cats;
+      const allKeys = Object.keys(newCats);
+
+      for (let key of allKeys){
+        if(newCats[key].indexOf(thisTime[key][0]) === -1) { newCats[key].push(thisTime[key][0]); }
+      }
+      return newCats;
 
     }
 
-    let tileMod1 = [];
-    let tileMod2 = [];
-    let tileMod3 = [];
-    let tileMod4 = [];
-    let tileCre1 = [];
-    let tileCre2 = [];
-    let tileCre3 = [];
-    let tileCre4 = [];
+    let catsModified = createIDateCategoryArrays();
+    let catsCreated = createIDateCategoryArrays();
+
     let earlyestMod = new Date(2033,1,1);
     let latestMod = new Date(1999,1,1);
     let earlyestCre = new Date(2033,1,1);
     let latestCre = new Date(1999,1,1);
     let startTime = getTheCurrentTime();
-  
+
     // Get all date variations
     for (let item of response) {
 
@@ -213,28 +254,37 @@ export default class Utils {
         item.modifiedByTitle= (getColumnValue(pivotProps,item,'colModifiedByTitle'));
   
         item = addDateVariations(item,'modified');
-        if(tileMod1.indexOf(item.modifiedTime.yr) === -1) { tileMod1.push(item.modifiedTime.yr); }
-        if(tileMod2.indexOf(item.modifiedTime.mo) === -1) { tileMod2.push(item.modifiedTime.mo); }
-        if(tileMod3.indexOf(item.modifiedTime.yrMo) === -1) { tileMod3.push(item.modifiedTime.yrMo); }
-        if(tileMod4.indexOf(item.modifiedTime.moDay) === -1) { tileMod4.push(item.modifiedTime.moDay); }
+        catsModified = pushDatesToCategories(catsModified, item.modifiedTime);
 
-        if ( item.modifiedTime.time < earlyestMod )  { earlyestMod = item.modifiedTime.time }
-        if ( item.modifiedTime.time > latestMod )  { latestMod = item.modifiedTime.time } 
+        if ( item.modifiedTime.time < earlyestMod )  { earlyestMod = item.modifiedTime.time; }
+        if ( item.modifiedTime.time > latestMod )  { latestMod = item.modifiedTime.time; } 
   
         item.created= (getColumnValue(pivotProps,item,'colCreated'));
         item.createdByID= (getColumnValue(pivotProps,item,'colCreatedById'));
         item.createdByTitle= (getColumnValue(pivotProps,item,'colCreatedByTitle'));
   
         item = addDateVariations(item,'created');
-        if(tileCre1.indexOf(item.createdTime.yr) === -1) { tileCre1.push(item.createdTime.yr); }
-        if(tileCre2.indexOf(item.createdTime.mo) === -1) { tileCre2.push(item.createdTime.mo); }
-        if(tileCre3.indexOf(item.createdTime.yrMo) === -1) { tileCre3.push(item.createdTime.yrMo); }
-        if(tileCre4.indexOf(item.createdTime.moDay) === -1) { tileCre4.push(item.createdTime.moDay); }
+        catsCreated = pushDatesToCategories(catsCreated, item.createdTime);
 
-        if ( item.createdTime.time < earlyestCre )  { earlyestCre = item.createdTime.time }
-        if ( item.createdTime.time > latestCre )  { latestCre = item.createdTime.time } 
+        if ( item.createdTime.time < earlyestCre )  { earlyestCre = item.createdTime.time ; }
+        if ( item.createdTime.time > latestCre )  { latestCre = item.createdTime.time ; } 
 
     }
+
+    function findBestDateCategory(cats: IDateCategoryArrays, maxPivotChars : number) {
+      let newCats = cats;
+      //const allKeys = Object.keys(newCats);
+
+      let allCreatedOnSameDay = (cats.locDate.length = 1 ) ? true : false;
+      let allCreatedInSameMonth = (cats.yrMo.length = 1 ) ? true : false;
+      let allCreatedInSameYear = (cats.yr.length = 1 ) ? true : false;    
+      let allDatesFitOnPivot = (cats.locDate.join('     ').length < maxPivotChars) ? true : false;
+
+      return newCats;
+
+    }
+
+
 
     // on my home PC, for 649 items x 3000 loops it took 30 seconds.
 
@@ -243,6 +293,9 @@ export default class Utils {
     let createdRange = (latestCre.getTime() - earlyestCre.getTime()) / (1000*60*60*24);
 
     console.log('response', response);
+    console.log('catsModified',catsModified);
+    console.log('catsCreated',catsCreated);
+
     console.log('earlyestCre', earlyestCre);
     console.log('earlyestMod', earlyestMod);
     console.log('latestCre', latestCre);
@@ -250,18 +303,8 @@ export default class Utils {
     console.log('modifiedRange', modifiedRange);
     console.log('createdRange', createdRange);    
 
-    console.log('process time', startTime, endTime);
+    //console.log('process time', startTime, endTime);
 
-    //console.log('response', response);
-    console.log('tileMod1', tileMod1);
-    console.log('tileMod2', tileMod2);
-    console.log('tileMod3', tileMod3);
-    console.log('tileMod4', tileMod4);
-
-    console.log('tileCre1', tileCre1);
-    console.log('tileCre2', tileCre2);
-    console.log('tileCre3', tileCre3);
-    console.log('tileCre4', tileCre4);
 
 
     //console.log('pivotProps', pivotProps, response );
@@ -321,10 +364,10 @@ export default class Utils {
       setImgCover: pivotProps.setImgCover,
       onHoverZoom: pivotProps.onHoverZoom,
 
-      modified: (getColumnValue(pivotProps,item,'colModified')),
+      modified: item.modified,
       modifiedByID: (getColumnValue(pivotProps,item,'colModifiedById')),
       modifiedByTitle: (getColumnValue(pivotProps,item,'colModifiedByTitle')),
-      created: (getColumnValue(pivotProps,item,'colCreated')),
+      created: item.created,
       createdByID: (getColumnValue(pivotProps,item,'colCreatedById')),
       createdByTitle: (getColumnValue(pivotProps,item,'colCreatedByTitle')),
       modifiedTime: item.modifiedTime,

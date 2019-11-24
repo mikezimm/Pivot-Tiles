@@ -44,6 +44,7 @@ export interface IPivotTilesProps {
   setPivFormat: string;
   setPivOptions: string[];
   otherTab: string;
+  maxPivotChars: number;
   
   //List primary settings
   listDefinition: string;

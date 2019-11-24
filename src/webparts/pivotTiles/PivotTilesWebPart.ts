@@ -85,6 +85,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,
         otherTab: this.properties.otherTab,
+        maxPivotChars: 30,
 
         setPivSize: this.properties.setPivSize,
         setPivFormat: this.properties.setPivFormat,
