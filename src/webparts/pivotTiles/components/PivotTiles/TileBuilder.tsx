@@ -236,6 +236,8 @@ export function oneTileBuilder(parentProps,parentState, tType, newTile ){
 
       created = {newTile.created}
       modified = {newTile.modified}
+      modifiedTime = {newTile.modifiedTime}
+      createdTime = {newTile.createdTime}
       editor = {newTile.editor}
       author = {newTile.Author}
 

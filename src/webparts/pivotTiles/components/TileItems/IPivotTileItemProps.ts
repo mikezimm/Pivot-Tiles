@@ -1,6 +1,24 @@
 //Category may need to be defined optionally here
 //https://www.logicbig.com/tutorials/misc/typescript/interface-to-describe-object-with-optional-properties.html
 
+
+export interface tileTime {
+  time?: Date;
+  yr? : number;
+  mo? : number;
+  date? : number;
+  day? : number;
+  hr?: number;
+  locDate?: string;
+  locTime?: string;
+  age?: number;
+  ageCat?: string;
+  yrMo?: string;
+  moDay?: string;
+
+}
+
+
 export interface IPivotTileItemProps {
 
   //Main webpart properties
@@ -43,6 +61,8 @@ export interface IPivotTileItemProps {
   
   parentCat?:string;
 
+  modifiedTime: tileTime;
+  createdTime: tileTime;
   modified: string;
   created: string;
   editor: string;

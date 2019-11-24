@@ -208,7 +208,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <div>
           </div>
           <br/>
-          <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
+          <div className={[styles.floatLeft,styles.padLeft20,( this.state.shuffleShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
             <div className={styles.quickTabsGroup}>
 
               <div className={styles.quickTabsLable}>
@@ -382,11 +382,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     //This sends back the correct pivot category which matches the category on the tile.
     let e: any = event;
 
-    if (e.shiftKey && e.altKey && e.ctrlKey) {
-
+    if (e.ctrlKey) {
+      //Set clicked pivot as the hero pivot
       this._updateStateOnPropsChange({heroCategory: item.props.headerText});
 
+    } else if (e.altKey) {
+      //Enable-disable ChangePivots options
+      this.setState({
+        shuffleShow: !this.state.shuffleShow,
+      });
+
     } else {
+            //Filter tiles per clicked category
       let newFilteredTiles = [];
       for (let thisTile of this.state.allTiles) {
         if(thisTile.category.indexOf(item.props.headerText) > -1) {
@@ -522,6 +529,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   //http://react.tips/how-to-create-reactjs-components-dynamically/ - based on createImage
   public createPivot(pivT) {
+    console.log('createPivot: ', pivT);
     const thisItemKey :string = Utils.convertCategoryToIndex(pivT);
       return (
         <PivotItem headerText={pivT} itemKey={thisItemKey}/>
@@ -554,7 +562,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   private _updateStateOnPropsChange(params: any ): void {
 
     console.log('params: heroCategory', params);
-
+    let thisCatColumn = params.newCatColumn ? params.newCatColumn : 'category';
     let currentHero = (params.heroCategory) ? params.heroCategory : this.props.heroCategory;
 
     console.log('params: currentHero', currentHero);
@@ -565,15 +573,15 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let pivotState = this.state;
     let newHeros = this.getHeroTiles(pivotProps, pivotState, newCollection, currentHero);
     let heroIds = this.getHeroIds(newHeros);
-    let newFiltered = this.getNewFilteredTiles(pivotProps, newCollection, heroIds, newHeros);
+    let newFiltered = this.getNewFilteredTiles(pivotProps, newCollection, heroIds, newHeros, thisCatColumn);
 
-    let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, newCollection, currentHero);
+    let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, newCollection, currentHero, thisCatColumn);
 
     const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
     const defaultSelectedKey = defaultSelectedIndex.toString();
 
     for (let thisTile of newCollection) {
-      thisTile.setTab = this.props.setTab;
+      thisTile.setTab = (thisCatColumn === 'category' ? this.props.setTab : 'newDefaultTab');
       thisTile.setSize = this.props.setSize;
       thisTile.heroType = this.props.heroType;
       thisTile.setRatio = this.props.setRatio;
@@ -582,7 +590,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     }
 
     for (let thisTile of newFiltered) {
-      thisTile.setTab = this.props.setTab;
+      thisTile.setTab = (thisCatColumn === 'category' ? this.props.setTab : 'newDefaultTab');
       thisTile.setSize = this.props.setSize;
       thisTile.heroType = this.props.heroType;
       thisTile.setRatio = this.props.setRatio;
@@ -619,7 +627,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     if (newHeros[0]) {
       for (let thisTile of newHeros) {
-        thisTile.setTab = this.props.setTab;
+        thisTile.setTab = (thisCatColumn === 'category' ? this.props.setTab : 'newDefaultTab');
         thisTile.setSize = heroSize;
         thisTile.heroType = this.props.heroType;
         thisTile.setRatio = heroRatio;
@@ -754,7 +762,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
       let tileCollection = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
   
-      let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection, pivotProps.heroCategory);
+      console.log('tileCollection: ', tileCollection);
+      let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, tileCollection, pivotProps.heroCategory, 'category');
       
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
       const defaultSelectedKey = defaultSelectedIndex.toString();
@@ -763,7 +772,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
       let heroIds = this.getHeroIds(heroTiles);
   
-      let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles);
+      let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles, 'category');
 
       this.setState({
         allTiles:tileCollection,
@@ -799,13 +808,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
    * @param heroIds 
    * @param heroTiles 
    */
-  private getNewFilteredTiles(thisProps, tileCollection, heroIds, heroTiles) {
+  private getNewFilteredTiles(thisProps, tileCollection, heroIds, heroTiles, thisCatColumn) {
 
     let newFilteredTiles = [];
+    let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
     for (let thisTile of tileCollection) {
       const isNumber = typeof(thisTile.category);
       console.log('isNumber',isNumber);
       if (isNumber === 'number'){
+
+      } else if ( !usingDefinedCategoryColumn ) {
+        newFilteredTiles.push(thisTile);
 
       } else if(thisTile.category.indexOf(thisProps.setTab) > -1) {
 
