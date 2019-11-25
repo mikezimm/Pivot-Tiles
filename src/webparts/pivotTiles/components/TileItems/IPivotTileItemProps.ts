@@ -68,4 +68,9 @@ export interface IPivotTileItemProps {
   editor: string;
   author: string;
 
+  //These are only added to pass information back from building initial tile collection in the first tile
+  bestCreatedFormat?: string;
+  bestModifiedFormat?: string;
+  bestCategoryFormat?: string;
+
 }

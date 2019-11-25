@@ -2,25 +2,7 @@
 
 import { getTheCurrentTime,} from '../../../../services/createAnalytics';
 import {tileTime} from '../TileItems/IPivotTileItemProps';
-
-interface IDateCategoryObject {
-  yr?: number;
-  mo?: number;
-  day?: number;
-  date?: number;
-  hr?: number;
-
-  age?: number;
-
-  yrMo?: string;
-  moDay?: string;
-
-  locDate?: string;
-  locTime?: string;
-
-  time?: Date;
-
-}
+import { getLocalMonths } from '../../../../services/dateServices';
 
 interface IDateCategoryArrays {
   yr: number[];
@@ -39,9 +21,23 @@ interface IDateCategoryArrays {
 
   time: Date[];
 
+  bestFormat: string[];
+
+}
+
+interface IDateInfo {
+    range?: number;
+    note?: string;
+    latest?: Date;
+    earliest?: Date;
+    bestAgeBucket?: string;
+    bestFormat?: string;
+    cats : IDateCategoryArrays;
+
 }
 
 function createIDateCategoryArrays() {
+  let result = {} as IDateInfo;
   let cats = {} as IDateCategoryArrays;
   cats.yr = [];
   cats.mo = [];
@@ -59,7 +55,20 @@ function createIDateCategoryArrays() {
 
   cats.time = [];
 
-  return cats;
+  cats.bestFormat = [];
+
+  result = {
+    range: null,
+    note: null,
+    latest: null,
+    earliest: null,
+    bestAgeBucket: null,
+    bestFormat: null,
+    cats: cats,
+  }
+  
+  return result;
+
 
 }
 
@@ -69,7 +78,7 @@ export default class Utils {
   public static convertCategoryToIndex(cat: string) {
     //https://stackoverflow.com/questions/6555182/remove-all-special-characters-except-space-from-a-string-using-javascript
     //string = string.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-    console.log('convertCategoryToIndex', cat);
+    //console.log('convertCategoryToIndex', cat);
     if (!cat) { return "";}
 
     const thisCat = cat.toString();
@@ -95,10 +104,8 @@ export default class Utils {
 //           let tileCollection = response.map(item=>new ClassTile(item));
 //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
 
-
-    //console.table(pivotProps);
-    //console.table(response);
-
+    const monthCats = getLocalMonths('en-us','short');
+    const one_day = 1000 * 60 * 60 * 24;
     /**
      * This gets the values of specified columns including if they are expanded.
      * @param theseProps 
@@ -205,19 +212,19 @@ export default class Utils {
       let tileTime = createIDateCategoryArrays();
       let thisTime = new Date(item[col]);
 
-      tileTime.time[0] = thisTime;
-      tileTime.yr[0] = thisTime.getFullYear();
-      tileTime.mo[0] = thisTime.getMonth() + 1;
-      tileTime.date[0] = thisTime.getDate();
-      tileTime.day[0] = thisTime.getDay() + 1;
-      tileTime.hr[0] = thisTime.getHours();
-      tileTime.locDate[0] = thisTime.toLocaleDateString();
-      tileTime.locTime[0] = thisTime.toLocaleTimeString();
-      tileTime.age[0] = (pivotProps.startTime.now.valueOf() - thisTime.valueOf()) / (1000 * 60 * 60 *24 ) ;
-      let monthPrefix = (tileTime.mo[0] < 10 ? '0' : '');
-      let datePrefix = (tileTime.date[0] < 10 ? '0' : '');
-      tileTime.yrMo[0] = tileTime.yr + '-' + monthPrefix + tileTime.mo;
-      tileTime.moDay[0] = monthPrefix + tileTime.mo + '-' +  datePrefix + tileTime.date;
+      tileTime.cats.time[0] = thisTime;
+      tileTime.cats.yr[0] = thisTime.getFullYear();
+      tileTime.cats.mo[0] = thisTime.getMonth() + 1;
+      tileTime.cats.date[0] = thisTime.getDate();
+      tileTime.cats.day[0] = thisTime.getDay() + 1;
+      tileTime.cats.hr[0] = thisTime.getHours();
+      tileTime.cats.locDate[0] = thisTime.toLocaleDateString();
+      tileTime.cats.locTime[0] = thisTime.toLocaleTimeString();
+      tileTime.cats.age[0] = (pivotProps.startTime.now.valueOf() - thisTime.valueOf()) / ( one_day ) ;
+      let monthPrefix = (tileTime.cats.mo[0] < 10 ? '0' : '');
+      let datePrefix = (tileTime.cats.date[0] < 10 ? '0' : '');
+      tileTime.cats.yrMo[0] = tileTime.cats.yr + '-' + monthPrefix + tileTime.cats.mo;
+      tileTime.cats.moDay[0] = monthPrefix + tileTime.cats.mo + '-' +  datePrefix + tileTime.cats.date;
       
       newItem[col + 'Time'] = tileTime; 
 
@@ -230,20 +237,25 @@ export default class Utils {
       let newCats = cats;
       const allKeys = Object.keys(newCats);
 
+      //console.log('cats',cats);
+      //console.log('allKeys',allKeys);
       for (let key of allKeys){
-        if(newCats[key].indexOf(thisTime[key][0]) === -1) { newCats[key].push(thisTime[key][0]); }
+        if(newCats[key].indexOf(thisTime['cats'][key][0]) === -1) { newCats[key].push(thisTime['cats'][key][0]); }
       }
       return newCats;
 
     }
 
-    let catsModified = createIDateCategoryArrays();
-    let catsCreated = createIDateCategoryArrays();
+    let modifiedInfo = createIDateCategoryArrays();
+    let createdInfo = createIDateCategoryArrays();
+    let categoryInfo = createIDateCategoryArrays();
 
-    let earlyestMod = new Date(2033,1,1);
-    let latestMod = new Date(1999,1,1);
-    let earlyestCre = new Date(2033,1,1);
-    let latestCre = new Date(1999,1,1);
+    createdInfo.earliest = new Date(2033,1,1);
+    createdInfo.latest = new Date(1999,1,1);
+
+    modifiedInfo.earliest = new Date(2033,1,1);
+    modifiedInfo.latest = new Date(1999,1,1);
+
     let startTime = getTheCurrentTime();
 
     // Get all date variations
@@ -254,60 +266,65 @@ export default class Utils {
         item.modifiedByTitle= (getColumnValue(pivotProps,item,'colModifiedByTitle'));
   
         item = addDateVariations(item,'modified');
-        catsModified = pushDatesToCategories(catsModified, item.modifiedTime);
+        modifiedInfo.cats = pushDatesToCategories(modifiedInfo.cats, item.modifiedTime);
 
-        if ( item.modifiedTime.time < earlyestMod )  { earlyestMod = item.modifiedTime.time; }
-        if ( item.modifiedTime.time > latestMod )  { latestMod = item.modifiedTime.time; } 
+        if ( item.modifiedTime.cats.time[0] < modifiedInfo.earliest )  { modifiedInfo.earliest = item.modifiedTime.cats.time[0]; }
+        if ( item.modifiedTime.cats.time[0] > modifiedInfo.latest )  { modifiedInfo.latest = item.modifiedTime.cats.time[0]; } 
   
         item.created= (getColumnValue(pivotProps,item,'colCreated'));
         item.createdByID= (getColumnValue(pivotProps,item,'colCreatedById'));
         item.createdByTitle= (getColumnValue(pivotProps,item,'colCreatedByTitle'));
   
         item = addDateVariations(item,'created');
-        catsCreated = pushDatesToCategories(catsCreated, item.createdTime);
+        createdInfo.cats = pushDatesToCategories(createdInfo.cats, item.createdTime);
 
-        if ( item.createdTime.time < earlyestCre )  { earlyestCre = item.createdTime.time ; }
-        if ( item.createdTime.time > latestCre )  { latestCre = item.createdTime.time ; } 
+        if ( item.createdTime.cats.time[0] < createdInfo.earliest )  { createdInfo.earliest = item.createdTime.cats.time[0] ; }
+        if ( item.createdTime.cats.time[0] > createdInfo.latest )  { createdInfo.latest = item.createdTime.cats.time[0] ; } 
 
     }
 
     function findBestDateCategory(cats: IDateCategoryArrays, maxPivotChars : number) {
-      let newCats = cats;
       //const allKeys = Object.keys(newCats);
 
-      let allCreatedOnSameDay = (cats.locDate.length = 1 ) ? true : false;
-      let allCreatedInSameMonth = (cats.yrMo.length = 1 ) ? true : false;
-      let allCreatedInSameYear = (cats.yr.length = 1 ) ? true : false;    
+      let allDatesOnSameDay = (cats.locDate.length === 1 ) ? true : false;
+      let allDatesInSameMonth = (cats.yrMo.length === 1 ) ? true : false;
+      let allDatesInSameYear = (cats.yr.length === 1 ) ? true : false;    
       let allDatesFitOnPivot = (cats.locDate.join('     ').length < maxPivotChars) ? true : false;
+      let allMonthsFitOnPivot = (cats.yrMo.join('     ').length < maxPivotChars) ? true : false;
+      let allTimesFitOnPivot = (cats.locTime.join('     ').length < maxPivotChars) ? true : false;
+      let allHoursFitOnPivot = (cats.hr.join('     ').length < maxPivotChars) ? true : false;
 
-      return newCats;
+      if ( allDatesOnSameDay && allTimesFitOnPivot ) { return 'locTime' ; }
+      if ( allDatesOnSameDay && allHoursFitOnPivot ) { return 'hr' ; }
+      if ( allDatesFitOnPivot ) { return 'locDate' ; }
+      if ( allMonthsFitOnPivot && allDatesInSameYear ) { return 'mo' ; }
+      if ( allMonthsFitOnPivot ) { return 'yrMo' ; }
+
+      return 'yr';
 
     }
 
+    modifiedInfo.range = (Math.round(modifiedInfo.latest.getTime() - modifiedInfo.earliest.getTime()) / (one_day));
+    createdInfo.range = (Math.round(createdInfo.latest.getTime() - createdInfo.earliest.getTime()) / (one_day));
 
+    createdInfo.bestFormat = findBestDateCategory(createdInfo.cats, pivotProps.maxPivotChars);
+    modifiedInfo.bestFormat = findBestDateCategory(modifiedInfo.cats, pivotProps.maxPivotChars);
+    let bestCategoryFormat = 'unknownMZ';
+
+    console.log('modifiedInfo.bestFormat',modifiedInfo.bestFormat);
+    console.log('createdInfo.bestFormat',createdInfo.bestFormat);
+    for (let item of response) {
+      item.created = item.createdTime.cats[createdInfo.bestFormat][0];
+      item.createdTime.cats.bestFormat[0] = createdInfo.bestFormat;
+      item.modified = item.modifiedTime.cats[modifiedInfo.bestFormat][0];
+      item.modifiedTime.cats.bestFormat[0] = modifiedInfo.bestFormat;
+    }
 
     // on my home PC, for 649 items x 3000 loops it took 30 seconds.
 
     let endTime = getTheCurrentTime();
-    let modifiedRange = (latestMod.getTime() - earlyestMod.getTime()) / (1000*60*60*24);
-    let createdRange = (latestCre.getTime() - earlyestCre.getTime()) / (1000*60*60*24);
 
     console.log('response', response);
-    console.log('catsModified',catsModified);
-    console.log('catsCreated',catsCreated);
-
-    console.log('earlyestCre', earlyestCre);
-    console.log('earlyestMod', earlyestMod);
-    console.log('latestCre', latestCre);
-    console.log('latestMod', latestMod);
-    console.log('modifiedRange', modifiedRange);
-    console.log('createdRange', createdRange);    
-
-    //console.log('process time', startTime, endTime);
-
-
-
-    //console.log('pivotProps', pivotProps, response );
 
     let tileCollection = response.map(item => ({
 
@@ -376,7 +393,12 @@ export default class Utils {
     }));
     //console.table("tileCollection");
     //console.table(tileCollection);
-    return tileCollection;
+    return {
+      tileCollection: tileCollection,
+      createdInfo: createdInfo,
+      modifiedInfo: modifiedInfo,
+      categoryInfo: categoryInfo,
+    }
 
   }
 
@@ -398,10 +420,6 @@ export default class Utils {
     let tileCategories = [];
     let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
     if (!usingDefinedCategoryColumn) {
-      let tileCats1 = [];
-      let tileCats2 = [];
-      let tileCats3 = [];
-
 
     } else {
 

@@ -72,6 +72,7 @@ The web part has 3 built in configurations defined in the manifest.json file.
 
 ### ToDos:
 - [ ] Add way to re-do categories to some basic options like Modified, Created dates/users.
+- [ ] Add Age categories.
 - [ ] Add prop pane prop to define format for dates for Tile Category and Title/Description.
 - [ ] Special Click to go into list mode, maybe one that toggles back and icon changes from list to grid.
 - [ ] Finalize ShowAll items icon... currently filter-x, maybe make it a pivot choice?
