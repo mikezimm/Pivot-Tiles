@@ -253,6 +253,20 @@ export default class Utils {
 
     }
 
+    function sortAllDateCategories(cats: IDateCategoryArrays ){
+      //This updates the possible new categories for this date column
+      let newCats = cats;
+      const allKeys = Object.keys(newCats);
+
+      //console.log('cats',cats);
+      //console.log('allKeys',allKeys);
+      for (let key of allKeys){
+        if(newCats[key]) { newCats[key].sort(); }
+      }
+      return newCats;
+
+    }
+
     let modifiedInfo = createIDateCategoryArrays();
     let createdInfo = createIDateCategoryArrays();
     let categoryInfo = createIDateCategoryArrays();
@@ -304,6 +318,15 @@ export default class Utils {
         if ( item.createdTime.cats.time[0] > createdInfo.latest )  { createdInfo.latest = item.createdTime.cats.time[0] ; } 
 
     }
+
+    createdInfo.cats = sortAllDateCategories(createdInfo.cats);
+    modifiedInfo.cats = sortAllDateCategories(modifiedInfo.cats);
+    categoryInfo.cats = sortAllDateCategories(categoryInfo.cats);
+
+    /**
+     *   In this area, go back and localize date categories like we do for items above.
+     */
+
 
     function findBestDateCategory(cats: IDateCategoryArrays, maxPivotChars : number) {
       //const allKeys = Object.keys(newCats);
@@ -422,16 +445,17 @@ export default class Utils {
     //console.table("tileCollection");
     //console.table(tileCollection);
 
+
     return {
       tileCollection: tileCollection,
       createdInfo: createdInfo,
       modifiedInfo: modifiedInfo,
       categoryInfo: categoryInfo,
 
-      modifiedByTitles: modifiedByTitles,
-      modifiedByIDs: modifiedByIDs,
-      createdByTitles: createdByTitles,
-      createdByIDs: createdByIDs,
+      modifiedByTitles: modifiedByTitles.sort(),
+      modifiedByIDs: modifiedByIDs.sort(),
+      createdByTitles: createdByTitles.sort(),
+      createdByIDs: createdByIDs.sort(),
 
     }
 
