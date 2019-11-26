@@ -396,17 +396,28 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             //Filter tiles per clicked category
       let newFilteredTiles = [];
       let checkThisProp = 'category';
+      let propType = 'category';
       if (this.state.thisCatColumn === 'modified' || this.state.thisCatColumn === 'created'){
         checkThisProp = this.state.thisCatColumn + 'Time';
+        propType = 'time';
+
+      } else if (this.state.thisCatColumn === 'modifiedByTitle' || this.state.thisCatColumn === 'createdByTitle') {
+        checkThisProp = this.state.thisCatColumn;
+        propType = 'title';     
+        
       }
 
       for (let thisTile of this.state.allTiles) {
         let tileCats = [];
-        if (checkThisProp === 'category'){
+        if (propType === 'category'){
           tileCats = thisTile[checkThisProp];
-        } else {
+
+        } else if ( propType === 'time' ) {
           let bestFormat = thisTile[checkThisProp].cats.bestFormat[0];
           tileCats = thisTile[checkThisProp].cats[bestFormat];
+
+        } else if ( propType === 'title' ) {
+          tileCats = thisTile[checkThisProp];
         }
 
         if(tileCats.indexOf(item.props.headerText) > -1) {
@@ -808,9 +819,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         searchCount: newFilteredTiles.length,
         searchWhere: ' in ' + this.props.setTab,
         listStaticName: listStaticName,
+
         createdInfo: tileCollectionResults.createdInfo,
         modifiedInfo: tileCollectionResults.modifiedInfo,
         categoryInfo: tileCollectionResults.categoryInfo,
+
+        modifiedByTitles: tileCollectionResults.modifiedByTitles,
+        modifiedByIDs: tileCollectionResults.modifiedByIDs,
+        createdByTitles: tileCollectionResults.createdByTitles,
+        createdByIDs: tileCollectionResults.createdByIDs,
+
       });
 
       saveAnalytics(this.props,this.state);

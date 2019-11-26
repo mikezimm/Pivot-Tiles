@@ -257,6 +257,11 @@ export default class Utils {
     let createdInfo = createIDateCategoryArrays();
     let categoryInfo = createIDateCategoryArrays();
 
+    let modifiedByTitles = [];
+    let modifiedByIDs = [];
+    let createdByTitles = [];
+    let createdByIDs = [];
+
     createdInfo.earliest = new Date(2033,1,1);
     createdInfo.latest = new Date(1999,1,1);
 
@@ -268,10 +273,14 @@ export default class Utils {
     // Get all date variations
     for (let item of response) {
 
-        item.modified= (getColumnValue(pivotProps,item,'colModified'));
-        item.modifiedByID= (getColumnValue(pivotProps,item,'colModifiedById'));
-        item.modifiedByTitle= (getColumnValue(pivotProps,item,'colModifiedByTitle'));
-  
+      //Do all to modified
+        item.modified = (getColumnValue(pivotProps,item,'colModified'));
+        item.modifiedByID = (getColumnValue(pivotProps,item,'colModifiedById'));
+        item.modifiedByTitle = (getColumnValue(pivotProps,item,'colModifiedByTitle'));
+
+        if(modifiedByTitles.indexOf(item.modifiedByTitle) === -1) { modifiedByTitles.push(item.modifiedByTitle); }
+        if(modifiedByIDs.indexOf(item.modifiedByID) === -1) { modifiedByIDs.push(item.modifiedByID); }
+
         item = addDateVariations(item,'modified');
         modifiedInfo.cats = pushDatesToCategories(modifiedInfo.cats, item.modifiedTime);
         item = localizeDateVariations(item,'modified');
@@ -279,12 +288,17 @@ export default class Utils {
         if ( item.modifiedTime.cats.time[0] < modifiedInfo.earliest )  { modifiedInfo.earliest = item.modifiedTime.cats.time[0]; }
         if ( item.modifiedTime.cats.time[0] > modifiedInfo.latest )  { modifiedInfo.latest = item.modifiedTime.cats.time[0]; } 
   
-        item.created= (getColumnValue(pivotProps,item,'colCreated'));
-        item.createdByID= (getColumnValue(pivotProps,item,'colCreatedById'));
-        item.createdByTitle= (getColumnValue(pivotProps,item,'colCreatedByTitle'));
+      //Do all to created
+        item.created = (getColumnValue(pivotProps,item,'colCreated'));
+        item.createdByID = (getColumnValue(pivotProps,item,'colCreatedById'));
+        item.createdByTitle = (getColumnValue(pivotProps,item,'colCreatedByTitle'));
+
+        if(createdByTitles.indexOf(item.createdByTitle) === -1) { createdByTitles.push(item.createdByTitle); }
+        if(createdByIDs.indexOf(item.createdByID) === -1) { createdByIDs.push(item.createdByID); }
   
         item = addDateVariations(item,'created');
         createdInfo.cats = pushDatesToCategories(createdInfo.cats, item.createdTime);
+        item = localizeDateVariations(item,'created');
 
         if ( item.createdTime.cats.time[0] < createdInfo.earliest )  { createdInfo.earliest = item.createdTime.cats.time[0] ; }
         if ( item.createdTime.cats.time[0] > createdInfo.latest )  { createdInfo.latest = item.createdTime.cats.time[0] ; } 
@@ -297,7 +311,8 @@ export default class Utils {
       let allDatesOnSameDay = (cats.locDate.length === 1 ) ? true : false;
       let allDatesInSameMonth = (cats.yrMo.length === 1 ) ? true : false;
       let allDatesInSameYear = (cats.yr.length === 1 ) ? true : false;    
-      let allDatesFitOnPivot = (cats.locDate.join('     ').length < maxPivotChars) ? true : false;
+      let allLocDatesFitOnPivot = (cats.locDate.join('     ').length < maxPivotChars) ? true : false;
+      let allDatesFitOnPivot = (cats.date.join('     ').length < maxPivotChars) ? true : false;
       let allMonthsFitOnPivot = (cats.yrMo.join('     ').length < maxPivotChars) ? true : false;
       let allTimesFitOnPivot = (cats.locTime.join('     ').length < maxPivotChars) ? true : false;
       let allMoDatesFitOnPivot = (cats.moDay.join('     ').length < maxPivotChars) ? true : false;      
@@ -305,8 +320,11 @@ export default class Utils {
 
       if ( allDatesOnSameDay && allTimesFitOnPivot ) { return 'locTime' ; }
       if ( allDatesOnSameDay && allHoursFitOnPivot ) { return 'hr' ; }
-      if ( allDatesFitOnPivot ) { return 'locDate' ; }
+      if ( allLocDatesFitOnPivot ) { return 'locDate' ; }
       if ( allMoDatesFitOnPivot && allDatesInSameYear ) { return 'moDay' ; }
+
+      if ( allDatesInSameMonth && allDatesFitOnPivot ) { return 'date' ; }
+
       if ( allMonthsFitOnPivot && allDatesInSameYear ) { return 'mo' ; }
       if ( allMonthsFitOnPivot ) { return 'yrMo' ; }
 
@@ -403,11 +421,18 @@ export default class Utils {
     }));
     //console.table("tileCollection");
     //console.table(tileCollection);
+
     return {
       tileCollection: tileCollection,
       createdInfo: createdInfo,
       modifiedInfo: modifiedInfo,
       categoryInfo: categoryInfo,
+
+      modifiedByTitles: modifiedByTitles,
+      modifiedByIDs: modifiedByIDs,
+      createdByTitles: createdByTitles,
+      createdByIDs: createdByIDs,
+
     }
 
   }
@@ -429,13 +454,18 @@ export default class Utils {
 
     let tileCategories = [];
     let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
-    if (!usingDefinedCategoryColumn) {
+
+    if (thisCatColumn === 'created' || thisCatColumn === 'modified') {
       let thisTime = pivotState[thisCatColumn + 'Info'];
       let bestFormat = thisTime.bestFormat;
       tileCategories = thisTime.cats[bestFormat];
       console.log('buildTileCategoriesFromResponse: thisCatColumn',thisCatColumn);
       console.log('buildTileCategoriesFromResponse: tileCategories',tileCategories);
 
+      return tileCategories;
+
+    } else if (thisCatColumn === 'createdByTitle' || thisCatColumn === 'modifiedByTitle') {
+      tileCategories= pivotState[thisCatColumn + 's'];
       return tileCategories;
 
     } else {
