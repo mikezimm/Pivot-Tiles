@@ -1,5 +1,7 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 import { theTime } from './IPivotTilesProps';
+import { IDateInfo } from './utils';
+
 
 export interface IPivotTilesState {
 
@@ -44,5 +46,9 @@ export interface IPivotTilesState {
   colCategory: string;
 
   thisCatColumn: string;
+  
+  createdInfo?: IDateInfo;
+  modifiedInfo?: IDateInfo;
+  categoryInfo?: IDateInfo;
 
 }

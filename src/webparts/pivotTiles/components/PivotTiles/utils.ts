@@ -4,7 +4,7 @@ import { getTheCurrentTime,} from '../../../../services/createAnalytics';
 import {tileTime} from '../TileItems/IPivotTileItemProps';
 import { getLocalMonths } from '../../../../services/dateServices';
 
-interface IDateCategoryArrays {
+export interface IDateCategoryArrays {
   yr: number[];
   mo: number[];
   day: number[];
@@ -25,7 +25,7 @@ interface IDateCategoryArrays {
 
 }
 
-interface IDateInfo {
+export interface IDateInfo {
     range?: number;
     note?: string;
     latest?: Date;
@@ -232,6 +232,13 @@ export default class Utils {
 
     }
   
+    function localizeDateVariations(item, col){
+      let newItem = item;
+      let thisCol = col + 'Time';
+  
+      return newItem;
+    }
+
     function pushDatesToCategories(cats: IDateCategoryArrays, thisTime:IDateCategoryArrays ){
       //This updates the possible new categories for this date column
       let newCats = cats;
@@ -267,6 +274,7 @@ export default class Utils {
   
         item = addDateVariations(item,'modified');
         modifiedInfo.cats = pushDatesToCategories(modifiedInfo.cats, item.modifiedTime);
+        item = localizeDateVariations(item,'modified');
 
         if ( item.modifiedTime.cats.time[0] < modifiedInfo.earliest )  { modifiedInfo.earliest = item.modifiedTime.cats.time[0]; }
         if ( item.modifiedTime.cats.time[0] > modifiedInfo.latest )  { modifiedInfo.latest = item.modifiedTime.cats.time[0]; } 
@@ -292,11 +300,13 @@ export default class Utils {
       let allDatesFitOnPivot = (cats.locDate.join('     ').length < maxPivotChars) ? true : false;
       let allMonthsFitOnPivot = (cats.yrMo.join('     ').length < maxPivotChars) ? true : false;
       let allTimesFitOnPivot = (cats.locTime.join('     ').length < maxPivotChars) ? true : false;
+      let allMoDatesFitOnPivot = (cats.moDay.join('     ').length < maxPivotChars) ? true : false;      
       let allHoursFitOnPivot = (cats.hr.join('     ').length < maxPivotChars) ? true : false;
 
       if ( allDatesOnSameDay && allTimesFitOnPivot ) { return 'locTime' ; }
       if ( allDatesOnSameDay && allHoursFitOnPivot ) { return 'hr' ; }
       if ( allDatesFitOnPivot ) { return 'locDate' ; }
+      if ( allMoDatesFitOnPivot && allDatesInSameYear ) { return 'moDay' ; }
       if ( allMonthsFitOnPivot && allDatesInSameYear ) { return 'mo' ; }
       if ( allMonthsFitOnPivot ) { return 'yrMo' ; }
 
@@ -415,11 +425,18 @@ export default class Utils {
     }
   }
 
-  public static buildTileCategoriesFromResponse(pivotProps, response, currentHero, thisCatColumn ){
+  public static buildTileCategoriesFromResponse(pivotProps, pivotState, response, currentHero, thisCatColumn ){
 
     let tileCategories = [];
     let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
     if (!usingDefinedCategoryColumn) {
+      let thisTime = pivotState[thisCatColumn + 'Info'];
+      let bestFormat = thisTime.bestFormat;
+      tileCategories = thisTime.cats[bestFormat];
+      console.log('buildTileCategoriesFromResponse: thisCatColumn',thisCatColumn);
+      console.log('buildTileCategoriesFromResponse: tileCategories',tileCategories);
+
+      return tileCategories;
 
     } else {
 
