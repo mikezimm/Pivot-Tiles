@@ -597,11 +597,14 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let pivotState = this.state;
     let newHeros = this.getHeroTiles(pivotProps, pivotState, newCollection, currentHero);
     let heroIds = this.getHeroIds(newHeros);
-    let newFiltered = this.getNewFilteredTiles(pivotProps, newCollection, heroIds, newHeros, thisCatColumn);
+    let newFiltered = this.getNewFilteredTiles(pivotProps, pivotState, newCollection, heroIds, newHeros, thisCatColumn);
     console.log('newFiltered', newFiltered);
     let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, pivotState, newCollection, currentHero, thisCatColumn);
 
-    const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
+
+    
+    //const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
+    const defaultSelectedIndex = tileCategories.indexOf(this.state.filteredCategory);
     const defaultSelectedKey = defaultSelectedIndex.toString();
 
     for (let thisTile of newCollection) {
@@ -794,11 +797,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
       const defaultSelectedKey = defaultSelectedIndex.toString();
       
+      tileCollectionResults.categoryInfo.lastCategory = tileCategories[0];
+
       let heroTiles = this.getHeroTiles(pivotProps, pivotState, tileCollection, pivotProps.heroCategory);
   
       let heroIds = this.getHeroIds(heroTiles);
   
-      let newFilteredTiles = this.getNewFilteredTiles(pivotProps, tileCollection, heroIds, heroTiles, 'category');
+      let newFilteredTiles = this.getNewFilteredTiles(pivotProps, pivotState, tileCollection, heroIds, heroTiles, 'category');
 
       this.setState({
         allTiles: tileCollection,
@@ -844,7 +849,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
    * @param heroIds 
    * @param heroTiles 
    */
-  private getNewFilteredTiles(thisProps, tileCollection, heroIds, heroTiles, thisCatColumn) {
+  private getNewFilteredTiles(thisProps, thisState, tileCollection, heroIds, heroTiles, thisCatColumn) {
 
     console.log('getNewFilteredTiles: thisProps',thisProps);
     console.log('getNewFilteredTiles: tileCollection',tileCollection);
@@ -860,7 +865,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       if (isNumber === 'number'){
 
       } else if ( !usingDefinedCategoryColumn ) {
+
+
         newFilteredTiles.push(thisTile);
+
 
       } else if(thisTile.category.indexOf(thisProps.setTab) > -1) {
 

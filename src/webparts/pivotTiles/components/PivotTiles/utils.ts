@@ -33,10 +33,13 @@ export interface IDateInfo {
     bestAgeBucket?: string;
     bestFormat?: string;
     cats : IDateCategoryArrays;
+    lastCategory?: string;
+    name: string;
+
 
 }
 
-function createIDateCategoryArrays() {
+function createIDateCategoryArrays(col) {
   let result = {} as IDateInfo;
   let cats = {} as IDateCategoryArrays;
   cats.yr = [];
@@ -65,6 +68,9 @@ function createIDateCategoryArrays() {
     bestAgeBucket: null,
     bestFormat: null,
     cats: cats,
+    lastCategory: null,
+    name: col,
+
   }
   
   return result;
@@ -209,7 +215,7 @@ export default class Utils {
     function addDateVariations(item,col){
       let newItem = item;
 
-      let tileTime = createIDateCategoryArrays();
+      let tileTime = createIDateCategoryArrays(col);
       let thisTime = new Date(item[col]);
 
       tileTime.cats.time[0] = thisTime;
@@ -267,9 +273,23 @@ export default class Utils {
 
     }
 
-    let modifiedInfo = createIDateCategoryArrays();
-    let createdInfo = createIDateCategoryArrays();
-    let categoryInfo = createIDateCategoryArrays();
+
+    function setLastCategoryPer(dateInfo: IDateInfo){
+      //This sets state.lastCategory as the first category in each one.
+      let newDateInfo = dateInfo;
+      let  bestFormat = newDateInfo.bestFormat;
+      //Set last Category as the first tab in the best format.
+      console.log('setLastCategoryPer: newDateInfo',bestFormat,newDateInfo);
+      //This just checks to see if there is a best format... default category may not have one.
+      if (newDateInfo.cats[bestFormat]) { newDateInfo.lastCategory = newDateInfo.cats[bestFormat][0]; }
+
+      return newDateInfo;
+
+    }
+
+    let modifiedInfo = createIDateCategoryArrays('modified');
+    let createdInfo = createIDateCategoryArrays('created');
+    let categoryInfo = createIDateCategoryArrays('category');
 
     let modifiedByTitles = [];
     let modifiedByIDs = [];
@@ -370,6 +390,15 @@ export default class Utils {
       item.modified = item.modifiedTime.cats[modifiedInfo.bestFormat][0];
       item.modifiedTime.cats.bestFormat[0] = modifiedInfo.bestFormat;
     }
+
+    //Set default category for each cat:
+
+    //state.lastCategory
+    
+    modifiedInfo = setLastCategoryPer(modifiedInfo);
+    createdInfo = setLastCategoryPer(createdInfo);
+    categoryInfo = setLastCategoryPer(categoryInfo);
+    if (!categoryInfo.lastCategory) { categoryInfo.lastCategory = pivotProps.setTab }
 
     // on my home PC, for 649 items x 3000 loops it took 30 seconds.
 
