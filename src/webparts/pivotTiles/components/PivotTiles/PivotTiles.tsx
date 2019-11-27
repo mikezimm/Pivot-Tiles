@@ -394,17 +394,27 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     } else {
             //Filter tiles per clicked category
+      let categoryInfo = this.state.categoryInfo;
+      let createdInfo = this.state.createdInfo;
+      let modifiedInfo = this.state.modifiedInfo;
+
       let newFilteredTiles = [];
       let checkThisProp = 'category';
       let propType = 'category';
-      if (this.state.thisCatColumn === 'modified' || this.state.thisCatColumn === 'created'){
-        checkThisProp = this.state.thisCatColumn + 'Time';
+      let thisCatColumn = this.state.thisCatColumn;
+      if (thisCatColumn === 'modified' || thisCatColumn === 'created'){
+        checkThisProp = thisCatColumn + 'Time';
         propType = 'time';
 
-      } else if (this.state.thisCatColumn === 'modifiedByTitle' || this.state.thisCatColumn === 'createdByTitle') {
-        checkThisProp = this.state.thisCatColumn;
+        if (thisCatColumn === 'modified'){ modifiedInfo.lastCategory = item.props.headerText }
+        else if (thisCatColumn === 'created'){ createdInfo.lastCategory = item.props.headerText }
+
+      } else if (thisCatColumn === 'modifiedByTitle' || thisCatColumn === 'createdByTitle') {
+        checkThisProp = thisCatColumn;
         propType = 'title';     
-        
+        //if (thisCatColumn === 'modifiedByTitle'){ modifiedByInfo.lastCategory = item.props.headerText }
+        //else if (thisCatColumn === 'createdByTitle'){ createdByInfo.lastCategory = item.props.headerText }
+
       }
 
       for (let thisTile of this.state.allTiles) {
@@ -437,6 +447,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         searchCount: newFilteredTiles.length,
         searchType: '',
         searchWhere: ' in ' + item.props.headerText,
+        modifiedInfo: modifiedInfo,
+        createdInfo: createdInfo,
+
       });
 
     }
@@ -597,14 +610,38 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let pivotState = this.state;
     let newHeros = this.getHeroTiles(pivotProps, pivotState, newCollection, currentHero);
     let heroIds = this.getHeroIds(newHeros);
-    let newFiltered = this.getNewFilteredTiles(pivotProps, pivotState, newCollection, heroIds, newHeros, thisCatColumn);
-    console.log('newFiltered', newFiltered);
+    let newFiltered = []
+    
+
+
     let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, pivotState, newCollection, currentHero, thisCatColumn);
+    let filteredCategory = '';
+    let lastCategory = null;
+
+    if (thisCatColumn === 'category'){
+      newFiltered = this.getNewFilteredTiles(pivotProps, pivotState, newCollection, heroIds, newHeros, thisCatColumn);
+      filteredCategory = this.state.filteredCategory;
+      lastCategory = this.state.categoryInfo.lastCategory;
+      lastCategory = filteredCategory;
 
 
+    } else if (thisCatColumn === 'modified' || thisCatColumn === 'created' || thisCatColumn === 'modifiedByTitile' || thisCatColumn === 'createdByTitle' ){
+      if (thisCatColumn === 'modified'){ lastCategory = this.state.modifiedInfo.lastCategory }
+      else if (thisCatColumn === 'created'){ lastCategory = this.state.createdInfo.lastCategory }
+      else if (thisCatColumn === 'modifiedByTitile'){ lastCategory = null }
+      else if (thisCatColumn === 'createdByTitle'){ lastCategory = null }
+
+      newFiltered = this.getOnClickFilteredTiles(pivotProps, pivotState, newCollection, heroIds, newHeros, thisCatColumn, lastCategory)
+      filteredCategory = tileCategories[0];
+
+    }
+
+
+    console.log('tileCategories', tileCategories);
+    console.log('newFiltered', newFiltered);
     
     //const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
-    const defaultSelectedIndex = tileCategories.indexOf(this.state.filteredCategory);
+    const defaultSelectedIndex = tileCategories.indexOf(lastCategory);
     const defaultSelectedKey = defaultSelectedIndex.toString();
 
     for (let thisTile of newCollection) {
@@ -866,17 +903,71 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
       } else if ( !usingDefinedCategoryColumn ) {
 
-
         newFilteredTiles.push(thisTile);
 
-
-      } else if(thisTile.category.indexOf(thisProps.setTab) > -1) {
+      } else if(thisTile.category.indexOf(thisProps.setTab) > -1) {  //This first if checks if it's the selected tab.
 
         let showThisTile = true;
         if (heroIds.length > 0 && thisProps.heroType !== 'none' && heroTiles[0]) {
           showThisTile = heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
         }
         if (showThisTile === true) {newFilteredTiles.push(thisTile);}
+      }
+    }
+
+    return newFilteredTiles;
+  }
+
+  
+  /**
+   * This function gets the array of tiles that should be visible by removing the items that are in the heroTiles array
+   * @param thisProps 
+   * @param tileCollection 
+   * @param heroIds 
+   * @param heroTiles 
+   */
+  private getOnClickFilteredTiles(thisProps, thisState, tileCollection, heroIds, heroTiles, thisCatColumn, setTab) {
+
+    console.log('getDateFilteredTiles: thisProps',thisProps);
+    console.log('getDateFilteredTiles: tileCollection',tileCollection);
+    console.log('getDateFilteredTiles: heroIds',heroIds);
+    console.log('getDateFilteredTiles: heroTiles',heroTiles);
+    console.log('getDateFilteredTiles: thisCatColumn',thisCatColumn);
+
+    // This code originally copied from onLinkClick and adjusted for multiple uses
+    let newFilteredTiles = [];
+    let checkThisProp = 'category';
+    let propType = 'category';
+    if (thisCatColumn === 'modified' || thisCatColumn === 'created'){
+      checkThisProp = thisCatColumn + 'Time';
+      propType = 'time';
+
+    } else if (thisCatColumn === 'modifiedByTitle' || thisCatColumn === 'createdByTitle') {
+      checkThisProp = thisCatColumn;
+      propType = 'title';     
+      
+    }
+
+    for (let thisTile of this.state.allTiles) {
+      let tileCats = [];
+      if (propType === 'category'){
+        tileCats = thisTile[checkThisProp];
+
+      } else if ( propType === 'time' ) {
+        let bestFormat = thisTile[checkThisProp].cats.bestFormat[0];
+        tileCats = thisTile[checkThisProp].cats[bestFormat];
+
+      } else if ( propType === 'title' ) {
+        tileCats = thisTile[checkThisProp];
+      }
+
+      if(tileCats.indexOf(setTab) > -1) {
+
+        let showThisTile = true;
+        if (this.props.heroType !== 'none') {
+          showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
+        }
+        if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
       }
     }
 
