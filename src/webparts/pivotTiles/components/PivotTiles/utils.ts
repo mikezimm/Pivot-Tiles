@@ -382,8 +382,8 @@ export default class Utils {
     modifiedInfo.bestFormat = findBestDateCategory(modifiedInfo.cats, pivotProps.maxPivotChars);
     let bestCategoryFormat = 'unknownMZ';
 
-    console.log('modifiedInfo.bestFormat',modifiedInfo.bestFormat);
-    console.log('createdInfo.bestFormat',createdInfo.bestFormat);
+    //console.log('modifiedInfo.bestFormat',modifiedInfo.bestFormat);
+    //console.log('createdInfo.bestFormat',createdInfo.bestFormat);
     for (let item of response) {
       item.created = item.createdTime.cats[createdInfo.bestFormat][0];
       item.createdTime.cats.bestFormat[0] = createdInfo.bestFormat;
@@ -397,14 +397,15 @@ export default class Utils {
     
     modifiedInfo = setLastCategoryPer(modifiedInfo);
     createdInfo = setLastCategoryPer(createdInfo);
-    categoryInfo = setLastCategoryPer(categoryInfo);
-    if (!categoryInfo.lastCategory) { categoryInfo.lastCategory = pivotProps.setTab }
+    //categoryInfo = setLastCategoryPer(categoryInfo);
+    //if (!categoryInfo.lastCategory) { categoryInfo.lastCategory = pivotProps.setTab }
+    categoryInfo.lastCategory = pivotProps.setTab;
 
     // on my home PC, for 649 items x 3000 loops it took 30 seconds.
 
     let endTime = getTheCurrentTime();
 
-    console.log('response', response);
+    //console.log('response', response);
 
     let tileCollection = response.map(item => ({
 
