@@ -56,5 +56,4 @@ export interface IPivotTilesState {
   createdByTitles?: any[];
   createdByIDs?: any[];
 
-
 }
