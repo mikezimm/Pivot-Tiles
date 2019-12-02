@@ -139,7 +139,7 @@ export default class StyleUtils {
       iWrap = styles.pTileItemWrapper100by1x1;
       iWrapExp = styles.pTileItemWrapperExpanded100by1x1;
 
-    } else if (heroType === "inLine" || heroType === "carousel") {
+    } else if (heroType === "inLine" || heroType === "carousel" || heroType === "carouselLayout") {
       tileFit = "300by1x1";
       iWrap = styles.pTileItemWrapper300by1x1;
       iWrapExp = styles.pTileItemWrapperExpanded300by1x1;
@@ -185,7 +185,6 @@ export default class StyleUtils {
 
     } 
 
-
     var heroStyle = {
         "iWrap": iWrap,
         "iWrapExp": iWrapExp,
@@ -196,23 +195,12 @@ export default class StyleUtils {
         "iTitle": iTitle,
     };
 
-    
-//    console.log('getHeroStyles:  heroStyle');
-//    console.log(heroStyle);
-
-    /*
-    console.log("getTheseStyles: tileFit =" + tileFit);
-    console.log("getTheseStyles: thisStyle =" + thisStyle);
-    console.log(thisStyle);    
-    */
-
     return heroStyle;
   }
 
   public static getOnHoverStyle(scale) {
 
     var iOnZoomStyle = styles.pTileItemWrapper;
-    //console.log(scale);
 
     if ( scale === '1.0' ) {
       iOnZoomStyle = styles.imgHoverZoomHover10;

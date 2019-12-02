@@ -83,6 +83,7 @@ import {
     public heroChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
         {   index: 0,   key: 'inLine', text: "Single In Line (below pivot)"  },
         {   index: 6,   key: 'slider', text: "Slider (below pivot)"  },
+        {   index: 8,   key: 'carouselLayout', text: "Carousel Layout (below pivot)"  },        
         {   index: 7,   key: 'carousel', text: "Carousel (below pivot)"  },      
         {   index: 3,   key: 'header', text: "Above"  },
         {   index: 4,   key: 'footer', text: "Below"  },  
@@ -111,29 +112,56 @@ import {
         }
     } 
 
-//onHoverZoom
+    //onHoverZoom
 
-public hoverZoomChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
-    {   index: 0,   key: '1.1', text: "1.1 x"  },
-    {   index: 1,   key: '1.2', text: "1.2 x"  },
-    {   index: 9,   key: '1.0', text: "1.0 - no zoom animation"  },
-];
-/*  These do not seem to  work.
-    {   index: 2,   key: 'self', text: "Same Frame (_self)"  },
-    {   index: 3,   key: 'parent', text: "Parent Frameset (_parent)"  },
-*/
+    public hoverZoomChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
+        {   index: 0,   key: '1.1', text: "1.1 x"  },
+        {   index: 1,   key: '1.2', text: "1.2 x"  },
+        {   index: 9,   key: '1.0', text: "1.0 - no zoom animation"  },
+    ];
+    /*  These do not seem to  work.
+        {   index: 2,   key: 'self', text: "Same Frame (_self)"  },
+        {   index: 3,   key: 'parent', text: "Parent Frameset (_parent)"  },
+    */
 
-public getHoverZoom (findMe) {
-    if (findMe === '1.0') {
-        return 1;
-    } else if (findMe === '1.1') {
-        return 1.1;
-    } else if (findMe === '1.2') {
-        return 1.2;
-    } else {
-        return 0;
-    }
-} 
+    public getHoverZoom (findMe) {
+        if (findMe === '1.0') {
+            return 1;
+        } else if (findMe === '1.1') {
+            return 1.1;
+        } else if (findMe === '1.2') {
+            return 1.2;
+        } else {
+            return 0;
+        }
+    } 
+
+    //hoverEffectChoices
+    public hoverEffectChoices: IPropertyPaneDropdownOption[] = <IPropertyPaneDropdownOption[]>[
+        {   index: 0,   key: 'slideUp', text: "Slide panel up"  },
+        {   index: 1,   key: 'fadeUp', text: "Fade panel"  },
+        {   index: 9,   key: 'none', text: "None"  },
+    ];
+    /*  These do not seem to  work.
+        {   index: 2,   key: 'self', text: "Same Frame (_self)"  },
+        {   index: 3,   key: 'parent', text: "Parent Frameset (_parent)"  },
+    */
+
+    /**
+     * Currently just place holder in case needed.
+     * @param findMe 
+     */
+    public getHoverEffect (findMe) {
+        if (findMe === '1.0') {
+            return 1;
+        } else if (findMe === '1.1') {
+            return 1.1;
+        } else if (findMe === '1.2') {
+            return 1.2;
+        } else {
+            return 0;
+        }
+    } 
 
   }
 

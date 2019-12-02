@@ -20,6 +20,8 @@ import {
       {        index: 0,        key: '100',        text: '100px high'      },
       {        index: 1,        key: '150',        text: '150px high'      },
       {        index: 2,        key: '300',        text: '300px high'      },
+      {        index: 4,        key: 'Card',        text: 'Document Card'      },
+      {        index: 5,        key: 'List',        text: 'List View'      },      
       {        index: 3,        key: 'Custom',        text: 'Custom'      },      
     ];
 
@@ -45,6 +47,12 @@ import {
               label: strings.onHoverZoom,
               options: imageOptionsGroup.hoverZoomChoices,
             }),
+
+            PropertyPaneDropdown('onHoverEffect', <IPropertyPaneDropdownProps>{
+              label: strings.onHoverEffect,
+              options: imageOptionsGroup.hoverEffectChoices,
+            }),
+            
 
             PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
               label: strings.setSize,
@@ -78,13 +86,13 @@ import {
 
               PropertyPaneSlider('imageWidth', {
                 label: strings.Property_ImageWidth_Label,
-                min: 100,
+                min: 50,
                 max: 300,
                 step: 25,
               }),
               PropertyPaneSlider('imageHeight', {
                 label: strings.Property_ImageHeight_Label,
-                min: 100,
+                min: 50,
                 max: 300,
                 step: 25,
               }),
@@ -123,6 +131,13 @@ import {
                 label: strings.heroCategory
               }),
 
+              PropertyPaneSlider('heroRatio', {
+                label: strings.heroRatio,
+                min: 3,
+                max: 24,
+                step: 1,
+              }),
+              
               PropertyPaneDropdown('setHeroFit', <IPropertyPaneDropdownProps>{
                 label: strings.setImgFit,
                 options: imageOptionsGroup.imgFitChoices,

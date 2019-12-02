@@ -10,8 +10,31 @@ export class Utils {
       return [];
     }
     
-    public static getFarItems(toggleTips,minimize) {
+    public static getFarItems(thisProps, thisState ,toggleTips, minimize, searchMe, showAll, toggleLayout) {
+      //console.log('getFarItems: thisProps', thisProps);
+      //console.log('getFarItems: thisState', thisState);
+
       return [
+        {
+          key: 'search',
+          name: '',
+          ariaLabel: 'Search',
+          /* this will do a tool tip but make the icon above the button.
+          iconOnly: true,
+            tooltipHostProps: {
+              content: 'tooltipHostProps content',
+            },
+            // This does not work on the command bar icons.
+            keytipProps: {
+              content: 'tooltipHostProps content',
+            }
+          */
+          iconProps: {
+            iconName: 'Search',
+
+          },
+          onClick: () => searchMe()
+        },
         {
           key: 'mini',
           name: '',
@@ -23,14 +46,35 @@ export class Utils {
           onClick: () => minimize()
         },
         {
+          key: 'all',
+          name: '',
+          ariaLabel: 'ShowAll',
+          iconProps: {
+            iconName: 'ClearFilter',
+          },
+          onClick: () => showAll()
+        },
+        {
+          key: 'layout',
+          name: '',
+          ariaLabel: 'Layout',
+          iconProps: {
+            iconName: ( thisProps.setLayout === "List" ? 'NumberedList' : thisProps.setLayout === "Card" ? "Tiles" : "GridViewSmall" ),
+          }, 
+          onClick: () => toggleLayout()
+        },
+        {
           key: 'tips',
           name: '',
           ariaLabel: 'Tips',
           iconProps: {
             iconName: 'Help',
-          },
+            style: {color:( thisProps.commandClass.indexOf('warnTips') > -1 ? 'red' : '')},
+          }, 
           onClick: () => toggleTips()
         },
+
+
       ];
     }
 

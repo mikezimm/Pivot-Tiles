@@ -13,14 +13,27 @@ export function buildTips(parentProps,parentState){
 
   const currentPageUrl = parentProps.pageContext.web.absoluteUrl + parentProps.pageContext.site.serverRequestPath;
   const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
-  const listURL = fixedURL + "lists/" + parentProps.listTitle;
-  const newItemURL = listURL + "/newform.aspx?Source=" + currentPageUrl;
+  const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
+  const listURL = fixedURL + listExt + parentState.listStaticName;
+  const newItemURL = listURL + (listExt === "" ? "" : "/newform.aspx") + "?Source=" + currentPageUrl;
+
+  let delta : any;
+  let statsMessage : string = 'Could not determine load time.';
+  let startTime = parentProps.startTime;
+  if (parentState.endTime) {
+    let endTime = parentState.endTime;
+    delta = endTime.now - startTime.now;
+    statsMessage = parentState.allTiles.length.toString() + ' items found in ' + delta + ' milliseconds (' + parentState.heroCategory + ')';
+  }
+ 
+//          <div className={(parentProps.showHero === true && parentProps.heroType !== "none" && parentState.heroStatus === "none") ? styles.showErrorMessageNoPad : styles.hideMe }>
+
 
   const theseTips = 
   <div className={styles.rowNoPad}>
       <div className={parentState.showTips === "yes" ? styles.showErrorMessage : styles.hideMe }>
 
-          <div className={(parentProps.heroType !== "none" && parentState.heroStatus === "none") ? styles.showErrorMessageNoPad : styles.hideMe }>
+          <div className={(parentState.heroCategoryError) ? styles.showErrorMessageNoPad : styles.hideMe }>
             <h3>There may be a problem with your webpart settings for <mark>Hero Category</mark></h3>
             <p>Property pane setting for Hero Type is: <mark><b>{parentProps.heroType }</b></mark></p>
             <p>Property pane setting for Hero Category is:  <mark><b>{parentProps.heroCategory !== "" ?parentProps.heroCategory : "<It's Empty>"}</b></mark></p>
@@ -29,7 +42,7 @@ export function buildTips(parentProps,parentState){
             <p></p>
           </div>
 
-          <h3>Tile details are saved in your tile list called: {parentProps.listTitle}</h3>
+          <h3>{statsMessage} from list called: {parentProps.listTitle}</h3>
           <p><Link href={listURL} 
               target="_blank">
               {listURL}
@@ -70,6 +83,8 @@ export function NoListFound (parentProps,parentState) {
 
     const errMessage = SanitizeErrorMessage(parentState.loadError);
 
+    const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
+
     const noListFound = 
     <div className={styles.rowNoPad}>
       <div className={parentState.loadStatus === "ListNotFound" ? styles.showErrorMessage : styles.hideMe }>
@@ -79,9 +94,9 @@ export function NoListFound (parentProps,parentState) {
 
           <h2>Other common causes for this message</h2>
           <h3>You do not have a Tile Category set for a visible tile:</h3>
-          <p><Link href={fixedURL + "lists/" + parentProps.listTitle} 
+          <p><Link href={fixedURL + listExt + parentProps.listTitle} 
               target="_blank">
-              {fixedURL + "lists/" + parentProps.listTitle}
+              {fixedURL + listExt + parentProps.listTitle}
             </Link></p>
           <h3>You do not have permissions to the list :(</h3>
           <p>Please contact your site admin for assistance!</p>
@@ -99,6 +114,8 @@ export function NoItemsFound (parentProps,parentState) {
     const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
 
     const errMessage = SanitizeErrorMessage(parentState.loadError);
+    
+    const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
 
     const noItemsFound = 
     <div className={styles.rowNoPad}>
@@ -108,9 +125,9 @@ export function NoItemsFound (parentProps,parentState) {
         {errMessage}
         <p>This is the filter we are using: <b>{parentProps.setFilter}</b></p>
         <p>Looking here:</p>
-        <p><Link href={fixedURL + "lists/" + parentProps.listTitle} 
+        <p><Link href={fixedURL + listExt + parentProps.listTitle} 
             target="_blank">
-            {fixedURL + "lists/" + parentProps.listTitle}
+            {fixedURL + listExt + parentProps.listTitle}
           </Link></p>
         <p>You can also get this message if you do not have permissions to the list.</p>
       </div>

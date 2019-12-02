@@ -1,4 +1,9 @@
 declare interface IPivotTilesWebPartStrings {
+  
+  analyticsList: string;
+  analyticsWeb: string;
+  minClickWeb: string;
+  
   setRatio: string;
   PropertyPaneDescription: string;
   PropertyPaneMainDescription: string,
@@ -10,6 +15,7 @@ declare interface IPivotTilesWebPartStrings {
   DefaultTileList: string;
   heroChoices: string;
   heroCategory: string;
+  heroRatio: string;
   
   description: string;
   listDefinition: string;
@@ -28,7 +34,9 @@ declare interface IPivotTilesWebPartStrings {
   setPivOptions: string;
   propURLQuery: string;
   setTab: string;
-  
+  otherTab: string;
+  onHoverEffect: string;
+
   colTitleText: string;
   colHoverText: string;
   colCategory: string;
@@ -61,6 +69,8 @@ declare interface IPivotTilesWebPartStrings {
   Property_ShowHero_Label: string;
   Property_ShowHero_OffText: string;
   Property_ShowHero_OnText: string;
+
+  Property_getAll_Label: string;
 
   onHoverZoom: string;
 

@@ -1,5 +1,10 @@
 define([], function() {
   return {
+    
+    "analyticsList": "TilesCycleTesting",
+    "analyticsWeb": "https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/",
+    "minClickWeb": "https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/SitePages/Contents_.aspx?Web=",
+    
     "PropertyPaneAbout": "About",
     "PropertyPaneDescription": "Description",
     "PropertyPaneMainDescription": "Web Part Settings",
@@ -21,6 +26,7 @@ define([], function() {
     "setImgFit": "Image Fit",
     "setImgCover": "Image Cover",
     "heroCategory": "Hero Category",
+    "heroRatio": "Hero aspect ratio ( X / 16 )",
 
     "setPivFormat": "Set Pivot Format",
     "setPivSize": "Set Pivot Size",
@@ -28,6 +34,8 @@ define([], function() {
     "setFilter": "Rest Filter like:   ShowColumnName eq 'Yes'",
     "propURLQuery": "Allow URL Query to filter",
     "setTab": "Default Tab",
+    "otherTab": "Uncategorized Tab",
+    "onHoverEffect": "On hover effect",
 
     "colTitleText": "Tile Text",
     "colHoverText": "Tile Hover Text",
@@ -60,6 +68,9 @@ define([], function() {
     "Property_ShowHero_Label": "Include Hero Tile",
     "Property_ShowHero_OffText": "Toggle to Show",
     "Property_ShowHero_OnText": "Toggle to Hide",
+
+    "Property_getAll_Label": "Get All items (large qty items)",
+
 
   }
 });

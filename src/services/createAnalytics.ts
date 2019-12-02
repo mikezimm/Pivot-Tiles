@@ -3,103 +3,87 @@ import { sp, Web, Item, ItemAddResult, ItemUpdateResult } from '@pnp/sp';
 export function getBrowser(validTypes,changeSiteIcon){
 
     let thisBrowser = "";
-    // Opera 8.0+
-    //var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
-
-    // Firefox 1.0+
-    //var isFirefox = typeof InstallTrigger !== 'undefined';
-
-    // Safari 3.0+ "[object HTMLElementConstructor]" 
-    //var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
-
-    // Internet Explorer 6-11
-    //var isIE = /*@cc_on!@*/false || !!document.documentMode;
-
-    // Edge 20+
-    //var isEdge = !isIE && !!window.StyleMedia;
-
-    // Chrome 1 - 71
-    //var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-
-    // Blink engine detection
-    //var isBlink = (isChrome || isOpera) && !!window.CSS;
-
-    /*
-    if (isIE == true){
-        thisBrowser = "IE"
-    } else if (isChrome == true){
-        thisBrowser = "Chrome"
-    } else if (isEdge == true){
-        thisBrowser = "Edge"
-    } else if (isSafari == true){
-        thisBrowser = "Safari"
-    } else if (isFirefox == true){
-        thisBrowser = "FireFox"
-    } else if (isOpera == true){
-        thisBrowser = "Opera"
-    } else if (isBlink == true){
-        thisBrowser = "Blink"
-    }
-
-
-    if (validTypes.indexOf(thisBrowser) == -1){
-        //This browser is not valid... do something
-
-        if (changeSiteIcon == true) {
-            var thisOne = "https://alvteams.alv.autoliv.int/sites/alvbranding/Templates/TileIcons_150/No_" + thisBrowser + "_logo_150.png"
-            document.getElementById("DeltaSiteLogo").firstElementChild.firstElementChild.src = thisOne
-        }
-
-    }
-
-    var output = 'Detecting browsers by ducktyping:<hr>';
-    output += 'isFirefox: ' + isFirefox + '<br>';
-    output += 'isChrome: ' + isChrome + '<br>';
-    output += 'isSafari: ' + isSafari + '<br>';
-    output += 'isOpera: ' + isOpera + '<br>';
-    output += 'isIE: ' + isIE + '<br>';
-    output += 'isEdge: ' + isEdge + '<br>';
-    output += 'isBlink: ' + isBlink + '<br>';
-    //alert(output);
-    */
     return thisBrowser;
 
 }
 
-
+/**
+ * Be sure to update your analyticsList and analyticsWeb in en-us.js strings file
+ * @param theProps 
+ * @param theState 
+ */
 export function saveAnalytics (theProps,theState) {
 
-    console.log('saveAnalytics');
-    console.log(theProps); 
-    console.log(theState);
+    //Do nothing if either of these strings is blank
+    if (!theProps.analyticsList) { return ; }
+    if (!theProps.analyticsWeb) { return ; }
 
-    let analyticsList = "TilesCycleTesting";
-    let startTime = theProps.startTime;
-    let endTime = theState.endTime;
-    let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/');
-    const delta = endTime.now - startTime.now;
-    //alert(delta);
-    //alert(getBrowser("Chrome",false));
-    /*
+    if (  theProps.analyticsWeb.indexOf(theProps.tenant) === -1 ) {
+        //The current site is not in the expected tenant... skip analytics.
+        console.log('the analyticsWeb is not in the same tenant...',theProps.analyticsWeb,theProps.tenant);
+        return ;
+    } else {
 
-    */
+        //console.log('saveAnalytics: ', theProps, theState);
+        let analyticsList = theProps.analyticsList;
+        let startTime = theProps.startTime;
+        let endTime = theState.endTime;
+        let web = new Web(theProps.analyticsWeb);
+        const delta = endTime.now - startTime.now;
+        //alert(delta);
+        //alert(getBrowser("Chrome",false));
+        /*
 
-    web.lists.getByTitle(analyticsList).items.add({
-        'Title': 'Pivot-Tiles x1asdf',
-        'zzzText1': startTime.now,      
-        'zzzText2': startTime.theTime,
-        'zzzNumber1': startTime.milliseconds,
-        'zzzText3': endTime.now,      
-        'zzzText4': endTime.theTime,
-        'zzzNumber2': endTime.milliseconds,
-        'zzzNumber3': delta,
-        }).then((response) => {
-        //Reload the page
-            //location.reload();
-        }).catch((e) => {
-        //Throw Error
-            alert(e);
-    });
+        */
+        let siteLink = {
+            'Url': theProps.pageContext.web.serverRelativeUrl,
+            'Description': theProps.pageContext.web.serverRelativeUrl ,
+        };
+        
+        let itemInfo1 = "(" + theState.allTiles.length + ")"  + " - " +  theProps.getAll + " - " + " - " + theProps.listDefinition;
+        let itemInfo2 = "(" + theProps.listTitle + ")"  + " - " +  theProps.listWebURL;
+
+        let itemInfoProps = theProps.setSize +
+                " ImgFit: " +  theProps.setImgFit;
+
+        let heroCount;
+        if (theProps.heroTiles) { 
+            let itemInfoHero = 
+            " ShowHero: " +  theProps.showHero +
+            " HeroType: " +  theProps.heroType +
+            " HeroFit: " +  theProps.setHeroFit;
+            heroCount = theProps.heroTiles.length;
+            itemInfoProps += ' -Hero: ' + itemInfoHero; }
+    
+        web.lists.getByTitle(analyticsList).items.add({
+            'Title': ['Pivot-Tiles',theProps.scenario,theProps.setSize,theProps.heroType].join(' : '),
+            'zzzText1': startTime.now,      
+            'zzzText2': startTime.theTime,
+            'zzzNumber1': startTime.milliseconds,
+            'zzzText3': endTime.now,      
+            'zzzText4': endTime.theTime,
+            'zzzNumber2': endTime.milliseconds,
+            'zzzNumber3': delta,
+            'zzzNumber4': theState.allTiles.length,
+            'zzzNumber5': heroCount,
+            'zzzText5': itemInfo1,
+            'zzzText6': itemInfo2,
+            'zzzText7': itemInfoProps,
+            'SiteLink': siteLink,
+            'SiteTitle': theProps.pageContext.web.title,
+            'ListTitle': theProps.listTitle,
+
+
+            }).then((response) => {
+            //Reload the page
+                //location.reload();
+            }).catch((e) => {
+            //Throw Error
+                alert(e);
+        });
+
+    }
+
 
 
 }
@@ -144,9 +128,8 @@ export function getTheCurrentTime () {
         'now': now,
         'theTime' : theTime,
         'milliseconds' : now.getMilliseconds(),
-    }
-    console.log('getTheTime = ');
-    console.log(result);   
+    };
+
     return result;
 
 }

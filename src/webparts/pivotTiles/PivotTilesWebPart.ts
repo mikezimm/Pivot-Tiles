@@ -19,7 +19,8 @@ import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
-import { listMapping } from './ListMapping';
+import { availableListMapping } from './AvailableListMapping';
+
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../services/createAnalytics';
 
@@ -30,12 +31,27 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   public onInit():Promise<void> {
     return super.onInit().then(_ => {
       // other init code may be present
+
+      //https://stackoverflow.com/questions/52010321/sharepoint-online-full-width-page
+      document.getElementById("workbenchPageContent").style.maxWidth = "none";
+      //console.log('window.location',window.location);
       sp.setup({
         spfxContext: this.context
       });
     });
+  }
 
-    
+  public getUrlVars(): {} {
+    var vars = {};
+    vars = location.search
+    .slice(1)
+    .split('&')
+    .map(p => p.split('='))
+    .reduce((obj, pair) => {
+      const [key, value] = pair.map(decodeURIComponent);
+      return ({ ...obj, [key]: value })
+    }, {});
+    return vars;
   }
 
   public render(): void {
@@ -43,17 +59,21 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       PivotTiles,
       {
         startTime: getTheCurrentTime(),
+        scenario: this.properties.scenario,
         description: this.properties.description,
         listDefinition: this.properties.listDefinition,
         listWebURL: this.properties.listWebURL,
         listTitle: this.properties.listTitle,
+        getAll: this.properties.getAll,
 
         pageContext: this.context.pageContext,
         heroType: this.properties.heroType,
         heroCategory: this.properties.heroCategory,
+        heroRatio: this.properties.heroRatio,
         showHero: this.properties.showHero,
         setHeroFit: this.properties.setHeroFit,
         setHeroCover: this.properties.setHeroCover,
+        onHoverEffect: this.properties.onHoverEffect,
 
         onHoverZoom: this.properties.onHoverZoom,
         setSize: this.properties.setSize,
@@ -64,6 +84,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         setFilter: this.properties.setFilter,
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,
+        otherTab: this.properties.otherTab,
+        maxPivotChars: 30,
 
         setPivSize: this.properties.setPivSize,
         setPivFormat: this.properties.setPivFormat,
@@ -86,6 +108,18 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         imageHeight: this.properties.imageHeight,
         textPadding: this.properties.textPadding,
 
+        analyticsList: strings.analyticsList,
+        analyticsWeb: strings.analyticsWeb,
+        tenant: this.context.pageContext.web.absoluteUrl.replace(this.context.pageContext.web.serverRelativeUrl,""),
+        urlVars: this.getUrlVars(),
+
+        //List column mapping - always available columns
+        colModified: "Modified",
+        colModifiedById: "Editor/ID",
+        colModifiedByTitle: "Editor/Title",
+        colCreated: "Created",
+        colCreatedById: "Author/ID",
+        colCreatedByTitle: "Author/Title",
 
       }
     );
@@ -94,29 +128,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   private async loadListItems(): Promise<IPivotTileItemProps[]> {
-    /* Filtering example of same one and only retreiving certain columns
-    const result:IListItem[] = await sp.web.lists.getByTitle("Customers").items
-    .select("Title","CustomerID").filter("Title eq 'GM'").orderBy("Id",true).getAll()
-    */
-
-    /*  Be sure to import Web from @pnp/sp first, then use this to get from another web.
-
-        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
-        const result:IListItem[] = await web.lists.getByTitle("Customers").items
-
-        or .... 
-
-        let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/ScriptTesting/');
-        web.get().then(w => {
-          console.log(w);
-        });
-
-    */
-    console.log("Hello2");
-    console.log("private async loadListItems()");
-    console.log(this);
-    console.log(this.properties.listTitle);
-
 
     let useTileList: string = strings.DefaultTileList;
     
@@ -170,19 +181,27 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
   //Added this per AC Facebook post...
   protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
-    console.log('path: ' + propertyPath + ' oldValue: ' + oldValue + ' newValue: ' + newValue);
 
     if (propertyPath === 'listDefinition' && newValue !== oldValue) {
       //alert("Hey! " +propertyPath +" new value is " + newValue);
       //this.properties.listTitle = "TitleChanged!";
       //this.properties.colTitleText = "TitleTextChanged!";
 
-      let newMap = listMapping.getListColumns(newValue);
+      let newMap : any = {};
+      if (this.properties.scenario === 'DEV' ) {
+        newMap = availableListMapping.getListColumns(newValue);
+
+      } else if (this.properties.scenario === 'TEAM') {
+        newMap = availableListMapping.getListColumns(newValue);  
+
+      } else if (this.properties.scenario === 'CORP') {
+        newMap = availableListMapping.getListColumns(newValue); 
+
+      }
+
       const hasValues = Object.keys(newMap).length;
 
       if (hasValues !== 0) {
-
-        console.log('Found List Defintion... updating column name props');
         
         this.properties.listTitle = newMap.listDisplay;
         this.properties.colTitleText = newMap.listMapping.colTitleText;
@@ -195,6 +214,10 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         this.properties.colImageLink = newMap.listMapping.colImageLink;
         this.properties.colSort = newMap.listMapping.colSort;
         this.properties.colTileStyle = newMap.listMapping.colTileStyle;
+        this.properties.listWebURL = newMap.testSite;
+        this.properties.setFilter = newMap.setFilter;
+        this.properties.setTab = newMap.setTab;        
+        
 
       } else {
         console.log('Did NOT List Defintion... updating column name props');
@@ -206,19 +229,17 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     }
 
     let updateOnThese = [
-      'setSize','setPivSize','heroCategory','showHero','setPivFormat','setImgFit','setImgCover','target',
+      'setSize','setTab','otherTab','setPivSize','heroCategory','heroRatio','showHero','setPivFormat','setImgFit','setImgCover','target',
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom'
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {
-      console.log("Hey there! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
       this.properties[propertyPath] = newValue;   
       this.context.propertyPane.refresh();
 
     } else { //This can be removed if it works
      
       if (propertyPath === 'heroType') {
-        console.log("Hey! " +propertyPath+" changed FROM " + oldValue +" TO " + newValue);
         this.properties.heroType = newValue;
 
         if (newValue === 'header' || newValue === 'inLine' || newValue === 'footer') {
@@ -234,15 +255,6 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       }
 
     }
-
-    //this.context.propertyPane.refresh();
-    //super.onPropertyPaneFieldChanged(propertyPath, oldValue, newValue);
-    /*
-    this.context.propertyPane.refresh();
-    this.context.propertyPane.refresh() refreshes Property Pane itself...
-        It doesn't set any values to web part properties and also it doesn't initiate web part's re-render.
-    */
-
     this.render();
   }
 }
