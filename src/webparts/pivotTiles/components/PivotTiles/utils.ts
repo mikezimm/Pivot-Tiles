@@ -36,6 +36,49 @@ export interface IDateInfo {
     lastCategory?: string;
     name: string;
 
+}
+
+
+export interface IPersonCategoryArrays {
+
+  fullName: string[];
+  initials: string[];
+  bestFormat: string[];
+  IDs: number[];
+
+}
+
+export interface IPersonInfo {
+
+    note?: string; // Copied from IDateInfo, keeping for consistancy
+
+    bestFormat?: string; // Copied from IDateInfo, keeping for consistancy
+    cats : IPersonCategoryArrays; // Copied from IDateInfo, keeping for consistancy
+    lastCategory?: string;  // Copied from IDateInfo, keeping for consistancy
+    name: string;  // Copied from IDateInfo, not sure if it is needed
+
+}
+
+function createIPersonCategoryArrays(col) {
+  let result = {} as IPersonInfo;
+  let cats = {} as IPersonCategoryArrays;
+
+  cats.fullName = [];
+  cats.initials = [];
+  cats.IDs = [];
+  cats.bestFormat = [];
+
+  result = {
+    note: null,
+    bestFormat: null,
+    cats: cats,
+    lastCategory: null,
+    name: col,
+
+  }
+  
+  return result;
+
 
 }
 
@@ -238,6 +281,28 @@ export default class Utils {
 
     }
   
+    
+    function addPersonVariations(item,col){
+
+      let actualCol = col === 'modifiedBy' ? 'modifiedBy' : col === 'createdBy' ? 'createdBy' : '';
+      let newItem = item;
+
+      let tilePerson = createIPersonCategoryArrays(col);
+      /*
+      item.modified = (getColumnValue(pivotProps,item,'colModified'));
+      item.modifiedByID = (getColumnValue(pivotProps,item,'colModifiedById'));
+      item.modifiedByTitle = (getColumnValue(pivotProps,item,'colModifiedByTitle'));
+      */
+      tilePerson.cats.fullName[0] = (getColumnValue(pivotProps,item,actualCol + 'Title'));
+      tilePerson.cats.initials[0] = tilePerson.cats.fullName[0].split(" ").map((n)=>n[0]).join("");
+      tilePerson.cats.IDs[0] = (getColumnValue(pivotProps,item,actualCol + 'ID'));      
+
+      newItem[col + 'By'] = tilePerson; 
+
+      return newItem;
+
+    }
+
     function localizeDateVariations(item, col){
       let newItem = item;
       let thisCol = col + 'Time';
@@ -291,6 +356,9 @@ export default class Utils {
     let createdInfo = createIDateCategoryArrays('created');
     let categoryInfo = createIDateCategoryArrays('category');
 
+    let modifiedByInfo = createIPersonCategoryArrays('modifiedBy');
+    let createdByInfo = createIPersonCategoryArrays('createdBy');
+
     let modifiedByTitles = [];
     let modifiedByIDs = [];
     let createdByTitles = [];
@@ -311,6 +379,8 @@ export default class Utils {
         item.modified = (getColumnValue(pivotProps,item,'colModified'));
         item.modifiedByID = (getColumnValue(pivotProps,item,'colModifiedById'));
         item.modifiedByTitle = (getColumnValue(pivotProps,item,'colModifiedByTitle'));
+
+        item = addPersonVariations(item,'modifiedBy');
 
         if(modifiedByTitles.indexOf(item.modifiedByTitle) === -1) { modifiedByTitles.push(item.modifiedByTitle); }
         if(modifiedByIDs.indexOf(item.modifiedByID) === -1) { modifiedByIDs.push(item.modifiedByID); }
