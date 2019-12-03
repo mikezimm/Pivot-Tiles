@@ -38,11 +38,12 @@ export interface IDateInfo {
 
 }
 
-
 export interface IPersonCategoryArrays {
 
   fullName: string[];
   initials: string[];
+  firstName: string[];
+  lastName: string[];
   bestFormat: string[];
   IDs: number[];
 
@@ -59,6 +60,8 @@ export interface IPersonInfo {
 
 }
 
+type IInfo = IDateInfo | IPersonInfo;
+
 function createIPersonCategoryArrays(col) {
   let result = {} as IPersonInfo;
   let cats = {} as IPersonCategoryArrays;
@@ -66,6 +69,8 @@ function createIPersonCategoryArrays(col) {
   cats.fullName = [];
   cats.initials = [];
   cats.IDs = [];
+  cats.firstName = [];
+  cats.lastName = [];
   cats.bestFormat = [];
 
   result = {
@@ -338,6 +343,33 @@ export default class Utils {
 
     }
 
+    function pushPersonsToCategories(cats: IPersonCategoryArrays, thisPerson:IPersonCategoryArrays ){
+      //This updates the possible new categories for this date column
+      let newCats = cats;
+      const allKeys = Object.keys(newCats);
+
+      //console.log('cats',cats);
+      //console.log('allKeys',allKeys);
+      for (let key of allKeys){
+        if(newCats[key].indexOf(thisPerson['cats'][key][0]) === -1) { newCats[key].push(thisPerson['cats'][key][0]); }
+      }
+      return newCats;
+
+    }
+
+    function sortAllPersonCategories(cats: IPersonCategoryArrays ){
+      //This updates the possible new categories for this date column
+      let newCats = cats;
+      const allKeys = Object.keys(newCats);
+
+      //console.log('cats',cats);
+      //console.log('allKeys',allKeys);
+      for (let key of allKeys){
+        if(newCats[key]) { newCats[key].sort(); }
+      }
+      return newCats;
+
+    }
 
     function setLastCategoryPer(dateInfo: IDateInfo){
       //This sets state.lastCategory as the first category in each one.
@@ -349,6 +381,19 @@ export default class Utils {
       if (newDateInfo.cats[bestFormat]) { newDateInfo.lastCategory = newDateInfo.cats[bestFormat][0]; }
 
       return newDateInfo;
+
+    }
+
+    function setLastCategoryPerson(personInfo: IPersonInfo){
+      //This sets state.lastCategory as the first category in each one.
+      let nePersonInfo = personInfo;
+      let  bestFormat = nePersonInfo.bestFormat;
+      //Set last Category as the first tab in the best format.
+      console.log('setLastCategoryPer: newPersonInfo',bestFormat,nePersonInfo);
+      //This just checks to see if there is a best format... default category may not have one.
+      if (nePersonInfo.cats[bestFormat]) { nePersonInfo.lastCategory = nePersonInfo.cats[bestFormat][0]; }
+
+      return nePersonInfo;
 
     }
 
@@ -377,8 +422,8 @@ export default class Utils {
 
       //Do all to modified
         item.modified = (getColumnValue(pivotProps,item,'colModified'));
-        item.modifiedByID = (getColumnValue(pivotProps,item,'colModifiedById'));
-        item.modifiedByTitle = (getColumnValue(pivotProps,item,'colModifiedByTitle'));
+        item.modifiedByID = (getColumnValue(pivotProps,item,'colModifiedById')); // This is required for addPersonVariations
+        item.modifiedByTitle = (getColumnValue(pivotProps,item,'colModifiedByTitle')); // This is required for addPersonVariations
 
         item = addPersonVariations(item,'modifiedBy');
 
@@ -389,13 +434,17 @@ export default class Utils {
         modifiedInfo.cats = pushDatesToCategories(modifiedInfo.cats, item.modifiedTime);
         item = localizeDateVariations(item,'modified');
 
+        modifiedByInfo.cats = pushPersonsToCategories(modifiedByInfo.cats, item.modifiedBy);
+
         if ( item.modifiedTime.cats.time[0] < modifiedInfo.earliest )  { modifiedInfo.earliest = item.modifiedTime.cats.time[0]; }
         if ( item.modifiedTime.cats.time[0] > modifiedInfo.latest )  { modifiedInfo.latest = item.modifiedTime.cats.time[0]; } 
   
       //Do all to created
         item.created = (getColumnValue(pivotProps,item,'colCreated'));
-        item.createdByID = (getColumnValue(pivotProps,item,'colCreatedById'));
-        item.createdByTitle = (getColumnValue(pivotProps,item,'colCreatedByTitle'));
+        item.createdByID = (getColumnValue(pivotProps,item,'colCreatedById')); // This is required for addPersonVariations
+        item.createdByTitle = (getColumnValue(pivotProps,item,'colCreatedByTitle')); // This is required for addPersonVariations
+
+        item = addPersonVariations(item,'createdBy');
 
         if(createdByTitles.indexOf(item.createdByTitle) === -1) { createdByTitles.push(item.createdByTitle); }
         if(createdByIDs.indexOf(item.createdByID) === -1) { createdByIDs.push(item.createdByID); }
@@ -403,6 +452,8 @@ export default class Utils {
         item = addDateVariations(item,'created');
         createdInfo.cats = pushDatesToCategories(createdInfo.cats, item.createdTime);
         item = localizeDateVariations(item,'created');
+
+        createdByInfo.cats = pushPersonsToCategories(createdByInfo.cats, item.createdBy);
 
         if ( item.createdTime.cats.time[0] < createdInfo.earliest )  { createdInfo.earliest = item.createdTime.cats.time[0] ; }
         if ( item.createdTime.cats.time[0] > createdInfo.latest )  { createdInfo.latest = item.createdTime.cats.time[0] ; } 
@@ -412,6 +463,8 @@ export default class Utils {
     createdInfo.cats = sortAllDateCategories(createdInfo.cats);
     modifiedInfo.cats = sortAllDateCategories(modifiedInfo.cats);
     categoryInfo.cats = sortAllDateCategories(categoryInfo.cats);
+    modifiedByInfo.cats = sortAllPersonCategories(modifiedByInfo.cats);
+    createdByInfo.cats = sortAllPersonCategories(createdByInfo.cats);
 
     /**
      *   In this area, go back and localize date categories like we do for items above.
@@ -445,11 +498,37 @@ export default class Utils {
 
     }
 
+    function findBestPersonCategory(cats: IPersonCategoryArrays, maxPivotChars : number) {
+      //const allKeys = Object.keys(newCats);
+
+      let allFullNamesFitOnPivot = (cats.fullName.join('     ').length < maxPivotChars) ? true : false;      
+      let allFirstNamesFitOnPivot = (cats.firstName.join('     ').length < maxPivotChars) ? true : false;
+      let allLastNamesFitOnPivot = (cats.lastName.join('     ').length < maxPivotChars) ? true : false;
+      let allInitialsFitOnPivot = (cats.initials.join('     ').length < maxPivotChars) ? true : false;
+      let allIDsFitOnPivot = (cats.IDs.join('     ').length < maxPivotChars) ? true : false;
+
+      if ( allFullNamesFitOnPivot ) { return 'fullName' ; }
+      if ( allLastNamesFitOnPivot ) { return 'lastName' ; }
+      if ( allInitialsFitOnPivot ) { return 'initials' ; }
+
+
+      return 'initials';
+      //These are not used but could be if needed.
+
+      if ( allFirstNamesFitOnPivot ) { return 'firstName' ; }
+      if ( allIDsFitOnPivot ) { return 'IDs' ; }
+
+    }
+
     modifiedInfo.range = (Math.round(modifiedInfo.latest.getTime() - modifiedInfo.earliest.getTime()) / (one_day));
     createdInfo.range = (Math.round(createdInfo.latest.getTime() - createdInfo.earliest.getTime()) / (one_day));
 
     createdInfo.bestFormat = findBestDateCategory(createdInfo.cats, pivotProps.maxPivotChars);
     modifiedInfo.bestFormat = findBestDateCategory(modifiedInfo.cats, pivotProps.maxPivotChars);
+
+    modifiedByInfo.bestFormat = findBestPersonCategory(modifiedByInfo.cats, pivotProps.maxPivotChars);
+    createdByInfo.bestFormat = findBestPersonCategory(createdByInfo.cats, pivotProps.maxPivotChars);
+
     let bestCategoryFormat = 'unknownMZ';
 
     //console.log('modifiedInfo.bestFormat',modifiedInfo.bestFormat);
@@ -459,6 +538,9 @@ export default class Utils {
       item.createdTime.cats.bestFormat[0] = createdInfo.bestFormat;
       item.modified = item.modifiedTime.cats[modifiedInfo.bestFormat][0];
       item.modifiedTime.cats.bestFormat[0] = modifiedInfo.bestFormat;
+
+      item.createdBy.cats.bestFormat[0] = createdByInfo.bestFormat;
+      item.modifiedBy.cats.bestFormat[0] = modifiedByInfo.bestFormat;
     }
 
     //Set default category for each cat:
@@ -467,6 +549,9 @@ export default class Utils {
     
     modifiedInfo = setLastCategoryPer(modifiedInfo);
     createdInfo = setLastCategoryPer(createdInfo);
+    modifiedByInfo = setLastCategoryPerson(modifiedByInfo);
+    createdByInfo = setLastCategoryPerson(createdByInfo);
+    
     //categoryInfo = setLastCategoryPer(categoryInfo);
     //if (!categoryInfo.lastCategory) { categoryInfo.lastCategory = pivotProps.setTab }
     categoryInfo.lastCategory = pivotProps.setTab;
@@ -533,6 +618,8 @@ export default class Utils {
       onHoverZoom: pivotProps.onHoverZoom,
 
       modified: item.modified,
+      modifiedBy: item.modifiedBy,
+      createdBy: item.createdBy,
       modifiedByID: (getColumnValue(pivotProps,item,'colModifiedById')),
       modifiedByTitle: (getColumnValue(pivotProps,item,'colModifiedByTitle')),
       created: item.created,
@@ -551,6 +638,10 @@ export default class Utils {
       createdInfo: createdInfo,
       modifiedInfo: modifiedInfo,
       categoryInfo: categoryInfo,
+      createdByInfo: createdByInfo,
+      modifiedByInfo: modifiedByInfo,
+
+      
 
       modifiedByTitles: modifiedByTitles.sort(),
       modifiedByIDs: modifiedByIDs.sort(),

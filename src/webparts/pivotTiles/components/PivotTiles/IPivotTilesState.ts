@@ -1,6 +1,6 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 import { theTime } from './IPivotTilesProps';
-import { IDateInfo } from './utils';
+import { IDateInfo, IPersonInfo } from './utils';
 
 
 export interface IPivotTilesState {
@@ -50,6 +50,9 @@ export interface IPivotTilesState {
   createdInfo?: IDateInfo;
   modifiedInfo?: IDateInfo;
   categoryInfo?: IDateInfo;
+
+  modifiedByInfo?: IPersonInfo,
+  createdByInfo?: IPersonInfo,
 
   modifiedByTitles?: any[];
   modifiedByIDs?: any[];
