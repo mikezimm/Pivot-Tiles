@@ -87,7 +87,7 @@ function createIDateCategoryArrays(col) {
   let cats = {} as IDateCategoryArrays;
   cats.yr = [];
   cats.mo = [];
-  cats.day = [];
+  cats.day = [];  
   cats.date = [];
   cats.hr = [];
 
@@ -293,11 +293,11 @@ export default class Utils {
       item.modifiedByID = (getColumnValue(pivotProps,item,'colModifiedById'));
       item.modifiedByTitle = (getColumnValue(pivotProps,item,'colModifiedByTitle'));
       */
-      tilePerson.cats.fullName[0] = (getColumnValue(pivotProps,item,actualCol + 'Title'));
+      tilePerson.cats.fullName[0] = item[actualCol + 'Title'];
       tilePerson.cats.initials[0] = tilePerson.cats.fullName[0].split(" ").map((n)=>n[0]).join("");
-      tilePerson.cats.IDs[0] = (getColumnValue(pivotProps,item,actualCol + 'ID'));      
+      tilePerson.cats.IDs[0] = item[actualCol + 'ID'];      
 
-      newItem[col + 'By'] = tilePerson; 
+      newItem[col] = tilePerson; 
 
       return newItem;
 
