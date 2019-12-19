@@ -408,6 +408,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let categoryInfo = this.state.categoryInfo;
       let createdInfo = this.state.createdInfo;
       let modifiedInfo = this.state.modifiedInfo;
+      let modifiedByInfo = this.state.modifiedByInfo;
+      let createdByInfo = this.state.createdByInfo;
 
       let newFilteredTiles = [];
       let pivotProps = this.props;
@@ -422,6 +424,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       if (thisCatColumn === 'modified'){ modifiedInfo.lastCategory = item.props.headerText }
       else if (thisCatColumn === 'created'){ createdInfo.lastCategory = item.props.headerText }
       else if (thisCatColumn === 'category'){ categoryInfo.lastCategory = item.props.headerText }
+      else if (thisCatColumn === 'createdBy'){ createdByInfo.lastCategory = item.props.headerText }
+      else if (thisCatColumn === 'modifiedBy'){ modifiedByInfo.lastCategory = item.props.headerText }
 
       console.log('onLinkClick: this.state', this.state);
       console.log('onLinkClick: item.props.headerText', item.props.headerText);
@@ -436,6 +440,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         searchWhere: ' in ' + item.props.headerText,
         categoryInfo: categoryInfo,
         modifiedInfo: modifiedInfo,
+        modifiedByInfo: modifiedByInfo,
+        createdByInfo: createdByInfo,
         createdInfo: createdInfo,
         pivotDefSelKey: defaultSelectedKey,
 
@@ -875,6 +881,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         createdInfo: tileCollectionResults.createdInfo,
         modifiedInfo: tileCollectionResults.modifiedInfo,
         categoryInfo: tileCollectionResults.categoryInfo,
+        modifiedByInfo: tileCollectionResults.modifiedByInfo,
+        createdByInfo: tileCollectionResults.createdByInfo,
 
         modifiedByTitles: tileCollectionResults.modifiedByTitles,
         modifiedByIDs: tileCollectionResults.modifiedByIDs,
