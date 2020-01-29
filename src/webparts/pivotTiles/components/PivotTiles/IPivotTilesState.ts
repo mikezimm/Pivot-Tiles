@@ -51,8 +51,8 @@ export interface IPivotTilesState {
   modifiedInfo?: IDateInfo;
   categoryInfo?: IDateInfo;
 
-  modifiedByInfo?: IPersonInfo,
-  createdByInfo?: IPersonInfo,
+  modifiedByInfo?: IPersonInfo;
+  createdByInfo?: IPersonInfo;
 
   modifiedByTitles?: any[];
   modifiedByIDs?: any[];

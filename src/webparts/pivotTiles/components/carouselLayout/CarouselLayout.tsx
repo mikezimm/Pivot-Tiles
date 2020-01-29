@@ -11,7 +11,6 @@ import Slider from 'react-slick';
 import { ICarouselLayoutProps, ICarouselLayoutState, ICarouselItem } from "./CarouselLayout.types";
 import { CarouselSlide } from './CarouselSlide';
 
-
 import { SPComponentLoader } from '@microsoft/sp-loader';
 import styles from "./CarouselLayout.module.scss";
 

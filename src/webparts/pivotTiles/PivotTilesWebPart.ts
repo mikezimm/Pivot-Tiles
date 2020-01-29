@@ -32,9 +32,16 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     return super.onInit().then(_ => {
       // other init code may be present
 
-      //https://stackoverflow.com/questions/52010321/sharepoint-online-full-width-page
-      document.getElementById("workbenchPageContent").style.maxWidth = "none";
-      //console.log('window.location',window.location);
+        //https://stackoverflow.com/questions/52010321/sharepoint-online-full-width-page
+        console.log('location',window.location.href);
+        if ( window.location.href &&  
+           window.location.href.indexOf("layouts/15/workbench.aspx") > 0  ) {
+            
+          if (document.getElementById("workbenchPageContent")) {
+            document.getElementById("workbenchPageContent").style.maxWidth = "1300px";
+          }
+        } 
+        
       sp.setup({
         spfxContext: this.context
       });
@@ -49,7 +56,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     .map(p => p.split('='))
     .reduce((obj, pair) => {
       const [key, value] = pair.map(decodeURIComponent);
-      return ({ ...obj, [key]: value })
+      return ({ ...obj, [key]: value });
     }, {});
     return vars;
   }

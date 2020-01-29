@@ -6,7 +6,6 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import Utils from './utils';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import PivotTileItem from './../TileItems/PivotTileItem';
-import ReactSlideSwiper from '../Slider/ReactSlideSwiper';
 
 
 import { Carousel, CarouselButtonsLocation, CarouselButtonsDisplay } from "@pnp/spfx-controls-react/lib/Carousel";
@@ -28,7 +27,7 @@ import { IGridProps, IGridItem } from './../../components/gridComponent/Grid.typ
  */
 
 export function tileBuilder(parentProps,parentState){
-
+  console.log('tileBuilder',parentProps,parentState);
   const tileBuild = parentState.filteredTiles.map(newTile => (
       oneTileBuilder(parentProps,parentState, 'normal', newTile )
   ));
@@ -39,7 +38,7 @@ export function tileBuilder(parentProps,parentState){
 
 export function listViewBuilder(parentProps,parentState, theseAreItems, thisCategory){
   // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
-
+  console.log('listViewBuilder',parentProps,parentState,theseAreItems);
   let items = [];
 
   for (let item of theseAreItems){
@@ -104,7 +103,7 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
       iconFieldName="href"
       compact={false}
       selectionMode={SelectionMode.none}
-      selection={this._getSelection}
+      //selection={this._getSelection}
       showFilter={false}
       //defaultFilter="John"
       filterPlaceHolder="Search..."
@@ -122,7 +121,7 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
  */
 
 export function carouselBuilder(parentProps,parentState){
-  
+  console.log('carouselBuilder',parentProps,parentState);
   let carouselFullLineBuild: any;
 
   if (parentState.heroTiles[0]) {
@@ -152,7 +151,7 @@ export function carouselBuilder(parentProps,parentState){
  * @param parentState 
  */
 export function heroBuilder(parentProps,parentState){
-
+  console.log('heroBuilder',parentProps,parentState);
     let heroFullLineBuild : any;
     if (parentState.heroTiles) {
       heroFullLineBuild = parentState.heroTiles.map(newTile => (
@@ -163,37 +162,6 @@ export function heroBuilder(parentProps,parentState){
     return heroFullLineBuild;
 }
 
-/**
- * 
- * @param parentProps 
- * @param parentState 
- */
-export function sliderBuilder(parentProps,parentState){
-
-  let sliderFullLineBuild: any;
-
-  if (parentState.heroTiles[0]) {
-    
-    sliderFullLineBuild = 
-      <ReactSlideSwiper
-        enableNavigation = { true }
-        enablePagination = { true }
-        enableAutoplay = { false }
-        delayAutoplay = { 10 }
-        disableAutoplayOnInteraction = { true }
-        slidesPerView = { "30" }
-        slidesPerGroup = { "1" }
-        spaceBetweenSlides = { "15" }
-        enableGrabCursor = { true }
-        enableLoop = { true }
-        listItems = { parentState.heroTiles }
-        onHoverZoom={parentProps.onHoverZoom}
-        />
-      ;
-  } else { sliderFullLineBuild = ""; }
-
-  return sliderFullLineBuild;
-}
 
 /**
  * 
@@ -202,6 +170,7 @@ export function sliderBuilder(parentProps,parentState){
  * @param tType 
  */
 export function oneTileBuilder(parentProps,parentState, tType, newTile ){
+  console.log('oneTileBuilder',parentProps,parentState);
 
   const thisTile = 
     <PivotTileItem
@@ -252,6 +221,8 @@ export function oneTileBuilder(parentProps,parentState, tType, newTile ){
 export function carouselLayout(parentProps,parentState, theseAreItems, thisCategory){
   // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
 
+  console.log('carouselLayout',parentProps,parentState, theseAreItems, thisCategory);
+
   //remap props to correct ones for HGcarouselLayout
   let items = theseAreItems.map(item => ({
 
@@ -279,7 +250,7 @@ export function carouselLayout(parentProps,parentState, theseAreItems, thisCateg
 
 export function gridLayout(parentProps,parentState, theseAreItems, thisCategory){
   // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
-
+  console.log('gridLayout',parentProps,parentState, theseAreItems, thisCategory);
   let items = theseAreItems.map(item => ({
 
     thumbnail: item.imageUrl,
