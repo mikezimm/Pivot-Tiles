@@ -80,7 +80,7 @@ function createIPersonCategoryArrays(col) {
     lastCategory: null,
     name: col,
 
-  }
+  };
   
   return result;
 
@@ -119,7 +119,7 @@ function createIDateCategoryArrays(col) {
     lastCategory: null,
     name: col,
 
-  }
+  };
   
   return result;
 
@@ -172,12 +172,12 @@ export default class Utils {
         getProp = "File/ServerRelativeUrl";
       }
 
-      function convertValues(itemVal) {
+      function convertValues(itemValc) {
         // Cleans up values into right syntax, no numbers and some must be arrays.
-        itemVal = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemVal) :itemVal;
-        itemVal = (Array.isArray(itemVal)) ? itemVal.map(String) : itemVal;  //Convert number arrays (like Author/ID) to string arrays
-        itemVal = (typeof(itemVal) === 'number') ? itemVal.toString() : itemVal;
-        return itemVal;
+        itemValc = (getProp.indexOf('Link') > -1) ? convertLinks(theseProps, itemValc) :itemValc;
+        itemValc = (Array.isArray(itemValc)) ? itemValc.map(String) : itemValc;  //Convert number arrays (like Author/ID) to string arrays
+        itemValc = (typeof(itemValc) === 'number') ? itemValc.toString() : itemValc;
+        return itemValc;
       }
 
 
@@ -196,8 +196,8 @@ export default class Utils {
         if (isNaN(check4Date)){
           //This is not a date, do nothing
         } else { //This is a date, convert it to a group of dates like year
-          var d = new Date(itemVal);
-          itemVal = d.getFullYear();
+          var d1 = new Date(itemVal);
+          itemVal = d1.getFullYear();
         }
 
         return itemVal;
@@ -219,8 +219,8 @@ export default class Utils {
             if (isNaN(check4Date)){
               //This is not a date, do nothing
             } else { //This is a date, convert it to a group of dates like year
-              var d = new Date(itemVal);
-              itemVal = d.getFullYear();
+              var d2 = new Date(itemVal);
+              itemVal = d2.getFullYear();
             }
 
           }
@@ -246,9 +246,9 @@ export default class Utils {
      * @param theseProps 
      * @param itemVal 
      */
-    function convertLinks(theseProps, itemVal){
-      let itemVal2 = itemVal;
-      if (itemVal && itemVal.indexOf('../') === 0){
+    function convertLinks(theseProps, itemValL){
+      let itemVal2 = itemValL;
+      if (itemValL && itemValL.indexOf('../') === 0){
         itemVal2 = itemVal2.replace('../', (theseProps.pageContext.web.absoluteUrl + '/'));
       }
       return itemVal2;
@@ -263,24 +263,24 @@ export default class Utils {
     function addDateVariations(item,col){
       let newItem = item;
 
-      let tileTime = createIDateCategoryArrays(col);
+      let tileTimeDV = createIDateCategoryArrays(col);
       let thisTime = new Date(item[col]);
 
-      tileTime.cats.time[0] = thisTime;
-      tileTime.cats.yr[0] = thisTime.getFullYear();
-      tileTime.cats.mo[0] = thisTime.getMonth() + 1;
-      tileTime.cats.date[0] = thisTime.getDate();
-      tileTime.cats.day[0] = thisTime.getDay() + 1;
-      tileTime.cats.hr[0] = thisTime.getHours();
-      tileTime.cats.locDate[0] = thisTime.toLocaleDateString();
-      tileTime.cats.locTime[0] = thisTime.toLocaleTimeString();
-      tileTime.cats.age[0] = (pivotProps.startTime.now.valueOf() - thisTime.valueOf()) / ( one_day ) ;
-      let monthPrefix = (tileTime.cats.mo[0] < 10 ? '0' : '');
-      let datePrefix = (tileTime.cats.date[0] < 10 ? '0' : '');
-      tileTime.cats.yrMo[0] = tileTime.cats.yr + '-' + monthPrefix + tileTime.cats.mo;
-      tileTime.cats.moDay[0] = monthPrefix + tileTime.cats.mo + '-' +  datePrefix + tileTime.cats.date;
+      tileTimeDV.cats.time[0] = thisTime;
+      tileTimeDV.cats.yr[0] = thisTime.getFullYear();
+      tileTimeDV.cats.mo[0] = thisTime.getMonth() + 1;
+      tileTimeDV.cats.date[0] = thisTime.getDate();
+      tileTimeDV.cats.day[0] = thisTime.getDay() + 1;
+      tileTimeDV.cats.hr[0] = thisTime.getHours();
+      tileTimeDV.cats.locDate[0] = thisTime.toLocaleDateString();
+      tileTimeDV.cats.locTime[0] = thisTime.toLocaleTimeString();
+      tileTimeDV.cats.age[0] = (pivotProps.startTime.now.valueOf() - thisTime.valueOf()) / ( one_day ) ;
+      let monthPrefix = (tileTimeDV.cats.mo[0] < 10 ? '0' : '');
+      let datePrefix = (tileTimeDV.cats.date[0] < 10 ? '0' : '');
+      tileTimeDV.cats.yrMo[0] = tileTimeDV.cats.yr + '-' + monthPrefix + tileTimeDV.cats.mo;
+      tileTimeDV.cats.moDay[0] = monthPrefix + tileTimeDV.cats.mo + '-' +  datePrefix + tileTimeDV.cats.date;
       
-      newItem[col + 'Time'] = tileTime; 
+      newItem[col + 'Time'] = tileTimeDV; 
 
       return newItem;
 
@@ -648,7 +648,7 @@ export default class Utils {
       createdByTitles: createdByTitles.sort(),
       createdByIDs: createdByIDs.sort(),
 
-    }
+    };
 
   }
 
@@ -722,7 +722,7 @@ export default class Utils {
 
     //Added to remove hero category if it is either carousel or slider which should have all these tiles.
     if (pivotProps.showHero === true &&
-      ( pivotProps.heroType === 'carousel' || pivotProps.heroType === 'slider' || pivotProps.heroType === 'carouselLayout')) {
+      ( pivotProps.heroType === 'carouselLayout')) {
       //Remove this hero tile category because all tiles are in component
       const heroIndex = tileCategories.indexOf(currentHero);
       if ( heroIndex > -1 ) {
@@ -748,8 +748,7 @@ export default class Utils {
 
 function updatetileCats(pivotProps, thisCat, allCats, currentHero) {
 
-    if (  pivotProps.showHero === true && thisCat === currentHero && (
-      pivotProps.heroType === 'slider' || pivotProps.heroType === 'carousel' || pivotProps.heroType === 'carouselLayout' )) {
+    if (  pivotProps.showHero === true && thisCat === currentHero && ( pivotProps.heroType === 'carouselLayout' )) {
       //  If heroType is slider or carousel and this is the heroCategory, do not add to tile categories.
       //  because all tiles will be in those react components.
 

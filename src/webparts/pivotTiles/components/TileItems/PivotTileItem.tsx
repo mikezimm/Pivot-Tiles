@@ -54,11 +54,12 @@ export default class PivotTileItem extends React.Component<IPivotTileItemProps, 
     //let thisTarget = (item[this.props.newTabField]) ? "_blank" : "";
     //let thisHref = (item[this.props.linkField]) ? item[this.props.linkField].Url : "#";
     let thisPadding = `${this.props.textPadding}px`;
-
+    let iStyles = null;
+    
     if (this.props.heroType === "none" || this.props.heroType === "") {
-      var iStyles= tUtils.getTheseStyles(this.props.setSize,this.props.setRatio);
+        iStyles= tUtils.getTheseStyles(this.props.setSize,this.props.setRatio);
     } else {
-      var iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
+        iStyles= tUtils.getHeroStyles(this.props.setSize,this.props.setRatio, this.props.heroType);
     }
 
     var iHoverZoomStyle = tUtils.getOnHoverStyle(this.props.onHoverZoom);

@@ -69,6 +69,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       thisCatColumn: 'category',
     };
 
+    console.log('PivotTiles.tsx Constructor: this.props', this.props);
+
     // because our event handler needs access to the component, bind 
     //  the component to the function so it can get access to the
     //  components properties (this.props)... otherwise "this" is undefined
@@ -170,10 +172,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('render(): this.state.pivotDefSelKey', this.state.pivotDefSelKey);
     console.log('render(): defIndex', defIndex);
 
-    let slider = (this.state.heroTiles[0]) ? tileBuilders.sliderBuilder(this.props,this.state) : "";
-
     let tipError = false;
-    if (this.state.itemsError || this.state.listError || this.state.heroError){ tipError = true }
+    if (this.state.itemsError || this.state.listError || this.state.heroError){ tipError = true; }
 
     return (
       <div>
@@ -266,7 +266,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 
           { ( (this.props.showHero === true && this.props.heroType === "carousel" &&  this.state.heroStatus === "Ready") ? ( carouselBuilder ) : ""  ) }
-          { ( this.props.showHero === true && this.props.heroType === "slider" ? ( slider ) : ""  ) }
           { ( ( this.props.showHero === true && this.props.heroType === "inLine"  &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
             { ( tileBuild ) }
@@ -303,10 +302,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       searchType = "all";
       newSearchShow = true;
       searchCount = this.state.allTiles.length;
-      searchWhere = ' in all categories'
+      searchWhere = ' in all categories';
     }
     
-    console.log('newSearchShow: ', newSearchShow, searchType)
+    console.log('newSearchShow: ', newSearchShow, searchType);
     this.setState({
       searchType: searchType,
       searchShow: ( e.altKey === true ? true : !this.state.searchShow ),
@@ -356,30 +355,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 
     return ;
-
-    if (e.shiftKey && e.altKey && e.ctrlKey) {
-
-      this._updateStateOnPropsChange({heroCategory: item.props.headerText});
-
-    } else {
-      let newFilteredTiles = [];
-      for (let thisTile of this.state.allTiles) {
-        if(thisTile.category.indexOf(item.props.headerText) > -1) {
-
-          let showThisTile = true;
-          if (this.props.heroType !== 'none') {
-            showThisTile = this.state.heroIds.indexOf(thisTile.Id.toString()) > -1 ? false : true;
-          }
-          if (showThisTile === true) {newFilteredTiles.push(thisTile) ; }
-        }
-      }
-
-      this.setState({
-        filteredCategory: item.props.headerText,
-        filteredTiles: newFilteredTiles,
-      });
-
-    }
     
   } //End searchForItems
 
@@ -417,15 +392,15 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 //      newFiltered = this.getOnClickFilteredTiles(pivotProps, pivotState, newCollection, heroIds, newHeros, thisCatColumn, lastCategory)
 
-      newFilteredTiles = this.getOnClickFilteredTiles(pivotProps, pivotState, this.state.allTiles, this.state.heroIds, this.state.heroTiles, this.state.thisCatColumn, item.props.headerText)
+      newFilteredTiles = this.getOnClickFilteredTiles(pivotProps, pivotState, this.state.allTiles, this.state.heroIds, this.state.heroTiles, this.state.thisCatColumn, item.props.headerText);
 
       //Save back the last pivot/tile clicked.
       let thisCatColumn = this.state.thisCatColumn;
-      if (thisCatColumn === 'modified'){ modifiedInfo.lastCategory = item.props.headerText }
-      else if (thisCatColumn === 'created'){ createdInfo.lastCategory = item.props.headerText }
-      else if (thisCatColumn === 'category'){ categoryInfo.lastCategory = item.props.headerText }
-      else if (thisCatColumn === 'createdBy'){ createdByInfo.lastCategory = item.props.headerText }
-      else if (thisCatColumn === 'modifiedBy'){ modifiedByInfo.lastCategory = item.props.headerText }
+      if (thisCatColumn === 'modified'){ modifiedInfo.lastCategory = item.props.headerText; }
+      else if (thisCatColumn === 'created'){ createdInfo.lastCategory = item.props.headerText; }
+      else if (thisCatColumn === 'category'){ categoryInfo.lastCategory = item.props.headerText; }
+      else if (thisCatColumn === 'createdBy'){ createdByInfo.lastCategory = item.props.headerText; }
+      else if (thisCatColumn === 'modifiedBy'){ modifiedByInfo.lastCategory = item.props.headerText; }
 
       console.log('onLinkClick: this.state', this.state);
       console.log('onLinkClick: item.props.headerText', item.props.headerText);
@@ -537,10 +512,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let setLayout = this.state.setLayout;
 
     if (setLayout === "Card") {
-      setLayout = this.props.setSize
+      setLayout = this.props.setSize;
     } else if (setLayout === "List") {
-      setLayout = "Card"
-    } else {       setLayout = "List" }
+      setLayout = "Card";
+    } else {       setLayout = "List"; }
 
     this.setState({
       setLayout: setLayout,
@@ -622,13 +597,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     }
 
-    if (thisCatColumn === 'category'){ lastCategory = this.state.categoryInfo.lastCategory }
-    else if (thisCatColumn === 'modified'){ lastCategory = this.state.modifiedInfo.lastCategory }
-    else if (thisCatColumn === 'created'){ lastCategory = this.state.createdInfo.lastCategory }
-    else if (thisCatColumn === 'modifiedByTitile'){ lastCategory = null }
-    else if (thisCatColumn === 'createdByTitle'){ lastCategory = null }
+    if (thisCatColumn === 'category'){ lastCategory = this.state.categoryInfo.lastCategory; }
+    else if (thisCatColumn === 'modified'){ lastCategory = this.state.modifiedInfo.lastCategory; }
+    else if (thisCatColumn === 'created'){ lastCategory = this.state.createdInfo.lastCategory; }
+    else if (thisCatColumn === 'modifiedByTitile'){ lastCategory = null; }
+    else if (thisCatColumn === 'createdByTitle'){ lastCategory = null; }
 
-    newFiltered = this.getOnClickFilteredTiles(pivotProps, pivotState, newCollection, heroIds, newHeros, thisCatColumn, lastCategory)
+    newFiltered = this.getOnClickFilteredTiles(pivotProps, pivotState, newCollection, heroIds, newHeros, thisCatColumn, lastCategory);
 
     console.log('_updateStateOnPropsChange thisCatColumn', thisCatColumn);
 
@@ -837,7 +812,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
       let tileCollectionResults = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
       console.log('tileCollectionResults: ', tileCollectionResults);
-      let tileCollection = tileCollectionResults.tileCollection
+      let tileCollection = tileCollectionResults.tileCollection;
 
       let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, pivotState, tileCollection, pivotProps.heroCategory, 'category');
       
@@ -1011,7 +986,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       }
     }
 
-    if (this.props.heroType !== 'slider' && this.props.heroType !== 'carousel' && this.props.heroType !== 'carouselLayout') {
+    if (this.props.heroType !== 'carouselLayout') {
       //If it's not a slider, then only show one random tile.  Else show all
       var randomItem = heroTiles[Math.floor(Math.random()*heroTiles.length)];
       heroTiles = [randomItem];
