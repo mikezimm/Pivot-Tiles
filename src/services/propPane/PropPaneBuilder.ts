@@ -22,7 +22,7 @@ export class PropertyPaneBuilder {
         introPage.getPropertyPanePage(webPartProps),
         webPartSettingsPage.getPropertyPanePage(webPartProps),
         listMappingPage1.getPropertyPanePage(webPartProps),
-        listMappingPage2.getPropertyPanePage(),
+        listMappingPage2.getPropertyPanePage(webPartProps),
       ]
     };
   } // getPropertyPaneConfiguration()

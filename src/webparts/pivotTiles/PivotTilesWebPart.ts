@@ -92,6 +92,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         propURLQuery: this.properties.propURLQuery,
         setTab: this.properties.setTab,
         otherTab: this.properties.otherTab,
+        enableChangePivots: this.properties.enableChangePivots,
         maxPivotChars: 30,
 
         setPivSize: this.properties.setPivSize,
@@ -225,19 +226,17 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         this.properties.setFilter = newMap.setFilter;
         this.properties.setTab = newMap.setTab;        
         
-
       } else {
         console.log('Did NOT List Defintion... updating column name props');
 
       }
-
 
       this.context.propertyPane.refresh();
     }
 
     let updateOnThese = [
       'setSize','setTab','otherTab','setPivSize','heroCategory','heroRatio','showHero','setPivFormat','setImgFit','setImgCover','target',
-      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom'
+      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots',
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

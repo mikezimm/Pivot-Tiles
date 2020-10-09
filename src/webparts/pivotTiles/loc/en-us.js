@@ -10,6 +10,8 @@ define([], function() {
     "PropertyPaneMainDescription": "Web Part Settings",
     "PropertyPaneColumnsDescription": "Required Column Settings",
     "PropertyPaneColumnsDescription": "Advanced Column Settings",
+    "PropertyPaneColumnsDescription1": "Set up List",
+    "PropertyPaneColumnsDescription2": "Advanced list settings",
     "BasicGroupName": "Group Name",
     "DescriptionFieldLabel": "Description Field",
     "DefaultTileList": "OurTiles",

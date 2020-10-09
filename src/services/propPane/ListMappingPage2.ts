@@ -6,7 +6,7 @@ import {
     PropertyPaneTextField, IPropertyPaneTextFieldProps,
     PropertyPaneLink, IPropertyPaneLinkProps,
     PropertyPaneDropdown, IPropertyPaneDropdownProps,
-    IPropertyPaneDropdownOption
+    IPropertyPaneDropdownOption, PropertyPaneToggle,
   } from '@microsoft/sp-webpart-base';
   
   import * as strings from 'PivotTilesWebPartStrings';
@@ -18,32 +18,29 @@ import {
             },
     */
 
-    public getPropertyPanePage(): IPropertyPanePage {
+    public getPropertyPanePage(webPartProps): IPropertyPanePage {
         return <IPropertyPanePage>        { // <page3>
             header: {
-                description: strings.PropertyPaneColumnsDescription2
+                //description: strings.PropertyPaneColumnsDescription2
             },
+            displayGroupsAsAccordion: true,
              groups: [
             {
-                groupName: strings.PropertyPaneColumnsDescription2,
+                groupName: 'Dev',
+                isCollapsed: true ,
                 groupFields: [
-
-                PropertyPaneTextField('colColor', {
-                    label: strings.colColor
-                }),
-                PropertyPaneTextField('colSize', {
-                    label: strings.colSize
-                }),
-
-                PropertyPaneTextField('colOpenBehaviour', {
-                    label: strings.colOpenBehaviour
-                }),
-
-                PropertyPaneTextField('colTileStyle', {
-                    label: strings.colTileStyle
+                PropertyPaneToggle('enableChangePivots', {
+                    disabled: webPartProps.scenario !== "DEV" ? true : false,
+                    label: 'Enable Change Pivots option',
+                    offText: 'No',
+                    onText: 'Yes = function not finished',
                 }),
               ]
-            }
+            },
+
+
+
+
           ]
         }; // <page3>
       } // getPropertyPanePage()
