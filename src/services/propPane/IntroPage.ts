@@ -18,10 +18,11 @@ export class IntroPage {
     return <IPropertyPanePage>
     { // <page1>
       header: {
-        description: strings.PropertyPaneAbout
+        //description: strings.PropertyPaneAbout
       },
+      displayGroupsAsAccordion: true,
       groups: [
-        {
+        { groupName: 'Basic webpart info',
           groupFields: [
             PropertyPaneLabel('About Text', {
               text: 'This webpart gets tile defintion from a list in SharePoint :).'
@@ -33,7 +34,8 @@ export class IntroPage {
             }),
           ]
         },
-        { groupName: 'Basic webpart info',
+        { groupName: 'List setup',
+        isCollapsed: true ,
         groupFields: [
           PropertyPaneTextField('listWebURL', {
               label: strings.listWebURL
@@ -46,15 +48,18 @@ export class IntroPage {
           }),
         ]}, // this group
         { groupName: 'Filtering',
+        isCollapsed: true ,
         groupFields: [
           PropertyPaneTextField('setFilter', {
               label: strings.setFilter
           }),
           PropertyPaneTextField('propURLQuery', {
+            disabled: true,
               label: strings.propURLQuery
           }),
         ]}, // this group
         { groupName: 'Behavior',
+        isCollapsed: true ,
           groupFields: [
             PropertyPaneDropdown('target', <IPropertyPaneDropdownProps>{
               label: 'Open Behavior',
@@ -63,15 +68,7 @@ export class IntroPage {
           ]}, // this group
 
           { groupName: 'Pivot Styles',
-            groupFields: [
-              PropertyPaneToggle('advancedPivotStyles', {
-                label: '',
-                offText: strings.Property_ShowHero_OffText,
-                onText: strings.Property_ShowHero_OnText
-              }),
-            ]}, // this group
-
-            { isCollapsed: !webPartProps.advancedPivotStyles,
+          isCollapsed: true ,
             groupFields: [
               PropertyPaneDropdown('setPivSize', <IPropertyPaneDropdownProps>{
                 label: strings.setPivSize,
@@ -87,7 +84,6 @@ export class IntroPage {
                 disabled: true,
               }),
             ]}, // this group
-
           ]}; // Groups
   } // getPropertyPanePage()
 }

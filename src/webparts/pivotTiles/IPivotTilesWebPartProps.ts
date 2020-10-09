@@ -37,6 +37,7 @@ export interface IPivotTilesWebPartProps {
   setPivFormat: string;
   setPivOptions: string[];
   otherTab: string;
+  enableChangePivots: boolean;
   
   //List primary settings
   listDefinition: string;

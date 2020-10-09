@@ -175,9 +175,35 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let tipError = false;
     if (this.state.itemsError || this.state.listError || this.state.heroError){ tipError = true; }
 
+    let changePivots = this.props.enableChangePivots !== true ? null :
+        <div className={[styles.floatLeft,styles.padLeft20,( this.state.shuffleShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
+          <div className={styles.quickTabsGroup}>
+
+            <div className={styles.quickTabsLable}>
+              { 'Change Pivots' }
+            </div>
+            { /* New Pivot for dynamic categories */ }
+            <Pivot 
+              style={{ flexGrow: 1, paddingLeft: '10px' }}
+              //linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
+              //linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
+              onLinkClick= { this.onChangePivotClick.bind(this) }  //{this.specialClick.bind(this)}
+              defaultSelectedKey={ this.props.colCategory }
+              headersOnly={true}>
+
+                <PivotItem headerText={this.props.colCategory} itemKey={'category'}/>
+                <PivotItem headerText={'Modified'} itemKey={'modified'}/>
+                <PivotItem headerText={'Created'} itemKey={'created'}/>
+                <PivotItem headerText={'Modified By'} itemKey={'modifiedByTitle'}/>
+                <PivotItem headerText={'Created By'} itemKey={'createdByTitle'}/>
+            </Pivot>
+
+            { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
+          </div>
+        </div>;
+
     return (
       <div>
-
 
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
@@ -213,31 +239,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           <div>
           </div>
           <br/>
-          <div className={[styles.floatLeft,styles.padLeft20,( this.state.shuffleShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
-            <div className={styles.quickTabsGroup}>
 
-              <div className={styles.quickTabsLable}>
-                { 'Change Pivots' }
-              </div>
-              { /* New Pivot for dynamic categories */ }
-              <Pivot 
-                style={{ flexGrow: 1, paddingLeft: '10px' }}
-                //linkSize= { pivotOptionsGroup.getPivSize(this.props.setPivSize) }
-                //linkFormat= { pivotOptionsGroup.getPivFormat(this.props.setPivFormat) }
-                onLinkClick= { this.onChangePivotClick.bind(this) }  //{this.specialClick.bind(this)}
-                defaultSelectedKey={ this.props.colCategory }
-                headersOnly={true}>
-
-                  <PivotItem headerText={this.props.colCategory} itemKey={'category'}/>
-                  <PivotItem headerText={'Modified'} itemKey={'modified'}/>
-                  <PivotItem headerText={'Created'} itemKey={'created'}/>
-                  <PivotItem headerText={'Modified By'} itemKey={'modifiedByTitle'}/>
-                  <PivotItem headerText={'Created By'} itemKey={'createdByTitle'}/>
-              </Pivot>
-
-              { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
-            </div>
-          </div>
+          { changePivots }
 
           {/*https://developer.microsoft.com/en-us/fabric#/controls/web/searchbox*/}
           <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >

@@ -56,6 +56,8 @@ export function buildTips(parentProps,parentState){
             </Link></p>
           <h3>If the webpart loads, but you are missing something (like Title or Images)</h3>
           <p>Check to make sure your columns are based on Static Names in the web part properties.</p>
+          <p></p>
+          <p>Version 1.1.0.0</p>
 
       </div>
   </div>;

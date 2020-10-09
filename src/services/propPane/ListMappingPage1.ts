@@ -40,11 +40,13 @@ import {
 */
         return <IPropertyPanePage>        { // <page3>
             header: {
-                description: strings.PropertyPaneColumnsDescription1
+                description: 'List Column settings',
             },
+            displayGroupsAsAccordion: true,
             groups: [
             {
                 groupName: strings.PropertyPaneColumnsDescription1,
+                isCollapsed: true ,
                 groupFields: [
 
                 PropertyPaneDropdown('listDefinition', <IPropertyPaneDropdownProps>{
@@ -82,7 +84,28 @@ import {
                 }),
 
               ]
-            }
+            },
+            {
+                groupName: strings.PropertyPaneColumnsDescription2,
+                isCollapsed: true ,
+                groupFields: [
+
+                PropertyPaneTextField('colColor', {
+                    label: strings.colColor
+                }),
+                PropertyPaneTextField('colSize', {
+                    label: strings.colSize
+                }),
+
+                PropertyPaneTextField('colOpenBehaviour', {
+                    label: strings.colOpenBehaviour
+                }),
+
+                PropertyPaneTextField('colTileStyle', {
+                    label: strings.colTileStyle
+                }),
+              ]
+            },
           ]
         }; // <page3>
       } // getPropertyPanePage()
