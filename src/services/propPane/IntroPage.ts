@@ -18,7 +18,7 @@ export class IntroPage {
     return <IPropertyPanePage>
     { // <page1>
       header: {
-        description: strings.PropertyPaneAbout
+        //description: strings.PropertyPaneAbout
       },
       displayGroupsAsAccordion: true,
       groups: [
@@ -54,6 +54,7 @@ export class IntroPage {
               label: strings.setFilter
           }),
           PropertyPaneTextField('propURLQuery', {
+            disabled: true,
               label: strings.propURLQuery
           }),
         ]}, // this group

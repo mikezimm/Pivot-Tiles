@@ -56,9 +56,31 @@ import {
             }),
             
 
+            PropertyPaneDropdown('setImgFit', <IPropertyPaneDropdownProps>{
+              label: strings.setImgFit,
+              options: imageOptionsGroup.imgFitChoices,
+            }),
+            PropertyPaneDropdown('setImgCover', <IPropertyPaneDropdownProps>{
+              label: strings.setImgCover,
+              options: imageOptionsGroup.imgCoverChoices,
+            }),
+
+          ]}, // this group
+
+          // Group of props for standard sizes
+          {  groupName: 'Tile settings',
+          isCollapsed: webPartProps.setSize === "Custom" ? true : false ,
+          groupFields: [
+
             PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{
               label: strings.setSize,
               options: this.setSize,
+            }),
+            
+            PropertyPaneDropdown('setRatio', <IPropertyPaneDropdownProps>{
+              disabled: webPartProps.setSize === "Custom" ? true : false ,
+              label: strings.setRatio,
+              options: this.setRatio,
             }),
 
               PropertyPaneSlider('imageWidth', {
@@ -82,31 +104,18 @@ import {
                 max: 20
               }),
 
-            ]}, // this group
-
-          // Group of props for standard sizes
-          {  groupName: 'Tile settings',
-          isCollapsed: webPartProps.setSize === "Custom" ? true : false ,
-          groupFields: [
-            
-            PropertyPaneDropdown('setRatio', <IPropertyPaneDropdownProps>{
-              label: strings.setRatio,
-              options: this.setRatio,
-            }),
-            PropertyPaneDropdown('setImgFit', <IPropertyPaneDropdownProps>{
-              label: strings.setImgFit,
-              options: imageOptionsGroup.imgFitChoices,
-            }),
-            PropertyPaneDropdown('setImgCover', <IPropertyPaneDropdownProps>{
-              label: strings.setImgCover,
-              options: imageOptionsGroup.imgCoverChoices,
-            }),
-
           ]}, // this group
           
           { groupName: 'Hero Panel settings',
             isCollapsed: true,
             groupFields: [
+
+              PropertyPaneToggle('showHero', {
+                label: strings.Property_ShowHero_Label,
+                offText: strings.Property_ShowHero_OffText,
+                onText: strings.Property_ShowHero_OnText
+              }),
+
               PropertyPaneLabel('HeroPanelSettings', {
                 text: 'Hero Panel Settings'
               }),
