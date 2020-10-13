@@ -49,9 +49,16 @@ import {
                 isCollapsed: true ,
                 groupFields: [
 
+                PropertyPaneToggle('definitionToggle', {
+                    label: 'Lock List Type - prevents accidently reseting props with List Type dropdown!',
+                    offText: 'Off',
+                    onText: 'On',
+                }),
+
                 PropertyPaneDropdown('listDefinition', <IPropertyPaneDropdownProps>{
                     label: strings.listDefinition,
                     options: theListChoices,
+                    disabled: webPartProps.definitionToggle,
                 }),
 
                 PropertyPaneTextField('listTitle', {
@@ -91,8 +98,11 @@ import {
                 groupFields: [
 
                 PropertyPaneTextField('colColor', {
-                    label: strings.colColor
+                    description: 'Column defining tile background color, not yet available.',
+                    label: strings.colColor,
+                    disabled: true,                    
                 }),
+
                 PropertyPaneTextField('colSize', {
                     label: strings.colSize
                 }),

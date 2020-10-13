@@ -69,7 +69,7 @@ import {
 
           // Group of props for standard sizes
           {  groupName: 'Tile settings',
-          isCollapsed: webPartProps.setSize === "Custom" ? true : false ,
+          isCollapsed: true ,
           groupFields: [
 
             PropertyPaneDropdown('setSize', <IPropertyPaneDropdownProps>{

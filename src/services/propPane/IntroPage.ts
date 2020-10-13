@@ -23,6 +23,7 @@ export class IntroPage {
       displayGroupsAsAccordion: true,
       groups: [
         { groupName: 'Basic webpart info',
+        
           groupFields: [
             PropertyPaneLabel('About Text', {
               text: 'This webpart gets tile defintion from a list in SharePoint :).'
