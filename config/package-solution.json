@@ -3,7 +3,7 @@
   "solution": {
     "name": "pivot-tiles-client-side-solution",
     "id": "4a739852-424f-48a8-8454-8711f78604fd",
-    "version": "1.1.0.0",
+    "version": "1.1.0.1",
     "includeClientSideAssets": true,
     "isDomainIsolated": false
   },

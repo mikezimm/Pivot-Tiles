@@ -62,6 +62,11 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
   }
 
   public render(): void {
+
+    let urlVars : any = this.getUrlVars();
+
+    if ( urlVars.scenario && urlVars.scenario.toLowerCase() === 'dev' ) {  this.properties.scenario = 'DEV';  }
+
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
@@ -236,7 +241,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     let updateOnThese = [
       'setSize','setTab','otherTab','setPivSize','heroCategory','heroRatio','showHero','setPivFormat','setImgFit','setImgCover','target',
-      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots',
+      'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots', 'definitionToggle',
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

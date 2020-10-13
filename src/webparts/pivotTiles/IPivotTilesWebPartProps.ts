@@ -40,6 +40,7 @@ export interface IPivotTilesWebPartProps {
   enableChangePivots: boolean;
   
   //List primary settings
+  definitionToggle: boolean;
   listDefinition: string;
   listWebURL: string;
   listTitle: string;
