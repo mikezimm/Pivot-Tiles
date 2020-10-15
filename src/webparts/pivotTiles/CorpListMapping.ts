@@ -19,6 +19,8 @@
         availableListMapping.choiceOurTiles,
         availableListMapping.choiceMedia,
         availableListMapping.choiceDocument,
+        availableListMapping.choiceSiteNews,
+        availableListMapping.choiceSitePages,
         availableListMapping.choiceUnk,
     ];
 
