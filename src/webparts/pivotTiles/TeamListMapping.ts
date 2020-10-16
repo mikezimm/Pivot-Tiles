@@ -20,6 +20,8 @@
         availableListMapping.choiceQuick,
         availableListMapping.choiceMedia,
         availableListMapping.choiceDocument,
+        availableListMapping.choiceSiteNews,
+        availableListMapping.choiceSitePages,
         availableListMapping.choiceUnk,
     ];
 

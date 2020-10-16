@@ -202,7 +202,7 @@ export default class Utils {
 
         return itemVal;
 
-      } else if (theseProps[getProp].indexOf("/") < 0) {
+      } else if (theseProps[getProp].indexOf("/") < 0 && theseProps[getProp].indexOf(".") < 0 ) {
         //the property does not have a / so you do want to check for a date.
 
         if (item[theseProps[getProp]]) {
@@ -230,8 +230,9 @@ export default class Utils {
         } else { return ""; } 
       } else {
         //console.log('getColumnValue: ', getProp, theseProps[getProp]);
-        const leftSide =  Utils.parseMe(theseProps[getProp],"/",'left');
-        const rightSide = Utils.parseMe(theseProps[getProp],"/",'right');
+        let parser = theseProps[getProp].indexOf('/') > 0 ? '/' : '.';
+        const leftSide =  Utils.parseMe(theseProps[getProp], parser,'left');
+        const rightSide = Utils.parseMe(theseProps[getProp], parser,'right');
 
         if (item[leftSide]) {
           itemVal = item[leftSide][rightSide];

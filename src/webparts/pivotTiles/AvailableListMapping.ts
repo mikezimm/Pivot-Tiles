@@ -39,7 +39,13 @@
         {   index: 9,   key: 'none', text: "Unknown"  };
 
     public choiceTestDateCat: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
-    {   index: 9,   key: 'TestDateCatLibrary', text: "TestImages Date Category"  };
+    {   index: 12,   key: 'TestDateCatLibrary', text: "TestImages Date Category"  };
+
+    public choiceSitePages: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+    {   index: 10,   key: 'SitePages', text: "Site Pages"  };
+
+    public choiceSiteNews: IPropertyPaneDropdownOption = <IPropertyPaneDropdownOption>
+    {   index: 11,   key: 'SiteNews', text: "Site Pages News"  };
 
     public getListColumns (findMe) :any {
         let listMap = {};
@@ -129,6 +135,50 @@
                 "colGoToLink" : "File/ServerRelativeUrl",
                 "colOpenBehaviour" : "",
                 "colImageLink" : "File/ServerRelativeUrl",
+                "colSort" : "Title"
+            },
+            "setFilter": "",
+            "setTab": "Main Menu",
+        };
+        
+    } else if (findMe === 'SitePages') {
+        listMap = {
+            "testSite" : "",
+            "listDef" : "SitePages",
+            "listDisplay" : "Site Pages",
+            "listName" : "Site Pages",
+            "tabDefault" : false,
+            "listMapping" : {
+                "colTitleText" : "Title",
+                "colHoverText" : "Description",
+                "colCategory" : "Author/Title",
+                "colColor" : "",
+                "colSize" : "",
+                "colGoToLink" : "File/ServerRelativeUrl",
+                "colOpenBehaviour" : "",
+                "colImageLink" : "BannerImageUrl.Url",
+                "colSort" : "Title"
+            },
+            "setFilter": "",
+            "setTab": "Main Menu",
+        };
+        
+    } else if (findMe === 'SiteNews') {
+        listMap = {
+            "testSite" : "",
+            "listDef" : "SiteNews",
+            "listDisplay" : "Site Pages",
+            "listName" : "SitePages",
+            "tabDefault" : false,
+            "listMapping" : {
+                "colTitleText" : "Title",
+                "colHoverText" : "Description",
+                "colCategory" : "Author/Title",
+                "colColor" : "",
+                "colSize" : "",
+                "colGoToLink" : "File/ServerRelativeUrl",
+                "colOpenBehaviour" : "",
+                "colImageLink" : "BannerImageUrl.Url",
                 "colSort" : "Title"
             },
             "setFilter": "",

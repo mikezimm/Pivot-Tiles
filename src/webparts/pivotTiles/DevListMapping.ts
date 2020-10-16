@@ -18,7 +18,10 @@
         availableListMapping.choiceIcons,
         availableListMapping.choiceTestImages,
         availableListMapping.choiceUnk,
+        availableListMapping.choiceSiteNews,
+        availableListMapping.choiceSitePages,
         availableListMapping.choiceTestDateCat,
+
     ];
 
   }
