@@ -136,10 +136,10 @@ public constructor(props:IAdvancedProps){
                     { row07 }
                     { row08 }
                     { row09 }
-                    { row10 }
-                    { row11 }
-                    { row12 }
-                    { row13 }
+                    {  }
+                    {  }
+                    {  }
+                    {  }
                 </table>
             </div>;
 

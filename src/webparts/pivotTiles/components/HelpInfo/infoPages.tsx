@@ -167,7 +167,7 @@ public constructor(props:IInfoPageProps){
             const ColoredLine = ({ color }) => ( <hr style={{ color: color, backgroundColor: color, height: 1 }}/> );
 
             return (
-                <div className={ styles.infoPane }>
+                <div className={ styles.infoPane } style={{ paddingBottom: 20 }}>
                     <Stack padding={20} horizontal={true} horizontalAlign={"space-between"} tokens={stackButtonTokensBody}> {/* Stack for Projects and body */}
                         { pageChoices }
 

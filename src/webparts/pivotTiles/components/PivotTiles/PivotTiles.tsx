@@ -159,12 +159,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       ></InfoPage>
     </div>;
 
-    let buildTips = myErrors.buildTips(this.props,this.state);
-
     let gridLayout = (this.state.heroTiles[0]) ? tileBuilders.gridLayout(this.props,this.state,this.state.heroTiles, this.state.heroCategory) : "";
         
     let tileBuild;
-    let listBuild = tileBuilders.listViewBuilder(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
 
     if (this.state.setLayout === "Card") {
       tileBuild = tileBuilders.gridLayout(this.props,this.state,this.state.filteredTiles, this.state.heroCategory);
@@ -218,13 +215,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         </div>;
 
       let earlyAccess = 
-      <EarlyAccess 
-          image = { "https://autoliv.sharepoint.com/sites/crs/PublishingImages/Early%20Access%20Image.png" }
-          messages = { [ <div><span><b>Welcome to ALV Webpart Early Access!!!</b></span></div>, "Get more info here -->"] }
-          links = { [ links.gitRepoPivotTiles.wiki, links.gitRepoPivotTiles.issues ]}
-          email = { 'mailto:General - WebPart Dev <0313a49d.Autoliv.onmicrosoft.com@amer.teams.ms>?subject=Pivot Tiles Webpart Feedback&body=Enter your message here :)  \nScreenshots help!' }
-          farRightIcons = { [ ] }
-      ></EarlyAccess>;
+      <div style={{ paddingBottom: 10 }}>
+        <EarlyAccess 
+            image = { "https://autoliv.sharepoint.com/sites/crs/PublishingImages/Early%20Access%20Image.png" }
+            messages = { [ <div><span><b>Welcome to ALV Webpart Early Access!!!</b></span></div>, "Get more info here -->"] }
+            links = { [ links.gitRepoPivotTiles.wiki, links.gitRepoPivotTiles.issues ]}
+            email = { 'mailto:General - WebPart Dev <0313a49d.Autoliv.onmicrosoft.com@amer.teams.ms>?subject=Pivot Tiles Webpart Feedback&body=Enter your message here :)  \nScreenshots help!' }
+            farRightIcons = { [ ] }
+        ></EarlyAccess>
+      </div>
+      ;
 
     return (
       <div>

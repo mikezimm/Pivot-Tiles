@@ -70,7 +70,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       result = JSON.parse(str);
 
     } catch(e) {
-      console.log(message + ' is not a valid JSON object.  Please fix it and re-run');
+      console.error(message + ' is not a valid JSON object.  Please fix it and re-run');
 
     }
     
