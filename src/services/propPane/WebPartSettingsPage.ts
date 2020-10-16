@@ -148,6 +148,24 @@ import {
 
             ]}, // this group
 
+            { groupName: 'Pivot Styles',
+            isCollapsed: true ,
+              groupFields: [
+                PropertyPaneDropdown('setPivSize', <IPropertyPaneDropdownProps>{
+                  label: strings.setPivSize,
+                  options: pivotOptionsGroup.pivSizeChoices,
+                }),
+                PropertyPaneDropdown('setPivFormat', <IPropertyPaneDropdownProps>{
+                  label: strings.setPivFormat,
+                  options: pivotOptionsGroup.pivFormatChoices,
+                }),
+                PropertyPaneDropdown('setPivOptions', <IPropertyPaneDropdownProps>{
+                  label: strings.setPivOptions,
+                  options: pivotOptionsGroup.pivOptionsChoices,
+                  disabled: true,
+                }),
+              ]}, // this group
+              
           ]}; // Groups
     } // getPropertyPanePage()
 

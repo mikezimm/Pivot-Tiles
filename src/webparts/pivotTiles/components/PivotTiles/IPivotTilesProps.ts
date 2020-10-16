@@ -7,6 +7,24 @@ export interface theTime {
   milliseconds : number;
 }
 
+export interface ICustomLogic {
+
+  category: string;
+  regex?: string;
+  eval?: string;
+
+}
+
+export type ICustomTypes = 'tileCategory' | 'semiColon1' | 'semiColon2' | 'custom';
+
+export interface ICustomCategories {
+
+  type: ICustomTypes;
+  column: string;
+  logic: ICustomLogic[];
+
+}
+
 export interface IPivotTilesProps {
 
   //Main webpart properties
@@ -66,6 +84,8 @@ export interface IPivotTilesProps {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
+
+  custCategories: ICustomCategories;
 
   //List column mapping - always available columns
   colModified: string;

@@ -7,10 +7,10 @@ define([], function() {
     
     "PropertyPaneAbout": "About",
     "PropertyPaneDescription": "Description",
-    "PropertyPaneMainDescription": "Web Part Settings",
+    "PropertyPaneMainDescription": "Web Part Look and Feel",
     "PropertyPaneColumnsDescription": "Required Column Settings",
     "PropertyPaneColumnsDescription": "Advanced Column Settings",
-    "PropertyPaneColumnsDescription1": "Set up List",
+    "PropertyPaneColumnsDescription1": "Define Column Mapping",
     "PropertyPaneColumnsDescription2": "Advanced list settings",
     "BasicGroupName": "Group Name",
     "DescriptionFieldLabel": "Description Field",
