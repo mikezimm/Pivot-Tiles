@@ -11,6 +11,10 @@ import { Link } from 'office-ui-fabric-react/lib/Link';
 import { escape } from '@microsoft/sp-lodash-subset';
 import Utils from './utils';
 import tUtils from './../TileItems/utilTiles';
+import InfoPage from '../HelpInfo/infoPages';
+import  EarlyAccess from '../HelpInfo/EarlyAccess';
+
+import * as links from '../HelpInfo/AllLinks';
 
 import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabric-react/lib/Pivot';
 import { DefaultButton, autobind } from 'office-ui-fabric-react';
@@ -144,6 +148,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     let carouselLayout = (this.state.heroTiles[0]) ? tileBuilders.carouselLayout(this.props,this.state,this.state.heroTiles, this.state.heroCategory) : "";
 
+    const infoPage = <div>
+      <InfoPage 
+          allLoaded={ true }
+          showInfo={ true }
+          parentListName={ this.props.listWebURL } 
+          parentListURL={ this.props.listTitle }
+          parentProps= { this.props }
+          parentState= { this.state }
+      ></InfoPage>
+    </div>;
+
     let buildTips = myErrors.buildTips(this.props,this.state);
 
     let gridLayout = (this.state.heroTiles[0]) ? tileBuilders.gridLayout(this.props,this.state,this.state.heroTiles, this.state.heroCategory) : "";
@@ -202,9 +217,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           </div>
         </div>;
 
+      let earlyAccess = 
+      <EarlyAccess 
+          image = { "https://autoliv.sharepoint.com/sites/crs/PublishingImages/Early%20Access%20Image.png" }
+          messages = { [ <div><span><b>Welcome to ALV Webpart Early Access!!!</b></span></div>, "Get more info here -->"] }
+          links = { [ links.gitRepoPivotTiles.wiki, links.gitRepoPivotTiles.issues ]}
+          email = { 'mailto:General - WebPart Dev <0313a49d.Autoliv.onmicrosoft.com@amer.teams.ms>?subject=Pivot Tiles Webpart Feedback&body=Enter your message here :)  \nScreenshots help!' }
+          farRightIcons = { [ ] }
+      ></EarlyAccess>;
+
     return (
       <div>
-
+        { earlyAccess }
         { ( (this.props.showHero === true && this.props.heroType === "header" &&  this.state.heroStatus === "Ready") ? ( heroFullLineBuild ) : ""  ) }
 
       <div className={styles.pivotTiles}>
@@ -242,6 +266,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
           { changePivots }
 
+
+          { ( this.state.showTips === "yes" ? ( infoPage ) : "" ) }
+
           {/*https://developer.microsoft.com/en-us/fabric#/controls/web/searchbox*/}
           <div className={[styles.floatLeft,styles.padLeft20,( this.state.searchShow ? styles.showSearch: styles.hideSearch )].join(' ')} >
             <SearchBox
@@ -258,9 +285,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
               { /* 'Searching ' + (this.state.searchType !== 'all' ? this.state.filteredTiles.length : ' all' ) + ' items' */ }
             </div>
           </div>
-
-          { ( this.state.showTips === "yes" ? ( buildTips ) : "" ) }
-          
 
           { ( this.props.showHero === true && this.props.heroType === "left" ? ( heroFullLineBuild ) : ""  ) }
           { ( this.props.showHero === true && this.props.heroType === "right" ? ( heroFullLineBuild ) : ""  ) }

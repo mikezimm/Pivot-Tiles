@@ -165,7 +165,17 @@ import {
                   disabled: true,
                 }),
               ]}, // this group
-              
+
+        { groupName: 'Behavior',
+        isCollapsed: true ,
+          groupFields: [
+            PropertyPaneDropdown('target', <IPropertyPaneDropdownProps>{
+              label: 'On-Click Behavior',
+              options: imageOptionsGroup.imgTargetChoices,
+            }),
+          ]}, // this group
+
+
           ]}; // Groups
     } // getPropertyPanePage()
 

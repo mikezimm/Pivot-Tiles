@@ -21,11 +21,17 @@ import GettingStarted from './GettingStarted';
 import FuturePlans from './FuturePlans';
 import About from './About';
 
+import { IPivotTilesProps } from '../PivotTiles/IPivotTilesProps';
+import { IPivotTilesState } from '../PivotTiles/IPivotTilesState';
+
 export interface IInfoPageProps {
     showInfo: boolean;
     allLoaded: boolean;
     parentListURL: string;
     parentListName: string;
+    parentProps: IPivotTilesProps;
+    parentState: IPivotTilesState;
+
     //toggleDebug: any;
 
 }
@@ -117,6 +123,8 @@ public constructor(props:IInfoPageProps){
                 thisPage = <GettingStarted 
                     parentListURL={  this.props.parentListURL }
                     parentListName={  this.props.parentListName }
+                    parentProps= { this.props.parentProps }
+                    parentState= { this.props.parentState }
                     allLoaded={ this.props.allLoaded }
                     showInfo={ this.props.showInfo }
                 ></GettingStarted>;

@@ -108,19 +108,10 @@ public constructor(props:IFuturePlansProps){
             let thisPage = null;
             thisPage =     <div className={styles.infoPane}>
 
-            <h3>Please submit any issues or suggestions on github (requires free account)</h3>
-              { links.gitRepoDrilldown7WebPart.issues }
-                        
-            <h3>FUTURE Use columns (Projects as Tasks):  These may be used in the future for advanced functionality.</h3>
-              <ul>
-                <li><span className={styles.iColNamU}>TBD Column:</span>TBD Column Info.</li>
+            <h3>Please submit any issues or suggestions and track Progress on github (requires free account)</h3>
+              
+            { links.gitRepoPivotTiles.issues }
 
-              </ul>
-        
-            <h3>FUTURE Use columns:  These may be used in the future for advanced functionality.</h3>
-              <ul>
-                <li><span className={styles.iColNamU}>TBD Column:</span>TBD Column Info.</li>
-              </ul>
         
           </div>;
 

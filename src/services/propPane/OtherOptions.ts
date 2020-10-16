@@ -24,7 +24,7 @@ import {
         {   index: 0,   key: 'tileCategory', text: "Build from TileCategory column"  },
         {   index: 1,   key: 'semiColon1', text: "SemiColon ; separated words"  },     
         {   index: 2,   key: 'semiColon2', text: "SemiColon= ;= separated words"  },
-        {   index: 3,   key: 'custom', text: "Above"  },
+        {   index: 3,   key: 'custom', text: "Advanced Custom logic (JSON)"  },
     ]; 
 
     public getCustCatChoice (findMe) {

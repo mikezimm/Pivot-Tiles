@@ -377,7 +377,9 @@ export default class Utils {
       let newDateInfo = dateInfo;
       let  bestFormat = newDateInfo.bestFormat;
       //Set last Category as the first tab in the best format.
-      console.log('setLastCategoryPer: newDateInfo',bestFormat,newDateInfo);
+
+      //console.log('setLastCategoryPer: newDateInfo',bestFormat,newDateInfo);
+
       //This just checks to see if there is a best format... default category may not have one.
       if (newDateInfo.cats[bestFormat]) { newDateInfo.lastCategory = newDateInfo.cats[bestFormat][0]; }
 
@@ -390,7 +392,9 @@ export default class Utils {
       let nePersonInfo = personInfo;
       let  bestFormat = nePersonInfo.bestFormat;
       //Set last Category as the first tab in the best format.
-      console.log('setLastCategoryPer: newPersonInfo',bestFormat,nePersonInfo);
+
+      //console.log('setLastCategoryPer: newPersonInfo',bestFormat,nePersonInfo);
+      
       //This just checks to see if there is a best format... default category may not have one.
       if (nePersonInfo.cats[bestFormat]) { nePersonInfo.lastCategory = nePersonInfo.cats[bestFormat][0]; }
 

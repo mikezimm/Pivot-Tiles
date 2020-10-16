@@ -10,10 +10,11 @@ import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 
 import styles from './InfoPane.module.scss';
 
+
+
 export interface IBasicsProps {
     showInfo: boolean;
     allLoaded: boolean;
-
 
 }
 
@@ -108,11 +109,10 @@ public constructor(props:IBasicsProps){
  */
 
             let thisPage = null;
-            thisPage =     <div className={styles.infoPane}>
+            thisPage = <div className={styles.infoPane}>
 
             <h3>Please submit any issues or suggestions on github (requires free account)</h3>
             { links.gitRepoPivotTiles.issues }
-
           </div>;
 
 

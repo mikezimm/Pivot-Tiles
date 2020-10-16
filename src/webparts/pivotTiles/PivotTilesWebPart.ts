@@ -83,13 +83,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     if ( urlVars.scenario && urlVars.scenario.toLowerCase() === 'dev' ) {  this.properties.scenario = 'DEV';  }
 
-
     let custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
     let custCategories : ICustomCategories = {
       type: this.properties.custCatType ,
       column: this.properties.custCatCols,
       logic: custCatLogi,
-    }
+    };
 
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,

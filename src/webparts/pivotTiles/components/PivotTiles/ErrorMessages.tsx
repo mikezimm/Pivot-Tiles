@@ -23,7 +23,7 @@ export function buildTips(parentProps,parentState){
   if (parentState.endTime) {
     let endTime = parentState.endTime;
     delta = endTime.now - startTime.now;
-    statsMessage = parentState.allTiles.length.toString() + ' items found in ' + delta + ' milliseconds (' + parentState.heroCategory + ')';
+    statsMessage = parentState.allTiles.length.toString() + ' items found in ' + delta + ' milliseconds ';
   }
  
 //          <div className={(parentProps.showHero === true && parentProps.heroType !== "none" && parentState.heroStatus === "none") ? styles.showErrorMessageNoPad : styles.hideMe }>
@@ -57,7 +57,6 @@ export function buildTips(parentProps,parentState){
           <h3>If the webpart loads, but you are missing something (like Title or Images)</h3>
           <p>Check to make sure your columns are based on Static Names in the web part properties.</p>
           <p></p>
-          <p>Version 1.1.0.0</p>
 
       </div>
   </div>;

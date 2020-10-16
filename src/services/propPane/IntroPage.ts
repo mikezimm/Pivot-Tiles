@@ -151,7 +151,30 @@ export class IntroPage {
           ]
         },
 
+        {
+          groupName: strings.PropertyPaneColumnsDescription2,
+          isCollapsed: true ,
+          groupFields: [
 
+          PropertyPaneTextField('colColor', {
+              description: 'Column defining tile background color, not yet available.',
+              label: strings.colColor,
+              disabled: true,                    
+          }),
+
+          PropertyPaneTextField('colSize', {
+              label: strings.colSize
+          }),
+
+          PropertyPaneTextField('colOpenBehaviour', {
+              label: strings.colOpenBehaviour
+          }),
+
+          PropertyPaneTextField('colTileStyle', {
+              label: strings.colTileStyle
+          }),
+        ]
+      },
 
 
 
@@ -167,14 +190,7 @@ export class IntroPage {
               label: strings.propURLQuery
           }),
         ]}, // this group
-        { groupName: 'Behavior',
-        isCollapsed: true ,
-          groupFields: [
-            PropertyPaneDropdown('target', <IPropertyPaneDropdownProps>{
-              label: 'Open Behavior',
-              options: imageOptionsGroup.imgTargetChoices,
-            }),
-          ]}, // this group
+
 
 
           ]}; // Groups

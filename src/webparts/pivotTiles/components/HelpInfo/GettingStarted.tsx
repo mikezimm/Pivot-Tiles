@@ -7,15 +7,22 @@ import * as links from './AllLinks';
 import { CompoundButton, Stack, IStackTokens, elementContains } from 'office-ui-fabric-react';
 import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
 
+import * as myErrors from '../PivotTiles/ErrorMessages';
+
 import WebPartLinks from './WebPartLinks';
 
 import styles from './InfoPane.module.scss';
+
+import { IPivotTilesProps } from '../PivotTiles/IPivotTilesProps';
+import { IPivotTilesState } from '../PivotTiles/IPivotTilesState';
 
 export interface IGettingStartedProps {
     showInfo: boolean;
     allLoaded: boolean;
     parentListURL: string;
     parentListName: string;
+    parentProps: IPivotTilesProps;
+    parentState: IPivotTilesState;
 }
 
 export interface IGettingStartedState {
@@ -108,29 +115,19 @@ public constructor(props:IGettingStartedProps){
  *                                                                                     
  */
 
+ 
+            let buildTips = myErrors.buildTips(this.props.parentProps,this.props.parentState);
+
             let thisPage = null;
             thisPage =     <div className={styles.infoPane}>
 
             <h3>Please submit any issues or suggestions on github (requires free account)</h3>
             <WebPartLinks
-                    parentListURL={ this.props.parentListURL }
-                    parentListName={ this.props.parentListName }
+                    parentListURL={ this.props.parentProps.listWebURL }
+                    parentListName={ this.props.parentProps.listTitle }
             ></WebPartLinks>
 
-            <h2>First:  Create a Parent List or Library in your site</h2>
-                <ol>
-                    <li>Go to <b>WebPart Properties</b> - Edit Page, Edit Webpart.</li>
-                    <li>Expand <b>Create-Verify Lists</b> section.</li>
-                    <li>Press <b>Create-Verify List</b> button.</li>
-                    <li>Fill in your Refiner Fields</li>
-                    <li>Fill in your Rules - optional settings telling us how to handle certain field types</li>
-                    <li>Choose your refiner style</li>
-
-                    <li>Exit <b>WebPart Properties</b></li>
-                    <li><b>Save</b> this page.</li>
-                    <li><b>Refresh</b> this page.</li>
-                </ol>
-
+            { buildTips }
 
           </div>;
 
