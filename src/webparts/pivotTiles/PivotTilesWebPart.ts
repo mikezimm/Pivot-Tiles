@@ -15,7 +15,7 @@ import { sp, Web } from '@pnp/sp';
 import { IPivotTilesWebPartProps } from './IPivotTilesWebPartProps';
 import * as strings from 'PivotTilesWebPartStrings';
 import PivotTiles from './components/PivotTiles/PivotTiles';
-import { IPivotTilesProps } from './components/PivotTiles/IPivotTilesProps';
+import { IPivotTilesProps, ICustomCategories, ICustomLogic } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
@@ -61,11 +61,34 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     return vars;
   }
 
+  public getObjectFromString(message: string, str: string ) {
+
+    let result : ICustomLogic[] = [];
+    
+    if ( str === null || str === undefined ) { return result; }
+    try {
+      result = JSON.parse(str);
+
+    } catch(e) {
+      console.error(message + ' is not a valid JSON object.  Please fix it and re-run');
+
+    }
+    
+    return result;
+  }
+
   public render(): void {
 
     let urlVars : any = this.getUrlVars();
 
     if ( urlVars.scenario && urlVars.scenario.toLowerCase() === 'dev' ) {  this.properties.scenario = 'DEV';  }
+
+    let custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
+    let custCategories : ICustomCategories = {
+      type: this.properties.custCatType ,
+      column: this.properties.custCatCols,
+      logic: custCatLogi,
+    };
 
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
@@ -114,6 +137,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         colImageLink: this.properties.colImageLink,
         colSort: this.properties.colSort,
         colTileStyle: this.properties.colTileStyle,
+
+        custCategories: custCategories,
 
         loadListItems: this.loadListItems,
 

@@ -1,4 +1,5 @@
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
+import { ICustomTypes } from './components/PivotTiles/IPivotTilesProps';
 
 import { PageContext } from '@microsoft/sp-page-context';
 
@@ -59,6 +60,10 @@ export interface IPivotTilesWebPartProps {
   colImageLink: string;
   colSort: string;
   colTileStyle: string;
+
+  custCatType: ICustomTypes;
+  custCatCols: string;
+  custCatLogi: string;
   
   //List based analytics properties
   analyticsList: string;

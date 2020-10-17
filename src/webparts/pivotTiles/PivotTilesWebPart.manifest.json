@@ -65,6 +65,11 @@
       "colOpenBehaviour": "New Tab",
       "colImageLink": "File/ServerRelativeUrl",
       "colSort": "Title",
+
+      "custCatType": "tileCategory",
+      "custCatCols": "",
+      "custCatLogi": "",
+
       "colTileStyle": ""
     }
   },
@@ -116,6 +121,9 @@
       "colOpenBehaviour": "New Tab",
       "colImageLink": "File/ServerRelativeUrl",
       "colSort": "",
+      "custCatType": "tileCategory",
+      "custCatCols": "",
+      "custCatLogi": "",
       "colTileStyle": ""
     }
   },
@@ -167,6 +175,9 @@
       "colOpenBehaviour": "New Tab",
       "colImageLink": "TileBgImageUrl",
       "colSort": "Order1",
+      "custCatType": "tileCategory",
+      "custCatCols": "",
+      "custCatLogi": "",
       "colTileStyle": ""
     }
   }
