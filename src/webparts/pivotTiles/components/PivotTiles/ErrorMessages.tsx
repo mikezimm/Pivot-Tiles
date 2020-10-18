@@ -3,11 +3,14 @@ import {  } from '@microsoft/sp-webpart-base';
 import * as React from 'react';
 import styles from './PivotTiles.module.scss';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import Utils from './utils';
+
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
+
+  import { fixURLs } from './UtilsNew';
+  
 
 export function buildTips(parentProps,parentState){
 
@@ -19,7 +22,7 @@ export function buildTips(parentProps,parentState){
 
     
     const currentPageUrl = parentProps.pageContext.web.absoluteUrl + parentProps.pageContext.site.serverRequestPath;
-    const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
+    const fixedURL = fixURLs(parentProps.listWebURL, parentProps.pageContext);
     const listExt = parentProps.listDefinition.indexOf("Library") === -1 ? "lists/" : "" ;
     const listURL = fixedURL + listExt + parentState.listStaticName;
     const newItemURL = listURL + (listExt === "" ? "" : "/newform.aspx") + "?Source=" + currentPageUrl;
@@ -95,7 +98,7 @@ export function NoListFound (parentProps,parentState) {
 
   } else {
 
-    const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
+    const fixedURL = fixURLs(parentProps.listWebURL, parentProps.pageContext);
 
     const errMessage = SanitizeErrorMessage(parentState.loadError);
 
@@ -135,7 +138,7 @@ if ( parentState.loadStatus !== "ListNotFound" ) {
 
 } else {
 
-    const fixedURL = Utils.fixURLs(parentProps.listWebURL, parentProps.pageContext);
+    const fixedURL = fixURLs(parentProps.listWebURL, parentProps.pageContext);
 
     const errMessage = SanitizeErrorMessage(parentState.loadError);
     

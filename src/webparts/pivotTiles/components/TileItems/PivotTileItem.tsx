@@ -5,7 +5,6 @@ import { css, IImageProps, sizeToPixels, } from 'office-ui-fabric-react';
 
 import styles from './PivotTileItem.module.scss';
 import tUtils from './utilTiles';
-import Utils from './../PivotTiles/utils';
 
 import { IPivotTileItemProps } from './IPivotTileItemProps';
 import { IPivotTileItemState } from './IPivotTileItemState';

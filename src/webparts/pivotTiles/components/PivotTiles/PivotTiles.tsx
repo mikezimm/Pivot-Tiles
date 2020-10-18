@@ -9,7 +9,7 @@ import PivotTileItem from './../TileItems/PivotTileItem';
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import { Link } from 'office-ui-fabric-react/lib/Link';
 import { escape } from '@microsoft/sp-lodash-subset';
-import Utils from './utils';
+
 import tUtils from './../TileItems/utilTiles';
 import InfoPage from '../HelpInfo/infoPages';
 import  EarlyAccess from '../HelpInfo/EarlyAccess';
@@ -35,9 +35,26 @@ import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../../../servi
 
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 
+import { convertCategoryToIndex, fixURLs } from './UtilsNew';
+
+import { buildTileCategoriesFromResponse } from './BuildTileCategories';
+
+import { buildTileCollectionFromResponse } from './BuildTileCollection';
 
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
+
+
+  /***
+ *     .o88b.  .d88b.  d8b   db .d8888. d888888b d8888b. db    db  .o88b. d888888b  .d88b.  d8888b. 
+ *    d8P  Y8 .8P  Y8. 888o  88 88'  YP `~~88~~' 88  `8D 88    88 d8P  Y8 `~~88~~' .8P  Y8. 88  `8D 
+ *    8P      88    88 88V8o 88 `8bo.      88    88oobY' 88    88 8P         88    88    88 88oobY' 
+ *    8b      88    88 88 V8o88   `Y8b.    88    88`8b   88    88 8b         88    88    88 88`8b   
+ *    Y8b  d8 `8b  d8' 88  V888 db   8D    88    88 `88. 88b  d88 Y8b  d8    88    `8b  d8' 88 `88. 
+ *     `Y88P'  `Y88P'  VP   V8P `8888Y'    YP    88   YD ~Y8888P'  `Y88P'    YP     `Y88P'  88   YD 
+ *                                                                                                  
+ *                                                                                                  
+ */
 
   //https://www.youtube.com/watch?v=4nsGhYjfRsw 9:01-ish talks about setting constructor
 //  public constructor(props:IPivotTilesProps){
@@ -88,6 +105,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     
   }
 
+  /***
+   *     .o88b.  .d88b.  .88b  d88. d8888b.      d8888b. d888888b d8888b.      .88b  d88.  .d88b.  db    db d8b   db d888888b 
+   *    d8P  Y8 .8P  Y8. 88'YbdP`88 88  `8D      88  `8D   `88'   88  `8D      88'YbdP`88 .8P  Y8. 88    88 888o  88 `~~88~~' 
+   *    8P      88    88 88  88  88 88oodD'      88   88    88    88   88      88  88  88 88    88 88    88 88V8o 88    88    
+   *    8b      88    88 88  88  88 88~~~        88   88    88    88   88      88  88  88 88    88 88    88 88 V8o88    88    
+   *    Y8b  d8 `8b  d8' 88  88  88 88           88  .8D   .88.   88  .8D      88  88  88 `8b  d8' 88b  d88 88  V888    88    
+   *     `Y88P'  `Y88P'  YP  YP  YP 88           Y8888D' Y888888P Y8888D'      YP  YP  YP  `Y88P'  ~Y8888P' VP   V8P    YP    
+   *                                                                                                                          
+   *                                                                                                                          
+   */
+
+
   public componentDidMount() {
     //Not using this function because it just did not want to work.
     //this._loadListItems();
@@ -96,6 +125,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     //alert(this.props);
   }
   
+  /***
+   *     .o88b.  .d88b.  .88b  d88. d8888b.      d8888b. d888888b d8888b.      db    db d8888b. d8888b.  .d8b.  d888888b d88888b 
+   *    d8P  Y8 .8P  Y8. 88'YbdP`88 88  `8D      88  `8D   `88'   88  `8D      88    88 88  `8D 88  `8D d8' `8b `~~88~~' 88'     
+   *    8P      88    88 88  88  88 88oodD'      88   88    88    88   88      88    88 88oodD' 88   88 88ooo88    88    88ooooo 
+   *    8b      88    88 88  88  88 88~~~        88   88    88    88   88      88    88 88~~~   88   88 88~~~88    88    88~~~~~ 
+   *    Y8b  d8 `8b  d8' 88  88  88 88           88  .8D   .88.   88  .8D      88b  d88 88      88  .8D 88   88    88    88.     
+   *     `Y88P'  `Y88P'  YP  YP  YP 88           Y8888D' Y888888P Y8888D'      ~Y8888P' 88      Y8888D' YP   YP    YP    Y88888P 
+   *                                                                                                                             
+   *                                                                                                                             
+   */
+
   public componentDidUpdate(prevProps){
 
     //alert('componentDidUpdate 1');
@@ -116,6 +156,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     }
   }
 
+
+  /***
+   *     .o88b. d8888b. d88888b  .d8b.  d888888b d88888b       .o88b.  .d8b.  d8888b.  .d88b.  db    db .d8888. d88888b db      .d8888. 
+   *    d8P  Y8 88  `8D 88'     d8' `8b `~~88~~' 88'          d8P  Y8 d8' `8b 88  `8D .8P  Y8. 88    88 88'  YP 88'     88      88'  YP 
+   *    8P      88oobY' 88ooooo 88ooo88    88    88ooooo      8P      88ooo88 88oobY' 88    88 88    88 `8bo.   88ooooo 88      `8bo.   
+   *    8b      88`8b   88~~~~~ 88~~~88    88    88~~~~~      8b      88~~~88 88`8b   88    88 88    88   `Y8b. 88~~~~~ 88        `Y8b. 
+   *    Y8b  d8 88 `88. 88.     88   88    88    88.          Y8b  d8 88   88 88 `88. `8b  d8' 88b  d88 db   8D 88.     88booo. db   8D 
+   *     `Y88P' 88   YD Y88888P YP   YP    YP    Y88888P       `Y88P' YP   YP 88   YD  `Y88P'  ~Y8888P' `8888Y' Y88888P Y88888P `8888Y' 
+   *                                                                                                                                    
+   *                                                                                                                                    
+   */
+
+
   public createCarousels(thisState){
     let elemnts = [];
     if (thisState.heroTiles[0]){
@@ -130,6 +183,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       elemnts
     );
   }
+
+  /***
+   *    d8888b. db    db d8888b. db      d888888b  .o88b.      d8888b. d88888b d8b   db d8888b. d88888b d8888b. 
+   *    88  `8D 88    88 88  `8D 88        `88'   d8P  Y8      88  `8D 88'     888o  88 88  `8D 88'     88  `8D 
+   *    88oodD' 88    88 88oooY' 88         88    8P           88oobY' 88ooooo 88V8o 88 88   88 88ooooo 88oobY' 
+   *    88~~~   88    88 88~~~b. 88         88    8b           88`8b   88~~~~~ 88 V8o88 88   88 88~~~~~ 88`8b   
+   *    88      88b  d88 88   8D 88booo.   .88.   Y8b  d8      88 `88. 88.     88  V888 88  .8D 88.     88 `88. 
+   *    88      ~Y8888P' Y8888P' Y88888P Y888888P  `Y88P'      88   YD Y88888P VP   V8P Y8888D' Y88888P 88   YD 
+   *                                                                                                            
+   *                                                                                                            
+   */
+
 
   public render(): React.ReactElement<IPivotTilesProps> {
     let heroFullLineBuild : any = "";
@@ -177,7 +242,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     let loadingSpinner = myErrors.LoadingSpinner(this.state);
 
-    const defIndex = (this.state.pivotDefSelKey === '') ? Utils.convertCategoryToIndex(this.props.setTab) : Utils.convertCategoryToIndex(this.state.pivotDefSelKey);
+    const defIndex = (this.state.pivotDefSelKey === '') ? convertCategoryToIndex(this.props.setTab) : convertCategoryToIndex(this.state.pivotDefSelKey);
 
     console.log('render(): this.state', this.state);
     console.log('render(): this.props.setTab', this.props.setTab);
@@ -225,6 +290,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         ></EarlyAccess>
       </div>
       ;
+
+
+    /***
+     *    d8888b. d88888b d888888b db    db d8888b. d8b   db      
+     *    88  `8D 88'     `~~88~~' 88    88 88  `8D 888o  88      
+     *    88oobY' 88ooooo    88    88    88 88oobY' 88V8o 88      
+     *    88`8b   88~~~~~    88    88    88 88`8b   88 V8o88      
+     *    88 `88. 88.        88    88b  d88 88 `88. 88  V888      
+     *    88   YD Y88888P    YP    ~Y8888P' 88   YD VP   V8P      
+     *                                                            
+     *                                                            
+     */
+
 
     return (
       <div>
@@ -317,6 +395,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     alert('Hi!');
   }
 
+
+  /***
+   *    .d8888. d88888b  .d8b.  d8888b.  .o88b. db   db      .88b  d88. d88888b 
+   *    88'  YP 88'     d8' `8b 88  `8D d8P  Y8 88   88      88'YbdP`88 88'     
+   *    `8bo.   88ooooo 88ooo88 88oobY' 8P      88ooo88      88  88  88 88ooooo 
+   *      `Y8b. 88~~~~~ 88~~~88 88`8b   8b      88~~~88      88  88  88 88~~~~~ 
+   *    db   8D 88.     88   88 88 `88. Y8b  d8 88   88      88  88  88 88.     
+   *    `8888Y' Y88888P YP   YP 88   YD  `Y88P' YP   YP      YP  YP  YP Y88888P 
+   *                                                                            
+   *                                                                            
+   */
+
+
   private searchMe = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
     let e: any = event;
@@ -343,6 +434,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     
   } //End searchMe
+
+
+  /***
+ *    .d8888. d88888b  .d8b.  d8888b.  .o88b. db   db      d88888b  .d88b.  d8888b.      d888888b d888888b d88888b .88b  d88. .d8888. 
+ *    88'  YP 88'     d8' `8b 88  `8D d8P  Y8 88   88      88'     .8P  Y8. 88  `8D        `88'   `~~88~~' 88'     88'YbdP`88 88'  YP 
+ *    `8bo.   88ooooo 88ooo88 88oobY' 8P      88ooo88      88ooo   88    88 88oobY'         88       88    88ooooo 88  88  88 `8bo.   
+ *      `Y8b. 88~~~~~ 88~~~88 88`8b   8b      88~~~88      88~~~   88    88 88`8b           88       88    88~~~~~ 88  88  88   `Y8b. 
+ *    db   8D 88.     88   88 88 `88. Y8b  d8 88   88      88      `8b  d8' 88 `88.        .88.      88    88.     88  88  88 db   8D 
+ *    `8888Y' Y88888P YP   YP 88   YD  `Y88P' YP   YP      YP       `Y88P'  88   YD      Y888888P    YP    Y88888P YP  YP  YP `8888Y' 
+ *                                                                                                                                    
+ *                                                                                                                                    
+ */
+
 
   public searchForItems = (item): void => {
     //This sends back the correct pivot category which matches the category on the tile.
@@ -380,10 +484,22 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       searchCount: searchCount,
     });
 
-
     return ;
     
   } //End searchForItems
+
+
+  /***
+   *     .d88b.  d8b   db      db      d888888b d8b   db db   dD       .o88b. db      d888888b  .o88b. db   dD 
+   *    .8P  Y8. 888o  88      88        `88'   888o  88 88 ,8P'      d8P  Y8 88        `88'   d8P  Y8 88 ,8P' 
+   *    88    88 88V8o 88      88         88    88V8o 88 88,8P        8P      88         88    8P      88,8P   
+   *    88    88 88 V8o88      88         88    88 V8o88 88`8b        8b      88         88    8b      88`8b   
+   *    `8b  d8' 88  V888      88booo.   .88.   88  V888 88 `88.      Y8b  d8 88booo.   .88.   Y8b  d8 88 `88. 
+   *     `Y88P'  VP   V8P      Y88888P Y888888P VP   V8P YP   YD       `Y88P' Y88888P Y888888P  `Y88P' YP   YD 
+   *                                                                                                           
+   *                                                                                                           
+   */
+
 
   public onLinkClick = (item): void => {
     //This sends back the correct pivot category which matches the category on the tile.
@@ -405,7 +521,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       const defaultSelectedIndex = this.state.pivtTitles.indexOf(item.props.headerText);
       let defaultSelectedKey = defaultSelectedIndex.toString();
       defaultSelectedKey = item.props.headerText.toString();  // Added this because I think this needs to be the header text, not the index.
-      defaultSelectedKey = Utils.convertCategoryToIndex(defaultSelectedKey);
+      defaultSelectedKey = convertCategoryToIndex(defaultSelectedKey);
 
       let categoryInfo = this.state.categoryInfo;
       let createdInfo = this.state.createdInfo;
@@ -453,6 +569,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   } //End onClick
 
+
+  /***
+   *     .d88b.  d8b   db       .o88b. db   db  .d8b.  d8b   db  d888b  d88888b      d8888b. d888888b db    db  .d88b.  d888888b       .o88b. db      d888888b  .o88b. db   dD 
+   *    .8P  Y8. 888o  88      d8P  Y8 88   88 d8' `8b 888o  88 88' Y8b 88'          88  `8D   `88'   88    88 .8P  Y8. `~~88~~'      d8P  Y8 88        `88'   d8P  Y8 88 ,8P' 
+   *    88    88 88V8o 88      8P      88ooo88 88ooo88 88V8o 88 88      88ooooo      88oodD'    88    Y8    8P 88    88    88         8P      88         88    8P      88,8P   
+   *    88    88 88 V8o88      8b      88~~~88 88~~~88 88 V8o88 88  ooo 88~~~~~      88~~~      88    `8b  d8' 88    88    88         8b      88         88    8b      88`8b   
+   *    `8b  d8' 88  V888      Y8b  d8 88   88 88   88 88  V888 88. ~8~ 88.          88        .88.    `8bd8'  `8b  d8'    88         Y8b  d8 88booo.   .88.   Y8b  d8 88 `88. 
+   *     `Y88P'  VP   V8P       `Y88P' YP   YP YP   YP VP   V8P  Y888P  Y88888P      88      Y888888P    YP     `Y88P'     YP          `Y88P' Y88888P Y888888P  `Y88P' YP   YD 
+   *                                                                                                                                                                           
+   *                                                                                                                                                                           
+   */
+
+
   public onChangePivotClick = (item): void => {
     //This sends back the correct pivot category which matches the category on the tile.
     let e: any = event;
@@ -463,6 +592,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     });
 
   } //End onClick
+
+
+  /***
+   *    .d8888. db   db  .d88b.  db   d8b   db       .d8b.  db      db      
+   *    88'  YP 88   88 .8P  Y8. 88   I8I   88      d8' `8b 88      88      
+   *    `8bo.   88ooo88 88    88 88   I8I   88      88ooo88 88      88      
+   *      `Y8b. 88~~~88 88    88 Y8   I8I   88      88~~~88 88      88      
+   *    db   8D 88   88 `8b  d8' `8b d8'8b d8'      88   88 88booo. 88booo. 
+   *    `8888Y' YP   YP  `Y88P'   `8b8' `8d8'       YP   YP Y88888P Y88888P 
+   *                                                                        
+   *                                                                        
+   */
+
 
   private showAll = (item: PivotItem): void => {
     //This sends back the correct pivot category which matches the category on the tile.
@@ -533,6 +675,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   } //End onClick
 
+
+  /***
+   *    d888888b  .d88b.   d888b   d888b  db      d88888b      d88888b db    db d8b   db  .o88b. d888888b d888888b  .d88b.  d8b   db .d8888. 
+   *    `~~88~~' .8P  Y8. 88' Y8b 88' Y8b 88      88'          88'     88    88 888o  88 d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88 88'  YP 
+   *       88    88    88 88      88      88      88ooooo      88ooo   88    88 88V8o 88 8P         88       88    88    88 88V8o 88 `8bo.   
+   *       88    88    88 88  ooo 88  ooo 88      88~~~~~      88~~~   88    88 88 V8o88 8b         88       88    88    88 88 V8o88   `Y8b. 
+   *       88    `8b  d8' 88. ~8~ 88. ~8~ 88booo. 88.          88      88b  d88 88  V888 Y8b  d8    88      .88.   `8b  d8' 88  V888 db   8D 
+   *       YP     `Y88P'   Y888P   Y888P  Y88888P Y88888P      YP      ~Y8888P' VP   V8P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P `8888Y' 
+   *                                                                                                                                         
+   *                                                                                                                                         
+   */
+
+
   public toggleLayout = (item: any): void => {
     //This sends back the correct pivot category which matches the category on the tile.
 
@@ -561,10 +716,22 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   } //End toggleTips  
 
+
+  /***
+   *    d8888b. d888888b db    db  .d88b.  d888888b      d88888b db    db d8b   db  .o88b. d888888b d888888b  .d88b.  d8b   db .d8888. 
+   *    88  `8D   `88'   88    88 .8P  Y8. `~~88~~'      88'     88    88 888o  88 d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88 88'  YP 
+   *    88oodD'    88    Y8    8P 88    88    88         88ooo   88    88 88V8o 88 8P         88       88    88    88 88V8o 88 `8bo.   
+   *    88~~~      88    `8b  d8' 88    88    88         88~~~   88    88 88 V8o88 8b         88       88    88    88 88 V8o88   `Y8b. 
+   *    88        .88.    `8bd8'  `8b  d8'    88         88      88b  d88 88  V888 Y8b  d8    88      .88.   `8b  d8' 88  V888 db   8D 
+   *    88      Y888888P    YP     `Y88P'     YP         YP      ~Y8888P' VP   V8P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P `8888Y' 
+   *                                                                                                                                   
+   *                                                                                                                                   
+   */
+
   //http://react.tips/how-to-create-reactjs-components-dynamically/ - based on createImage
   public createPivot(pivT) {
     console.log('createPivot: ', pivT);
-    const thisItemKey :string = Utils.convertCategoryToIndex(pivT);
+    const thisItemKey :string = convertCategoryToIndex(pivT);
       return (
         <PivotItem headerText={pivT} itemKey={thisItemKey}/>
       );
@@ -595,6 +762,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   }
 
+  /***
+   *            db    db d8888b. d8888b.  .d8b.  d888888b d88888b      .d8888. d888888b  .d8b.  d888888b d88888b       .d88b.  d8b   db      d8888b. d8888b.  .d88b.  d8888b. .d8888.       .o88b. db   db  .d8b.  d8b   db  d888b  d88888b 
+   *            88    88 88  `8D 88  `8D d8' `8b `~~88~~' 88'          88'  YP `~~88~~' d8' `8b `~~88~~' 88'          .8P  Y8. 888o  88      88  `8D 88  `8D .8P  Y8. 88  `8D 88'  YP      d8P  Y8 88   88 d8' `8b 888o  88 88' Y8b 88'     
+   *            88    88 88oodD' 88   88 88ooo88    88    88ooooo      `8bo.      88    88ooo88    88    88ooooo      88    88 88V8o 88      88oodD' 88oobY' 88    88 88oodD' `8bo.        8P      88ooo88 88ooo88 88V8o 88 88      88ooooo 
+   *            88    88 88~~~   88   88 88~~~88    88    88~~~~~        `Y8b.    88    88~~~88    88    88~~~~~      88    88 88 V8o88      88~~~   88`8b   88    88 88~~~     `Y8b.      8b      88~~~88 88~~~88 88 V8o88 88  ooo 88~~~~~ 
+   *            88b  d88 88      88  .8D 88   88    88    88.          db   8D    88    88   88    88    88.          `8b  d8' 88  V888      88      88 `88. `8b  d8' 88      db   8D      Y8b  d8 88   88 88   88 88  V888 88. ~8~ 88.     
+   *    C88888D ~Y8888P' 88      Y8888D' YP   YP    YP    Y88888P      `8888Y'    YP    YP   YP    YP    Y88888P       `Y88P'  VP   V8P      88      88   YD  `Y88P'  88      `8888Y'       `Y88P' YP   YP YP   YP VP   V8P  Y888P  Y88888P 
+   *                                                                                                                                                                                                                                        
+   *                                                                                                                                                                                                                                        
+   */
+
   private _updateStateOnPropsChange(params: any ): void {
 
     console.log('_updateStateOnPropsChange params: heroCategory', params);
@@ -604,7 +782,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('_updateStateOnPropsChange params: currentHero', currentHero);
     console.log('_updateStateOnPropsChange params: state', this.state);
 
-    let newCollection = this.state.allTiles;
+    let newCollection : IPivotTileItemProps[] = this.state.allTiles;
     let pivotProps = this.props;
     let pivotState = this.state;
     let newHeros = this.getHeroTiles(pivotProps, pivotState, newCollection, currentHero);
@@ -612,7 +790,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let newFiltered = [];
 
 
-    let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, pivotState, newCollection, currentHero, thisCatColumn);
+    let tileCategories = buildTileCategoriesFromResponse(pivotProps, pivotState, newCollection, currentHero, thisCatColumn);
     let filteredCategory = '';
     let lastCategory = null;
 
@@ -643,7 +821,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     const defaultSelectedIndex = tileCategories.indexOf(lastCategory);
     let defaultSelectedKey = defaultSelectedIndex.toString();
     defaultSelectedKey = lastCategory.toString();  // Added this because I think this needs to be the header text, not the index.
-    defaultSelectedKey = Utils.convertCategoryToIndex(defaultSelectedKey);
+    defaultSelectedKey = convertCategoryToIndex(defaultSelectedKey);
     console.log('_updateStateOnPropsChange defaultSelectedKey', defaultSelectedKey);
     defaultSelectedKey = lastCategory;
 
@@ -732,6 +910,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     });
   }
 
+
+  /***
+ *             d888b  d88888b d888888b      db      d888888b .d8888. d888888b      d888888b d888888b d88888b .88b  d88. .d8888. 
+ *            88' Y8b 88'     `~~88~~'      88        `88'   88'  YP `~~88~~'        `88'   `~~88~~' 88'     88'YbdP`88 88'  YP 
+ *            88      88ooooo    88         88         88    `8bo.      88            88       88    88ooooo 88  88  88 `8bo.   
+ *            88  ooo 88~~~~~    88         88         88      `Y8b.    88            88       88    88~~~~~ 88  88  88   `Y8b. 
+ *            88. ~8~ 88.        88         88booo.   .88.   db   8D    88           .88.      88    88.     88  88  88 db   8D 
+ *    C88888D  Y888P  Y88888P    YP         Y88888P Y888888P `8888Y'    YP         Y888888P    YP    Y88888P YP  YP  YP `8888Y' 
+ *                                                                                                                              
+ *                                                                                                                              
+ */
+
   //    private async loadListItems(): Promise<IPivotTileItemProps[]> {
     private _getListItems(): void {
 
@@ -765,7 +955,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       if ( this.props.listWebURL.length > 0 ){
         let web = new Web(this.props.listWebURL);
   
-        const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+        const fixedURL = fixURLs(this.props.listWebURL, this.props.pageContext);
         // Getting large amount of items (over 100)
         //          .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
         //items.getAll().
@@ -778,14 +968,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
             });
   
       } else {
- 
-        /*
-        console.log('useTileList',useTileList);
-        console.log('selectCols',selectCols);
-        console.log('expandThese',expandThese);
-        console.log('restFilter',restFilter);
-        console.log('restSort',restSort);        
-        */
+
         sp.web.lists.getByTitle(useTileList).items
           .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).get()
           .then((response) => {
@@ -798,6 +981,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       }
   
     }  
+
+/***
+ *    d8888b. d8888b.  .d88b.   .o88b. d88888b .d8888. .d8888.       .o88b.  .d8b.  d888888b  .o88b. db   db 
+ *    88  `8D 88  `8D .8P  Y8. d8P  Y8 88'     88'  YP 88'  YP      d8P  Y8 d8' `8b `~~88~~' d8P  Y8 88   88 
+ *    88oodD' 88oobY' 88    88 8P      88ooooo `8bo.   `8bo.        8P      88ooo88    88    8P      88ooo88 
+ *    88~~~   88`8b   88    88 8b      88~~~~~   `Y8b.   `Y8b.      8b      88~~~88    88    8b      88~~~88 
+ *    88      88 `88. `8b  d8' Y8b  d8 88.     db   8D db   8D      Y8b  d8 88   88    88    Y8b  d8 88   88 
+ *    88      88   YD  `Y88P'   `Y88P' Y88888P `8888Y' `8888Y'       `Y88P' YP   YP    YP     `Y88P' YP   YP 
+ *                                                                                                           
+ *                                                                                                           
+ */
+
     private processCatch(e) {
       console.log("Can't load data");
       //var m = e.status === 404 ? "Tile List not found: " + useTileList : "Other message";
@@ -810,6 +1005,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
     }
   
+/***
+ *    d8888b. d8888b.  .d88b.   .o88b. d88888b .d8888. .d8888.      d8888b. d88888b .d8888. d8888b.  .d88b.  d8b   db .d8888. d88888b 
+ *    88  `8D 88  `8D .8P  Y8. d8P  Y8 88'     88'  YP 88'  YP      88  `8D 88'     88'  YP 88  `8D .8P  Y8. 888o  88 88'  YP 88'     
+ *    88oodD' 88oobY' 88    88 8P      88ooooo `8bo.   `8bo.        88oobY' 88ooooo `8bo.   88oodD' 88    88 88V8o 88 `8bo.   88ooooo 
+ *    88~~~   88`8b   88    88 8b      88~~~~~   `Y8b.   `Y8b.      88`8b   88~~~~~   `Y8b. 88~~~   88    88 88 V8o88   `Y8b. 88~~~~~ 
+ *    88      88 `88. `8b  d8' Y8b  d8 88.     db   8D db   8D      88 `88. 88.     db   8D 88      `8b  d8' 88  V888 db   8D 88.     
+ *    88      88   YD  `Y88P'   `Y88P' Y88888P `8888Y' `8888Y'      88   YD Y88888P `8888Y' 88       `Y88P'  VP   V8P `8888Y' Y88888P 
+ *                                                                                                                                    
+ *                                                                                                                                    
+ */
+
     private processResponse(response){
   
       if (response.length === 0){
@@ -817,7 +1023,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         return ;
       }
   
-      const fixedURL = Utils.fixURLs(this.props.listWebURL, this.props.pageContext);
+      const fixedURL = fixURLs(this.props.listWebURL, this.props.pageContext);
 
       let listStaticName = this.props.listTitle;
 
@@ -837,24 +1043,25 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let pivotProps = this.props;
       let pivotState = this.state;
 
-      let tileCollectionResults = Utils.buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
+      let tileCollectionResults = buildTileCollectionFromResponse(response, pivotProps, editItemURL, pivotProps.heroCategory);
       console.log('tileCollectionResults: ', tileCollectionResults);
-      let tileCollection = tileCollectionResults.tileCollection;
+      
+      let tileCollection : IPivotTileItemProps[] = tileCollectionResults.tileCollection;
 
-      let tileCategories = Utils.buildTileCategoriesFromResponse(pivotProps, pivotState, tileCollection, pivotProps.heroCategory, 'category');
+      let tileCategories = buildTileCategoriesFromResponse(pivotProps, pivotState, tileCollection, pivotProps.heroCategory, 'category');
       
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
       let defaultSelectedKey = defaultSelectedIndex.toString();
       defaultSelectedKey = this.props.setTab.toString();  // Added this because I think this needs to be the header text, not the index.
-      defaultSelectedKey = Utils.convertCategoryToIndex(defaultSelectedKey);
+      defaultSelectedKey = convertCategoryToIndex(defaultSelectedKey);
       
       tileCollectionResults.categoryInfo.lastCategory = tileCategories[0];
 
-      let heroTiles = this.getHeroTiles(pivotProps, pivotState, tileCollection, pivotProps.heroCategory);
+      let heroTiles : IPivotTileItemProps[] = this.getHeroTiles(pivotProps, pivotState, tileCollection, pivotProps.heroCategory);
   
       let heroIds = this.getHeroIds(heroTiles);
   
-      let newFilteredTiles = this.getNewFilteredTiles(pivotProps, pivotState, tileCollection, heroIds, heroTiles, 'category');
+      let newFilteredTiles : IPivotTileItemProps[] = this.getNewFilteredTiles(pivotProps, pivotState, tileCollection, heroIds, heroTiles, 'category');
       console.log('processResponse: tileCategories', tileCategories);
       console.log('processResponse: this.props.setTab', this.props.setTab);   
       console.log('processResponse: defaultSelectedIndex', defaultSelectedIndex);
@@ -899,6 +1106,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
     }
 
+
+    /***
+     *     d888b  d88888b d888888b      d8b   db d88888b db   d8b   db d88888b d888888b db      d888888b d88888b d8888b. d88888b d8888b.      d888888b d888888b db      d88888b .d8888. 
+     *    88' Y8b 88'     `~~88~~'      888o  88 88'     88   I8I   88 88'       `88'   88      `~~88~~' 88'     88  `8D 88'     88  `8D      `~~88~~'   `88'   88      88'     88'  YP 
+     *    88      88ooooo    88         88V8o 88 88ooooo 88   I8I   88 88ooo      88    88         88    88ooooo 88oobY' 88ooooo 88   88         88       88    88      88ooooo `8bo.   
+     *    88  ooo 88~~~~~    88         88 V8o88 88~~~~~ Y8   I8I   88 88~~~      88    88         88    88~~~~~ 88`8b   88~~~~~ 88   88         88       88    88      88~~~~~   `Y8b. 
+     *    88. ~8~ 88.        88         88  V888 88.     `8b d8'8b d8' 88        .88.   88booo.    88    88.     88 `88. 88.     88  .8D         88      .88.   88booo. 88.     db   8D 
+     *     Y888P  Y88888P    YP         VP   V8P Y88888P  `8b8' `8d8'  YP      Y888888P Y88888P    YP    Y88888P 88   YD Y88888P Y8888D'         YP    Y888888P Y88888P Y88888P `8888Y' 
+     *                                                                                                                                                                                  
+     *                                                                                                                                                                                  
+     */
+
   /**
    * This function gets the array of tiles that should be visible by removing the items that are in the heroTiles array
    * @param thisProps 
@@ -906,7 +1125,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
    * @param heroIds 
    * @param heroTiles 
    */
-  private getNewFilteredTiles(thisProps, thisState, tileCollection, heroIds, heroTiles, thisCatColumn) {
+  private getNewFilteredTiles(thisProps, thisState, tileCollection : IPivotTileItemProps[], heroIds, heroTiles, thisCatColumn) {
 /*
     console.log('getNewFilteredTiles: thisProps',thisProps);
     console.log('getNewFilteredTiles: tileCollection',tileCollection);
@@ -914,7 +1133,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('getNewFilteredTiles: heroTiles',heroTiles);
     console.log('getNewFilteredTiles: thisCatColumn',thisCatColumn);
 */
-    let newFilteredTiles = [];
+    let newFilteredTiles : IPivotTileItemProps[] = [];
     let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
     for (let thisTile of tileCollection) {
       const isNumber = typeof(thisTile.category);
@@ -939,6 +1158,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   }
 
   
+  /***
+   *     d888b  d88888b d888888b       .d88b.  d8b   db  .o88b. db      d888888b  .o88b. db   dD      d88888b d888888b db      d888888b d88888b d8888b. d88888b d8888b.      d888888b d888888b db      d88888b .d8888. 
+   *    88' Y8b 88'     `~~88~~'      .8P  Y8. 888o  88 d8P  Y8 88        `88'   d8P  Y8 88 ,8P'      88'       `88'   88      `~~88~~' 88'     88  `8D 88'     88  `8D      `~~88~~'   `88'   88      88'     88'  YP 
+   *    88      88ooooo    88         88    88 88V8o 88 8P      88         88    8P      88,8P        88ooo      88    88         88    88ooooo 88oobY' 88ooooo 88   88         88       88    88      88ooooo `8bo.   
+   *    88  ooo 88~~~~~    88         88    88 88 V8o88 8b      88         88    8b      88`8b        88~~~      88    88         88    88~~~~~ 88`8b   88~~~~~ 88   88         88       88    88      88~~~~~   `Y8b. 
+   *    88. ~8~ 88.        88         `8b  d8' 88  V888 Y8b  d8 88booo.   .88.   Y8b  d8 88 `88.      88        .88.   88booo.    88    88.     88 `88. 88.     88  .8D         88      .88.   88booo. 88.     db   8D 
+   *     Y888P  Y88888P    YP          `Y88P'  VP   V8P  `Y88P' Y88888P Y888888P  `Y88P' YP   YD      YP      Y888888P Y88888P    YP    Y88888P 88   YD Y88888P Y8888D'         YP    Y888888P Y88888P Y88888P `8888Y' 
+   *                                                                                                                                                                                                                   
+   *                                                                                                                                                                                                                   
+   */
+
   /**
    * This function gets the array of tiles that should be visible by removing the items that are in the heroTiles array
    * @param thisProps 
@@ -994,6 +1224,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return newFilteredTiles;
   }
 
+/***
+ *     d888b  d88888b d888888b      db   db d88888b d8888b.  .d88b.       d888888b d888888b db      d88888b .d8888. 
+ *    88' Y8b 88'     `~~88~~'      88   88 88'     88  `8D .8P  Y8.      `~~88~~'   `88'   88      88'     88'  YP 
+ *    88      88ooooo    88         88ooo88 88ooooo 88oobY' 88    88         88       88    88      88ooooo `8bo.   
+ *    88  ooo 88~~~~~    88         88~~~88 88~~~~~ 88`8b   88    88         88       88    88      88~~~~~   `Y8b. 
+ *    88. ~8~ 88.        88         88   88 88.     88 `88. `8b  d8'         88      .88.   88booo. 88.     db   8D 
+ *     Y888P  Y88888P    YP         YP   YP Y88888P 88   YD  `Y88P'          YP    Y888888P Y88888P Y88888P `8888Y' 
+ *                                                                                                                  
+ *                                                                                                                  
+ */
+
   /**
    * This function will get all tiles where the category matches theseHeros
    * @param thisProps 
@@ -1001,7 +1242,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
    * @param tileCollection 
    * @param theseHeros 
    */
-  private getHeroTiles(thisProps, thisState, tileCollection, theseHeros) {
+  private getHeroTiles(thisProps, thisState, tileCollection : IPivotTileItemProps[], theseHeros) {
 
     let heroTiles = [];
             
@@ -1022,6 +1263,17 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   }
 
+  /***
+   *     d888b  d88888b d888888b      db   db d88888b d8888b.  .d88b.       d888888b d8888b. .d8888. 
+   *    88' Y8b 88'     `~~88~~'      88   88 88'     88  `8D .8P  Y8.        `88'   88  `8D 88'  YP 
+   *    88      88ooooo    88         88ooo88 88ooooo 88oobY' 88    88         88    88   88 `8bo.   
+   *    88  ooo 88~~~~~    88         88~~~88 88~~~~~ 88`8b   88    88         88    88   88   `Y8b. 
+   *    88. ~8~ 88.        88         88   88 88.     88 `88. `8b  d8'        .88.   88  .8D db   8D 
+   *     Y888P  Y88888P    YP         YP   YP Y88888P 88   YD  `Y88P'       Y888888P Y8888D' `8888Y' 
+   *                                                                                                 
+   *                                                                                                 
+   */
+
     /**
    * This function gets an array of the hero id's based on the array of heroTiles passed in
    * @param heroTiles 
@@ -1037,6 +1289,18 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     }
     return heroIds;
   }
+
+
+  /***
+   *     d888b  d88888b d888888b      db   dD d88888b db    db .d8888.      db      d888888b db   dD d88888b 
+   *    88' Y8b 88'     `~~88~~'      88 ,8P' 88'     `8b  d8' 88'  YP      88        `88'   88 ,8P' 88'     
+   *    88      88ooooo    88         88,8P   88ooooo  `8bd8'  `8bo.        88         88    88,8P   88ooooo 
+   *    88  ooo 88~~~~~    88         88`8b   88~~~~~    88      `Y8b.      88         88    88`8b   88~~~~~ 
+   *    88. ~8~ 88.        88         88 `88. 88.        88    db   8D      88booo.   .88.   88 `88. 88.     
+   *     Y888P  Y88888P    YP         YP   YD Y88888P    YP    `8888Y'      Y88888P Y888888P YP   YD Y88888P 
+   *                                                                                                         
+   *                                                                                                         
+   */
 
   private getKeysLike(thisProps,findMe,findOp){
     //Sample call:  getKeysLike(this.props,"col","begins")
@@ -1065,6 +1329,19 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     return foundProps;
   }
 
+
+  /***
+   *     d888b  d88888b d888888b      .d8888. d88888b db      d88888b  .o88b. d888888b       .o88b.  .d88b.  db      db    db .88b  d88. d8b   db .d8888. 
+   *    88' Y8b 88'     `~~88~~'      88'  YP 88'     88      88'     d8P  Y8 `~~88~~'      d8P  Y8 .8P  Y8. 88      88    88 88'YbdP`88 888o  88 88'  YP 
+   *    88      88ooooo    88         `8bo.   88ooooo 88      88ooooo 8P         88         8P      88    88 88      88    88 88  88  88 88V8o 88 `8bo.   
+   *    88  ooo 88~~~~~    88           `Y8b. 88~~~~~ 88      88~~~~~ 8b         88         8b      88    88 88      88    88 88  88  88 88 V8o88   `Y8b. 
+   *    88. ~8~ 88.        88         db   8D 88.     88booo. 88.     Y8b  d8    88         Y8b  d8 `8b  d8' 88booo. 88b  d88 88  88  88 88  V888 db   8D 
+   *     Y888P  Y88888P    YP         `8888Y' Y88888P Y88888P Y88888P  `Y88P'    YP          `Y88P'  `Y88P'  Y88888P ~Y8888P' YP  YP  YP VP   V8P `8888Y' 
+   *                                                                                                                                                      
+   *                                                                                                                                                      
+   */
+
+
   private getSelectColumns(lookupColumns){
 
     let baseSelectColumns = [];
@@ -1080,6 +1357,20 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     }
     return baseSelectColumns;
   }
+
+
+
+  /***
+   *     d888b  d88888b d888888b      d88888b db    db d8888b.  .d8b.  d8b   db d8888b.       .o88b.  .d88b.  db      db    db .88b  d88. d8b   db .d8888. 
+   *    88' Y8b 88'     `~~88~~'      88'     `8b  d8' 88  `8D d8' `8b 888o  88 88  `8D      d8P  Y8 .8P  Y8. 88      88    88 88'YbdP`88 888o  88 88'  YP 
+   *    88      88ooooo    88         88ooooo  `8bd8'  88oodD' 88ooo88 88V8o 88 88   88      8P      88    88 88      88    88 88  88  88 88V8o 88 `8bo.   
+   *    88  ooo 88~~~~~    88         88~~~~~  .dPYb.  88~~~   88~~~88 88 V8o88 88   88      8b      88    88 88      88    88 88  88  88 88 V8o88   `Y8b. 
+   *    88. ~8~ 88.        88         88.     .8P  Y8. 88      88   88 88  V888 88  .8D      Y8b  d8 `8b  d8' 88booo. 88b  d88 88  88  88 88  V888 db   8D 
+   *     Y888P  Y88888P    YP         Y88888P YP    YP 88      YP   YP VP   V8P Y8888D'       `Y88P'  `Y88P'  Y88888P ~Y8888P' YP  YP  YP VP   V8P `8888Y' 
+   *                                                                                                                                                       
+   *                                                                                                                                                       
+   */
+
 
   private getExpandColumns(lookupColumns){
 
