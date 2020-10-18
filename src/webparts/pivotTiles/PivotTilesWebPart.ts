@@ -96,13 +96,16 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     } else if ( this.properties.custCatType === 'semiColon1' ) {
       custCatLogi = this.properties.custCatLogi.split(';');
+      if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'semiColon1' but custCatLogi IS EMPTY - No Categories will be shown!"); }
 
     } else if ( this.properties.custCatType === 'semiColon2' ) {
       custCatLogi = this.properties.custCatLogi.split(';=');
+      if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'semiColon2' but custCatLogi IS EMPTY - No Categories will be shown!"); }
 
     } else if ( this.properties.custCatType === 'custom' ) {
       custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
-
+      if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'custom' but custCatLogi IS EMPTY - No Categories will be shown!"); }
+      
     }
 
     let custCategories : ICustomCategories = {

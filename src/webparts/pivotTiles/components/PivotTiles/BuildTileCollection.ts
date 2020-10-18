@@ -1,7 +1,7 @@
 
-import { IPivotTilesProps } from './IPivotTilesProps';
+import { IPivotTilesProps, ICustomLogic } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
-import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
+import { IPivotTileItemProps,  } from './../TileItems/IPivotTileItemProps';
 
 import { getTheCurrentTime,} from '../../../../services/createAnalytics';
 import {tileTime} from '../TileItems/IPivotTileItemProps';
@@ -196,17 +196,62 @@ const one_day = 1000 * 60 * 60 * 24;
 
     let tileCollection: IPivotTileItemProps[] = response.map(item => {
 
+      
+      let title = getColumnValue(pivotProps,item,'colTitleText');
+
+      let description = getColumnValue(pivotProps,item,'colHoverText');
+
+      let href = getColumnValue(pivotProps,item,'colGoToLink');
+
       let category = getColumnValue(pivotProps,item,'colCategory');
-      if ( category === "" ) { category = [pivotProps.otherTab] ; }
+      if ( category.length === 0 ) { category = [pivotProps.otherTab] ; }
+
+      //Can't do specific type here or it will break the multi-typed logic below
+      let custCatLogi : any = pivotProps.custCategories.logic;
+      
+      if ( pivotProps.custCategories.type === 'tileCategory' ) {
+
+      } else if ( pivotProps.custCategories.type === 'semiColon1' && custCatLogi.length > 0 ) {
+        category = [];
+        
+        custCatLogi.map( cat => {
+          //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+          //let normalRegex = new RegExp(/(?i)\bcat\b/) ;
+          //https://stackoverflow.com/a/17886301
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          
+          var regex = new RegExp("(?i)\b" + cat + "\b");
+          let loc1 = title.search(regex);
+          let loc2 = description.search(regex);
+          let loc3 = href.search(regex);
+
+
+        });
+
+      } else if ( pivotProps.custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) {
+        category = custCatLogi.split(';=');
+
+      } else if ( pivotProps.custCategories.type === 'custom' && custCatLogi.length > 0 ) {
+
+      } else {
+
+      }
+
 
       return {
         imageUrl: getColumnValue(pivotProps,item,'colImageLink'),
 
-        title: getColumnValue(pivotProps,item,'colTitleText'),
+        title: title,
 
-        description: getColumnValue(pivotProps,item,'colHoverText'),
+        description: description,
 
-        href: getColumnValue(pivotProps,item,'colGoToLink'),
+        href: href,
 
         category: category,
 
