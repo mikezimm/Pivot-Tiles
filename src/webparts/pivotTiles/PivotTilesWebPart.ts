@@ -83,7 +83,28 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     if ( urlVars.scenario && urlVars.scenario.toLowerCase() === 'dev' ) {  this.properties.scenario = 'DEV';  }
 
-    let custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
+    //export type ICustomTypes = 'tileCategory' | 'semiColon1' | 'semiColon2' | 'custom';
+
+    let custCatLogi = null;
+    let custCatCols  = [];
+
+    if ( this.properties.custCatCols && this.properties.custCatCols.length > 0 ) {
+      custCatCols = this.properties.custCatCols.split(';');
+    } 
+
+    if ( this.properties.custCatType === 'tileCategory' ) {
+
+    } else if ( this.properties.custCatType === 'semiColon1' ) {
+      custCatLogi = this.properties.custCatLogi.split(';');
+
+    } else if ( this.properties.custCatType === 'semiColon2' ) {
+      custCatLogi = this.properties.custCatLogi.split(';=');
+
+    } else if ( this.properties.custCatType === 'custom' ) {
+      custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
+
+    }
+
     let custCategories : ICustomCategories = {
       type: this.properties.custCatType ,
       column: this.properties.custCatCols,

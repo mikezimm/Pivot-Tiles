@@ -21,7 +21,7 @@ export interface ICustomCategories {
 
   type: ICustomTypes;
   column: string;
-  logic: ICustomLogic[];
+  logic: ICustomLogic[] | string[];
 
 }
 
