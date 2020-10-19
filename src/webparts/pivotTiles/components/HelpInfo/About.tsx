@@ -125,6 +125,7 @@ public constructor(props:IInfoAboutMeProps){
                 <table className={styles.infoTable}>
                     <tr><th>Date</th><th>Version</th><th>Focus</th><th>Notes</th></tr>
 
+                    <tr><td>2020-09-19</td><td>{'1.1.1.1'}</td><td>Fix Custom Category when missing catergory column</td><td></td></tr>
                     <tr><td>2020-09-14</td><td>{'1.1.1.0'}</td><td>Add Early Access, Custom Category Logic</td><td></td></tr>
                     <tr><td>2020-09-14</td><td>{'1.1.0.2'}</td><td>Add Site News BannerImageUrl.Url for Image</td><td></td></tr>
                     <tr><td>2020-09-14</td><td>{'1.x.x.x'}</td><td></td><td></td></tr>

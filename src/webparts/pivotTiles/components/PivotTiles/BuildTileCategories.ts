@@ -62,9 +62,20 @@ export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , p
           } else {
             //Test as Lookup column (which is not an array but only one value)
       
-            if(tileCategories.indexOf(tile.category) === -1) {
+            if ( Array.isArray(tile.category) === true ) {
+              //tile.category is an array so map through the values instead of other logic.
+              //This should fix the 1.1.1.0 issue of multiple tabs of the same label.
+              tile.category.map( c => {
+                if(tileCategories.indexOf( c ) === -1) {
+                  tileCategories.push( c );
+                }
+              });
+
+            } else if(tileCategories.indexOf(tile.category) === -1) {
               tileCategories.push(tile.category);
             }
+
+
           } //if (isArray !== 'string' && splitCol.length === 1) {
         } //if (!tile[thisCatColumn]) {
       } //for (let tile of response) {
