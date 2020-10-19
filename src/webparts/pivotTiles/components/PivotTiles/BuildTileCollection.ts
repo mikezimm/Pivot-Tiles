@@ -180,6 +180,7 @@ const one_day = 1000 * 60 * 60 * 24;
     // on my home PC, for 649 items x 3000 loops it took 30 seconds.
 
     let endTime = getTheCurrentTime();
+    let showOtherTab = false;
 
     //console.log('response', response);
 
@@ -211,38 +212,57 @@ const one_day = 1000 * 60 * 60 * 24;
       
       if ( pivotProps.custCategories.type === 'tileCategory' ) {
 
-      } else if ( pivotProps.custCategories.type === 'semiColon1' && custCatLogi.length > 0 ) {
+      } else if ( (pivotProps.custCategories.type === 'semiColon1' && custCatLogi.length > 0 ) ||
+                 ( pivotProps.custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) ) {
         category = [];
-        
-        custCatLogi.map( cat => {
-          //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp
-          //let normalRegex = new RegExp(/(?i)\bcat\b/) ;
-          //https://stackoverflow.com/a/17886301
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          
-          var regex = new RegExp("(?i)\b" + cat + "\b");
-          let loc1 = title.search(regex);
-          let loc2 = description.search(regex);
-          let loc3 = href.search(regex);
 
+        custCatLogi.map( cat => {
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
+
+          //These regex expressions work
+          //let c = "E"
+          //data2 = new RegExp( "\\b" + c + "\\b", 'i');
+          //let data3 = new RegExp( "\\bl\\b", 'i');
+          //let replaceMe2 = cat.replace(data3,'X')
+          let att = 'i';
+          let match = false;
+
+          var regex = new RegExp("\\b" + cat + "\\b", att);
+          if (  title.search(regex) > -1 ) {
+            match = true;
+          } else if (  description.search(regex) > -1 ) {
+            match = true;
+          } else if (  href.search(regex) > -1 ) {
+            match = true;
+          }
+
+          if ( match === true ) { category.push( cat ) ; }
 
         });
 
-      } else if ( pivotProps.custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) {
-        category = custCatLogi.split(';=');
+        if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
 
       } else if ( pivotProps.custCategories.type === 'custom' && custCatLogi.length > 0 ) {
+        /**
+             * export interface ICustomLogic {
+
+              category: string;
+              regex?: string;
+              att?: string; // regex attributes "g", "i", "m" - default if nothing here is "i"
+              eval?: string; // Used in place of regex
+
+            }
+        */
+
 
       } else {
 
       }
 
+      if ( pivotProps.otherTab && pivotProps.otherTab.length > 0 && category.length > 0 && category[0] == pivotProps.otherTab ) { 
+        showOtherTab = true ;
+      }
 
       return {
         imageUrl: getColumnValue(pivotProps,item,'colImageLink'),
@@ -318,6 +338,7 @@ const one_day = 1000 * 60 * 60 * 24;
       modifiedByIDs: modifiedByIDs.sort(),
       createdByTitles: createdByTitles.sort(),
       createdByIDs: createdByIDs.sort(),
+      showOtherTab: showOtherTab,
 
     };
 

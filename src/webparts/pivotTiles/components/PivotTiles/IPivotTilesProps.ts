@@ -11,7 +11,8 @@ export interface ICustomLogic {
 
   category: string;
   regex?: string;
-  eval?: string;
+  att?: string; // regex attributes "g", "i", "m" - default if nothing here is "i"
+  eval?: string; // Used in place of regex
 
 }
 

@@ -739,10 +739,11 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
   public createPivots(thisState,thisProps){
 
-    if (thisState.showOtherTab && thisState.pivtTitles.indexOf(thisProps.otherTab) === -1) {
-       thisState.pivtTitles.push(thisProps.otherTab);
+    let tempPivotTitles = JSON.parse(JSON.stringify(thisState.pivtTitles));
+    if (thisState.showOtherTab && tempPivotTitles.indexOf(thisProps.otherTab) === -1) {
+      tempPivotTitles.push(thisProps.otherTab);
     }
-    let piv = thisState.pivtTitles.map(this.createPivot);
+    let piv = tempPivotTitles.map(this.createPivot);
     console.log('createPivots: ', piv);
     return (
       piv
@@ -1086,6 +1087,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         searchCount: newFilteredTiles.length,
         searchWhere: ' in ' + this.props.setTab,
         listStaticName: listStaticName,
+
+        showOtherTab: tileCollectionResults.showOtherTab,
 
         createdInfo: tileCollectionResults.createdInfo,
         modifiedInfo: tileCollectionResults.modifiedInfo,
