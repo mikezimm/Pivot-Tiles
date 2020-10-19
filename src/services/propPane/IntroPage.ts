@@ -119,8 +119,6 @@ export class IntroPage {
 
           ]
         },
-
-
         {
           groupName: 'Custom Categories',
           isCollapsed: true ,
@@ -141,10 +139,17 @@ export class IntroPage {
               href: 'https://codebeautify.org/jsonviewer',
               target: '_blank',
               disabled: webPartProps.custCatType === 'tileCategory' ? true : false,
-              }),
+            }),
 
             PropertyPaneTextField('custCatLogi', {
               label: 'Custom Logic (see wiki), use link above to help edit JSON',
+              disabled: webPartProps.custCatType === 'tileCategory' ? true : false,
+            }),
+
+            PropertyPaneToggle('custCatBrak', {
+              label: 'Only show tile in First Custom Category found',
+              offText: 'Off',
+              onText: 'On',
               disabled: webPartProps.custCatType === 'tileCategory' ? true : false,
             }),
 

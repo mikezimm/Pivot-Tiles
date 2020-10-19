@@ -790,7 +790,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let heroIds = this.getHeroIds(newHeros);
     let newFiltered = [];
 
-
     let tileCategories = buildTileCategoriesFromResponse(pivotProps, pivotState, newCollection, currentHero, thisCatColumn);
     let filteredCategory = '';
     let lastCategory = null;

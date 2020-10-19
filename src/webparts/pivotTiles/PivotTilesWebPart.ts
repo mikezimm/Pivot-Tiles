@@ -105,14 +105,17 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     } else if ( this.properties.custCatType === 'custom' ) {
       custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
       if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'custom' but custCatLogi IS EMPTY - No Categories will be shown!"); }
-      
+
     }
 
     let custCategories : ICustomCategories = {
       type: this.properties.custCatType ,
       column: this.properties.custCatCols,
       logic: custCatLogi,
+      break: this.properties.custCatBrak,
     };
+
+    custCategories = JSON.parse(JSON.stringify(custCategories));
 
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
@@ -291,6 +294,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     let updateOnThese = [
       'setSize','setTab','otherTab','setPivSize','heroCategory','heroRatio','showHero','setPivFormat','setImgFit','setImgCover','target',
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots', 'definitionToggle',
+      'custCatType', 'custCatCols', 'custCatLogi', 'custCatBrak',
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

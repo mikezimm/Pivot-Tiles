@@ -13,6 +13,7 @@ export interface ICustomLogic {
   regex?: string;
   att?: string; // regex attributes "g", "i", "m" - default if nothing here is "i"
   eval?: string; // Used in place of regex
+  break?: boolean; // If this one is true, then don't do any more.  Good for bucketing dates.  Default = false so items can show in multiple categories
 
 }
 
@@ -23,6 +24,7 @@ export interface ICustomCategories {
   type: ICustomTypes;
   column: string;
   logic: ICustomLogic[] | string[];
+  break?: boolean; // If this one is true, then only show in first category in array check.  Default = false so items can show in multiple categories
 
 }
 

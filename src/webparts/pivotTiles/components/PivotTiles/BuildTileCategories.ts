@@ -81,7 +81,6 @@ export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , p
 
     }
 
-
     tileCategories.sort();
 
     const otherIndex = tileCategories.indexOf(pivotProps.otherTab);

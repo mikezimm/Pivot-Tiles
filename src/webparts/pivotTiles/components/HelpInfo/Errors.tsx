@@ -108,10 +108,12 @@ public constructor(props:IErrorsProps){
             let thisPage = null;
             let messageRows = [];
 
-            messageRows.push( <tr><td></td></tr> );
-            messageRows.push( <tr><td></td></tr> );
-            messageRows.push( <tr><td></td></tr> );
-            messageRows.push( <tr><td></td></tr> );
+            messageRows.push( <tr><td>Tiles show up in only 1 Category</td><td></td><td>Check if Custom Categories property pane Toggle on</td></tr> );
+            messageRows.push( <tr><td>Custom <b>JSON Logic</b> does not work</td><td></td><td><b>Test your JSON Object in JSON Beautifier</b> first</td></tr> );
+            messageRows.push( <tr><td><b>Common</b> errors</td><td></td><td><b>Missing comma</b> after an attribute</td></tr> );
+            messageRows.push( <tr><td><b>Regex</b> errors</td><td></td><td>Be sure to <b>escape characters</b>.... ie "regex": "\\bTMT\\b"</td></tr> );
+            messageRows.push( <tr><td><b>eval</b> errors</td><td></td><td>eval is not <b>correct syntax</b>.  Only object references at that point in code work.</td></tr> );
+
             
             thisPage = <div>
                 <h2></h2>

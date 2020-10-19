@@ -69,6 +69,7 @@
       "custCatType": "tileCategory",
       "custCatCols": "",
       "custCatLogi": "",
+      "custCatBrak": false,
 
       "colTileStyle": ""
     }
@@ -124,6 +125,8 @@
       "custCatType": "tileCategory",
       "custCatCols": "",
       "custCatLogi": "",
+      "custCatBrak": false,
+
       "colTileStyle": ""
     }
   },
@@ -178,6 +181,8 @@
       "custCatType": "tileCategory",
       "custCatCols": "",
       "custCatLogi": "",
+      "custCatBrak": false,
+      
       "colTileStyle": ""
     }
   }
