@@ -105,7 +105,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     } else if ( this.properties.custCatType === 'custom' ) {
       custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
       if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'custom' but custCatLogi IS EMPTY - No Categories will be shown!"); }
-      
+
     }
 
     let custCategories : ICustomCategories = {
@@ -114,6 +114,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       logic: custCatLogi,
     };
 
+    custCategories = JSON.parse(JSON.stringify(custCategories));
+    
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {

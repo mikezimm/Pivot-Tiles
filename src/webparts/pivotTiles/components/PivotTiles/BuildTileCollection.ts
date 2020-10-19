@@ -195,8 +195,36 @@ const one_day = 1000 * 60 * 60 * 24;
    *                                                                                                                                                                                             
    */
 
+
+    let custSearchTitle = true;
+    let custSearchDesc = true;
+    let custSearchHref = true;
+    let custSearchCate = true;
+    let custSearchModBy = true;
+    let custSearchCreateBy = true;
+
+    if ( pivotProps.custCategories.type !== 'tileCategory' ) {
+
+      if ( pivotProps.custCategories.column && pivotProps.custCategories.column.length > 0 ) {
+
+        if ( pivotProps.custCategories.column.indexOf( pivotProps.colTitleText ) === -1 ) { custSearchTitle = false; }
+        if ( pivotProps.custCategories.column.indexOf( pivotProps.colHoverText ) === -1 ) { custSearchDesc = false; }
+        if ( pivotProps.custCategories.column.indexOf( pivotProps.colGoToLink ) === -1 ) { custSearchHref = false; }
+        if ( pivotProps.custCategories.column.indexOf( pivotProps.colCategory ) === -1 ) { custSearchCate = false; }
+        if ( pivotProps.custCategories.column.indexOf( 'ModifiedBy/Title' ) === -1 ) { custSearchModBy = false; }
+        if ( pivotProps.custCategories.column.indexOf( 'CreatedBy/Title' ) === -1 ) { custSearchCreateBy = false; }
+
+      }
+
+
+    }
+
     let tileCollection: IPivotTileItemProps[] = response.map(item => {
 
+
+      let modifiedByTitle = getColumnValue(pivotProps,item,'colModifiedByTitle');
+
+      let createdByTitle = getColumnValue(pivotProps,item,'colCreatedByTitle');
       
       let title = getColumnValue(pivotProps,item,'colTitleText');
 
@@ -205,6 +233,8 @@ const one_day = 1000 * 60 * 60 * 24;
       let href = getColumnValue(pivotProps,item,'colGoToLink');
 
       let category = getColumnValue(pivotProps,item,'colCategory');
+      let categoryCopy = JSON.stringify(category);
+
       if ( category.length === 0 ) { category = [pivotProps.otherTab] ; }
 
       //Can't do specific type here or it will break the multi-typed logic below
@@ -217,23 +247,28 @@ const one_day = 1000 * 60 * 60 * 24;
         category = [];
 
         custCatLogi.map( cat => {
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
-          console.log("ERRORS OUT HERE IN BuildTileCollection.ts at 221 !!!! ");
 
           //These regex expressions work
           //let c = "E"
           //data2 = new RegExp( "\\b" + c + "\\b", 'i');
           //let data3 = new RegExp( "\\bl\\b", 'i');
           //let replaceMe2 = cat.replace(data3,'X')
+
           let att = 'i';
           let match = false;
 
           var regex = new RegExp("\\b" + cat + "\\b", att);
-          if (  title.search(regex) > -1 ) {
+          if (  custSearchTitle && title.search(regex) > -1 ) {
             match = true;
-          } else if (  description.search(regex) > -1 ) {
+          } else if (  custSearchDesc && description.search(regex) > -1 ) {
             match = true;
-          } else if (  href.search(regex) > -1 ) {
+          } else if (  custSearchHref && href.search(regex) > -1 ) {
+            match = true;
+          } else if (  custSearchCate && categoryCopy.search(regex) > -1 ) {
+            match = true;
+          } else if (  custSearchModBy && modifiedByTitle.search(regex) > -1 ) {
+            match = true;
+          } else if (  custSearchCreateBy && createdByTitle.search(regex) > -1 ) {
             match = true;
           }
 
@@ -302,11 +337,11 @@ const one_day = 1000 * 60 * 60 * 24;
         modified: item.modified,
         modifiedBy: item.modifiedBy,
         createdBy: item.createdBy,
-        modifiedByID: (getColumnValue(pivotProps,item,'colModifiedById')),
-        modifiedByTitle: (getColumnValue(pivotProps,item,'colModifiedByTitle')),
+        modifiedByID: getColumnValue(pivotProps,item,'colModifiedById'),
+        modifiedByTitle: modifiedByTitle,
         created: item.created,
-        createdByID: (getColumnValue(pivotProps,item,'colCreatedById')),
-        createdByTitle: (getColumnValue(pivotProps,item,'colCreatedByTitle')),
+        createdByID: getColumnValue(pivotProps,item,'colCreatedById'),
+        createdByTitle: createdByTitle,
         modifiedTime: item.modifiedTime,
         createdTime: item.createdTime,
 

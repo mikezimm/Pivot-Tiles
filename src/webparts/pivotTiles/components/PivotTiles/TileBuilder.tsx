@@ -17,7 +17,6 @@ import { CarouselLayout, ICarouselItem } from '../../components/carouselLayout';
 import Grid from './../../components/gridComponent/Grid';
 import { IGridProps, IGridItem } from './../../components/gridComponent/Grid.types';
 
-
 import { IPivotTilesProps } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
 
@@ -234,7 +233,7 @@ export function heroBuilder(parentProps,parentState){
  * @param tType 
  */
 export function oneTileBuilder(parentProps,parentState, tType, newTile ){
-  console.log('oneTileBuilder',parentProps,parentState);
+  //console.log('oneTileBuilder',parentProps,parentState);
 
   const thisTile = 
     <PivotTileItem
