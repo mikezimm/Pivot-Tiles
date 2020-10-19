@@ -64,6 +64,7 @@ export interface IPivotTilesWebPartProps {
   custCatType: ICustomTypes;
   custCatCols: string;
   custCatLogi: string;
+  custCatBrak: boolean;
   
   //List based analytics properties
   analyticsList: string;

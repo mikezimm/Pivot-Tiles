@@ -112,10 +112,11 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       type: this.properties.custCatType ,
       column: this.properties.custCatCols,
       logic: custCatLogi,
+      break: this.properties.custCatBrak,
     };
 
     custCategories = JSON.parse(JSON.stringify(custCategories));
-    
+
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
@@ -293,6 +294,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     let updateOnThese = [
       'setSize','setTab','otherTab','setPivSize','heroCategory','heroRatio','showHero','setPivFormat','setImgFit','setImgCover','target',
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots', 'definitionToggle',
+      'custCatType', 'custCatCols', 'custCatLogi', 'custCatBrak',
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

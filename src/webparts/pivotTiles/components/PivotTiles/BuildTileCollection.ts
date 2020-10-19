@@ -239,6 +239,7 @@ const one_day = 1000 * 60 * 60 * 24;
 
       //Can't do specific type here or it will break the multi-typed logic below
       let custCatLogi : any = pivotProps.custCategories.logic;
+      let custBreak : boolean = pivotProps.custCategories.break;
       
       if ( pivotProps.custCategories.type === 'tileCategory' ) {
 
@@ -246,7 +247,7 @@ const one_day = 1000 * 60 * 60 * 24;
                  ( pivotProps.custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) ) {
         category = [];
 
-        custCatLogi.map( cat => {
+        custCatLogi.map( custCat => {
 
           //These regex expressions work
           //let c = "E"
@@ -257,7 +258,7 @@ const one_day = 1000 * 60 * 60 * 24;
           let att = 'i';
           let match = false;
 
-          var regex = new RegExp("\\b" + cat + "\\b", att);
+          var regex = new RegExp("\\b" + custCat + "\\b", att);
           if (  custSearchTitle && title.search(regex) > -1 ) {
             match = true;
           } else if (  custSearchDesc && description.search(regex) > -1 ) {
@@ -272,7 +273,9 @@ const one_day = 1000 * 60 * 60 * 24;
             match = true;
           }
 
-          if ( match === true ) { category.push( cat ) ; }
+          let useBreak = custBreak === true || custCat.break === true ? true : false;
+          if ( useBreak === true && category.length > 0 ) { match = false; }
+          if ( match === true ) { category.push( custCat ) ; }
 
         });
 
@@ -300,9 +303,29 @@ const one_day = 1000 * 60 * 60 * 24;
             if ( custCat.eval && custCat.eval.length > 0 ) {
               let eText = eval( custCat.eval ) ;
               if ( eText === true ) { match = true; }
+
+            } else if ( custCat.regex && custCat.regex.length > 0 ) { 
+
+              let att = custCat.att === undefined || custCat.att === null ? 'i' : custCat.att;
+              var regex = new RegExp(custCat.regex, att);
+              if (  custSearchTitle && title.search(regex) > -1 ) {
+                match = true;
+              } else if (  custSearchDesc && description.search(regex) > -1 ) {
+                match = true;
+              } else if (  custSearchHref && href.search(regex) > -1 ) {
+                match = true;
+              } else if (  custSearchCate && categoryCopy.search(regex) > -1 ) {
+                match = true;
+              } else if (  custSearchModBy && modifiedByTitle.search(regex) > -1 ) {
+                match = true;
+              } else if (  custSearchCreateBy && createdByTitle.search(regex) > -1 ) {
+                match = true;
+              }
+
             }
 
-            if ( custCat.break === true && category.length > 0 ) { match = false; }
+            let useBreak = custBreak === true || custCat.break === true ? true : false;
+            if ( useBreak === true && category.length > 0 ) { match = false; }
             if ( match === true ) { category.push( custCat.category ) ; }
 
           });
