@@ -13,6 +13,7 @@ export interface ICustomLogic {
   regex?: string;
   att?: string; // regex attributes "g", "i", "m" - default if nothing here is "i"
   eval?: string; // Used in place of regex
+  break?: boolean; // If this one is true, then don't do any more.  Good for bucketing dates
 
 }
 

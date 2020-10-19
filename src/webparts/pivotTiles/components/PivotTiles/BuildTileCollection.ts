@@ -289,7 +289,25 @@ const one_day = 1000 * 60 * 60 * 24;
 
             }
         */
+          
+       category = [];
 
+        //Testing:
+        //[   {     "category": "<20",     "eval": "item.modifiedTime.cats.age[0] <= 20"   },   {     "category": "<40",     "eval": "item.modifiedTime.cats.age[0] <= 40"   } ]
+          custCatLogi.map( (custCat ) => {
+            let match = false;
+
+            if ( custCat.eval && custCat.eval.length > 0 ) {
+              let eText = eval( custCat.eval ) ;
+              if ( eText === true ) { match = true; }
+            }
+
+            if ( custCat.break === true && category.length > 0 ) { match = false; }
+            if ( match === true ) { category.push( custCat.category ) ; }
+
+          });
+
+          if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
 
       } else {
 
