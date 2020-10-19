@@ -1,6 +1,6 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 import { theTime } from './IPivotTilesProps';
-import { IDateInfo, IPersonInfo } from './utils';
+import { IDateInfo, IPersonInfo } from './BuildTileCollection';
 
 
 export interface IPivotTilesState {

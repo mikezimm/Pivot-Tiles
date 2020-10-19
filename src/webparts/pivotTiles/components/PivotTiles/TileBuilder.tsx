@@ -3,7 +3,7 @@ import {  } from '@microsoft/sp-webpart-base';
 import * as React from 'react';
 import styles from './PivotTiles.module.scss';
 import { Link } from 'office-ui-fabric-react/lib/Link';
-import Utils from './utils';
+
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
 import PivotTileItem from './../TileItems/PivotTileItem';
 
@@ -17,8 +17,24 @@ import { CarouselLayout, ICarouselItem } from '../../components/carouselLayout';
 import Grid from './../../components/gridComponent/Grid';
 import { IGridProps, IGridItem } from './../../components/gridComponent/Grid.types';
 
+
+import { IPivotTilesProps } from './IPivotTilesProps';
+import { IPivotTilesState } from './IPivotTilesState';
+
 //export default class NoListFound extends React.Component<IPivotTilesProps, IPivotTilesState> {
 
+
+
+/***
+ *    d888888b d888888b db      d88888b      d8888b. db    db d888888b db      d8888b. d88888b d8888b. 
+ *    `~~88~~'   `88'   88      88'          88  `8D 88    88   `88'   88      88  `8D 88'     88  `8D 
+ *       88       88    88      88ooooo      88oooY' 88    88    88    88      88   88 88ooooo 88oobY' 
+ *       88       88    88      88~~~~~      88~~~b. 88    88    88    88      88   88 88~~~~~ 88`8b   
+ *       88      .88.   88booo. 88.          88   8D 88b  d88   .88.   88booo. 88  .8D 88.     88 `88. 
+ *       YP    Y888888P Y88888P Y88888P      Y8888P' ~Y8888P' Y888888P Y88888P Y8888D' Y88888P 88   YD 
+ *                                                                                                     
+ *                                                                                                     
+ */
 
 /**
  * 
@@ -35,6 +51,18 @@ export function tileBuilder(parentProps,parentState){
 
   return tileBuild;
 }
+
+
+/***
+ *    db      d888888b .d8888. d888888b      db    db d888888b d88888b db   d8b   db      d8888b. db    db d888888b db      d8888b. d88888b d8888b. 
+ *    88        `88'   88'  YP `~~88~~'      88    88   `88'   88'     88   I8I   88      88  `8D 88    88   `88'   88      88  `8D 88'     88  `8D 
+ *    88         88    `8bo.      88         Y8    8P    88    88ooooo 88   I8I   88      88oooY' 88    88    88    88      88   88 88ooooo 88oobY' 
+ *    88         88      `Y8b.    88         `8b  d8'    88    88~~~~~ Y8   I8I   88      88~~~b. 88    88    88    88      88   88 88~~~~~ 88`8b   
+ *    88booo.   .88.   db   8D    88          `8bd8'    .88.   88.     `8b d8'8b d8'      88   8D 88b  d88   .88.   88booo. 88  .8D 88.     88 `88. 
+ *    Y88888P Y888888P `8888Y'    YP            YP    Y888888P Y88888P  `8b8' `8d8'       Y8888P' ~Y8888P' Y888888P Y88888P Y8888D' Y88888P 88   YD 
+ *                                                                                                                                                  
+ *                                                                                                                                                  
+ */
 
 export function listViewBuilder(parentProps,parentState, theseAreItems, thisCategory){
   // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
@@ -114,6 +142,19 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
 
 }
 
+
+/***
+ *     .o88b.  .d8b.  d8888b.  .d88b.  db    db .d8888. d88888b db           d8888b. db    db d888888b db      d8888b. d88888b d8888b. 
+ *    d8P  Y8 d8' `8b 88  `8D .8P  Y8. 88    88 88'  YP 88'     88           88  `8D 88    88   `88'   88      88  `8D 88'     88  `8D 
+ *    8P      88ooo88 88oobY' 88    88 88    88 `8bo.   88ooooo 88           88oooY' 88    88    88    88      88   88 88ooooo 88oobY' 
+ *    8b      88~~~88 88`8b   88    88 88    88   `Y8b. 88~~~~~ 88           88~~~b. 88    88    88    88      88   88 88~~~~~ 88`8b   
+ *    Y8b  d8 88   88 88 `88. `8b  d8' 88b  d88 db   8D 88.     88booo.      88   8D 88b  d88   .88.   88booo. 88  .8D 88.     88 `88. 
+ *     `Y88P' YP   YP 88   YD  `Y88P'  ~Y8888P' `8888Y' Y88888P Y88888P      Y8888P' ~Y8888P' Y888888P Y88888P Y8888D' Y88888P 88   YD 
+ *                                                                                                                                     
+ *                                                                                                                                     
+ */
+
+
 /**
  * 
  * @param parentProps 
@@ -145,6 +186,18 @@ export function carouselBuilder(parentProps,parentState){
   return carouselFullLineBuild;
 }
 
+
+/***
+ *    db   db d88888b d8888b.  .d88b.       d8888b. db    db d888888b db      d8888b. d88888b d8888b. 
+ *    88   88 88'     88  `8D .8P  Y8.      88  `8D 88    88   `88'   88      88  `8D 88'     88  `8D 
+ *    88ooo88 88ooooo 88oobY' 88    88      88oooY' 88    88    88    88      88   88 88ooooo 88oobY' 
+ *    88~~~88 88~~~~~ 88`8b   88    88      88~~~b. 88    88    88    88      88   88 88~~~~~ 88`8b   
+ *    88   88 88.     88 `88. `8b  d8'      88   8D 88b  d88   .88.   88booo. 88  .8D 88.     88 `88. 
+ *    YP   YP Y88888P 88   YD  `Y88P'       Y8888P' ~Y8888P' Y888888P Y88888P Y8888D' Y88888P 88   YD 
+ *                                                                                                    
+ *                                                                                                    
+ */
+
 /**
  * 
  * @param parentProps 
@@ -162,6 +215,17 @@ export function heroBuilder(parentProps,parentState){
     return heroFullLineBuild;
 }
 
+
+/***
+ *     .d88b.  d8b   db d88888b      d888888b d888888b db      d88888b      d8888b. db    db d888888b db      d8888b. d88888b d8888b. 
+ *    .8P  Y8. 888o  88 88'          `~~88~~'   `88'   88      88'          88  `8D 88    88   `88'   88      88  `8D 88'     88  `8D 
+ *    88    88 88V8o 88 88ooooo         88       88    88      88ooooo      88oooY' 88    88    88    88      88   88 88ooooo 88oobY' 
+ *    88    88 88 V8o88 88~~~~~         88       88    88      88~~~~~      88~~~b. 88    88    88    88      88   88 88~~~~~ 88`8b   
+ *    `8b  d8' 88  V888 88.             88      .88.   88booo. 88.          88   8D 88b  d88   .88.   88booo. 88  .8D 88.     88 `88. 
+ *     `Y88P'  VP   V8P Y88888P         YP    Y888888P Y88888P Y88888P      Y8888P' ~Y8888P' Y888888P Y88888P Y8888D' Y88888P 88   YD 
+ *                                                                                                                                    
+ *                                                                                                                                    
+ */
 
 /**
  * 
@@ -217,6 +281,16 @@ export function oneTileBuilder(parentProps,parentState, tType, newTile ){
 
 }
 
+/***
+ *     .o88b.  .d8b.  d8888b.  .d88b.  db    db .d8888. d88888b db           db       .d8b.  db    db  .d88b.  db    db d888888b 
+ *    d8P  Y8 d8' `8b 88  `8D .8P  Y8. 88    88 88'  YP 88'     88           88      d8' `8b `8b  d8' .8P  Y8. 88    88 `~~88~~' 
+ *    8P      88ooo88 88oobY' 88    88 88    88 `8bo.   88ooooo 88           88      88ooo88  `8bd8'  88    88 88    88    88    
+ *    8b      88~~~88 88`8b   88    88 88    88   `Y8b. 88~~~~~ 88           88      88~~~88    88    88    88 88    88    88    
+ *    Y8b  d8 88   88 88 `88. `8b  d8' 88b  d88 db   8D 88.     88booo.      88booo. 88   88    88    `8b  d8' 88b  d88    88    
+ *     `Y88P' YP   YP 88   YD  `Y88P'  ~Y8888P' `8888Y' Y88888P Y88888P      Y88888P YP   YP    YP     `Y88P'  ~Y8888P'    YP    
+ *                                                                                                                               
+ *                                                                                                                               
+ */
 
 export function carouselLayout(parentProps,parentState, theseAreItems, thisCategory){
   // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
@@ -247,6 +321,18 @@ export function carouselLayout(parentProps,parentState, theseAreItems, thisCateg
   return carousel;
 
 }
+
+
+/***
+ *     d888b  d8888b. d888888b d8888b.      db       .d8b.  db    db  .d88b.  db    db d888888b 
+ *    88' Y8b 88  `8D   `88'   88  `8D      88      d8' `8b `8b  d8' .8P  Y8. 88    88 `~~88~~' 
+ *    88      88oobY'    88    88   88      88      88ooo88  `8bd8'  88    88 88    88    88    
+ *    88  ooo 88`8b      88    88   88      88      88~~~88    88    88    88 88    88    88    
+ *    88. ~8~ 88 `88.   .88.   88  .8D      88booo. 88   88    88    `8b  d8' 88b  d88    88    
+ *     Y888P  88   YD Y888888P Y8888D'      Y88888P YP   YP    YP     `Y88P'  ~Y8888P'    YP    
+ *                                                                                              
+ *                                                                                              
+ */
 
 export function gridLayout(parentProps,parentState, theseAreItems, thisCategory){
   // Carousel option from https://github.com/hugoabernier/WebPartDesignSeries
