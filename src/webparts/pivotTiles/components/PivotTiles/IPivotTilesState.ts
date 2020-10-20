@@ -1,5 +1,5 @@
-import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
-import { theTime } from './IPivotTilesProps';
+import {IPivotTileItemProps, } from './../TileItems/IPivotTileItemProps';
+import { theTime,ICustomCategories } from './IPivotTilesProps';
 import { IDateInfo, IPersonInfo } from './BuildTileCollection';
 
 
@@ -32,6 +32,9 @@ export interface IPivotTilesState {
   searchShow?: boolean;
   searchCount?: number;
   searchWhere?: string;
+  changePivotCats: boolean;
+  custCategories: ICustomCategories;
+  originalResponse:any[];
 
   shuffleShow?: boolean;
 

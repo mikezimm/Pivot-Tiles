@@ -157,7 +157,7 @@
       "otherTab": "Others",
       "enableChangePivots": false,
       "onHoverEffect": "slideUp",
-      "setSize": "300",
+      "setSize": "150",
       "setRatio": "4x1",
       "setImgFit": "centerCover",
       "setImgCover": "landscape",

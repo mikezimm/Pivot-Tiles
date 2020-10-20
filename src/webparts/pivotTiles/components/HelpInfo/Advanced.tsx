@@ -105,41 +105,19 @@ public constructor(props:IAdvancedProps){
  *                                                                                     
  */
 
-            let thisPage = null;
-            let rows: Element[] = [];
+            let messageRows = [];
 
-            let row00 = <tr><td>             </td><td></td><td></td></tr>;
-            let row01 = <tr><td>             </td><td></td><td></td></tr>;
-            let row03 = <tr><td>             </td><td></td><td></td></tr>;
+            messageRows.push( <tr><td>Custom Categories</td><td></td><td>See Github Wiki for examples</td></tr> );
+            messageRows.push( <tr><td></td><td></td><td></td></tr> );
+            messageRows.push( <tr><td></td><td></td><td></td></tr> );
+            messageRows.push( <tr><td></td><td></td><td></td></tr> );
+            messageRows.push( <tr><td></td><td></td><td></td></tr> );
 
-
-            let row07 = <tr><td>             </td><td></td><td></td></tr>;
-            let row08 = <tr><td>             </td><td></td><td></td></tr>;
-            let row09 = <tr><td>             </td><td></td><td></td></tr>;
-            let row10 = <tr><td>             </td><td></td><td></td></tr>;
-            let row11 = <tr><td>             </td><td> </td><td></td></tr>;
-            let row12 = <tr><td>             </td><td> </td><td></td></tr>;
-            let row13 = <tr><td>             </td><td> </td><td></td></tr>;
-
-            thisPage = <div>
+            let thisPage = <div>
                 <h2></h2>
-                <table className={styles.infoTable}>
+                <table className={styles.infoTable} style={{ width: '100%' }}>
                     <tr><th>Info</th><th>Example</th><th>Details</th></tr>
-                    { row00 }
-                    { row01 }
-                    {  }
-                    { row03 }
-                    {  }
-                    {  }
-                    {  }
-
-                    { row07 }
-                    { row08 }
-                    { row09 }
-                    {  }
-                    {  }
-                    {  }
-                    {  }
+                    { messageRows }
                 </table>
             </div>;
 
