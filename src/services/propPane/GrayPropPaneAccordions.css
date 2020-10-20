@@ -30,7 +30,6 @@
     background-color:  #bfbfbf ;
     transition: all 0.3s ease;
     font-weight: 600;
-    /* color: white; */
 }
 
 *[data-automation-id="propertyPanePageContent"] > div > button:hover {
