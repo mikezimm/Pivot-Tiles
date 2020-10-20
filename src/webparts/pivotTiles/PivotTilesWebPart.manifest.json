@@ -1,6 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
   "id": "92b4cb98-3aa1-4ece-9149-a591a572aced",
+  //  "id": "92b4cb98-3aa1-4ece-9149-a591a572aced", - Production
+  //  "id": "92b4cb98-3aa1-4ece-9149-a591a572acec", - TestGuid
   "alias": "PivotTilesWebPart",
   "componentType": "WebPart",
 

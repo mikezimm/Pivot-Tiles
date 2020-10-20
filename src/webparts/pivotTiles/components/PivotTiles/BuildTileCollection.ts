@@ -233,9 +233,12 @@ const one_day = 1000 * 60 * 60 * 24;
       let href = getColumnValue(pivotProps,item,'colGoToLink');
 
       let category = getColumnValue(pivotProps,item,'colCategory');
+      if ( category === undefined || category === null ) { category = []; }
       let categoryCopy = JSON.stringify(category);
 
-      if ( category.length === 0 ) { category = [pivotProps.otherTab] ; }
+      //Need to resolve when category is undefined in case that webpart prop is empty
+      let testCategory = category === undefined || category === null ? false : true;
+      if ( testCategory === false || category.length === 0 ) { category = [pivotProps.otherTab] ; }
 
       //Can't do specific type here or it will break the multi-typed logic below
       let custCatLogi : any = pivotProps.custCategories.logic;
