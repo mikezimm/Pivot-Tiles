@@ -1,5 +1,5 @@
 
-import { IPivotTilesProps, ICustomLogic } from './IPivotTilesProps';
+import { IPivotTilesProps, ICustomCategories } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
 import { IPivotTileItemProps,  } from './../TileItems/IPivotTileItemProps';
 
@@ -24,7 +24,7 @@ const one_day = 1000 * 60 * 60 * 24;
  */
 
 
-  export function buildTileCollectionFromResponse(response, pivotProps: IPivotTilesProps , fixedURL, currentHero){
+  export function buildTileCollectionFromResponse(response, pivotProps: IPivotTilesProps , custCategories: ICustomCategories, fixedURL, currentHero){
 
   //           let tileCollection = response.map(item=>new ClassTile(item));
   //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
@@ -203,16 +203,16 @@ const one_day = 1000 * 60 * 60 * 24;
     let custSearchModBy = true;
     let custSearchCreateBy = true;
 
-    if ( pivotProps.custCategories.type !== 'tileCategory' ) {
+    if ( custCategories.type !== 'tileCategory' ) {
 
-      if ( pivotProps.custCategories.column && pivotProps.custCategories.column.length > 0 ) {
+      if ( custCategories.column && custCategories.column.length > 0 ) {
 
-        if ( pivotProps.custCategories.column.indexOf( pivotProps.colTitleText ) === -1 ) { custSearchTitle = false; }
-        if ( pivotProps.custCategories.column.indexOf( pivotProps.colHoverText ) === -1 ) { custSearchDesc = false; }
-        if ( pivotProps.custCategories.column.indexOf( pivotProps.colGoToLink ) === -1 ) { custSearchHref = false; }
-        if ( pivotProps.custCategories.column.indexOf( pivotProps.colCategory ) === -1 ) { custSearchCate = false; }
-        if ( pivotProps.custCategories.column.indexOf( 'ModifiedBy/Title' ) === -1 ) { custSearchModBy = false; }
-        if ( pivotProps.custCategories.column.indexOf( 'CreatedBy/Title' ) === -1 ) { custSearchCreateBy = false; }
+        if ( custCategories.column.indexOf( pivotProps.colTitleText ) === -1 ) { custSearchTitle = false; }
+        if ( custCategories.column.indexOf( pivotProps.colHoverText ) === -1 ) { custSearchDesc = false; }
+        if ( custCategories.column.indexOf( pivotProps.colGoToLink ) === -1 ) { custSearchHref = false; }
+        if ( custCategories.column.indexOf( pivotProps.colCategory ) === -1 ) { custSearchCate = false; }
+        if ( custCategories.column.indexOf( 'ModifiedBy/Title' ) === -1 ) { custSearchModBy = false; }
+        if ( custCategories.column.indexOf( 'CreatedBy/Title' ) === -1 ) { custSearchCreateBy = false; }
 
       }
 
@@ -241,13 +241,13 @@ const one_day = 1000 * 60 * 60 * 24;
       if ( testCategory === false || category.length === 0 ) { category = [pivotProps.otherTab] ; }
 
       //Can't do specific type here or it will break the multi-typed logic below
-      let custCatLogi : any = pivotProps.custCategories.logic;
-      let custBreak : boolean = pivotProps.custCategories.break;
+      let custCatLogi : any = custCategories.logic;
+      let custBreak : boolean = custCategories.break;
       
-      if ( pivotProps.custCategories.type === 'tileCategory' ) {
+      if ( custCategories.type === 'tileCategory' ) {
 
-      } else if ( (pivotProps.custCategories.type === 'semiColon1' && custCatLogi.length > 0 ) ||
-                 ( pivotProps.custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) ) {
+      } else if ( (custCategories.type === 'semiColon1' && custCatLogi.length > 0 ) ||
+                 ( custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) ) {
         category = [];
 
         custCatLogi.map( custCat => {
@@ -284,7 +284,7 @@ const one_day = 1000 * 60 * 60 * 24;
 
         if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
 
-      } else if ( pivotProps.custCategories.type === 'custom' && custCatLogi.length > 0 ) {
+      } else if ( custCategories.type === 'custom' && custCatLogi.length > 0 ) {
         /**
              * export interface ICustomLogic {
 
@@ -407,6 +407,7 @@ const one_day = 1000 * 60 * 60 * 24;
 
     return {
       tileCollection: tileCollection,
+      custCategories: custCategories,
       createdInfo: createdInfo,
       modifiedInfo: modifiedInfo,
       categoryInfo: categoryInfo,

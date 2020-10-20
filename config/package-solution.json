@@ -1,11 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "Pivot Tiles - aka list based Categorized Tiles -Inspired Tiles",
+    "name": "Pivot Tiles - list based Categorized Tiles",
     "id": "4a739852-424f-48a8-8454-8711f78604fd",
     //  "id": "4a739852-424f-48a8-8454-8711f78604fd", - Production
     //  "id": "4a739852-424f-48a8-8454-8711f78604fe", - TestGuid
-    "version": "1.1.1.1",
+
+    "version": "1.1.1.2",
     "includeClientSideAssets": true,
     "isDomainIsolated": false
   },

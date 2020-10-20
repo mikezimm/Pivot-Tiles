@@ -122,9 +122,10 @@ public constructor(props:IInfoAboutMeProps){
 
                 <h2>Version History</h2>
                 {/* 3 files to update version number:  package-solution.json, package-lock.json, package.json*/}
-                <table className={styles.infoTable}>
+                <table className={styles.infoTable} style={{ width: '100%' }}>
                     <tr><th>Date</th><th>Version</th><th>Focus</th><th>Notes</th></tr>
 
+                    <tr><td>2020-09-19</td><td>{'1.1.1.2'}</td><td>Add Basics Info, Dynamic Categoris (CTRL-Click Search box)</td><td></td></tr>
                     <tr><td>2020-09-19</td><td>{'1.1.1.1'}</td><td>Fix Custom Category when missing catergory column</td><td></td></tr>
                     <tr><td>2020-09-14</td><td>{'1.1.1.0'}</td><td>Add Early Access, Custom Category Logic</td><td></td></tr>
                     <tr><td>2020-09-14</td><td>{'1.1.0.2'}</td><td>Add Site News BannerImageUrl.Url for Image</td><td></td></tr>

@@ -117,7 +117,7 @@ public constructor(props:IErrorsProps){
             
             thisPage = <div>
                 <h2></h2>
-                <table className={styles.infoTable}>
+                <table className={styles.infoTable} style={{ width: '100%' }}>
                     <tr><th style={{ minWidth: '200px' }}>Issue</th><th>Links</th><th>Notes</th></tr>
                     { messageRows }
                 </table>
