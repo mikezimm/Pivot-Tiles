@@ -24,6 +24,8 @@ import { availableListMapping } from './AvailableListMapping';
 
 import { saveTheTime, getTheCurrentTime, saveAnalytics } from '../../services/createAnalytics';
 
+require('../../services/propPane/GrayPropPaneAccordions.css');
+
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
   
