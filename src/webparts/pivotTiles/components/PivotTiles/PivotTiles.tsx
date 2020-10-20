@@ -501,10 +501,13 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
           let itemSplit = item.split(';');
           //https://stackoverflow.com/a/281335  -- remove empty elements from array
           let newItemSplit = itemSplit.filter( el => { return el != ""; });
+          let allTabs = JSON.parse(JSON.stringify( newItemSplit ));
+
           custCategories = {
             type: 'semiColon1',
             column: '',
             logic: newItemSplit,
+            allTabs: allTabs,
           };
 
         }
@@ -848,8 +851,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     let newHeros = this.getHeroTiles(pivotProps, pivotState, newCollection, currentHero);
     let heroIds = this.getHeroIds(newHeros);
     let newFiltered = [];
-
-    let tileCategories = buildTileCategoriesFromResponse(pivotProps, pivotState, newCollection, currentHero, thisCatColumn);
+    let custCategories = pivotProps.custCategories;
+    let tileCategories = buildTileCategoriesFromResponse(pivotProps, pivotState, custCategories, newCollection, currentHero, thisCatColumn);
     let filteredCategory = '';
     let lastCategory = null;
 
@@ -876,6 +879,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('_updateStateOnPropsChange lastCategory', lastCategory);
 
     
+    
+
+
     //const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
     const defaultSelectedIndex = tileCategories.indexOf(lastCategory);
     let defaultSelectedKey = defaultSelectedIndex.toString();
@@ -883,6 +889,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     defaultSelectedKey = convertCategoryToIndex(defaultSelectedKey);
     console.log('_updateStateOnPropsChange defaultSelectedKey', defaultSelectedKey);
     defaultSelectedKey = lastCategory;
+    if ( params.newCatColumn === undefined ) { defaultSelectedKey = tileCategories[0] ; }
 
     for (let thisTile of newCollection) {
       thisTile.setTab = (thisCatColumn === 'category' ? this.props.setTab : 'newDefaultTab');
@@ -964,6 +971,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       searchWhere: ' in ' + lastCategory,
       filteredCategory: lastCategory,
       thisCatColumn: thisCatColumn,
+      changePivotCats: false,
 
 
     });
@@ -1114,7 +1122,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       
       let tileCollection : IPivotTileItemProps[] = tileCollectionResults.tileCollection;
 
-      let tileCategories = buildTileCategoriesFromResponse(pivotProps, pivotState, tileCollection, pivotProps.heroCategory, 'category');
+      let tileCategories = buildTileCategoriesFromResponse(pivotProps, pivotState, custCategories, tileCollection, pivotProps.heroCategory, 'category');
       
       const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
       let defaultSelectedKey = defaultSelectedIndex.toString();
@@ -1178,6 +1186,8 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         modifiedByIDs: tileCollectionResults.modifiedByIDs,
         createdByTitles: tileCollectionResults.createdByTitles,
         createdByIDs: tileCollectionResults.createdByIDs,
+
+        changePivotCats: false,
 
       });
 

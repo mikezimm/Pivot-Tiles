@@ -87,8 +87,9 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     //export type ICustomTypes = 'tileCategory' | 'semiColon1' | 'semiColon2' | 'custom';
 
-    let custCatLogi = null;
+    let custCatLogi : ICustomLogic[] | string[] = null;
     let custCatCols  = [];
+    let allTabs = [];
 
     if ( this.properties.custCatCols && this.properties.custCatCols.length > 0 ) {
       custCatCols = this.properties.custCatCols.split(';');
@@ -99,15 +100,22 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     } else if ( this.properties.custCatType === 'semiColon1' ) {
       custCatLogi = this.properties.custCatLogi.split(';');
       if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'semiColon1' but custCatLogi IS EMPTY - No Categories will be shown!"); }
+      else { allTabs = JSON.parse(JSON.stringify(custCatLogi)) ; } //Make copy of original tabs for sorting actual tabs later
 
     } else if ( this.properties.custCatType === 'semiColon2' ) {
       custCatLogi = this.properties.custCatLogi.split(';=');
       if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'semiColon2' but custCatLogi IS EMPTY - No Categories will be shown!"); }
+      else { allTabs = JSON.parse(JSON.stringify(custCatLogi)) ; } //Make copy of original tabs for sorting actual tabs later
 
     } else if ( this.properties.custCatType === 'custom' ) {
       custCatLogi = this.getObjectFromString("Custom Category Logic", this.properties.custCatLogi );
       if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'custom' but custCatLogi IS EMPTY - No Categories will be shown!"); }
-
+      else {
+        custCatLogi.map ( logic => {
+          if ( logic.category.length > 0 ) { allTabs.push ( logic.category + '' ); } 
+        });
+      }
+      allTabs = JSON.parse(JSON.stringify( allTabs ));
     }
 
     let custCategories : ICustomCategories = {
@@ -115,6 +123,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       column: this.properties.custCatCols,
       logic: custCatLogi,
       break: this.properties.custCatBrak,
+      allTabs: allTabs,
     };
 
     custCategories = JSON.parse(JSON.stringify(custCategories));

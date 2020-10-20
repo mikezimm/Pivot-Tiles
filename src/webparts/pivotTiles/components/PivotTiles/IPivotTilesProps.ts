@@ -25,7 +25,7 @@ export interface ICustomCategories {
   column: string;
   logic: ICustomLogic[] | string[];
   break?: boolean; // If this one is true, then only show in first category in array check.  Default = false so items can show in multiple categories
-
+  allTabs?: string[];
 }
 
 export interface IPivotTilesProps {
