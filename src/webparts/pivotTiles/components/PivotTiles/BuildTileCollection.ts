@@ -221,7 +221,6 @@ const one_day = 1000 * 60 * 60 * 24;
 
     let tileCollection: IPivotTileItemProps[] = response.map(item => {
 
-
       let modifiedByTitle = getColumnValue(pivotProps,item,'colModifiedByTitle');
 
       let createdByTitle = getColumnValue(pivotProps,item,'colCreatedByTitle');

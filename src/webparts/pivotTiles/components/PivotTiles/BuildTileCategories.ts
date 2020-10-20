@@ -1,8 +1,8 @@
 
 
-import { IPivotTilesProps } from './IPivotTilesProps';
+import { IPivotTilesProps, ICustomCategories } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
-import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
+import { IPivotTileItemProps,  } from './../TileItems/IPivotTileItemProps';
 
 /***
  *    d8888b. db    db d888888b db      d8888b.       .o88b.  .d8b.  d888888b d88888b  d888b   .d88b.  d8888b. d888888b d88888b .d8888. 
@@ -15,7 +15,7 @@ import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
  *                                                                                                                                      
  */
 
-export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , pivotState : IPivotTilesState, response  : IPivotTileItemProps[], currentHero, thisCatColumn ){
+export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , pivotState : IPivotTilesState, custCategories: ICustomCategories, response  : IPivotTileItemProps[], currentHero, thisCatColumn ){
 
     let tileCategories = [];
     let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
@@ -92,7 +92,16 @@ export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , p
 
     }
 
-    tileCategories.sort();
+    if ( custCategories.type === 'tileCategory' ) {
+      tileCategories.sort();
+    } else {
+      let custTabsOrder = custCategories.allTabs ;
+      let newCategorySort = [];
+      custTabsOrder.map( tab => {
+        if ( tileCategories.indexOf( tab ) > -1 ) { newCategorySort.push( tab ) ;}
+      });
+      tileCategories = newCategorySort;
+    }
 
     const otherIndex = tileCategories.indexOf(pivotProps.otherTab);
     if ( otherIndex > -1 ) {
