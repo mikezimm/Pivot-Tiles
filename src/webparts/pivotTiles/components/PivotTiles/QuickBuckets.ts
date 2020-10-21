@@ -44,7 +44,7 @@ export type custTimeOption = 'modified' | 'created' | 'modified<' | 'created<' |
     
     let modOperator = modifier === '>' ? ' - ' : '';
     let modLabel = modifier === '>' ? ' - ' : '';
-    let modLabelPastFuture = modifier === '>' ? 'Past' : 'Future';
+    let modLabelPastFuture = modifier === '>' ? 'Future' : 'Past';
 
     let logic : ICustomLogic[] = 
     [
@@ -72,10 +72,10 @@ export type custTimeOption = 'modified' | 'created' | 'modified<' | 'created<' |
         "category": "<" + modOperator + "1Yr",
         "eval": "item." + field + "Time.cats.age[0] < " + modOperator + "365"
       },
-      {
-        "category": ">5Yr in " + modLabelPastFuture,
-        "eval": "item." + field + "Time.cats.age[0] < " + modOperator + "1700"
-      }
+      //{
+       // "category": ">1Yr in " + modLabelPastFuture,
+       // "eval": "item." + field + "Time.cats.age[0] < " + modOperator + "1700"
+      //}
     ];
 
     if ( modifier === '>' ) { logic.reverse(); }
