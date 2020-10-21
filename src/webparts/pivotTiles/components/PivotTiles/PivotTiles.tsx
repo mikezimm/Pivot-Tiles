@@ -2,7 +2,7 @@ import * as React from 'react';
 import styles from './PivotTiles.module.scss';
 import tileStyles from './../TileItems/PivotTileItem.module.scss';
 
-import { IPivotTilesProps, ICustomCategories } from './IPivotTilesProps';
+import { IPivotTilesProps, ICustomCategories, ICustomLogic } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
 import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
 import PivotTileItem from './../TileItems/PivotTileItem';
@@ -40,6 +40,8 @@ import { convertCategoryToIndex, fixURLs } from './UtilsNew';
 import { buildTileCategoriesFromResponse } from './BuildTileCategories';
 
 import { buildTileCollectionFromResponse } from './BuildTileCollection';
+
+import { CustTime , custTimeOption, } from './QuickBuckets';
 
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -496,6 +498,16 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         //Reset  custCategories
         if ( item.toLowerCase() === 'reset' ) {
           custCategories = JSON.parse(JSON.stringify( this.props.custCategories ));
+
+          //functionCustCats
+    
+        } else if ( item.toLowerCase() === 'created' || item.toLowerCase() === 'modified'
+                  || item.toLowerCase() === 'created<' || item.toLowerCase() === 'modified<'
+                 // || item.toLowerCase() === 'created>' || item.toLowerCase() === 'modified>'  //These options are not valid since created and modified are always in the past
+        ) {
+          //https://stackoverflow.com/a/281335  -- remove empty elements from array
+
+            custCategories = CustTime( item.toLowerCase() );
 
         } else {
           let itemSplit = item.split(';');
