@@ -5,9 +5,11 @@ import { IPivotTileItemProps,  } from './../TileItems/IPivotTileItemProps';
 
 import { getTheCurrentTime,} from '../../../../services/createAnalytics';
 import {tileTime} from '../TileItems/IPivotTileItemProps';
-import { getLocalMonths } from '../../../../services/dateServices';
+import { getLocalMonths, ISO8601_week_no, makeSmallTimeObject, ITheTime } from '../../../../services/dateServices';
 
 import { convertLinks, parseMe } from './UtilsNew';
+
+import { getQuarter } from './QuickBuckets';
 
 const monthCats = getLocalMonths('en-us','short');
 const one_day = 1000 * 60 * 60 * 24;
@@ -49,7 +51,7 @@ const one_day = 1000 * 60 * 60 * 24;
     modifiedInfo.earliest = new Date(2033,1,1);
     modifiedInfo.latest = new Date(1999,1,1);
 
-    let startTime = getTheCurrentTime();
+    let startTime = makeSmallTimeObject('');
 
     /***
      *     d888b  d88888b d888888b       .d8b.  db      db           d8888b.  .d8b.  d888888b d88888b      db    db  .d8b.  d8888b. d888888b  .d8b.  d888888b d888888b  .d88b.  d8b   db .d8888. 
@@ -424,7 +426,29 @@ const one_day = 1000 * 60 * 60 * 24;
   }  // END public static buildTileCollectionFromResponse(response, pivotProps, fixedURL, currentHero){
     
 
+  function isSameTimeBucket( timeCat : IDateInfo, theTime : ITheTime, compare: 'year' | 'date' | 'week' | 'month' | 'q') {
+    //"item." + field + "Time.cats.wk[0] + item." + field + "Time.cats.year[0] === startTime.week + startTime.year"
 
+    let isSameYear = timeCat.cats.yr[0] === theTime.year ? true : false ;
+    if ( compare === 'year' ) { return isSameYear ; }
+
+    let isSameQ = getQuarter(timeCat.cats.time[0]) === getQuarter(theTime.now) ? true : false ;
+    if ( compare === 'q' ) { return isSameYear && isSameQ ? true : false ; }
+
+    //timeCat.cats.mo[0] is 1 index ; theTime.month is zero index
+    let isSameMo = timeCat.cats.mo[0] === theTime.month + 1 ? true : false ;
+    if ( compare === 'month' ) { return isSameYear && isSameMo ? true : false ; }
+
+    let isSameWk = ISO8601_week_no(timeCat.cats.time[0]) === ISO8601_week_no(theTime.now);
+    if ( compare === 'week' ) { return isSameYear && isSameWk ? true : false ; }
+
+    let isSameDate = timeCat.cats.date[0] === theTime.date ? true : false ;
+    if ( compare === 'date' ) { return isSameYear && isSameMo && isSameDate ? true : false ; }
+
+    console.log('Check BuildTileCollection.ts isSameTimeBucket Function!', compare, timeCat, theTime );
+    return false;
+ 
+  }
 
 
 
@@ -794,6 +818,8 @@ const one_day = 1000 * 60 * 60 * 24;
     
           let tileTimeDV = createIDateCategoryArrays(col);
           let thisTime = new Date(item[col]);
+
+          let timeObject = makeSmallTimeObject(thisTime.toString());
     
           tileTimeDV.cats.time[0] = thisTime;
           tileTimeDV.cats.yr[0] = thisTime.getFullYear();
@@ -801,9 +827,11 @@ const one_day = 1000 * 60 * 60 * 24;
           tileTimeDV.cats.date[0] = thisTime.getDate();
           tileTimeDV.cats.day[0] = thisTime.getDay() + 1;
           tileTimeDV.cats.hr[0] = thisTime.getHours();
+          tileTimeDV.cats.wk[0] = timeObject.week;
           tileTimeDV.cats.locDate[0] = thisTime.toLocaleDateString();
           tileTimeDV.cats.locTime[0] = thisTime.toLocaleTimeString();
           tileTimeDV.cats.age[0] = ( startTime.now.valueOf() - thisTime.valueOf()) / ( one_day ) ;
+          tileTimeDV.cats.dayYYYYMMDD[0] = timeObject.dayYYYYMMDD;
           let monthPrefix = (tileTimeDV.cats.mo[0] < 10 ? '0' : '');
           let datePrefix = (tileTimeDV.cats.date[0] < 10 ? '0' : '');
           tileTimeDV.cats.yrMo[0] = tileTimeDV.cats.yr + '-' + monthPrefix + tileTimeDV.cats.mo;
@@ -834,6 +862,8 @@ export interface IDateCategoryArrays {
     day: number[];
     date: number[];
     hr: number[];
+    wk: number[];
+    dayYYYYMMDD: any[];
   
     age: number[];
   
@@ -945,6 +975,8 @@ export interface IDateCategoryArrays {
     cats.day = [];  
     cats.date = [];
     cats.hr = [];
+    cats.wk = [];
+    cats.dayYYYYMMDD = [];
   
     cats.age = [];
   

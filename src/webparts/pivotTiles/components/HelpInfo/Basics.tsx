@@ -112,14 +112,13 @@ public constructor(props:IBasicsProps){
 
             messageRows.push( <tr><td>CTRL-Click <b>Tile</b></td><td>Tile</td><td>Open Tile desstination in <b>NEW TAB</b></td></tr> );
             messageRows.push( <tr><td>CTRL-ALT-SHFT-Click <b>Tile</b></td><td>Tile</td><td>Go directly to that Tile item's properties</td></tr> );
+            messageRows.push( <tr><td>CTRL-Click <b>Category</b></td><td>Top Left</td><td>Set that Category as the "Hero" Category</td></tr> );
             messageRows.push( <tr><td></td><td></td><td></td></tr> );
             messageRows.push( <tr><td>Click on <b>Grid Icon</b></td><td>Upper Right</td><td>Change format of tiles to Cards, List, Tiles</td></tr> );
             messageRows.push( <tr><td>Click on <b>Filter X Icon</b></td><td>Upper Right</td><td>Show All Tiles</td></tr> );
             messageRows.push( <tr><td>Click on <b>-- Icon</b></td><td>Upper Right</td><td>Hide All Tiles</td></tr> );
-            messageRows.push( <tr><td>CTRL-Click on <b>Search Box</b></td><td><mark>Search Box</mark></td><td>Type <b>; separated Keywords</b> and <b>ENTER</b> rebuild Tile Categories</td></tr> );
-            messageRows.push( <tr><td></td><td><mark>Turns it yellow</mark></td><td>Type <b>'reset'</b> and <b>Enter</b> to reset Tile Categories</td></tr> );
-            messageRows.push( <tr><td>CTRL-Click <b>Category</b></td><td>Top Left</td><td>Set that Category as the "Hero" Category</td></tr> );
 
+            messageRows.push( <tr><td></td><td></td><td></td></tr> );
 
             let thisTable = <div style={{ paddingTop: 15 }}>
                 <h2>Easter Eggs</h2>

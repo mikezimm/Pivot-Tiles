@@ -107,11 +107,17 @@ public constructor(props:IAdvancedProps){
 
             let messageRows = [];
 
+            messageRows.push( <tr><td>CTRL-Click on <b>Search Box</b></td><td><mark>Word1;Word2;Word3</mark></td><td>Type <b>; separated Keywords</b> and <b>ENTER</b> rebuild Tile Categories</td></tr> );
+            messageRows.push( <tr><td>Search Box SHOULD turn <mark>Yellow</mark></td><td><mark>reset</mark></td><td>Type <b>'reset'</b> and <b>Enter</b> to reset Tile Categories</td></tr> );
+
+            messageRows.push( <tr><td></td><td><mark>modified</mark></td><td>Type <b>'modified'</b> and <b>Enter</b> to group in labels</td></tr> );
+            messageRows.push( <tr><td></td><td><mark>modified&lt;</mark></td><td>Type <b>'modified&lt;'</b> and <b>Enter</b> to group in recent buckets</td></tr> );
+
+            messageRows.push( <tr><td></td><td><mark>created</mark></td><td>Type <b>'created'</b> and <b>Enter</b> to group in labels</td></tr> );
+            messageRows.push( <tr><td></td><td><mark>created&lt;</mark></td><td>Type <b>'created&lt;'</b> and <b>Enter</b> to group in recent buckets</td></tr> );
+
             messageRows.push( <tr><td>Custom Categories</td><td></td><td>See Github Wiki for examples</td></tr> );
-            messageRows.push( <tr><td></td><td></td><td></td></tr> );
-            messageRows.push( <tr><td></td><td></td><td></td></tr> );
-            messageRows.push( <tr><td></td><td></td><td></td></tr> );
-            messageRows.push( <tr><td></td><td></td><td></td></tr> );
+
 
             let thisPage = <div>
                 <h2></h2>
