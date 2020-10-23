@@ -108,6 +108,7 @@ public constructor(props:IErrorsProps){
             let thisPage = null;
             let messageRows = [];
 
+            messageRows.push( <tr><td><a href="https://github.com/mikezimm/Pivot-Tiles/issues/29" target="_blank">Github Issue 29</a></td><td></td><td>Webpart does not display correctly with Microsoft Forms or Pictures below it</td></tr> );
             messageRows.push( <tr><td>Tiles show up in only 1 Category</td><td></td><td>Check if Custom Categories property pane Toggle on</td></tr> );
             messageRows.push( <tr><td>Custom <b>JSON Logic</b> does not work</td><td></td><td><b>Test your JSON Object in JSON Beautifier</b> first</td></tr> );
             messageRows.push( <tr><td><b>Common</b> errors</td><td></td><td><b>Missing comma</b> after an attribute</td></tr> );
