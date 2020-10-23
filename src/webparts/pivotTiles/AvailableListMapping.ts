@@ -137,7 +137,8 @@
                 "colImageLink" : "File/ServerRelativeUrl",
                 "colSort" : "Title"
             },
-            "setFilter": "",
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'",
             "setTab": "Main Menu",
         };
         
@@ -159,7 +160,9 @@
                 "colImageLink" : "BannerImageUrl.Url",
                 "colSort" : "Title"
             },
-            "setFilter": "",
+            //  This setFilter will remove Item with Id = X... replace with Page Template items for instance
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "Id ne 'X' and ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159' and Title ne 'Home'",
             "setTab": "Main Menu",
         };
         
@@ -181,7 +184,9 @@
                 "colImageLink" : "BannerImageUrl.Url",
                 "colSort" : "Title"
             },
-            "setFilter": "",
+            //  This setFilter will remove Item with Id = X... replace with Page Template items for instance
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "Id ne 'X' and ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159' and Title ne 'Home'",
             "setTab": "Main Menu",
         };
         
@@ -203,7 +208,8 @@
                 "colImageLink" : "",
                 "colSort" : "Title"
             },
-            "setFilter": "",
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'",
             "setTab": "Main Menu",
         };
         
@@ -225,7 +231,8 @@
                 "colImageLink" : "File/ServerRelativeUrl",
                 "colSort" : "Title"
             },
-            "setFilter": "",
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'",
             "setTab": "Steps",
         };
           
@@ -247,7 +254,8 @@
                 "colImageLink" : "File/ServerRelativeUrl",
                 "colSort" : ""
             },
-            "setFilter": "",
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'",
             "setTab": "Mike zimmerman",
         };
 
@@ -269,7 +277,8 @@
                 "colImageLink" : "File/ServerRelativeUrl",
                 "colSort" : ""
             },
-            "setFilter": "",
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'",
             "setTab": "2020",
         };
     } else if (findMe === 'PolicyLibrary') {
@@ -290,7 +299,8 @@
                 "colImageLink" : "File/ServerRelativeUrl",
                 "colSort" : "Title"
             },
-            "setFilter": "",
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'",
             "setTab": "Quality",
         };
     } else if (findMe === 'StandardsLibrary') {
@@ -311,7 +321,8 @@
                 "colImageLink" : "File/ServerRelativeUrl",
                 "colSort" : "Title"
             },
-            "setFilter": "",
+            // This should remove folders:  ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'
+            "setFilter": "ContentTypeId ne '0x012000F6C75276DBE501468CA3CC575AD8E159'",
             "setTab": "EU",
         };
     }
