@@ -113,6 +113,8 @@ public constructor(props:IInfoAboutMeProps){
 
             let thisPage = null;
 
+            let underScoreIssue = <a href="https://github.com/mikezimm/Pivot-Tiles/issues/30" target="_blank">Issue #30</a>;
+
             thisPage = <div>
                 <WebPartLinks
                     parentListURL={ this.props.parentListURL }
@@ -125,12 +127,13 @@ public constructor(props:IInfoAboutMeProps){
                 <table className={styles.infoTable} style={{ width: '100%' }}>
                     <tr><th>Date</th><th>Version</th><th>Focus</th><th>Notes</th></tr>
 
-                    <tr><td>2020-09-20</td><td>{'1.1.1.4'}</td><td>Add special custom Categories:  created, modified</td><td></td></tr>
-                    <tr><td>2020-09-20</td><td>{'1.1.1.3'}</td><td>For Dynamic Categories, Tabs now in same order as you type in.</td><td>Pad Title, Desc in hover pane</td></tr>
-                    <tr><td>2020-09-19</td><td>{'1.1.1.2'}</td><td>Add Basics Info, Dynamic Categoris (CTRL-Click Search box)</td><td></td></tr>
-                    <tr><td>2020-09-19</td><td>{'1.1.1.1'}</td><td>Fix Custom Category when missing catergory column</td><td></td></tr>
-                    <tr><td>2020-09-14</td><td>{'1.1.1.0'}</td><td>Add Early Access, Custom Category Logic</td><td></td></tr>
-                    <tr><td>2020-09-14</td><td>{'1.1.0.2'}</td><td>Add Site News BannerImageUrl.Url for Image</td><td></td></tr>
+                    <tr><td>2020-10-23</td><td>{'1.1.2.0'}</td><td>Custom Categories with _UnderScore , List and Doc Card view updates</td><td>{ underScoreIssue }</td></tr>
+                    <tr><td>2020-10-20</td><td>{'1.1.1.4'}</td><td>Add special custom Categories:  created, modified</td><td></td></tr>
+                    <tr><td>2020-10-20</td><td>{'1.1.1.3'}</td><td>For Dynamic Categories, Tabs now in same order as you type in.</td><td>Pad Title, Desc in hover pane</td></tr>
+                    <tr><td>2020-10-19</td><td>{'1.1.1.2'}</td><td>Add Basics Info, Dynamic Categoris (CTRL-Click Search box)</td><td></td></tr>
+                    <tr><td>2020-10-19</td><td>{'1.1.1.1'}</td><td>Fix Custom Category when missing catergory column</td><td></td></tr>
+                    <tr><td>2020-10-14</td><td>{'1.1.1.0'}</td><td>Add Early Access, Custom Category Logic</td><td></td></tr>
+                    <tr><td>2020-10-14</td><td>{'1.1.0.2'}</td><td>Add Site News BannerImageUrl.Url for Image</td><td></td></tr>
                     <tr><td>2020-09-14</td><td>{'1.x.x.x'}</td><td></td><td></td></tr>
                     <tr><td>2020-09-14</td><td>{'1.x.x.x'}</td><td></td><td></td></tr>
                 </table>
