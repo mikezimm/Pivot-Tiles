@@ -15,6 +15,16 @@ import { IPivotTileItemProps,  } from './../TileItems/IPivotTileItemProps';
  *                                                                                                                                      
  */
 
+ export function removeLeadingUnderScore( str: string, skipMe = false ) {
+
+      //Remove leading char from string:  https://stackoverflow.com/a/39047793
+      let result = str;
+      if ( skipMe === false ) {
+        result = str ? str.replace(/^_/,'') : str;
+      }
+        return result;
+ }
+
 export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , pivotState : IPivotTilesState, custCategories: ICustomCategories, response  : IPivotTileItemProps[], currentHero, thisCatColumn ){
 
     let tileCategories = [];
@@ -98,7 +108,8 @@ export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , p
       let custTabsOrder = custCategories.allTabs ;
       let newCategorySort = [];
       custTabsOrder.map( tab => {
-        if ( tileCategories.indexOf( tab ) > -1 ) { newCategorySort.push( tab ) ;}
+        let check4Tab = removeLeadingUnderScore(tab);
+        if ( tileCategories.indexOf( check4Tab ) > -1 ) { newCategorySort.push( check4Tab ) ;}
       });
       tileCategories = newCategorySort;
     }

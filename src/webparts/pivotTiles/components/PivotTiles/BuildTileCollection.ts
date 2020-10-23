@@ -7,12 +7,23 @@ import { getTheCurrentTime,} from '../../../../services/createAnalytics';
 import {tileTime} from '../TileItems/IPivotTileItemProps';
 import { getLocalMonths, ISO8601_week_no, makeSmallTimeObject, ITheTime } from '../../../../services/dateServices';
 
+import { removeLeadingUnderScore } from './BuildTileCategories';
+
 import { convertLinks, parseMe } from './UtilsNew';
 
 import { getQuarter } from './QuickBuckets';
 
 const monthCats = getLocalMonths('en-us','short');
 const one_day = 1000 * 60 * 60 * 24;
+
+//https://stackoverflow.com/a/33076482
+export function getNameInitials( name : any ) {
+
+  let initials = name.match(/\b\w/g) || [];
+  initials = ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+  return initials;
+
+}
 
 /***
  *    d8888b. db    db d888888b db      d8888b.      d888888b d888888b db      d88888b       .o88b.  .d88b.  db      db           d88888b d8888b.      d8888b. d88888b .d8888. d8888b. 
@@ -88,6 +99,13 @@ const one_day = 1000 * 60 * 60 * 24;
         if ( item.modifiedTime.cats.time[0] < modifiedInfo.earliest )  { modifiedInfo.earliest = item.modifiedTime.cats.time[0]; }
         if ( item.modifiedTime.cats.time[0] > modifiedInfo.latest )  { modifiedInfo.latest = item.modifiedTime.cats.time[0]; } 
 
+        item.modifiedSimpleDate = item.modifiedTime.cats.dayYYYYMMDD[0];
+        item.modifiedSimpleTime = item.modifiedTime.cats.locTime[0];
+        item.modifiedSimpleDateTime = item.modifiedSimpleDate + ' - ' + item.modifiedSimpleTime;
+
+        item.modifiedInitials = getNameInitials( item.modifiedByTitle );
+        item.modifiedNote = item.modifiedSimpleDate + ' ( ' + item.modifiedInitials + ' )';
+
       //Do all to created
         item.created = (getColumnValue(pivotProps,item,'colCreated'));
         item.createdByID = (getColumnValue(pivotProps,item,'colCreatedById')); // This is required for addPersonVariations
@@ -106,6 +124,13 @@ const one_day = 1000 * 60 * 60 * 24;
 
         if ( item.createdTime.cats.time[0] < createdInfo.earliest )  { createdInfo.earliest = item.createdTime.cats.time[0] ; }
         if ( item.createdTime.cats.time[0] > createdInfo.latest )  { createdInfo.latest = item.createdTime.cats.time[0] ; } 
+
+        item.createdSimpleDate = item.createdTime.cats.dayYYYYMMDD[0];
+        item.createdSimpleTime = item.createdTime.cats.locTime[0];
+        item.createdSimpleDateTime = item.createdSimpleDate + ' - ' + item.createdSimpleTime;
+
+        item.createdInitials = getNameInitials( item.createdByTitle );
+        item.createdNote = item.createdSimpleDate + ' ( ' + item.createdInitials + ' )';
 
     }
 
@@ -279,7 +304,9 @@ const one_day = 1000 * 60 * 60 * 24;
 
           let useBreak = custBreak === true || custCat.break === true ? true : false;
           if ( useBreak === true && category.length > 0 ) { match = false; }
-          if ( match === true ) { category.push( custCat ) ; }
+
+          let check4Tab = removeLeadingUnderScore(custCat);
+          if ( match === true ) { category.push( check4Tab ) ; }
 
         });
 
@@ -330,7 +357,9 @@ const one_day = 1000 * 60 * 60 * 24;
 
             let useBreak = custBreak === true || custCat.break === true ? true : false;
             if ( useBreak === true && category.length > 0 ) { match = false; }
-            if ( match === true ) { category.push( custCat.category ) ; }
+
+            let check4Tab = removeLeadingUnderScore(custCat.category);
+            if ( match === true ) { category.push( check4Tab ) ; }
 
           });
 
@@ -344,7 +373,7 @@ const one_day = 1000 * 60 * 60 * 24;
         showOtherTab = true ;
       }
 
-      return {
+       return {
         imageUrl: getColumnValue(pivotProps,item,'colImageLink'),
 
         title: title,
@@ -389,6 +418,19 @@ const one_day = 1000 * 60 * 60 * 24;
         createdByTitle: createdByTitle,
         modifiedTime: item.modifiedTime,
         createdTime: item.createdTime,
+
+        createdSimpleDate: item.createdSimpleDate,
+        createdSimpleTime: item.createdSimpleTime,
+        createdSimpleDateTime: item.createdSimpleDateTime,
+        createdInitials: item.createdInitials,
+        createdNote: item.createdNote,
+  
+        
+        modifiedSimpleDate: item.modifiedSimpleDate,
+        modifiedSimpleTime: item.modifiedSimpleTime,
+        modifiedSimpleDateTime: item.modifiedSimpleDateTime,
+        modifiedInitials: item.modifiedInitials,
+        modifiedNote: item.modifiedNote,
 
       };
 

@@ -97,6 +97,8 @@ export function createRepoLinks(href: string, target: string, linkDesc: string){
         href: href,
         target: target,
         desc: linkDesc,
+        issuesLink: createLink( href + '/issues/issueNumber', target, linkDesc + " Issues issueNumber" ),
+        wikiLink: createLink( href + '/wiki/wikiName', target, linkDesc + " Wiki wikiName" ),
     };
 }
 

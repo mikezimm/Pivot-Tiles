@@ -86,12 +86,33 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
   //remap props to correct ones for HGcarouselLayout
   const viewFields: IViewField[]=[
     {
+      name: "Id",
+      displayName: "Id",
+      isResizable: false,
+      sorting: true,
+      minWidth: 20,
+      maxWidth: 30
+    },{   
+      name: "modifiedNote",
+      displayName: "Modified",
+      isResizable: true,
+      sorting: true,
+      minWidth: 30,
+      maxWidth: 140
+    },{   
+      name: "createdNote",
+      displayName: "Created",
+      isResizable: true,
+      sorting: true,
+      minWidth: 30,
+      maxWidth: 140
+    },{   
       name: "txtCategory",
       displayName: "Category",
       isResizable: true,
       sorting: true,
       minWidth: 30,
-      maxWidth: 200
+      maxWidth: 120
     },{    
       name: "title",
       displayName: "Title",
@@ -129,7 +150,7 @@ export function listViewBuilder(parentProps,parentState, theseAreItems, thisCate
       viewFields={viewFields}
       iconFieldName="href"
       compact={false}
-      selectionMode={SelectionMode.none}
+      selectionMode={SelectionMode.single}
       //selection={this._getSelection}
       showFilter={false}
       //defaultFilter="John"
@@ -342,7 +363,7 @@ export function gridLayout(parentProps,parentState, theseAreItems, thisCategory)
     title: item.title,
     name: item.description,
     profileImageSrc: "",
-    location: thisCategory,
+    location: item.category.join('; '),
     activity: "",
     href: item.href,
     target: item.target,
