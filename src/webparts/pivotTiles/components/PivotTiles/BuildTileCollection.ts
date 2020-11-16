@@ -181,7 +181,7 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
         item.createdSimpleDateTime = item.createdSimpleDate + ' - ' + item.createdSimpleTime;
 
         //2020-11-16: Not required for web ==>>  item.createdInitials = getNameInitials( item.createdByTitle );
-        item.createdNote = item.createdSimpleDate + ' ( ' + item.createdInitials + ' )';
+        item.createdNote = item.createdSimpleDate; // + ' ( ' + item.createdInitials + ' )';
 
     }
 

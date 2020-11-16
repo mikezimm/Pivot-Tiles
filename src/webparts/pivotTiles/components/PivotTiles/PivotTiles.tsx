@@ -161,7 +161,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     else if (this.props.setImgFit !== prevProps.setImgFit) {  rebuildTiles = true ; }
     else if (this.props.setImgCover !== prevProps.setImgCover) {  rebuildTiles = true ; }
     else if (this.props.heroCategory !== prevProps.heroCategory) {  rebuildTiles = true ; }
-    else if (this.props.heroRatio !== prevProps.heroRatio) {  rebuildTiles = true ; }    
+    else if (this.props.heroRatio !== prevProps.heroRatio) {  rebuildTiles = true ; }
 
     else if (this.props.listDefinition !== prevProps.listDefinition) {  reloadData = true ; }  
     else if (this.props.listWebURL !== prevProps.listWebURL) {  reloadData = true ; }  
@@ -999,7 +999,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       filteredCategory: lastCategory,
       thisCatColumn: thisCatColumn,
       changePivotCats: false,
-
 
     });
   }

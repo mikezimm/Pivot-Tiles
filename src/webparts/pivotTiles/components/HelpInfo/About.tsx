@@ -127,6 +127,7 @@ public constructor(props:IInfoAboutMeProps){
                 <table className={styles.infoTable} style={{ width: '100%' }}>
                     <tr><th>Date</th><th>Version</th><th>Focus</th><th>Notes</th></tr>
 
+                    <tr><td>2020-10-23</td><td>{'1.1.3.0'}</td><td>Add option to show Subsites as tiles</td><td>{ underScoreIssue }</td></tr>
                     <tr><td>2020-10-23</td><td>{'1.1.2.0'}</td><td>Custom Categories with _UnderScore , List and Doc Card view updates</td><td>{ underScoreIssue }</td></tr>
                     <tr><td>2020-10-20</td><td>{'1.1.1.4'}</td><td>Add special custom Categories:  created, modified</td><td></td></tr>
                     <tr><td>2020-10-20</td><td>{'1.1.1.3'}</td><td>For Dynamic Categories, Tabs now in same order as you type in.</td><td>Pad Title, Desc in hover pane</td></tr>
