@@ -103,6 +103,10 @@ export interface IPivotTilesProps {
   analyticsList: string;
   analyticsWeb: string;
 
+  subsitesInclude: boolean;
+  subsitesCategory: string;
+  subsitesOnly: boolean;
+  
   //Properties NOT in main webpart properties
   
   startTime: theTime;

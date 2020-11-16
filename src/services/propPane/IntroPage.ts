@@ -182,8 +182,6 @@ export class IntroPage {
       },
 
 
-
-
         { groupName: 'Filtering',
         isCollapsed: true ,
         groupFields: [
@@ -197,8 +195,29 @@ export class IntroPage {
         ]}, // this group
 
 
+        { groupName: 'Subsites',
+        isCollapsed: true ,
+        groupFields: [
+          PropertyPaneToggle('subsitesInclude', {
+              label: 'Show Subsites automatically',
+              offText: 'Off',
+              onText: 'On',
+              disabled: webPartProps.listWebURL !== '' ? true : false,
+          }),
+          PropertyPaneToggle('subsitesOnly', {
+              label: 'Only show Subsites, Ignore your List settings',
+              offText: 'Off',
+              onText: 'On',
+              disabled: webPartProps.subsitesInclude === true ? false : true,
+          }),
+          PropertyPaneTextField('subsitesCategory', {
+              label: 'Subsite Category,',
+              disabled: webPartProps.subsitesInclude === true ? false : true,
+          }),
 
-          ]}; // Groups
+        ]}, // this group
+
+    ]}; // Groups
   } // getPropertyPanePage()
 }
 
