@@ -197,6 +197,9 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         colCreatedById: "Author/ID",
         colCreatedByTitle: "Author/Title",
 
+        subsitesInclude: this.properties.subsitesInclude ,
+        subsitesCategory: this.properties.subsitesCategory ,
+        subsitesOnly: this.properties.subsitesOnly ,
       }
     );
 
@@ -302,10 +305,18 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       this.context.propertyPane.refresh();
     }
 
+    //If the the list is somewhere else (not on this site, auto-disable subsites due to complexity)
+    if (propertyPath === 'listWebURL' && newValue === '' ) {
+      this.properties.subsitesInclude = false;
+    } else { 
+
+    }
+
     let updateOnThese = [
       'setSize','setTab','otherTab','setPivSize','heroCategory','heroRatio','showHero','setPivFormat','setImgFit','setImgCover','target',
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots', 'definitionToggle',
       'custCatType', 'custCatCols', 'custCatLogi', 'custCatBrak',
+      'subsitesCategory', 'subsitesOnly', 'subsitesOnly', 
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

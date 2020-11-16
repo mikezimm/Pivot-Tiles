@@ -73,6 +73,10 @@
       "custCatLogi": "",
       "custCatBrak": false,
 
+      "subsitesInclude": true,
+      "subsitesCategory": "All Subsites",
+      "subsitesOnly": false,
+      
       "colTileStyle": ""
     }
   },
@@ -129,6 +133,10 @@
       "custCatLogi": "",
       "custCatBrak": false,
 
+      "subsitesInclude": false,
+      "subsitesCategory": "All Subsites",
+      "subsitesOnly": false,
+
       "colTileStyle": ""
     }
   },
@@ -184,6 +192,10 @@
       "custCatCols": "",
       "custCatLogi": "",
       "custCatBrak": false,
+
+      "subsitesInclude": true,
+      "subsitesCategory": "All Subsites",
+      "subsitesOnly": false,
       
       "colTileStyle": ""
     }

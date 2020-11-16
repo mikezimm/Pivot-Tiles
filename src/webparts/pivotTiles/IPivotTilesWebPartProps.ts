@@ -66,6 +66,10 @@ export interface IPivotTilesWebPartProps {
   custCatLogi: string;
   custCatBrak: boolean;
   
+  subsitesInclude: boolean;
+  subsitesCategory: string;
+  subsitesOnly: boolean;
+  
   //List based analytics properties
   analyticsList: string;
   analyticsWeb: string;

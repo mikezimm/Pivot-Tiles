@@ -27,105 +27,114 @@ import { IPivotTileItemProps,  } from './../TileItems/IPivotTileItemProps';
 
 export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , pivotState : IPivotTilesState, custCategories: ICustomCategories, response  : IPivotTileItemProps[], currentHero, thisCatColumn ){
 
-    let tileCategories = [];
-    let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
+  let tileCategories = [];
+  let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
 
-    if (thisCatColumn === 'created' || thisCatColumn === 'modified') {
-      let thisTime = pivotState[thisCatColumn + 'Info'];
-      let bestFormat = thisTime.bestFormat;
-      tileCategories = thisTime.cats[bestFormat];
-      console.log('buildTileCategoriesFromResponse: thisCatColumn',thisCatColumn);
-      console.log('buildTileCategoriesFromResponse: tileCategories',tileCategories);
+  let hasSubsites = false;
 
-      return tileCategories;
-
-    } else if (thisCatColumn === 'createdByTitle' || thisCatColumn === 'modifiedByTitle') {
-      tileCategories= pivotState[thisCatColumn + 's'];
-      return tileCategories;
-
-    } else {
-
-      for (let tile of response) {
-
-        if (!tile[thisCatColumn]) {
-          //This allows it to skip if the tile category is empty or blank
-
-        } else if (tile[thisCatColumn][0] === pivotProps.otherTab) {
-          //Skip because this one was assigned the "Others" category
-
-        } else {
-
-          const isArray = typeof(tile.category);
-          //console.log(isArray);
-          let splitCol = pivotProps.colCategory.split("/");
-          let leftSide = splitCol[0];
-          let righttSide = splitCol[1];
-
-          if (isArray !== 'string' && splitCol.length === 1) {
-
-            for (let category of tile.category) {
-              if(tileCategories.indexOf(category) === -1) {
-                tileCategories = updatetileCats(pivotProps, category, tileCategories, currentHero);
-              }
-            }
-
-          } else {
-            //Test as Lookup column (which is not an array but only one value)
-      
-            if ( Array.isArray(tile.category) === true ) {
-              //tile.category is an array so map through the values instead of other logic.
-              //This should fix the 1.1.1.0 issue of multiple tabs of the same label.
-              tile.category.map( c => {
-                if(tileCategories.indexOf( c ) === -1) {
-                  tileCategories.push( c );
-                }
-              });
-
-            } else if(tileCategories.indexOf(tile.category) === -1) {
-              tileCategories.push(tile.category);
-            }
-
-
-          } //if (isArray !== 'string' && splitCol.length === 1) {
-        } //if (!tile[thisCatColumn]) {
-      } //for (let tile of response) {
-    }
-
-    //Added to remove hero category if it is either carousel or slider which should have all these tiles.
-    if (pivotProps.showHero === true &&
-      ( pivotProps.heroType === 'carouselLayout')) {
-      //Remove this hero tile category because all tiles are in component
-      const heroIndex = tileCategories.indexOf(currentHero);
-      if ( heroIndex > -1 ) {
-        tileCategories.splice(heroIndex,1);
-      }
-
-    }
-
-    if ( custCategories.type === 'tileCategory' ) {
-      tileCategories.sort();
-    } else {
-      let custTabsOrder = custCategories.allTabs ;
-      let newCategorySort = [];
-      custTabsOrder.map( tab => {
-        let check4Tab = removeLeadingUnderScore(tab);
-        if ( tileCategories.indexOf( check4Tab ) > -1 ) { newCategorySort.push( check4Tab ) ;}
-      });
-      tileCategories = newCategorySort;
-    }
-
-    const otherIndex = tileCategories.indexOf(pivotProps.otherTab);
-    if ( otherIndex > -1 ) {
-      tileCategories.splice(otherIndex,1);
-      tileCategories.push(pivotProps.otherTab);
-    }
+  if (thisCatColumn === 'created' || thisCatColumn === 'modified') {
+    let thisTime = pivotState[thisCatColumn + 'Info'];
+    let bestFormat = thisTime.bestFormat;
+    tileCategories = thisTime.cats[bestFormat];
+    console.log('buildTileCategoriesFromResponse: thisCatColumn',thisCatColumn);
+    console.log('buildTileCategoriesFromResponse: tileCategories',tileCategories);
 
     return tileCategories;
 
-  } // END public static buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , pivotState : IPivotTilesState, response, currentHero, thisCatColumn ){
+  } else if (thisCatColumn === 'createdByTitle' || thisCatColumn === 'modifiedByTitle') {
+    tileCategories= pivotState[thisCatColumn + 's'];
+    return tileCategories;
+
+  } else {
+
+    for (let tile of response) {
+
+      if ( tile.category.indexOf(pivotProps.subsitesCategory) > -1 ) { hasSubsites = true ; }
+      if (!tile[thisCatColumn]) {
+        //This allows it to skip if the tile category is empty or blank
+
+      } else if (tile[thisCatColumn][0] === pivotProps.otherTab) {
+        //Skip because this one was assigned the "Others" category
+        if ( tileCategories.indexOf(pivotProps.otherTab) < 0 ) { tileCategories.push( pivotProps.otherTab ) ; }
+
+      } else {
+
+        const isArray = typeof(tile.category);
+        //console.log(isArray);
+        let splitCol = pivotProps.colCategory.split("/");
+        let leftSide = splitCol[0];
+        let righttSide = splitCol[1];
+
+        if (isArray !== 'string' && splitCol.length === 1) {
+
+          for (let category of tile.category) {
+            if(tileCategories.indexOf(category) === -1) {
+              tileCategories = updatetileCats(pivotProps, category, tileCategories, currentHero);
+            }
+          }
+
+        } else {
+          //Test as Lookup column (which is not an array but only one value)
+    
+          if ( Array.isArray(tile.category) === true ) {
+            //tile.category is an array so map through the values instead of other logic.
+            //This should fix the 1.1.1.0 issue of multiple tabs of the same label.
+            tile.category.map( c => {
+              if(tileCategories.indexOf( c ) === -1) {
+                tileCategories.push( c );
+              }
+            });
+
+          } else if(tileCategories.indexOf(tile.category) === -1) {
+            tileCategories.push(tile.category);
+          }
 
 
-  
+        } //if (isArray !== 'string' && splitCol.length === 1) {
+      } //if (!tile[thisCatColumn]) {
+    } //for (let tile of response) {
+  }
+
+  //Added to remove hero category if it is either carousel or slider which should have all these tiles.
+  if (pivotProps.showHero === true &&
+    ( pivotProps.heroType === 'carouselLayout')) {
+    //Remove this hero tile category because all tiles are in component
+    const heroIndex = tileCategories.indexOf(currentHero);
+    if ( heroIndex > -1 ) {
+      tileCategories.splice(heroIndex,1);
+    }
+
+  }
+
+  let hasOther = tileCategories.indexOf( pivotProps.otherTab ) > -1 ? true : false;
+
+  if ( custCategories.type === 'tileCategory' ) {
+    tileCategories.sort();
+  } else {
+    let custTabsOrder = custCategories.allTabs ;
+    let newCategorySort = [];
+    custTabsOrder.map( tab => {
+      let check4Tab = removeLeadingUnderScore(tab);
+      if ( tileCategories.indexOf( check4Tab ) > -1 ) { newCategorySort.push( check4Tab ) ;}
+    });
+    tileCategories = newCategorySort;
+  }
+
+  //const otherIndex = tileCategories.indexOf(pivotProps.otherTab);
+  if ( hasOther === true ) {
+    //tileCategories.splice(otherIndex,1);
+    tileCategories.push(pivotProps.otherTab);
+  }
+
+  //2020-11-16:  Add this to add Subsites tab
+  if ( hasSubsites === true ) {
+    tileCategories.push(pivotProps.subsitesCategory);
+  }
+
+  return tileCategories;
+
+} // END public static buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , pivotState : IPivotTilesState, response, currentHero, thisCatColumn ){
+
 /***
  *    db    db d8888b. d8888b.  .d8b.  d888888b d88888b      d888888b d888888b db      d88888b       .o88b.  .d8b.  d888888b .d8888. 
  *    88    88 88  `8D 88  `8D d8' `8b `~~88~~' 88'          `~~88~~'   `88'   88      88'          d8P  Y8 d8' `8b `~~88~~' 88'  YP 
