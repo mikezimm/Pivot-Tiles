@@ -176,7 +176,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     if ( reloadData === true ) {
       this._getListItems( this.props.custCategories );
-      
+
     } else if (rebuildTiles === true) {
       this._updateStateOnPropsChange({});
     }
@@ -909,10 +909,6 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
     console.log('_updateStateOnPropsChange newFiltered', newFiltered);
     console.log('_updateStateOnPropsChange lastCategory', lastCategory);
 
-    
-    
-
-
     //const defaultSelectedIndex = tileCategories.indexOf(this.props.setTab);
     const defaultSelectedIndex = tileCategories.indexOf(lastCategory);
     let defaultSelectedKey = defaultSelectedIndex.toString();
@@ -1199,6 +1195,12 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       console.log('processResponse: defaultSelectedIndex', defaultSelectedIndex);
       console.log('processResponse: defaultSelectedKey', defaultSelectedKey);
 
+      let showOtherTab = false;
+      if ( tileCollectionResults.showOtherTab === true ) { showOtherTab = true ; }
+      else if ( tileCollectionWebs.showOtherTab === true ) { showOtherTab = true ; }
+
+      let useThisTileCollection = this.props.subsitesOnly || tileCollectionResults.tileCollection.length ===  0 ? tileCollectionWebs : tileCollectionResults ;
+
       this.setState({
         allTiles: tileCollection,
         pivtTitles: tileCategories,
@@ -1220,21 +1222,21 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
         searchWhere: ' in ' + this.props.setTab,
         listStaticName: listStaticName,
 
-        showOtherTab: tileCollectionResults.showOtherTab,
-        custCategories: tileCollectionResults.custCategories,
+        showOtherTab: showOtherTab,
+        custCategories: useThisTileCollection.custCategories,
         originalListItems: originalListItems,
         originalWebs: originalWebs,
 
-        createdInfo: tileCollectionResults.createdInfo,
-        modifiedInfo: tileCollectionResults.modifiedInfo,
-        categoryInfo: tileCollectionResults.categoryInfo,
-        modifiedByInfo: tileCollectionResults.modifiedByInfo,
-        createdByInfo: tileCollectionResults.createdByInfo,
+        createdInfo: useThisTileCollection.createdInfo,
+        modifiedInfo: useThisTileCollection.modifiedInfo,
+        categoryInfo: useThisTileCollection.categoryInfo,
+        modifiedByInfo: useThisTileCollection.modifiedByInfo,
+        createdByInfo: useThisTileCollection.createdByInfo,
 
-        modifiedByTitles: tileCollectionResults.modifiedByTitles,
-        modifiedByIDs: tileCollectionResults.modifiedByIDs,
-        createdByTitles: tileCollectionResults.createdByTitles,
-        createdByIDs: tileCollectionResults.createdByIDs,
+        modifiedByTitles: useThisTileCollection.modifiedByTitles,
+        modifiedByIDs: useThisTileCollection.modifiedByIDs,
+        createdByTitles: useThisTileCollection.createdByTitles,
+        createdByIDs: useThisTileCollection.createdByIDs,
 
         changePivotCats: false,
 

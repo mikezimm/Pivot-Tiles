@@ -360,7 +360,7 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
         });
 
         //2020-11-16: changed length check === 1 because it should always have subsites category
-        if ( nonSubsiteCategories === 0 ) { category.push ( pivotProps.otherTab ) ; }
+        if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
 
       } else if ( custCategories.type === 'custom' && custCatLogi.length > 0 ) {
         /**
@@ -414,7 +414,7 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
           });
 
           //2020-11-16: changed length check === 1 because it should always have subsites category
-          if ( nonSubsiteCategories === 0 ) { category.push ( pivotProps.otherTab ) ; }
+          if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
 
       } else {
 
