@@ -79,6 +79,12 @@
       "subsitesCategory": "All Subsites",
       "subsitesOnly": false,
       
+      "listsInclude": false,
+      "listIconStyles": "icon=BulletedList2;font=green",
+      "libsInclude": false,
+      "libsIconStyles": "icon=FabricFolder;font=eblue",
+      "listLibCat": "",
+
       "colTileStyle": ""
     }
   },
@@ -139,6 +145,12 @@
       "subsitesCategory": "All Subsites",
       "subsitesOnly": false,
 
+      "listsInclude": false,
+      "listIconStyles": "icon=BulletedList2;font=green",
+      "libsInclude": false,
+      "libsIconStyles": "icon=FabricFolder;font=eblue",
+      "listLibCat": "",
+
       "colTileStyle": ""
     }
   },
@@ -198,6 +210,12 @@
       "subsitesInclude": true,
       "subsitesCategory": "All Subsites",
       "subsitesOnly": false,
+
+      "listsInclude": false,
+      "listIconStyles": "icon=BulletedList2;font=green",
+      "libsInclude": false,
+      "libsIconStyles": "icon=FabricFolder;font=eblue",
+      "listLibCat": "",
       
       "colTileStyle": ""
     }

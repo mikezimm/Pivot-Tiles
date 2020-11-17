@@ -22,7 +22,7 @@ import { sp, Web } from '@pnp/sp';
 import { IPivotTilesWebPartProps } from './IPivotTilesWebPartProps';
 import * as strings from 'PivotTilesWebPartStrings';
 import PivotTiles from './components/PivotTiles/PivotTiles';
-import { IPivotTilesProps, ICustomCategories, ICustomLogic } from './components/PivotTiles/IPivotTilesProps';
+import { IPivotTilesProps, IFetchListsSettings, ICustomCategories, ICustomLogic } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
@@ -162,6 +162,14 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     custCategories = JSON.parse(JSON.stringify(custCategories));
 
+    let fetchLists : IFetchListsSettings = {
+      listsInclude: this.properties.listsInclude ,
+      listIconStyles: this.properties.listIconStyles ,
+      libsInclude: this.properties.libsInclude ,
+      libsIconStyles: this.properties.libsIconStyles ,
+      listLibCat: this.properties.listLibCat ,
+    };
+
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
@@ -236,6 +244,9 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         subsitesInclude: this.properties.subsitesInclude ,
         subsitesCategory: this.properties.subsitesCategory ,
         subsitesOnly: this.properties.subsitesOnly ,
+
+        fetchLists: fetchLists,
+
       }
     );
 
@@ -353,6 +364,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots', 'definitionToggle',
       'custCatType', 'custCatCols', 'custCatLogi', 'custCatBrak',
       'subsitesCategory', 'subsitesOnly', 'subsitesOnly', 
+      'listsInclude', 'listIconStyles', 'listLibCat', 
+      'libsInclude', 'libsIconStyles', '', 
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

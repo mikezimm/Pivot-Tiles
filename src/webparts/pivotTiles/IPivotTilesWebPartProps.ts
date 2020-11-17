@@ -70,6 +70,13 @@ export interface IPivotTilesWebPartProps {
   subsitesCategory: string;
   subsitesOnly: boolean;
   
+  listsInclude: boolean;
+  listIconStyles: string;
+  libsInclude: boolean;
+  libsIconStyles: string;
+  listLibCat: string;
+          // listsInclude, libsInclude, listLibCat, listIconStyles, libsIconStyles
+
   //List based analytics properties
   analyticsList: string;
   analyticsWeb: string;
