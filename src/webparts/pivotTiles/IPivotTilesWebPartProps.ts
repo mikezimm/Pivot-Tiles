@@ -72,8 +72,10 @@ export interface IPivotTilesWebPartProps {
   
   listsInclude: boolean;
   listIconStyles: string;
+  listFilter: string;
   libsInclude: boolean;
   libsIconStyles: string;
+  libsFilter: string;
   listLibCat: string;
           // listsInclude, libsInclude, listLibCat, listIconStyles, libsIconStyles
 

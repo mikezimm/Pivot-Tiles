@@ -174,7 +174,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
     else if (this.props.subsitesCategory !== prevProps.subsitesCategory) {  reloadData = true ; }    
     else if (this.props.subsitesOnly !== prevProps.subsitesOnly) {  reloadData = true ; }    
-    else if (this.props.subsitesInclude !== prevProps.subsitesInclude) {  reloadData = true ; }    
+    else if (this.props.subsitesInclude !== prevProps.subsitesInclude) {  reloadData = true ; }
+
+    else if (this.props.fetchLists !== prevProps.fetchLists) {  reloadData = true ; }
 
     if ( reloadData === true ) {
       this._getListItems( this.props.custCategories );

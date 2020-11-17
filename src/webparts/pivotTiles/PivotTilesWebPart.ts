@@ -165,8 +165,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     let fetchLists : IFetchListsSettings = {
       listsInclude: this.properties.listsInclude ,
       listIconStyles: this.properties.listIconStyles ,
+      listFilter: this.properties.listFilter ,
+
       libsInclude: this.properties.libsInclude ,
       libsIconStyles: this.properties.libsIconStyles ,
+      libsFilter: this.properties.libsFilter ,
+
       listLibCat: this.properties.listLibCat ,
     };
 
@@ -364,8 +368,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots', 'definitionToggle',
       'custCatType', 'custCatCols', 'custCatLogi', 'custCatBrak',
       'subsitesCategory', 'subsitesOnly', 'subsitesOnly', 
-      'listsInclude', 'listIconStyles', 'listLibCat', 
-      'libsInclude', 'libsIconStyles', '', 
+      'listsInclude', 'listIconStyles', 'listFilter', 'listLibCat', 
+      'libsInclude', 'libsIconStyles', 'libsFilter', '', 
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

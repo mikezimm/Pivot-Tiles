@@ -33,8 +33,12 @@ export interface ICustomCategories {
 export interface IFetchListsSettings {
   listsInclude: boolean;
   listIconStyles: string;
+  listFilter: string;
+
   libsInclude: boolean;
   libsIconStyles: string;
+  libsFilter: string;
+
   listLibCat: string;
 }
 

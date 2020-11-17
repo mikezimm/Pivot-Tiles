@@ -227,6 +227,10 @@ export class IntroPage {
               onText: 'On',
               disabled: webPartProps.listWebURL !== '' ? true : false,
           }),
+          PropertyPaneTextField('listFilter', {
+            label: 'Filter to apply to lists',
+            disabled: webPartProps.listsInclude === true ? false : true,
+          }),
           PropertyPaneTextField('listIconStyles', {
             label: 'List Icon Style (similar to tile icons)',
             disabled: webPartProps.listsInclude === true ? false : true,
@@ -237,7 +241,10 @@ export class IntroPage {
               onText: 'On',
               disabled: webPartProps.listWebURL !== '' ? true : false,
           }),
-
+          PropertyPaneTextField('libsFilter', {
+            label: 'Filter to apply to lists',
+            disabled: webPartProps.libsInclude === true ? false : true,
+          }),
           PropertyPaneTextField('libsIconStyles', {
             label: 'Library Icon Style (similar to tile icons)',
             disabled: webPartProps.libsInclude === true ? false : true,

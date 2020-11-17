@@ -23,6 +23,7 @@ export interface IPivotTileItemProps {
 
   //Main webpart properties
   description: string;
+  sourceType: string;  //odata.type ie List, Library, Web, Document, ListItem
 
   //Hero tile properties
   heroType: string;
