@@ -2,6 +2,8 @@ import * as React from 'react';
 import styles from './PivotTiles.module.scss';
 import tileStyles from './../TileItems/PivotTileItem.module.scss';
 
+import { IReadonlyTheme } from '@microsoft/sp-component-base';
+
 import { IPivotTilesProps, ICustomCategories, ICustomLogic } from './IPivotTilesProps';
 import { IPivotTilesState } from './IPivotTilesState';
 import { IPivotTileItemProps } from './../TileItems/IPivotTileItemProps';
@@ -224,6 +226,9 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
 
   public render(): React.ReactElement<IPivotTilesProps> {
+
+    const { semanticColors }: IReadonlyTheme = this.props.themeVariant;
+
     let heroFullLineBuild : any = "";
 
     if (this.props.showHero === true && this.state.heroCategory) {

@@ -127,7 +127,8 @@ public constructor(props:IInfoAboutMeProps){
                 <table className={styles.infoTable} style={{ width: '100%' }}>
                     <tr><th>Date</th><th>Version</th><th>Focus</th><th>Notes</th></tr>
 
-                    <tr><td>2020-10-23</td><td>{'1.1.3.0'}</td><td>Add option to show Subsites as tiles</td><td>{ underScoreIssue }</td></tr>
+                    <tr><td>2020-11-17</td><td>{'1.1.3.1'}</td><td>Use Fabric {links.devDocsIcon} as Tiles</td><td>{links.devDocsIcon}</td></tr>
+                    <tr><td>2020-11-16</td><td>{'1.1.3.0'}</td><td>Add option to show Subsites as tiles</td><td>{ underScoreIssue }</td></tr>
                     <tr><td>2020-10-23</td><td>{'1.1.2.0'}</td><td>Custom Categories with _UnderScore , List and Doc Card view updates</td><td>{ underScoreIssue }</td></tr>
                     <tr><td>2020-10-20</td><td>{'1.1.1.4'}</td><td>Add special custom Categories:  created, modified</td><td></td></tr>
                     <tr><td>2020-10-20</td><td>{'1.1.1.3'}</td><td>For Dynamic Categories, Tabs now in same order as you type in.</td><td>Pad Title, Desc in hover pane</td></tr>
@@ -135,10 +136,14 @@ public constructor(props:IInfoAboutMeProps){
                     <tr><td>2020-10-19</td><td>{'1.1.1.1'}</td><td>Fix Custom Category when missing catergory column</td><td></td></tr>
                     <tr><td>2020-10-14</td><td>{'1.1.1.0'}</td><td>Add Early Access, Custom Category Logic</td><td></td></tr>
                     <tr><td>2020-10-14</td><td>{'1.1.0.2'}</td><td>Add Site News BannerImageUrl.Url for Image</td><td></td></tr>
-                    <tr><td>2020-09-14</td><td>{'1.x.x.x'}</td><td></td><td></td></tr>
-                    <tr><td>2020-09-14</td><td>{'1.x.x.x'}</td><td></td><td></td></tr>
+
                 </table>
             </div>;
+
+/*
+                    <tr><td>2020-09-14</td><td>{'1.x.x.x'}</td><td></td><td></td></tr>
+                    <tr><td>2020-09-14</td><td>{'1.x.x.x'}</td><td></td><td></td></tr>
+*/
 
 /***
  *              d8888b. d88888b d888888b db    db d8888b. d8b   db 

@@ -15,7 +15,7 @@ export const defCommandIconStyles = {
  },
 };
 
-export function createIconButton(iconName, titleText, _onClick, thisID,  iconStyles){
+export function createIconButton(iconName, titleText, _onClick, thisID,  iconStyles, transparent: boolean ){
 
     if ( iconStyles == null ) { iconStyles = defCommandIconStyles ; }
 
@@ -35,7 +35,7 @@ export function createIconButton(iconName, titleText, _onClick, thisID,  iconSty
     //console.log('createIconButton:', iconStyles);
 
     return (
-      <div className= {styles.buttons} id={ thisID }>
+      <div className= { transparent === true ? styles.buttonsTransparent : styles.buttons } id={ thisID }>
       <IconButton iconProps={{ iconName: iconName }} 
       title= { titleText} 
       //uniqueId= { titleText } 

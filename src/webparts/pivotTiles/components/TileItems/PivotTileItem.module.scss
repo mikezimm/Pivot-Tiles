@@ -1,3 +1,10 @@
+@import '../../../../../node_modules/office-ui-fabric-react/dist/sass/_References';
+
+// define variables first
+$themePrimary: '[theme:themeDarker, default:#0078d7]';
+$themeWhite: '[theme:white, default:white]';
+
+
 .pivotTiles {
   //.
   // Are these used?
@@ -333,11 +340,15 @@
     //height: $box-height;
   }
 
+
+  .themeBackground {
+    background: $themeWhite;
+  }
     /* [2] Transition property for smooth transformation of images */
   .imgHoverZoom {
       @extend .pTileItemImageCustom;
       transition:all 2s ease;
-      background:rgba(255, 255, 255, 0.85);
+      //background:rgba(255, 255, 255, 0.85);
       transition-delay:0.25s;
       //*** Does not impact shift    width: 100%;
       //*** Does not impact shift    height: 100%;

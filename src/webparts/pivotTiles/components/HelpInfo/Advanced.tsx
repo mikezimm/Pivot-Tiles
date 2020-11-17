@@ -119,6 +119,14 @@ public constructor(props:IAdvancedProps){
             messageRows.push( <tr><td>Custom Categories</td><td></td><td>See Github Wiki for examples</td></tr> );
 
 
+
+            messageRows.push( <tr><td>Fabric UI {links.devDocsIcon}</td><td></td><td>Set your ImageUrl column value to a valid Fabric UI Icon name - {links.devDocsIcon}</td></tr> );
+            messageRows.push( <tr><td>Valid Icon Examples</td><td></td><td>Cat Auto Edit etc.... must be exact leter casing.</td></tr> );
+            messageRows.push( <tr><td>Colored Icons</td><td></td><td>Set Icon colors in your designated Color column.  Example:  font=green;background=yellow</td></tr> );
+
+            messageRows.push( <tr><td>Adjust Size and Top of Icon</td><td></td><td>Set Icon size(% tile height)/top in your designated Color column.  Example:  size=50;top=-20px</td></tr> );           
+            messageRows.push( <tr><td></td><td></td><td>If you can't see correct styles, be sure all values are separated by ; and have =</td></tr> );   
+            messageRows.push( <tr><td>Full example of Icon styles</td><td></td><td>background=black;font=hotpink;size=50;top=-20px</td></tr> );   
             let thisPage = <div>
                 <h2></h2>
                 <table className={styles.infoTable} style={{ width: '100%' }}>

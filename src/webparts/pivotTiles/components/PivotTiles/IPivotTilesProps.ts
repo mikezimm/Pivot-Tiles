@@ -1,6 +1,8 @@
 import {IPivotTileItemProps} from './../TileItems/IPivotTileItemProps';
 import { PageContext } from '@microsoft/sp-page-context';
 
+import { IReadonlyTheme } from '@microsoft/sp-component-base';
+
 export interface theTime {
   now: Date;
   theTime : string;
@@ -30,6 +32,8 @@ export interface ICustomCategories {
 
 export interface IPivotTilesProps {
 
+  themeVariant: IReadonlyTheme | undefined;
+  
   //Main webpart properties
   scenario: string;
   description: string;

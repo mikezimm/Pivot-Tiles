@@ -427,6 +427,9 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
       }
 
       if ( description && description.length > 0 ) { description = 'Subsite:  ' + description ; }
+      if ( description && description.length > 0 ) { description += '; Created: ' + item.createdNote ; }
+      if ( description && description.length > 0 ) { description += '; Modified: ' + item.modifiedNote ; }
+
        return {
         imageUrl: getColumnValue(webProps,item,'colImageLink'),
 

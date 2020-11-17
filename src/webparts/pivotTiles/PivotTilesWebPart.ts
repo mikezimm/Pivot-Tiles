@@ -7,7 +7,14 @@ import {
   PropertyPaneTextField,
   PropertyPaneLabel,
   PropertyPaneLink
+  
 } from '@microsoft/sp-webpart-base';
+
+import {
+  ThemeProvider,
+  ThemeChangedEventArgs,
+  IReadonlyTheme
+} from '@microsoft/sp-component-base';
 
 // npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp --save
 import { sp, Web } from '@pnp/sp';
@@ -28,9 +35,22 @@ require('../../services/propPane/GrayPropPaneAccordions.css');
 
 export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTilesWebPartProps> {
 
+  //https://docs.microsoft.com/en-us/sharepoint/dev/spfx/web-parts/guidance/supporting-section-backgrounds
+  private _themeProvider: ThemeProvider;
+  private _themeVariant: IReadonlyTheme | undefined;
   
   //Added for Get List Data:  https://www.youtube.com/watch?v=b9Ymnicb1kc
   public onInit():Promise<void> {
+
+        // Consume the new ThemeProvider service
+    this._themeProvider = this.context.serviceScope.consume(ThemeProvider.serviceKey);
+
+    // If it exists, get the theme variant
+    this._themeVariant = this._themeProvider.tryGetTheme();
+
+    // Register a handler to be notified if the theme variant changes
+    this._themeProvider.themeChangedEvent.add(this, this._handleThemeChangedEvent);
+
     return super.onInit().then(_ => {
       // other init code may be present
 
@@ -48,6 +68,16 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         spfxContext: this.context
       });
     });
+  }
+
+  /**
+   * Update the current theme variant reference and re-render.
+   *
+   * @param args The new theme
+   */
+  private _handleThemeChangedEvent(args: ThemeChangedEventArgs): void {
+    this._themeVariant = args.theme;
+    this.render();
   }
 
   public getUrlVars(): {} {
@@ -100,10 +130,14 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     } else if ( this.properties.custCatType === 'semiColon1' ) {
       custCatLogi = this.properties.custCatLogi.split(';');
       if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'semiColon1' but custCatLogi IS EMPTY - No Categories will be shown!"); }
-      else { allTabs = JSON.parse(JSON.stringify(custCatLogi)) ; } //Make copy of original tabs for sorting actual tabs later
+      else { 
+        custCatLogi = custCatLogi.map(s => s.trim());
+        allTabs = JSON.parse(JSON.stringify(custCatLogi)) ;
+       } //Make copy of original tabs for sorting actual tabs later
 
     } else if ( this.properties.custCatType === 'semiColon2' ) {
       custCatLogi = this.properties.custCatLogi.split(';=');
+      custCatLogi = custCatLogi.map(s => s.trim());
       if ( custCatLogi.length === 0 ) { console.log( "custCatType === 'semiColon2' but custCatLogi IS EMPTY - No Categories will be shown!"); }
       else { allTabs = JSON.parse(JSON.stringify(custCatLogi)) ; } //Make copy of original tabs for sorting actual tabs later
 
@@ -131,6 +165,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
+        themeVariant: this._themeVariant,
+
         startTime: getTheCurrentTime(),
         scenario: this.properties.scenario,
         description: this.properties.description,
