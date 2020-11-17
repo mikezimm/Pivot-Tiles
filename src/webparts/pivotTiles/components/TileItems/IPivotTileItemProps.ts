@@ -1,6 +1,6 @@
 //Category may need to be defined optionally here
 //https://www.logicbig.com/tutorials/misc/typescript/interface-to-describe-object-with-optional-properties.html
-
+import { IReadonlyTheme } from '@microsoft/sp-component-base';
 
 export interface tileTime {
   time?: Date;
@@ -59,6 +59,8 @@ export interface IPivotTileItemProps {
   color: string;
   imgSize: string;
   
+  themeVariant: IReadonlyTheme | undefined;
+
   parentCat?:string;
 
   modifiedTime: tileTime;

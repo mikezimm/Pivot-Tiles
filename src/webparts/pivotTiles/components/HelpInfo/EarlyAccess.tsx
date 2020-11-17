@@ -102,7 +102,7 @@ export default class EarlyAccess extends React.Component<IEarlyAccessProps, IEar
           defCommandIconStyles.icon.fontWeight = '600' ;
   
           let emailButton = <div title={ "Feedback" } className={ farLinkHover } style={{background: 'white', opacity: .7, borderRadius: '10px', cursor: 'pointer', marginRight: hasFarRight === true ? null : '20px' }}>
-          { createIconButton('MailReply','Email',this._onIconClick.bind(this), null, defCommandIconStyles ) } </div>;
+          { createIconButton('MailReply','Email',this._onIconClick.bind(this), null, defCommandIconStyles, false ) } </div>;
   
 //        let emailIcon = this.props.email == null || this.props.email == undefined ? null :
 //                <div className= { styles.mailLinkHover } style={{background: 'white', opacity: '.7', borderRadius: '10px' }}><Icon title={ "Feedback" } iconName={ "MailReply"} className={ iconClassInfo } styles = {iconStyles} onClick = { this._onIconClick.bind(this) } /></div>;

@@ -253,7 +253,7 @@ export function heroBuilder(parentProps,parentState){
  * @param parentState 
  * @param tType 
  */
-export function oneTileBuilder(parentProps,parentState, tType, newTile ){
+export function oneTileBuilder(parentProps : IPivotTilesProps,parentState, tType, newTile ){
   //console.log('oneTileBuilder',parentProps,parentState);
 
   const thisTile = 
@@ -273,6 +273,8 @@ export function oneTileBuilder(parentProps,parentState, tType, newTile ){
       listTitle={newTile.listTitle}
       setRatio={newTile.setRatio}
       setSize={newTile.setSize}
+
+      themeVariant={parentProps.themeVariant}
 
       setImgFit={ tType === 'normal' ? newTile.setImgFit : parentProps.setHeroFit }
       setImgCover={ tType === 'normal' ? newTile.setImgCover : parentProps.setHeroCover }

@@ -1,5 +1,10 @@
 @import '../../../../../node_modules/office-ui-fabric-react/dist/sass/_References';
 
+// define variables first
+$themePrimary: '[theme:themeDarker, default:#0078d7]';
+$themeWhite: '[theme:white, default:white]';
+
+
 .pivotTiles {
   //.
   // Are these used?
@@ -337,7 +342,7 @@
 
 
   .themeBackground {
-    background: "[theme: themePrimary, default: #0078d7]";
+    background: $themeWhite;
   }
     /* [2] Transition property for smooth transformation of images */
   .imgHoverZoom {

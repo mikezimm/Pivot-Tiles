@@ -21,6 +21,19 @@
   }
 }
 
+
+.buttonsTransparent{
+  //padding-right: 10px;
+  -webkit-font-smoothing: antialiased;
+  transition:all 0.4s ease;
+  border-radius: 5px;
+  :hover{
+    background-color: transparent;
+    transition:all 0.4s ease;
+    border-radius: 5px;
+  }
+}
+
 .buttonsBig {
   @extend .buttons;
   margin:10px;
