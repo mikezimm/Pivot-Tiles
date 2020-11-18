@@ -328,6 +328,29 @@ function setCustSearch( custCategories, theseProps, includePeople: boolean ) {
 }
 
 
+function getStyleProp ( input: string[] , what: 'font' | 'background' | 'size' | 'top' | 'icon' ) {
+
+  let availableStyles = input.join(';');
+  let theseStyles = availableStyles.split(';');
+
+  let resultStyle = '';
+  if ( what === 'icon' ) { resultStyle = 'darkgray'; }
+  if ( what === 'font' ) { resultStyle = 'darkgray'; }
+  if ( what === 'background' ) { resultStyle = 'white'; }
+  if ( what === 'size' ) { resultStyle = '65'; }
+  if ( what === 'top' ) { resultStyle = '-10px'; }
+
+
+  theseStyles.map( c => {
+    let thisColor = c.split('=');
+    if ( thisColor.length === 2 ) {
+      if ( thisColor[0] === what) { resultStyle=thisColor[1] ; }
+    }
+  });
+
+  return resultStyle;
+
+}
 
 
 
@@ -504,14 +527,16 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
     let imageUrl = getColumnValue(theseProps, item,'colImageLink');
 
     let imageHeight = pivotProps.imageHeight;
-    let defFabricSize = `;size=50;top=-${imageHeight/5}px;background=lightgray;`;
+    let defFabricSize = `;size=50;top=-${imageHeight/5}px;background=white;`;
 
     if ( sourceType === pivotProps.fetchLists.libsCategory ) {
       if ( !color || color === '' ) { color = 'font=darkgray;' + defFabricSize + pivotProps.fetchLists.libsIconStyles ; }
+      if ( !imageUrl || imageUrl === '' ) { imageUrl = getStyleProp([ pivotProps.fetchLists.libsIconStyles ], 'icon' ) ; }
       if ( !imageUrl || imageUrl === '' ) { imageUrl = 'FolderHorizontal' ; }   
 
     } else if ( sourceType === pivotProps.fetchLists.listCategory ) {
       if ( !color || color === '' ) { color = 'font=darkslateblue;' + defFabricSize  + 'background=LightGoldenRodYellow;' + pivotProps.fetchLists.listIconStyles ; }
+      if ( !imageUrl || imageUrl === '' ) { imageUrl = getStyleProp([ pivotProps.fetchLists.listIconStyles ], 'icon' ) ; }
       if ( !imageUrl || imageUrl === '' ) { imageUrl = 'BulletedList2' ; }   
       
     } else if ( sourceType === pivotProps.subsitesCategory ) {
@@ -533,7 +558,7 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
       }
       //sourceType = "Files"
     } else if ( !imageUrl || imageUrl === '' ) {
-      if ( href.toLowerCase().indexOf('github') > -1 ) { imageUrl = 'Github' ; }
+      if ( href.toLowerCase().indexOf('github') > -1 ) { imageUrl = 'Github' ; color = 'background=white;' ; }
       else if ( href.toLowerCase().indexOf('.sharepoint.com') > -1 ) { 
         imageUrl = 'SharepointLogo' ; 
         if ( !color || color === '' ) { color = 'font=rgb(0, 120, 215);' + defFabricSize ; }
@@ -563,7 +588,7 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
         if ( !imageUrl || imageUrl === '' ) { imageUrl = 'PowerPointDocument' ; }
 
       } else if ( href.indexOf('powerapps') > 0 ) {
-        if ( !color || color === '' ) { color = 'font=darkgreen;' + defFabricSize; }
+        if ( !color || color === '' ) { color = 'font=rgb(0, 119, 255);' + defFabricSize; }
         if ( !imageUrl || imageUrl === '' ) { imageUrl = 'PowerAppsLogo' ; }
         
       } else if ( href.indexOf('forms.office.com') > 0 ) {
