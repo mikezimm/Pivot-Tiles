@@ -217,6 +217,64 @@ export class IntroPage {
 
         ]}, // this group
 
+        
+        { groupName: 'Lists and Libraries',
+        isCollapsed: true ,
+        groupFields: [
+          PropertyPaneToggle('listsInclude', {
+              label: 'Show all Lists',
+              offText: 'Off',
+              onText: 'On',
+              disabled: webPartProps.listWebURL !== '' ? true : false,
+          }),
+          PropertyPaneTextField('listFilter', {
+            label: 'Filter to apply to lists',
+            disabled: webPartProps.listsInclude === true ? false : true,
+          }),
+          PropertyPaneTextField('listIconStyles', {
+            label: 'List Icon Style (similar to tile icons)',
+            disabled: webPartProps.listsInclude === true ? false : true,
+          }),
+          PropertyPaneToggle('libsInclude', {
+              label: 'Show all Libraries',
+              offText: 'Off',
+              onText: 'On',
+              disabled: webPartProps.listWebURL !== '' ? true : false,
+          }),
+          PropertyPaneTextField('libsFilter', {
+            label: 'Filter to apply to lists',
+            disabled: webPartProps.libsInclude === true ? false : true,
+          }),
+          PropertyPaneTextField('libsIconStyles', {
+            label: 'Library Icon Style (similar to tile icons)',
+            disabled: webPartProps.libsInclude === true ? false : true,
+          }),
+
+          PropertyPaneTextField('listLibCat', {
+              label: 'Combined category label (if blank, you will get Lists and Libraries',
+              disabled: webPartProps.listsInclude === true || webPartProps.libsInclude === true? false : true,
+          }),
+
+          //listHideSystem
+          PropertyPaneToggle('listHideSystem', {
+              label: 'Hide System lists',
+              offText: 'Off',
+              onText: 'On',
+              disabled: webPartProps.listsInclude === true || webPartProps.libsInclude === true? false : true,
+          }),
+
+          PropertyPaneToggle('subsitesOnly', {
+              label: 'Only show Lists and Libraries, Ignore your List settings',
+              offText: 'Off',
+              onText: 'On',
+              //disabled: webPartProps.listsInclude === true || webPartProps.libsInclude === true? false : true,
+              disabled: true,
+          }),
+
+
+
+        ]}, // this group
+
     ]}; // Groups
   } // getPropertyPanePage()
 }

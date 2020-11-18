@@ -22,7 +22,7 @@ import { sp, Web } from '@pnp/sp';
 import { IPivotTilesWebPartProps } from './IPivotTilesWebPartProps';
 import * as strings from 'PivotTilesWebPartStrings';
 import PivotTiles from './components/PivotTiles/PivotTiles';
-import { IPivotTilesProps, ICustomCategories, ICustomLogic } from './components/PivotTiles/IPivotTilesProps';
+import { IPivotTilesProps, IFetchListsSettings, ICustomCategories, ICustomLogic } from './components/PivotTiles/IPivotTilesProps';
 import { IPivotTileItemProps } from './components/TileItems/IPivotTileItemProps';
 import { string, any } from 'prop-types';
 import { propertyPaneBuilder } from '../../services/propPane/PropPaneBuilder';
@@ -162,6 +162,27 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
 
     custCategories = JSON.parse(JSON.stringify(custCategories));
 
+    let fetchLists : IFetchListsSettings = {
+      listsInclude: this.properties.listsInclude ,
+      listIconStyles: this.properties.listIconStyles ,
+      listFilter: this.properties.listFilter ,
+      listCategory: 'Lists',
+
+      libsInclude: this.properties.libsInclude ,
+      libsIconStyles: this.properties.libsIconStyles ,
+      libsFilter: this.properties.libsFilter ,
+      libsCategory: 'Libraries',
+      listHideSystem: this.properties.listHideSystem ,
+
+      listLibCat: this.properties.listLibCat ,
+    };
+
+    let imageHeight = this.properties.imageHeight;
+    let setSize = this.properties.setSize;
+    if ( setSize === '150' || setSize === '100' || setSize === '300') {
+      imageHeight = parseInt(setSize, 10);
+
+    }
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
@@ -217,7 +238,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         loadListItems: this.loadListItems,
 
         imageWidth: this.properties.imageWidth,
-        imageHeight: this.properties.imageHeight,
+        imageHeight: imageHeight,
         textPadding: this.properties.textPadding,
 
         analyticsList: strings.analyticsList,
@@ -236,6 +257,9 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         subsitesInclude: this.properties.subsitesInclude ,
         subsitesCategory: this.properties.subsitesCategory ,
         subsitesOnly: this.properties.subsitesOnly ,
+
+        fetchLists: fetchLists,
+
       }
     );
 
@@ -353,6 +377,8 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       'imageWidth','imageHeight','textPadding','setHeroFit','setHeroCover','onHoverZoom', 'enableChangePivots', 'definitionToggle',
       'custCatType', 'custCatCols', 'custCatLogi', 'custCatBrak',
       'subsitesCategory', 'subsitesOnly', 'subsitesOnly', 
+      'listsInclude', 'listIconStyles', 'listFilter', 'listLibCat', 
+      'libsInclude', 'libsIconStyles', 'libsFilter', 'listHideSystem', 
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

@@ -31,6 +31,10 @@ export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , p
   let usingDefinedCategoryColumn = thisCatColumn === 'category' ? true : false ;
 
   let hasSubsites = false;
+  let hasLists = false;
+  let hasLibraries = false;
+  let hasSystem = false;
+  let hasFiles = false;
 
   if (thisCatColumn === 'created' || thisCatColumn === 'modified') {
     let thisTime = pivotState[thisCatColumn + 'Info'];
@@ -50,6 +54,17 @@ export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , p
     for (let tile of response) {
 
       if ( tile.category.indexOf(pivotProps.subsitesCategory) > -1 ) { hasSubsites = true ; }
+
+      if ( tile.sourceType ) {
+        if ( tile.sourceType.indexOf( pivotProps.fetchLists.listCategory ) > -1 ) { hasLists = true ; }
+        if ( tile.sourceType.indexOf( pivotProps.fetchLists.libsCategory ) > -1 ) { hasLibraries = true ; }
+        if ( tile.sourceType.toLowerCase().indexOf('files') > -1 ) { hasFiles = true ; }
+        if ( tile.sourceType.toLowerCase().indexOf('pages') > -1 ) { hasFiles = true ; }
+        if ( tile.sourceType.toLowerCase().indexOf('news') > -1 ) { hasFiles = true ; }
+      }
+
+      if ( tile.system ) { hasSystem = true ; }
+
       if (!tile[thisCatColumn]) {
         //This allows it to skip if the tile category is empty or blank
 
@@ -128,8 +143,26 @@ export function buildTileCategoriesFromResponse(pivotProps: IPivotTilesProps , p
 
   //2020-11-16:  Add this to add Subsites tab
   if ( hasSubsites === true ) {
-    tileCategories.push(pivotProps.subsitesCategory);
+    tileCategories.push( pivotProps.subsitesCategory );
   }
+
+  if ( hasLists === true ) {
+    tileCategories.push( pivotProps.fetchLists.listCategory);
+  }
+  if ( hasLibraries === true ) {
+    tileCategories.push( pivotProps.fetchLists.libsCategory );
+  }
+  if ( hasSystem === true ) {
+    tileCategories.push('System');
+  }
+
+  /*
+  if ( this.props.fetchLists.libsInclude === false ) {
+    listFilter += ' and BaseType eq 0';
+  } else if ( this.props.fetchLists.listsInclude === false ) {
+    listFilter += ' and BaseType eq 1';
+  } 
+  */
 
   return tileCategories;
 

@@ -258,6 +258,8 @@ export function oneTileBuilder(parentProps : IPivotTilesProps,parentState, tType
 
   const thisTile = 
     <PivotTileItem
+      sourceType = { newTile.sourceType }
+      system = { newTile.system }
       parentCat = {parentState.filteredCategory}
       imageUrl={newTile.imageUrl}
       title={newTile.title}

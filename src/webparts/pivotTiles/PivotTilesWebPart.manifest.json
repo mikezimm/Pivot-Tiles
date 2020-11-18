@@ -76,9 +76,17 @@
       "custCatBrak": false,
 
       "subsitesInclude": true,
-      "subsitesCategory": "All Subsites",
+      "subsitesCategory": "Subsites",
       "subsitesOnly": false,
       
+      "listsInclude": false,
+      "listIconStyles": "icon=BulletedList2;font=green",
+      "libsInclude": false,
+      "libsIconStyles": "icon=FabricFolder;font=eblue",
+      "listLibCat": "",
+      
+      "listHideSystem": true,
+
       "colTileStyle": ""
     }
   },
@@ -136,8 +144,16 @@
       "custCatBrak": false,
 
       "subsitesInclude": false,
-      "subsitesCategory": "All Subsites",
+      "subsitesCategory": "Subsites",
       "subsitesOnly": false,
+
+      "listsInclude": false,
+      "listIconStyles": "icon=BulletedList2;font=green",
+      "libsInclude": false,
+      "libsIconStyles": "icon=FabricFolder;font=eblue",
+      "listLibCat": "",
+      
+      "listHideSystem": true,
 
       "colTileStyle": ""
     }
@@ -196,9 +212,17 @@
       "custCatBrak": false,
 
       "subsitesInclude": true,
-      "subsitesCategory": "All Subsites",
+      "subsitesCategory": "Subsites",
       "subsitesOnly": false,
+
+      "listsInclude": false,
+      "listIconStyles": "icon=BulletedList2;font=green",
+      "libsInclude": false,
+      "libsIconStyles": "icon=FabricFolder;font=eblue",
+      "listLibCat": "",
       
+      "listHideSystem": true,
+
       "colTileStyle": ""
     }
   }
