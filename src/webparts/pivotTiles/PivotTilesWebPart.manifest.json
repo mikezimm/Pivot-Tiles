@@ -84,6 +84,8 @@
       "libsInclude": false,
       "libsIconStyles": "icon=FabricFolder;font=eblue",
       "listLibCat": "",
+      
+      "listHideSystem": true,
 
       "colTileStyle": ""
     }
@@ -150,6 +152,8 @@
       "libsInclude": false,
       "libsIconStyles": "icon=FabricFolder;font=eblue",
       "listLibCat": "",
+      
+      "listHideSystem": true,
 
       "colTileStyle": ""
     }
@@ -217,6 +221,8 @@
       "libsIconStyles": "icon=FabricFolder;font=eblue",
       "listLibCat": "",
       
+      "listHideSystem": true,
+
       "colTileStyle": ""
     }
   }

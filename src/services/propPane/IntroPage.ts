@@ -255,6 +255,14 @@ export class IntroPage {
               disabled: webPartProps.listsInclude === true || webPartProps.libsInclude === true? false : true,
           }),
 
+          //listHideSystem
+          PropertyPaneToggle('listHideSystem', {
+              label: 'Hide System lists',
+              offText: 'Off',
+              onText: 'On',
+              disabled: webPartProps.listsInclude === true || webPartProps.libsInclude === true? false : true,
+          }),
+
           PropertyPaneToggle('subsitesOnly', {
               label: 'Only show Lists and Libraries, Ignore your List settings',
               offText: 'Off',

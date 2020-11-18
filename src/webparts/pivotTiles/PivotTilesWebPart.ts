@@ -166,10 +166,13 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       listsInclude: this.properties.listsInclude ,
       listIconStyles: this.properties.listIconStyles ,
       listFilter: this.properties.listFilter ,
+      listCategory: 'Lists',
 
       libsInclude: this.properties.libsInclude ,
       libsIconStyles: this.properties.libsIconStyles ,
       libsFilter: this.properties.libsFilter ,
+      libsCategory: 'Libraries',
+      listHideSystem: this.properties.listHideSystem ,
 
       listLibCat: this.properties.listLibCat ,
     };
@@ -369,7 +372,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       'custCatType', 'custCatCols', 'custCatLogi', 'custCatBrak',
       'subsitesCategory', 'subsitesOnly', 'subsitesOnly', 
       'listsInclude', 'listIconStyles', 'listFilter', 'listLibCat', 
-      'libsInclude', 'libsIconStyles', 'libsFilter', '', 
+      'libsInclude', 'libsIconStyles', 'libsFilter', 'listHideSystem', 
     ];
 
     if (updateOnThese.indexOf(propertyPath) > -1 ) {

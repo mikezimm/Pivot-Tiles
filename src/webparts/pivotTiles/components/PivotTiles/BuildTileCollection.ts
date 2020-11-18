@@ -63,8 +63,8 @@ function createBaselineModObject() {
 
   let baseline : any = {};
   
-  baseline.tc.modifiedInfo = createIDateCategoryArrays('modified');
-  baseline.tc.createdInfo = createIDateCategoryArrays('created');
+  baseline.modifiedInfo = createIDateCategoryArrays('modified');
+  baseline.createdInfo = createIDateCategoryArrays('created');
   baseline.categoryInfo = createIDateCategoryArrays('category');
 
   baseline.modifiedByInfo = createIPersonCategoryArrays('modifiedBy');
@@ -485,24 +485,77 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
 
     }
 
-    if ( pivotProps.subsitesCategory ) { category.push( pivotProps.subsitesCategory ); }
 
     if ( pivotProps.otherTab && pivotProps.otherTab.length > 0 && category[0] == pivotProps.otherTab ) { 
       showOtherTab = true ;
     }
 
-    if ( description && description.length > 0 ) { description = 'Subsite:  ' + description ; }
-    if ( description && description.length > 0 ) { description += '; Created: ' + item.createdNote ; }
-    if ( description && description.length > 0 ) { description += '; Modified: ' + item.modifiedNote ; }
+    let descriptionSuffix = '';
+    if ( item.sourceType === pivotProps.fetchLists.libsCategory || item.sourceType === pivotProps.fetchLists.listCategory || item.sourceType === pivotProps.subsitesCategory ) {
+      descriptionSuffix =  [ item.sourceType, item.createdNote, item.modifiedNote ].join('; ');
+    }
+
+    if ( description ) { description += ' ; ' + descriptionSuffix ; } else { description = descriptionSuffix ; }
 
 
-    let sourceType = 'TBD sourceType';
+    let sourceType = item.sourceType;
+
+    let color = ifNotExistsReturnNull( item[pivotProps.colColor] );
+    let imageUrl = getColumnValue(theseProps, item,'colImageLink');
+
+    if ( sourceType === pivotProps.fetchLists.libsCategory ) {
+      if ( !color || color === '' ) { color = 'font=darkgray;background=lightgray;' + pivotProps.fetchLists.libsIconStyles ; }
+      if ( !imageUrl || imageUrl === '' ) { imageUrl = 'FolderHorizontal' ; }   
+
+    } else if ( sourceType === pivotProps.fetchLists.listCategory ) {
+      if ( !color || color === '' ) { color = 'font=darkslateblue;background=LightGoldenRodYellow;' + pivotProps.fetchLists.listIconStyles ; }
+      if ( !imageUrl || imageUrl === '' ) { imageUrl = 'BulletedList2' ; }   
+      
+    } else if ( sourceType === pivotProps.subsitesCategory ) {
+      if ( !color || color === '' ) { color = 'font=darkslateblue;background=lightsteelblue;'; }
+      if ( !imageUrl || imageUrl === '' ) { imageUrl = 'SharepointLogo' ; }
+
+    } else if ( sourceType === 'Files' ) {
+      if ( !imageUrl || imageUrl === '' ) {
+        if ( href.indexOf('.xls') > 0 ) {
+          if ( !color || color === '' ) { color = 'font=darkgreen;background=lightgray;'; }
+          if ( !imageUrl || imageUrl === '' ) { imageUrl = 'ExcelDocument' ; }
+        } else if ( href.indexOf('.doc') > 0 ) {
+          if ( !color || color === '' ) { color = 'font=darkgreen;background=lightgray;'; }
+          if ( !imageUrl || imageUrl === '' ) { imageUrl = 'WordDocument' ; }
+        } else if ( href.indexOf('.ppt') > 0 ) {
+          if ( !color || color === '' ) { color = 'font=darkgreen;background=lightgray;'; }
+          if ( !imageUrl || imageUrl === '' ) { imageUrl = 'PowerPointDocument' ; }
+        }
+      }
+      //sourceType = "Files"
+    } else if ( !imageUrl || imageUrl === '' ) {
+      if ( href.toLowerCase().indexOf('github') > -1 ) { imageUrl = 'Github' ; }
+      else if ( href.toLowerCase().indexOf('.sharepoint.com') > -1 ) { 
+        imageUrl = 'SharepointLogo' ; 
+        if ( !color || color === '' ) { color = 'font=darkslateblue' ; }
+      } else if ( href.toLowerCase().indexOf('teams') > -1 ) { 
+        imageUrl = 'TeamsLogo' ; 
+        if ( !color || color === '' ) { color = 'font=#464EB8' ; }
+      } else if ( href.toLowerCase().indexOf('powerbi') > -1 ) { 
+        imageUrl = 'PowerBILogo' ; 
+        if ( !color || color === '' ) { color = 'font=black;background=yellow' ; }
+      }
+
+
+      
+      
+    }
+
+
+    category.push(sourceType);
+
 
      return {
 
       sourceType: sourceType,
-      
-      imageUrl: getColumnValue(theseProps, item,'colImageLink'),
+
+      imageUrl: imageUrl,
 
       title: title,
 
@@ -522,7 +575,7 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
       //ifNotExistsReturnNull
       options: ifNotExistsReturnNull( item[theseProps.colTileStyle] ),
 
-      color: ifNotExistsReturnNull( item[pivotProps.colColor] ),
+      color: color,
 
       imgSize: ifNotExistsReturnNull( item[pivotProps.colSize] ),
 
@@ -586,6 +639,10 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
 
 
 
+
+
+
+
 /***
  *    d8888b. db    db d888888b db      d8888b.      db      d888888b d8888b. d8888b.  .d8b.  d8888b. db    db      d888888b d888888b db      d88888b .d8888. 
  *    88  `8D 88    88   `88'   88      88  `8D      88        `88'   88  `8D 88  `8D d8' `8b 88  `8D `8b  d8'      `~~88~~'   `88'   88      88'     88'  YP 
@@ -604,6 +661,8 @@ export function buildTileCollectionFromLists(response, pivotProps: IPivotTilesPr
 
   //           let tileCollection = response.map(item=>new ClassTile(item));
   //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
+
+    let includePeople = false;
 
     console.log( 'buildTileCollectionFromWebs pivotProps:', pivotProps );
 
@@ -625,22 +684,22 @@ export function buildTileCollectionFromLists(response, pivotProps: IPivotTilesPr
 
     for (let item of response) {
 
-        let modResults = addModifiedInfoToItem( item, theseProps, tc, false );
+        let modResults = addModifiedInfoToItem( item, theseProps, tc, includePeople );
         tc = modResults.tc;
         item = modResults.item;
     }
 
     tc = setModifiedCats( tc, pivotProps );
 
-    response = setBestFormat( response, tc, false );
+    response = setBestFormat( response, tc, includePeople );
 
     tc = setLastCat( tc, pivotProps );
 
     let endTime = getTheCurrentTime();
 
-    let custSearch: any = setCustSearch ( custCategories, theseProps, false );
+    let custSearch: any = setCustSearch ( custCategories, theseProps, includePeople );
 
-    let finalTileCollection = buildFinalTileCollection ( response, theseProps, custSearch, custCategories, pivotProps, false , fixedURL, currentHero );
+    let finalTileCollection = buildFinalTileCollection ( response, theseProps, custSearch, custCategories, pivotProps, includePeople , fixedURL, currentHero );
 
     return {
       tileCollection: finalTileCollection.tileCollection,
@@ -692,43 +751,6 @@ export function buildTileCollectionFromLists(response, pivotProps: IPivotTilesPr
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /***
  *    d8888b. db    db d888888b db      d8888b.      db   d8b   db d88888b d8888b.      d888888b d888888b db      d88888b .d8888. 
  *    88  `8D 88    88   `88'   88      88  `8D      88   I8I   88 88'     88  `8D      `~~88~~'   `88'   88      88'     88'  YP 
@@ -744,24 +766,14 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
 
   //           let tileCollection = response.map(item=>new ClassTile(item));
   //          https://stackoverflow.com/questions/47755247/typescript-array-map-return-object
-  let tc = createBaselineModObject();
 
-    /***
-     *     d888b  d88888b d888888b       .d8b.  db      db           d8888b.  .d8b.  d888888b d88888b      db    db  .d8b.  d8888b. d888888b  .d8b.  d888888b d888888b  .d88b.  d8b   db .d8888. 
-     *    88' Y8b 88'     `~~88~~'      d8' `8b 88      88           88  `8D d8' `8b `~~88~~' 88'          88    88 d8' `8b 88  `8D   `88'   d8' `8b `~~88~~'   `88'   .8P  Y8. 888o  88 88'  YP 
-     *    88      88ooooo    88         88ooo88 88      88           88   88 88ooo88    88    88ooooo      Y8    8P 88ooo88 88oobY'    88    88ooo88    88       88    88    88 88V8o 88 `8bo.   
-     *    88  ooo 88~~~~~    88         88~~~88 88      88           88   88 88~~~88    88    88~~~~~      `8b  d8' 88~~~88 88`8b      88    88~~~88    88       88    88    88 88 V8o88   `Y8b. 
-     *    88. ~8~ 88.        88         88   88 88booo. 88booo.      88  .8D 88   88    88    88.           `8bd8'  88   88 88 `88.   .88.   88   88    88      .88.   `8b  d8' 88  V888 db   8D 
-     *     Y888P  Y88888P    YP         YP   YP Y88888P Y88888P      Y8888D' YP   YP    YP    Y88888P         YP    YP   YP 88   YD Y888888P YP   YP    YP    Y888888P  `Y88P'  VP   V8P `8888Y' 
-     *                                                                                                                                                                                           
-     *                                                                                                                                                                                           
-     */
+     let includePeople = false;
 
-    /**
-     *      Get all date variations
-     */
-
-     let webProps : any = {
+     console.log( 'buildTileCollectionFromWebs pivotProps:', pivotProps );
+ 
+     let tc = createBaselineModObject();
+ 
+     let theseProps : any = {
       colModified: 'LastItemUserModifiedDate',
       colCreated: 'Created',
       colTitleText: 'Title',
@@ -772,323 +784,46 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
       colTileStyle: null,
       colColor: null,
       colSize: null,
-
+ 
+     };
+ 
+     for (let item of response) {
+ 
+         let modResults = addModifiedInfoToItem( item, theseProps, tc, includePeople );
+         tc = modResults.tc;
+         item = modResults.item;
+     }
+ 
+     tc = setModifiedCats( tc, pivotProps );
+ 
+     response = setBestFormat( response, tc, includePeople );
+ 
+     tc = setLastCat( tc, pivotProps );
+ 
+     let endTime = getTheCurrentTime();
+ 
+     let custSearch: any = setCustSearch ( custCategories, theseProps, includePeople );
+ 
+     let finalTileCollection = buildFinalTileCollection ( response, theseProps, custSearch, custCategories, pivotProps, includePeople , fixedURL, currentHero );
+ 
+     return {
+       tileCollection: finalTileCollection.tileCollection,
+       custCategories: custCategories,
+       createdInfo: tc.createdInfo,
+       modifiedInfo: tc.modifiedInfo,
+       categoryInfo: tc.categoryInfo,
+       createdByInfo: tc.createdByInfo,
+       modifiedByInfo: tc.modifiedByInfo,
+ 
+       modifiedByTitles: tc.modifiedByTitles.sort(),
+       modifiedByIDs: tc.modifiedByIDs.sort(),
+       createdByTitles: tc.createdByTitles.sort(),
+       createdByIDs: tc.createdByIDs.sort(),
+       showOtherTab: finalTileCollection.showOtherTab,
+ 
      };
 
-    for (let item of response) {
-      let modResults = addModifiedInfoToItem( item, webProps, tc, false );
-      tc = modResults.tc;
-      item = modResults.item;
-
-    }
-    tc = setModifiedCats( tc, pivotProps );
-
-    let bestCategoryFormat = 'unknownMZ';
-
-
-    /***
-     *    .d8888. d88888b d888888b      d8888b. d88888b .d8888. d888888b      d88888b  .d88b.  d8888b. .88b  d88.  .d8b.  d888888b          dD d888888b d888888b d88888b .88b  d88. Cb     
-     *    88'  YP 88'     `~~88~~'      88  `8D 88'     88'  YP `~~88~~'      88'     .8P  Y8. 88  `8D 88'YbdP`88 d8' `8b `~~88~~'        d8'    `88'   `~~88~~' 88'     88'YbdP`88  `8b   
-     *    `8bo.   88ooooo    88         88oooY' 88ooooo `8bo.      88         88ooo   88    88 88oobY' 88  88  88 88ooo88    88          d8       88       88    88ooooo 88  88  88    8b  
-     *      `Y8b. 88~~~~~    88         88~~~b. 88~~~~~   `Y8b.    88         88~~~   88    88 88`8b   88  88  88 88~~~88    88         C88       88       88    88~~~~~ 88  88  88    88D 
-     *    db   8D 88.        88         88   8D 88.     db   8D    88         88      `8b  d8' 88 `88. 88  88  88 88   88    88          V8      .88.      88    88.     88  88  88    8P  
-     *    `8888Y' Y88888P    YP         Y8888P' Y88888P `8888Y'    YP         YP       `Y88P'  88   YD YP  YP  YP YP   YP    YP           V8.  Y888888P    YP    Y88888P YP  YP  YP  .8P   
-     *                                                                                                                                      VD                                      CP     
-     *                                                                                                                                                                                     
-     */
-    /**
-     *  Go back and set bestFormat for created and modified by info
-     */
-
-    response = setBestFormat( response, tc, false );
-
-
-    /***
-     *    .d8888. d88888b d888888b      db       .d8b.  .d8888. d888888b       .o88b.  .d8b.  d888888b d88888b  d888b   .d88b.  d8888b. db    db 
-     *    88'  YP 88'     `~~88~~'      88      d8' `8b 88'  YP `~~88~~'      d8P  Y8 d8' `8b `~~88~~' 88'     88' Y8b .8P  Y8. 88  `8D `8b  d8' 
-     *    `8bo.   88ooooo    88         88      88ooo88 `8bo.      88         8P      88ooo88    88    88ooooo 88      88    88 88oobY'  `8bd8'  
-     *      `Y8b. 88~~~~~    88         88      88~~~88   `Y8b.    88         8b      88~~~88    88    88~~~~~ 88  ooo 88    88 88`8b      88    
-     *    db   8D 88.        88         88booo. 88   88 db   8D    88         Y8b  d8 88   88    88    88.     88. ~8~ `8b  d8' 88 `88.    88    
-     *    `8888Y' Y88888P    YP         Y88888P YP   YP `8888Y'    YP          `Y88P' YP   YP    YP    Y88888P  Y888P   `Y88P'  88   YD    YP    
-     *                                                                                                                                           
-     *                                                                                                                                           
-     */
-
-    tc = setLastCat( tc, pivotProps );
-
-    let endTime = getTheCurrentTime();
-    let showOtherTab = false;
-
-    //console.log('response', response);
-
-  /***
-   *    d888888b d888888b db      d88888b  .o88b.  .d88b.  db      db                       d8888b. d88888b .d8888. d8888b.  .d88b.  d8b   db .d8888. d88888b    .88b  d88.  .d8b.  d8888b.      
-   *    `~~88~~'   `88'   88      88'     d8P  Y8 .8P  Y8. 88      88           C8888D      88  `8D 88'     88'  YP 88  `8D .8P  Y8. 888o  88 88'  YP 88'        88'YbdP`88 d8' `8b 88  `8D      
-   *       88       88    88      88ooooo 8P      88    88 88      88                       88oobY' 88ooooo `8bo.   88oodD' 88    88 88V8o 88 `8bo.   88ooooo    88  88  88 88ooo88 88oodD'      
-   *       88       88    88      88~~~~~ 8b      88    88 88      88           C8888D      88`8b   88~~~~~   `Y8b. 88~~~   88    88 88 V8o88   `Y8b. 88~~~~~    88  88  88 88~~~88 88~~~        
-   *       88      .88.   88booo. 88.     Y8b  d8 `8b  d8' 88booo. 88booo.                  88 `88. 88.     db   8D 88      `8b  d8' 88  V888 db   8D 88.     db 88  88  88 88   88 88           
-   *       YP    Y888888P Y88888P Y88888P  `Y88P'  `Y88P'  Y88888P Y88888P                  88   YD Y88888P `8888Y' 88       `Y88P'  VP   V8P `8888Y' Y88888P VP YP  YP  YP YP   YP 88           
-   *                                                                                                                                                                                             
-   *                                                                                                                                                                                             
-   */
-
-
-    let custSearch: any = setCustSearch ( custCategories, webProps, false );
-
-
-
-    let tileCollection: IPivotTileItemProps[] = response.map(item => {
-
-      //2020-11-16: Not required for web ==>>  let modifiedByTitle = getColumnValue(pivotProps,item,'colModifiedByTitle');
-
-      //2020-11-16: Not required for web ==>>  let createdByTitle = getColumnValue(pivotProps,item,'colCreatedByTitle');
-      
-      let title = getColumnValue(webProps,item,'colTitleText');
-
-      let description = getColumnValue(webProps,item,'colHoverText');
-
-      let href = getColumnValue(webProps,item,'colGoToLink');
-
-      let category = getColumnValue(webProps,item,'colCategory');
-      if ( category === undefined || category === null ) { category = []; }
-      let categoryCopy = JSON.stringify(category);
-
-      //2020-11-16: Added this before Others tab is added
-      let nonSubsiteCategories = category.length;
-
-      //Need to resolve when category is undefined in case that webpart prop is empty
-      let testCategory = category === undefined || category === null ? false : true;
-      if ( testCategory === false || category.length === 0 ) { category = [pivotProps.otherTab] ; }
-
-      //Can't do specific type here or it will break the multi-typed logic below
-      let custCatLogi : any = custCategories.logic;
-      let custBreak : boolean = custCategories.break;
-      
-      if ( custCategories.type === 'tileCategory' ) {
-
-      } else if ( (custCategories.type === 'semiColon1' && custCatLogi.length > 0 ) ||
-                 ( custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) ) {
-        category = [];
-
-        custCatLogi.map( custCat => {
-
-          //These regex expressions work
-          //let c = "E"
-          //data2 = new RegExp( "\\b" + c + "\\b", 'i');
-          //let data3 = new RegExp( "\\bl\\b", 'i');
-          //let replaceMe2 = cat.replace(data3,'X')
-
-          let att = 'i';
-          let match = false;
-
-          var regex = new RegExp("\\b" + custCat + "\\b", att);
-          if (  custSearch.Title && title.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.Desc && description.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.Href && href.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.Cate && categoryCopy.search(regex) > -1 ) {
-            match = true;
-          //2020-11-16: Not required for web ==>>  } else if (  custSearch.ModBy && modifiedByTitle.search(regex) > -1 ) {
-          //2020-11-16: Not required for web ==>>    match = true;
-          //2020-11-16: Not required for web ==>>  } else if (  custSearch.CreateBy && createdByTitle.search(regex) > -1 ) {
-          //2020-11-16: Not required for web ==>>    match = true;
-          }
-
-          let useBreak = custBreak === true || custCat.break === true ? true : false;
-          if ( useBreak === true && nonSubsiteCategories > 0 ) { match = false; }
-
-          let check4Tab = removeLeadingUnderScore(custCat);
-          if ( match === true ) { category.push( check4Tab ) ; }
-
-        });
-
-        //2020-11-16: changed length check === 1 because it should always have subsites category
-        if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
-
-      } else if ( custCategories.type === 'custom' && custCatLogi.length > 0 ) {
-        /**
-             * export interface ICustomLogic {
-
-              category: string;
-              regex?: string;
-              att?: string; // regex attributes "g", "i", "m" - default if nothing here is "i"
-              eval?: string; // Used in place of regex
-
-            }
-        */
-          
-          category = [];
-
-        //Testing:
-        //[   {     "category": "<20",     "eval": "item.modifiedTime.cats.age[0] <= 20"   },   {     "category": "<40",     "eval": "item.modifiedTime.cats.age[0] <= 40"   } ]
-          custCatLogi.map( (custCat ) => {
-            let match = false;
-
-            if ( custCat.eval && custCat.eval.length > 0 ) {
-              let eText = eval( custCat.eval ) ;
-              if ( eText === true ) { match = true; }
-
-            } else if ( custCat.regex && custCat.regex.length > 0 ) { 
-
-              let att = custCat.att === undefined || custCat.att === null ? 'i' : custCat.att;
-              var regex = new RegExp(custCat.regex, att);
-              if (  custSearch.Title && title.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.Desc && description.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.Href && href.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.Cate && categoryCopy.search(regex) > -1 ) {
-                match = true;
-              //2020-11-16: Not required for web ==>>  } else if (  custSearch.ModBy && modifiedByTitle.search(regex) > -1 ) {
-              //2020-11-16: Not required for web ==>>    match = true;
-              //2020-11-16: Not required for web ==>>  } else if (  custSearch.CreateBy && createdByTitle.search(regex) > -1 ) {
-              //2020-11-16: Not required for web ==>>    match = true;
-              }
-
-            }
-
-            let useBreak = custBreak === true || custCat.break === true ? true : false;
-            if ( useBreak === true && nonSubsiteCategories > 0 ) { match = false; }
-
-            let check4Tab = removeLeadingUnderScore(custCat.category);
-            if ( match === true ) { category.push( check4Tab ) ; }
-
-          });
-
-          //2020-11-16: changed length check === 1 because it should always have subsites category
-          if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
-
-      } else {
-
-      }
-
-      if ( pivotProps.subsitesCategory ) { category.push( pivotProps.subsitesCategory ); }
-
-      if ( pivotProps.otherTab && pivotProps.otherTab.length > 0 && category[0] == pivotProps.otherTab ) { 
-        showOtherTab = true ;
-      }
-
-      if ( description && description.length > 0 ) { description = 'Subsite:  ' + description ; }
-      if ( description && description.length > 0 ) { description += '; Created: ' + item.createdNote ; }
-      if ( description && description.length > 0 ) { description += '; Modified: ' + item.modifiedNote ; }
-
-       return {
-        imageUrl: getColumnValue(webProps,item,'colImageLink'),
-
-        title: title,
-
-        description: description,
-
-        href: href,
-
-        category: category,
-
-        setTab: pivotProps.setTab,
-        setSize: pivotProps.setSize,
-        heroType: pivotProps.heroType,
-        heroCategory: currentHero,
-
-        Id: item.Id,
-
-        //ifNotExistsReturnNull
-        options: ifNotExistsReturnNull( item[webProps.colTileStyle] ),
-
-        color: ifNotExistsReturnNull( item[pivotProps.colColor] ),
-
-        imgSize: ifNotExistsReturnNull( item[pivotProps.colSize] ),
-
-        listWebURL: fixedURL.replace("ReplaceID",item.Id),
-        listTitle: pivotProps.listTitle,
-
-        target:  ifNotExistsReturnNull( item[pivotProps.colOpenBehaviour] ),
-        
-        setRatio: pivotProps.setRatio,
-        setImgFit: pivotProps.setImgFit,
-        setImgCover: pivotProps.setImgCover,
-        onHoverZoom: pivotProps.onHoverZoom,
-
-        modified: item.modified,
-        modifiedBy: item.modifiedBy,
-        createdBy: item.createdBy,
-        modifiedByID: getColumnValue(webProps,item,'colModifiedById'),
-        //2020-11-16: Not required for web ==>>  modifiedByTitle: modifiedByTitle,
-        created: item.created,
-        createdByID: getColumnValue(webProps,item,'colCreatedById'),
-        //2020-11-16: Not required for web ==>>  createdByTitle: createdByTitle,
-        modifiedTime: item.modifiedTime,
-        createdTime: item.createdTime,
-
-        createdSimpleDate: item.createdSimpleDate,
-        createdSimpleTime: item.createdSimpleTime,
-        createdSimpleDateTime: item.createdSimpleDateTime,
-        createdInitials: '', //2020-11-16: Not required for web ==>>  item.createdInitials,
-        createdNote: item.createdNote,
-  
-        modifiedSimpleDate: item.modifiedSimpleDate,
-        modifiedSimpleTime: item.modifiedSimpleTime,
-        modifiedSimpleDateTime: item.modifiedSimpleDateTime,
-        modifiedInitials: '', //2020-11-16: Not required for web ==>>  item.modifiedInitials,
-        modifiedNote: item.modifiedNote,
-
-      };
-
-    });
-
-
-    /***
-     *    d8888b. d88888b d888888b db    db d8888b. d8b   db      d888888b d888888b db      d88888b  .o88b.  .d88b.  db      db      d88888b  .o88b. d888888b d888888b  .d88b.  d8b   db 
-     *    88  `8D 88'     `~~88~~' 88    88 88  `8D 888o  88      `~~88~~'   `88'   88      88'     d8P  Y8 .8P  Y8. 88      88      88'     d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88 
-     *    88oobY' 88ooooo    88    88    88 88oobY' 88V8o 88         88       88    88      88ooooo 8P      88    88 88      88      88ooooo 8P         88       88    88    88 88V8o 88 
-     *    88`8b   88~~~~~    88    88    88 88`8b   88 V8o88         88       88    88      88~~~~~ 8b      88    88 88      88      88~~~~~ 8b         88       88    88    88 88 V8o88 
-     *    88 `88. 88.        88    88b  d88 88 `88. 88  V888         88      .88.   88booo. 88.     Y8b  d8 `8b  d8' 88booo. 88booo. 88.     Y8b  d8    88      .88.   `8b  d8' 88  V888 
-     *    88   YD Y88888P    YP    ~Y8888P' 88   YD VP   V8P         YP    Y888888P Y88888P Y88888P  `Y88P'  `Y88P'  Y88888P Y88888P Y88888P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P 
-     *                                                                                                                                                                                   
-     *                                                                                                                                                                                   
-     */
-
-    return {
-      tileCollection: tileCollection,
-      custCategories: custCategories,
-      createdInfo: tc.createdInfo,
-      modifiedInfo: tc.modifiedInfo,
-      categoryInfo: tc.categoryInfo,
-      createdByInfo: tc.createdByInfo,
-      modifiedByInfo: tc.modifiedByInfo,
-
-      modifiedByTitles: tc.modifiedByTitles.sort(),
-      modifiedByIDs: tc.modifiedByIDs.sort(),
-      createdByTitles: tc.createdByTitles.sort(),
-      createdByIDs: tc.createdByIDs.sort(),
-      showOtherTab: showOtherTab,
-
-    };
-
   }  // END public static buildTileCollectionFromResponse(response, pivotProps, fixedURL, currentHero){
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1143,291 +878,33 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
 
     console.log( 'buildTileCollectionFromResponse pivotProps:', pivotProps );
 
-    let tc = createBaselineModObject();
-    
-    /***
-     *     d888b  d88888b d888888b       .d8b.  db      db           d8888b.  .d8b.  d888888b d88888b      db    db  .d8b.  d8888b. d888888b  .d8b.  d888888b d888888b  .d88b.  d8b   db .d8888. 
-     *    88' Y8b 88'     `~~88~~'      d8' `8b 88      88           88  `8D d8' `8b `~~88~~' 88'          88    88 d8' `8b 88  `8D   `88'   d8' `8b `~~88~~'   `88'   .8P  Y8. 888o  88 88'  YP 
-     *    88      88ooooo    88         88ooo88 88      88           88   88 88ooo88    88    88ooooo      Y8    8P 88ooo88 88oobY'    88    88ooo88    88       88    88    88 88V8o 88 `8bo.   
-     *    88  ooo 88~~~~~    88         88~~~88 88      88           88   88 88~~~88    88    88~~~~~      `8b  d8' 88~~~88 88`8b      88    88~~~88    88       88    88    88 88 V8o88   `Y8b. 
-     *    88. ~8~ 88.        88         88   88 88booo. 88booo.      88  .8D 88   88    88    88.           `8bd8'  88   88 88 `88.   .88.   88   88    88      .88.   `8b  d8' 88  V888 db   8D 
-     *     Y888P  Y88888P    YP         YP   YP Y88888P Y88888P      Y8888D' YP   YP    YP    Y88888P         YP    YP   YP 88   YD Y888888P YP   YP    YP    Y888888P  `Y88P'  VP   V8P `8888Y' 
-     *                                                                                                                                                                                           
-     *                                                                                                                                                                                           
-     */
+    let includePeople = true;
 
-    /**
-     *      Get all date variations
-     */
+    let tc = createBaselineModObject();
+
+    let theseProps = pivotProps;
+
     for (let item of response) {
 
-      let modResults = addModifiedInfoToItem( item, pivotProps, tc, false );
-      tc = modResults.tc;
-      item = modResults.item;
-
+        let modResults = addModifiedInfoToItem( item, theseProps, tc, includePeople );
+        tc = modResults.tc;
+        item = modResults.item;
     }
 
     tc = setModifiedCats( tc, pivotProps );
 
-    let bestCategoryFormat = 'unknownMZ';
-
-
-    /***
-     *    .d8888. d88888b d888888b      d8888b. d88888b .d8888. d888888b      d88888b  .d88b.  d8888b. .88b  d88.  .d8b.  d888888b          dD d888888b d888888b d88888b .88b  d88. Cb     
-     *    88'  YP 88'     `~~88~~'      88  `8D 88'     88'  YP `~~88~~'      88'     .8P  Y8. 88  `8D 88'YbdP`88 d8' `8b `~~88~~'        d8'    `88'   `~~88~~' 88'     88'YbdP`88  `8b   
-     *    `8bo.   88ooooo    88         88oooY' 88ooooo `8bo.      88         88ooo   88    88 88oobY' 88  88  88 88ooo88    88          d8       88       88    88ooooo 88  88  88    8b  
-     *      `Y8b. 88~~~~~    88         88~~~b. 88~~~~~   `Y8b.    88         88~~~   88    88 88`8b   88  88  88 88~~~88    88         C88       88       88    88~~~~~ 88  88  88    88D 
-     *    db   8D 88.        88         88   8D 88.     db   8D    88         88      `8b  d8' 88 `88. 88  88  88 88   88    88          V8      .88.      88    88.     88  88  88    8P  
-     *    `8888Y' Y88888P    YP         Y8888P' Y88888P `8888Y'    YP         YP       `Y88P'  88   YD YP  YP  YP YP   YP    YP           V8.  Y888888P    YP    Y88888P YP  YP  YP  .8P   
-     *                                                                                                                                      VD                                      CP     
-     *                                                                                                                                                                                     
-     */
-    /**
-     *  Go back and set bestFormat for created and modified by info
-     */
-
-    response = setBestFormat( response, tc, true );
-
-
-    /***
-     *    .d8888. d88888b d888888b      db       .d8b.  .d8888. d888888b       .o88b.  .d8b.  d888888b d88888b  d888b   .d88b.  d8888b. db    db 
-     *    88'  YP 88'     `~~88~~'      88      d8' `8b 88'  YP `~~88~~'      d8P  Y8 d8' `8b `~~88~~' 88'     88' Y8b .8P  Y8. 88  `8D `8b  d8' 
-     *    `8bo.   88ooooo    88         88      88ooo88 `8bo.      88         8P      88ooo88    88    88ooooo 88      88    88 88oobY'  `8bd8'  
-     *      `Y8b. 88~~~~~    88         88      88~~~88   `Y8b.    88         8b      88~~~88    88    88~~~~~ 88  ooo 88    88 88`8b      88    
-     *    db   8D 88.        88         88booo. 88   88 db   8D    88         Y8b  d8 88   88    88    88.     88. ~8~ `8b  d8' 88 `88.    88    
-     *    `8888Y' Y88888P    YP         Y88888P YP   YP `8888Y'    YP          `Y88P' YP   YP    YP    Y88888P  Y888P   `Y88P'  88   YD    YP    
-     *                                                                                                                                           
-     *                                                                                                                                           
-     */
+    response = setBestFormat( response, tc, includePeople );
 
     tc = setLastCat( tc, pivotProps );
 
-    // on my home PC, for 649 items x 3000 loops it took 30 seconds.
-
     let endTime = getTheCurrentTime();
-    let showOtherTab = false;
 
-    //console.log('response', response);
+    let custSearch: any = setCustSearch ( custCategories, theseProps, includePeople );
 
-  /***
-   *    d888888b d888888b db      d88888b  .o88b.  .d88b.  db      db                       d8888b. d88888b .d8888. d8888b.  .d88b.  d8b   db .d8888. d88888b    .88b  d88.  .d8b.  d8888b.      
-   *    `~~88~~'   `88'   88      88'     d8P  Y8 .8P  Y8. 88      88           C8888D      88  `8D 88'     88'  YP 88  `8D .8P  Y8. 888o  88 88'  YP 88'        88'YbdP`88 d8' `8b 88  `8D      
-   *       88       88    88      88ooooo 8P      88    88 88      88                       88oobY' 88ooooo `8bo.   88oodD' 88    88 88V8o 88 `8bo.   88ooooo    88  88  88 88ooo88 88oodD'      
-   *       88       88    88      88~~~~~ 8b      88    88 88      88           C8888D      88`8b   88~~~~~   `Y8b. 88~~~   88    88 88 V8o88   `Y8b. 88~~~~~    88  88  88 88~~~88 88~~~        
-   *       88      .88.   88booo. 88.     Y8b  d8 `8b  d8' 88booo. 88booo.                  88 `88. 88.     db   8D 88      `8b  d8' 88  V888 db   8D 88.     db 88  88  88 88   88 88           
-   *       YP    Y888888P Y88888P Y88888P  `Y88P'  `Y88P'  Y88888P Y88888P                  88   YD Y88888P `8888Y' 88       `Y88P'  VP   V8P `8888Y' Y88888P VP YP  YP  YP YP   YP 88           
-   *                                                                                                                                                                                             
-   *                                                                                                                                                                                             
-   */
-
-    let custSearch: any = setCustSearch ( custCategories, pivotProps, false );
-
-    let tileCollection: IPivotTileItemProps[] = response.map(item => {
-
-      let modifiedByTitle = getColumnValue(pivotProps,item,'colModifiedByTitle');
-
-      let createdByTitle = getColumnValue(pivotProps,item,'colCreatedByTitle');
-      
-      let title = getColumnValue(pivotProps,item,'colTitleText');
-
-      let description = getColumnValue(pivotProps,item,'colHoverText');
-
-      let href = getColumnValue(pivotProps,item,'colGoToLink');
-
-      let category = getColumnValue(pivotProps,item,'colCategory');
-      if ( category === undefined || category === null ) { category = []; }
-      let categoryCopy = JSON.stringify(category);
-
-      let nonSubsiteCategories = category.length;
-
-      //Need to resolve when category is undefined in case that webpart prop is empty
-      let testCategory = category === undefined || category === null ? false : true;
-      if ( testCategory === false || category.length === 0 ) { category = [pivotProps.otherTab] ; }
-
-      //Can't do specific type here or it will break the multi-typed logic below
-      let custCatLogi : any = custCategories.logic;
-      let custBreak : boolean = custCategories.break;
-      
-      if ( custCategories.type === 'tileCategory' ) {
-
-      } else if ( (custCategories.type === 'semiColon1' && custCatLogi.length > 0 ) ||
-                 ( custCategories.type === 'semiColon2' && custCatLogi.length > 0 ) ) {
-        category = [];
-
-        custCatLogi.map( custCat => {
-
-          //These regex expressions work
-          //let c = "E"
-          //data2 = new RegExp( "\\b" + c + "\\b", 'i');
-          //let data3 = new RegExp( "\\bl\\b", 'i');
-          //let replaceMe2 = cat.replace(data3,'X')
-
-          let att = 'i';
-          let match = false;
-
-          var regex = new RegExp("\\b" + custCat + "\\b", att);
-          if (  custSearch.Title && title.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.Desc && description.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.Href && href.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.Cate && categoryCopy.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.ModBy && modifiedByTitle.search(regex) > -1 ) {
-            match = true;
-          } else if (  custSearch.CreateBy && createdByTitle.search(regex) > -1 ) {
-            match = true;
-          }
-
-          let useBreak = custBreak === true || custCat.break === true ? true : false;
-          if ( useBreak === true && nonSubsiteCategories > 0 ) { match = false; }
-
-          let check4Tab = removeLeadingUnderScore(custCat);
-          if ( match === true ) { category.push( check4Tab ) ; }
-
-        });
-
-        if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
-
-      } else if ( custCategories.type === 'custom' && custCatLogi.length > 0 ) {
-        /**
-             * export interface ICustomLogic {
-
-              category: string;
-              regex?: string;
-              att?: string; // regex attributes "g", "i", "m" - default if nothing here is "i"
-              eval?: string; // Used in place of regex
-
-            }
-        */
-          
-       category = [];
-
-        //Testing:
-        //[   {     "category": "<20",     "eval": "item.modifiedTime.cats.age[0] <= 20"   },   {     "category": "<40",     "eval": "item.modifiedTime.cats.age[0] <= 40"   } ]
-          custCatLogi.map( (custCat ) => {
-            let match = false;
-
-            if ( custCat.eval && custCat.eval.length > 0 ) {
-              let eText = eval( custCat.eval ) ;
-              if ( eText === true ) { match = true; }
-
-            } else if ( custCat.regex && custCat.regex.length > 0 ) { 
-
-              let att = custCat.att === undefined || custCat.att === null ? 'i' : custCat.att;
-              var regex = new RegExp(custCat.regex, att);
-              if (  custSearch.Title && title.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.Desc && description.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.Href && href.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.Cate && categoryCopy.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.ModBy && modifiedByTitle.search(regex) > -1 ) {
-                match = true;
-              } else if (  custSearch.CreateBy && createdByTitle.search(regex) > -1 ) {
-                match = true;
-              }
-
-            }
-
-            let useBreak = custBreak === true || custCat.break === true ? true : false;
-            if ( useBreak === true && nonSubsiteCategories > 0 ) { match = false; }
-
-            let check4Tab = removeLeadingUnderScore(custCat.category);
-            if ( match === true ) { category.push( check4Tab ) ; }
-
-          });
-
-          if ( category.length === 0 ) { category.push ( pivotProps.otherTab ) ; }
-
-      } else {
-
-      }
-
-      if ( pivotProps.otherTab && pivotProps.otherTab.length > 0 && nonSubsiteCategories > 0 && category[0] == pivotProps.otherTab ) { 
-        showOtherTab = true ;
-      }
-
-       return {
-        imageUrl: getColumnValue(pivotProps,item,'colImageLink'),
-
-        title: title,
-
-        description: description,
-
-        href: href,
-
-        category: category,
-
-        setTab: pivotProps.setTab,
-        setSize: pivotProps.setSize,
-        heroType: pivotProps.heroType,
-        heroCategory: currentHero,
-
-        Id: item.Id,
-
-        //ifNotExistsReturnNull
-        options: ifNotExistsReturnNull( item[pivotProps.colTileStyle] ),
-
-        color: ifNotExistsReturnNull( item[pivotProps.colColor] ),
-
-        imgSize: ifNotExistsReturnNull( item[pivotProps.colSize] ),
-
-        listWebURL: fixedURL.replace("ReplaceID",item.Id),
-        listTitle: pivotProps.listTitle,
-
-        target:  ifNotExistsReturnNull( item[pivotProps.colOpenBehaviour] ),
-        
-        setRatio: pivotProps.setRatio,
-        setImgFit: pivotProps.setImgFit,
-        setImgCover: pivotProps.setImgCover,
-        onHoverZoom: pivotProps.onHoverZoom,
-
-        modified: item.modified,
-        modifiedBy: item.modifiedBy,
-        createdBy: item.createdBy,
-        modifiedByID: getColumnValue(pivotProps,item,'colModifiedById'),
-        modifiedByTitle: modifiedByTitle,
-        created: item.created,
-        createdByID: getColumnValue(pivotProps,item,'colCreatedById'),
-        createdByTitle: createdByTitle,
-        modifiedTime: item.modifiedTime,
-        createdTime: item.createdTime,
-
-        createdSimpleDate: item.createdSimpleDate,
-        createdSimpleTime: item.createdSimpleTime,
-        createdSimpleDateTime: item.createdSimpleDateTime,
-        createdInitials: item.createdInitials,
-        createdNote: item.createdNote,
-  
-        
-        modifiedSimpleDate: item.modifiedSimpleDate,
-        modifiedSimpleTime: item.modifiedSimpleTime,
-        modifiedSimpleDateTime: item.modifiedSimpleDateTime,
-        modifiedInitials: item.modifiedInitials,
-        modifiedNote: item.modifiedNote,
-
-      };
-
-    });
-
-
-    /***
-     *    d8888b. d88888b d888888b db    db d8888b. d8b   db      d888888b d888888b db      d88888b  .o88b.  .d88b.  db      db      d88888b  .o88b. d888888b d888888b  .d88b.  d8b   db 
-     *    88  `8D 88'     `~~88~~' 88    88 88  `8D 888o  88      `~~88~~'   `88'   88      88'     d8P  Y8 .8P  Y8. 88      88      88'     d8P  Y8 `~~88~~'   `88'   .8P  Y8. 888o  88 
-     *    88oobY' 88ooooo    88    88    88 88oobY' 88V8o 88         88       88    88      88ooooo 8P      88    88 88      88      88ooooo 8P         88       88    88    88 88V8o 88 
-     *    88`8b   88~~~~~    88    88    88 88`8b   88 V8o88         88       88    88      88~~~~~ 8b      88    88 88      88      88~~~~~ 8b         88       88    88    88 88 V8o88 
-     *    88 `88. 88.        88    88b  d88 88 `88. 88  V888         88      .88.   88booo. 88.     Y8b  d8 `8b  d8' 88booo. 88booo. 88.     Y8b  d8    88      .88.   `8b  d8' 88  V888 
-     *    88   YD Y88888P    YP    ~Y8888P' 88   YD VP   V8P         YP    Y888888P Y88888P Y88888P  `Y88P'  `Y88P'  Y88888P Y88888P Y88888P  `Y88P'    YP    Y888888P  `Y88P'  VP   V8P 
-     *                                                                                                                                                                                   
-     *                                                                                                                                                                                   
-     */
+    let finalTileCollection = buildFinalTileCollection ( response, theseProps, custSearch, custCategories, pivotProps, includePeople , fixedURL, currentHero );
 
     return {
-      tileCollection: tileCollection,
+      tileCollection: finalTileCollection.tileCollection,
       custCategories: custCategories,
       createdInfo: tc.createdInfo,
       modifiedInfo: tc.modifiedInfo,
@@ -1439,12 +916,16 @@ export function buildTileCollectionFromWebs(response, pivotProps: IPivotTilesPro
       modifiedByIDs: tc.modifiedByIDs.sort(),
       createdByTitles: tc.createdByTitles.sort(),
       createdByIDs: tc.createdByIDs.sort(),
-      showOtherTab: showOtherTab,
+      showOtherTab: finalTileCollection.showOtherTab,
 
     };
 
   }  // END public static buildTileCollectionFromResponse(response, pivotProps, fixedURL, currentHero){
     
+
+
+
+
 
 
 

@@ -41,9 +41,19 @@ import { convertCategoryToIndex, fixURLs } from './UtilsNew';
 
 import { buildTileCategoriesFromResponse } from './BuildTileCategories';
 
-import { buildTileCollectionFromResponse, buildTileCollectionFromWebs } from './BuildTileCollection';
+import { buildTileCollectionFromResponse, buildTileCollectionFromWebs, buildTileCollectionFromLists } from './BuildTileCollection';
 
 import { CustTime , custTimeOption, } from './QuickBuckets';
+
+//2020-11-17:  Copied from genericSolution listsFunctions.ts
+//Usage:  if ( SystemLists.indexOf(theList.EntityTypeName) > -1 ) { ... }
+const SystemLists = ["WorkflowTasks", "Style Library",
+"SitePages", "SiteAssets", "ReusableContent", "Pages", "SearchConfigList", "OData__catalogs/masterpage", "OData__catalogs/design",
+"TeamSiteFooterQL1List", "TeamSiteFooterQL2List",
+"SiteCollectionImages", "SiteCollectionDocuments", "FormServerTemplates", "Reports List", "PublishingImages",
+"AEInspiredTilesItemsList", "AEInspiredTilesAssetsList", "PublishedFeedList", "Workflow TasksList", "AEGoalThermometerAssetsList", "AEMetroGridAssetsList", "AEMetroGridItemsList", "AEMetroGridPicLibList", "AESwipeGalleryAssetsList",
+"AESwipeGalleryDefaultImagesList", "Workflows", "Workflow HistoryList", "OData__catalogs/fpdatasources", "IWConvertedForms", "Access Requests", "Style Library",
+];
 
 
 export default class PivotTiles extends React.Component<IPivotTilesProps, IPivotTilesState> {
@@ -99,6 +109,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       custCategories: custCategories,
       originalListItems: [],
       originalWebs: [],
+      originalLists: [],
     };
 
     console.log('PivotTiles.tsx Constructor: this.props', this.props);
@@ -550,7 +561,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
         }
 
-        this.processResponse( this.state.originalWebs, this.state.originalListItems, custCategories, false );
+        this.processResponse( this.state.originalWebs, this.state.originalLists, this.state.originalListItems, custCategories, false );
 
       }
 
@@ -1055,39 +1066,89 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
       let web = new Web(listWeb);
 
-      if ( this.props.subsitesInclude === true ) {
-        this._getSubsites( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, true );
-      } else {
-        this._getTileList( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, true, [] );
-      }
-  
+      this._getSubsites( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, true );
+
   }
 
   private _getSubsites( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData  ){
 
-    web.webs.orderBy('Title',true).get()
-    .then((websResponse) => {
-        if ( this.props.subsitesOnly === true ) {
-          this.processResponse(websResponse, [], custCategories, true);
-        } else {
-          this._getTileList( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, true, websResponse );
-        }
-    }).catch((e) => {
-        this.processCatch(e);
-    });
+    if ( this.props.subsitesInclude === true ) {
+      web.webs.orderBy('Title',true).get()
+      .then((websResponse) => {
+          websResponse.map( w => { w.sourceType = this.props.subsitesCategory ; });
+          this._getListsLibs( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData, websResponse );
+      }).catch((e) => {
+          this.processCatch(e);
+      });
+
+    } else {
+      this._getListsLibs( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData, [] );
+    }
 
   }
 
-  
-  private _getTileList( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData, subsites  ){
 
-    web.lists.getByTitle(useTileList).items
-    .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).getAll()
-    .then((listResponse) => {
-        this.processResponse(subsites, listResponse, custCategories, true);
-    }).catch((e) => {
-        this.processCatch(e);
-    });
+  
+  private _getListsLibs( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData , websResponse ){
+
+    if ( this.props.fetchLists.libsInclude === true || this.props.fetchLists.listsInclude === true ) {
+
+      let listFilter = 'Hidden eq false';
+
+      if ( this.props.fetchLists.libsInclude === false ) {
+        listFilter += ' and BaseType eq 0';
+      } else if ( this.props.fetchLists.listsInclude === false ) {
+        listFilter += ' and BaseType eq 1';
+      } 
+
+      if ( this.props.fetchLists.listHideSystem === true ) {
+        SystemLists.map( entityName => {
+          listFilter += ` and EntityTypeName ne \'${entityName}\'`;
+        });
+        listFilter += ` and Title ne \'Style Library\'`; //For some reason had to hard-code filter this one out
+      }
+
+      web.lists.filter(listFilter).orderBy('Title',true).get()
+      .then((listLibResponse) => {
+          listLibResponse.map( L => { 
+            L.sourceType = L.BaseType === 0 ? this.props.fetchLists.listCategory : this.props.fetchLists.libsCategory;
+            L.system = SystemLists.indexOf( L.EntityTypeName ) > -1 ? 'System' : '';
+          });
+          this._getTileList( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData, websResponse, listLibResponse );
+      }).catch((e) => {
+          this.processCatch(e);
+      });
+
+    } else {
+      this._getTileList( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData, websResponse, [] );
+    }
+
+  }
+
+
+  
+  private _getTileList( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, newData, websResponse, listLibResponse  ){
+
+    if ( this.props.subsitesOnly !== true ) {
+
+      web.lists.getByTitle(useTileList).items
+      .select(selectCols).expand(expandThese).filter(restFilter).orderBy(restSort,true).getAll()
+      .then((listResponse) => {
+          listResponse.map( I => { 
+            if ( I.BaseType === 1 ) { I.sourceType = "Files"; }
+            else if ( this.props.listDefinition.toLowerCase().indexOf('library') > -1 ) { I.sourceType = "Files"; }
+            else if ( this.props.listDefinition.toLowerCase().indexOf('news') > -1 ) { I.sourceType = "News"; }
+            else if ( this.props.listDefinition.toLowerCase().indexOf('page') > -1 ) { I.sourceType = "Pages"; }
+            else { I.sourceType = "Items"; }
+          });
+          this.processResponse( websResponse, listLibResponse, listResponse, custCategories, newData );
+      }).catch((e) => {
+          this.processCatch(e);
+      });
+
+    } else {
+      this.processResponse( websResponse, listLibResponse, [], custCategories, newData );
+    }
 
   }
 
@@ -1125,21 +1186,29 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
  *                                                                                                                                    
  */
 
-    private processResponse(subsites: any[], listResponse: any[], custCategories: ICustomCategories, newData: boolean){
+    private processResponse(subsites: any[], listResponse: any[], itemsResponse: any[], custCategories: ICustomCategories, newData: boolean){
   
-      if (subsites.length === 0 && listResponse.length === 0){
+      if (subsites.length === 0 && itemsResponse.length === 0){
         this.setState({  loadStatus: "NoItemsFound", itemsError: true,  });
         return ;
       }
       
-      let originalListItems = [];
+
       let originalWebs = [];
+      let originalLists = [];
+      let originalListItems = [];
+
       if ( newData === true ) {
-        originalListItems = JSON.parse(JSON.stringify(listResponse));
+
         originalWebs = JSON.parse(JSON.stringify(subsites));
+        originalLists = JSON.parse(JSON.stringify(listResponse));
+        originalListItems = JSON.parse(JSON.stringify(itemsResponse));
+
       } else { 
+
+        originalWebs = this.state.originalWebs;
+        originalLists = this.state.originalLists;
         originalListItems = this.state.originalListItems;
-        originalWebs = this.state.originalWebs;        
       }
 
       const fixedURL = fixURLs(this.props.listWebURL, this.props.pageContext);
@@ -1147,7 +1216,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let listStaticName = this.props.listTitle;
 
       if (this.props.listDefinition.toLowerCase().indexOf('library') > -1) {
-        listStaticName = listResponse[0].File.ServerRelativeUrl.replace(this.props.pageContext.web.serverRelativeUrl,"");
+        listStaticName = itemsResponse[0].File.ServerRelativeUrl.replace(this.props.pageContext.web.serverRelativeUrl,"");
         listStaticName = listStaticName.substring(1,listStaticName.indexOf('/',1));
       }
 
@@ -1161,15 +1230,24 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
       let pivotProps = this.props;
       let pivotState = this.state;
 
-      let tileCollectionResults = buildTileCollectionFromResponse(listResponse, pivotProps, custCategories, editItemURL, pivotProps.heroCategory);
+      let tileCollectionResults = buildTileCollectionFromResponse(itemsResponse, pivotProps, custCategories, editItemURL, pivotProps.heroCategory);
       let tileCollectionWebs = buildTileCollectionFromWebs(subsites, pivotProps, custCategories, editItemURL, pivotProps.heroCategory);
-      console.log('tileCollectionResults: ', tileCollectionResults);
+      let tileCollectionLists = buildTileCollectionFromLists(listResponse, pivotProps, custCategories, editItemURL, pivotProps.heroCategory);
+
       console.log('tileCollectionWebs: ', tileCollectionWebs);
+      console.log('tileCollectionLists: ', tileCollectionLists);
+      console.log('tileCollectionResults: ', tileCollectionResults);
 
       let tileCollection : IPivotTileItemProps[] = tileCollectionResults.tileCollection;
 
       if ( tileCollectionWebs.tileCollection.length > 0 ) {
         tileCollectionWebs.tileCollection.map( w => {
+          tileCollection.push( w );
+        });
+      }
+
+      if ( tileCollectionLists.tileCollection.length > 0 ) {
+        tileCollectionLists.tileCollection.map( w => {
           tileCollection.push( w );
         });
       }
@@ -1230,8 +1308,10 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 
         showOtherTab: showOtherTab,
         custCategories: useThisTileCollection.custCategories,
-        originalListItems: originalListItems,
+
         originalWebs: originalWebs,
+        originalLists: originalLists,
+        originalListItems: originalListItems,
 
         createdInfo: useThisTileCollection.createdInfo,
         modifiedInfo: useThisTileCollection.modifiedInfo,

@@ -34,10 +34,14 @@ export interface IFetchListsSettings {
   listsInclude: boolean;
   listIconStyles: string;
   listFilter: string;
+  listCategory: string;
 
   libsInclude: boolean;
   libsIconStyles: string;
   libsFilter: string;
+  libsCategory: string;
+
+  listHideSystem: boolean;
 
   listLibCat: string;
 }

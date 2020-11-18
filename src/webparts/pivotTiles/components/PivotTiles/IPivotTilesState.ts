@@ -34,6 +34,8 @@ export interface IPivotTilesState {
   searchWhere?: string;
   changePivotCats: boolean;
   custCategories: ICustomCategories;
+
+  originalLists:any[];
   originalListItems:any[];
   originalWebs:any[];
 
