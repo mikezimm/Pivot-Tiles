@@ -267,7 +267,8 @@ export class IntroPage {
               label: 'Only show Lists and Libraries, Ignore your List settings',
               offText: 'Off',
               onText: 'On',
-              disabled: webPartProps.listsInclude === true || webPartProps.libsInclude === true? false : true,
+              //disabled: webPartProps.listsInclude === true || webPartProps.libsInclude === true? false : true,
+              disabled: true,
           }),
 
 

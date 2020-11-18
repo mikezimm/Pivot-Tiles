@@ -177,6 +177,12 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
       listLibCat: this.properties.listLibCat ,
     };
 
+    let imageHeight = this.properties.imageHeight;
+    let setSize = this.properties.setSize;
+    if ( setSize === '150' || setSize === '100' || setSize === '300') {
+      imageHeight = parseInt(setSize, 10);
+
+    }
     const element: React.ReactElement<IPivotTilesProps > = React.createElement(
       PivotTiles,
       {
@@ -232,7 +238,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
         loadListItems: this.loadListItems,
 
         imageWidth: this.properties.imageWidth,
-        imageHeight: this.properties.imageHeight,
+        imageHeight: imageHeight,
         textPadding: this.properties.textPadding,
 
         analyticsList: strings.analyticsList,

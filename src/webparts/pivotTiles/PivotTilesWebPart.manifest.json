@@ -76,7 +76,7 @@
       "custCatBrak": false,
 
       "subsitesInclude": true,
-      "subsitesCategory": "All Subsites",
+      "subsitesCategory": "Subsites",
       "subsitesOnly": false,
       
       "listsInclude": false,
@@ -144,7 +144,7 @@
       "custCatBrak": false,
 
       "subsitesInclude": false,
-      "subsitesCategory": "All Subsites",
+      "subsitesCategory": "Subsites",
       "subsitesOnly": false,
 
       "listsInclude": false,
@@ -212,7 +212,7 @@
       "custCatBrak": false,
 
       "subsitesInclude": true,
-      "subsitesCategory": "All Subsites",
+      "subsitesCategory": "Subsites",
       "subsitesOnly": false,
 
       "listsInclude": false,

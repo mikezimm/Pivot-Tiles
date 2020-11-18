@@ -503,28 +503,31 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
     let color = ifNotExistsReturnNull( item[pivotProps.colColor] );
     let imageUrl = getColumnValue(theseProps, item,'colImageLink');
 
+    let imageHeight = pivotProps.imageHeight;
+    let defFabricSize = `;size=50;top=-${imageHeight/5}px;background=lightgray;`;
+
     if ( sourceType === pivotProps.fetchLists.libsCategory ) {
-      if ( !color || color === '' ) { color = 'font=darkgray;background=lightgray;' + pivotProps.fetchLists.libsIconStyles ; }
+      if ( !color || color === '' ) { color = 'font=darkgray;' + defFabricSize + pivotProps.fetchLists.libsIconStyles ; }
       if ( !imageUrl || imageUrl === '' ) { imageUrl = 'FolderHorizontal' ; }   
 
     } else if ( sourceType === pivotProps.fetchLists.listCategory ) {
-      if ( !color || color === '' ) { color = 'font=darkslateblue;background=LightGoldenRodYellow;' + pivotProps.fetchLists.listIconStyles ; }
+      if ( !color || color === '' ) { color = 'font=darkslateblue;' + defFabricSize  + 'background=LightGoldenRodYellow;' + pivotProps.fetchLists.listIconStyles ; }
       if ( !imageUrl || imageUrl === '' ) { imageUrl = 'BulletedList2' ; }   
       
     } else if ( sourceType === pivotProps.subsitesCategory ) {
-      if ( !color || color === '' ) { color = 'font=darkslateblue;background=lightsteelblue;'; }
+      if ( !color || color === '' ) { color = 'font=darkslateblue;' + defFabricSize; }
       if ( !imageUrl || imageUrl === '' ) { imageUrl = 'SharepointLogo' ; }
 
     } else if ( sourceType === 'Files' ) {
       if ( !imageUrl || imageUrl === '' ) {
         if ( href.indexOf('.xls') > 0 ) {
-          if ( !color || color === '' ) { color = 'font=darkgreen;background=lightgray;'; }
+          if ( !color || color === '' ) { color = 'font=darkgreen;' + defFabricSize; }
           if ( !imageUrl || imageUrl === '' ) { imageUrl = 'ExcelDocument' ; }
         } else if ( href.indexOf('.doc') > 0 ) {
-          if ( !color || color === '' ) { color = 'font=darkgreen;background=lightgray;'; }
+          if ( !color || color === '' ) { color = 'font=rgb(43, 87, 154);' + defFabricSize; }
           if ( !imageUrl || imageUrl === '' ) { imageUrl = 'WordDocument' ; }
         } else if ( href.indexOf('.ppt') > 0 ) {
-          if ( !color || color === '' ) { color = 'font=darkgreen;background=lightgray;'; }
+          if ( !color || color === '' ) { color = 'font=darkgreen;' + defFabricSize; }
           if ( !imageUrl || imageUrl === '' ) { imageUrl = 'PowerPointDocument' ; }
         }
       }
@@ -533,17 +536,61 @@ function buildFinalTileCollection ( response: any, theseProps: any, custSearch, 
       if ( href.toLowerCase().indexOf('github') > -1 ) { imageUrl = 'Github' ; }
       else if ( href.toLowerCase().indexOf('.sharepoint.com') > -1 ) { 
         imageUrl = 'SharepointLogo' ; 
-        if ( !color || color === '' ) { color = 'font=darkslateblue' ; }
+        if ( !color || color === '' ) { color = 'font=rgb(0, 120, 215);' + defFabricSize ; }
+
       } else if ( href.toLowerCase().indexOf('teams') > -1 ) { 
         imageUrl = 'TeamsLogo' ; 
-        if ( !color || color === '' ) { color = 'font=#464EB8' ; }
+        if ( !color || color === '' ) { color = 'font=#464EB8;' + defFabricSize ; }
+
+      } else if ( href.toLowerCase().indexOf('jira') > -1 ) { 
+        imageUrl = 'https://cdn.onlinewebfonts.com/svg/img_117214.png' ; 
+        if ( !color || color === '' ) { color = 'font=black;' + defFabricSize ; }
+
       } else if ( href.toLowerCase().indexOf('powerbi') > -1 ) { 
         imageUrl = 'PowerBILogo' ; 
-        if ( !color || color === '' ) { color = 'font=black;background=yellow' ; }
+        if ( !color || color === '' ) { color = 'font=black;' + defFabricSize + ';background=yellow;' ; }
+
+      } else if ( href.indexOf('.xls') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=darkgreen;' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'ExcelDocument' ; }
+
+      } else if ( href.indexOf('.doc') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=rgb(43, 87, 154);' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'WordDocument' ; }
+
+      } else if ( href.indexOf('.ppt') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=rgb(183, 71, 42);' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'PowerPointDocument' ; }
+
+      } else if ( href.indexOf('powerapps') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=darkgreen;' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'PowerAppsLogo' ; }
+        
+      } else if ( href.indexOf('forms.office.com') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=darkgreen;' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'OfficeFormsLogo' ; }
+        
+      } else if ( href.indexOf('.microsoftstream.') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=rgb(195, 0, 82);' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'StreamLogo' ; }
+        
+      } else if ( href.indexOf('outlook.live') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=rgb(0, 120, 215);' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'OutlookLogo' ; }
+        
+      } else if ( href.indexOf('onenote.com') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=rgb(119, 25, 170);' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'OneNoteLogo' ; }
+        
+      } else if ( href.indexOf('yammer.com') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=rgb(0, 120, 215);' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'YammerLogo' ; }
+        
+      } else if ( href.indexOf('planner.com') > 0 ) {
+        if ( !color || color === '' ) { color = 'font=rgb(49, 117, 47);' + defFabricSize; }
+        if ( !imageUrl || imageUrl === '' ) { imageUrl = 'PlannerLogo' ; }
+        
       }
-
-
-      
       
     }
 
