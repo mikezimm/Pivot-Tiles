@@ -1,4 +1,4 @@
-import { sp, Web, Item, ItemAddResult, ItemUpdateResult } from '@pnp/sp';
+import { sp, Web, Item, } from '@pnp/sp/presets/all';
 
 export function getBrowser(validTypes,changeSiteIcon){
 
@@ -28,7 +28,7 @@ export function saveAnalytics (theProps,theState) {
         let analyticsList = theProps.analyticsList;
         let startTime = theProps.startTime;
         let endTime = theState.endTime;
-        let web = new Web(theProps.analyticsWeb);
+        let web = Web(theProps.analyticsWeb);
         const delta = endTime.now - startTime.now;
         //alert(delta);
         //alert(getBrowser("Chrome",false));
@@ -93,7 +93,7 @@ export function saveAnalyticsX (theTime) {
 
     let analyticsList = "TilesCycleTesting";
     let currentTime = theTime;
-    let web = new Web('https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/');
+    let web = Web('https://mcclickster.sharepoint.com/sites/Templates/SiteAudit/');
 
     web.lists.getByTitle(analyticsList).items.add({
         'Title': 'Pivot-Tiles x1asdf',

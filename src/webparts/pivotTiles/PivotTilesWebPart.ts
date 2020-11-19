@@ -17,7 +17,7 @@ import {
 } from '@microsoft/sp-component-base';
 
 // npm install @pnp/logging @pnp/common @pnp/odata @pnp/sp --save
-import { sp, Web } from '@pnp/sp';
+import { sp, Web } from '@pnp/sp/presets/all';
 
 import { IPivotTilesWebPartProps } from './IPivotTilesWebPartProps';
 import * as strings from 'PivotTilesWebPartStrings';
@@ -289,7 +289,7 @@ export default class PivotTilesWebPart extends BaseClientSideWebPart<IPivotTiles
     let selectCols: string = "*";
 
     if ( this.properties.listWebURL.length > 0 ){
-      let web = new Web(this.properties.listWebURL);
+      let web = Web(this.properties.listWebURL);
       const result:IPivotTileItemProps[] = await web.lists.getByTitle(useTileList).items
         .select(selectCols).filter(restFilter).orderBy(restSort,true).getAll();
       return(result);

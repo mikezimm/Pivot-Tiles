@@ -22,7 +22,7 @@ import { Pivot, PivotItem, PivotLinkSize, PivotLinkFormat } from 'office-ui-fabr
 import { DefaultButton, autobind } from 'office-ui-fabric-react';
 //https://pnp.github.io/pnpjs/documentation/polyfill/ -- Needed to select/extend pnpJs in IE11
 import "@pnp/polyfill-ie11";
-import { sp, Web } from '@pnp/sp';
+import { sp, Web } from '@pnp/sp/presets/all';
 import * as strings from 'PivotTilesWebPartStrings';
 
 import * as ErrorMessages from './ErrorMessages';
@@ -44,6 +44,8 @@ import { buildTileCategoriesFromResponse } from './BuildTileCategories';
 import { buildTileCollectionFromResponse, buildTileCollectionFromWebs, buildTileCollectionFromLists } from './BuildTileCollection';
 
 import { CustTime , custTimeOption, } from './QuickBuckets';
+
+import { getMyHub } from './HubFunctions';
 
 //2020-11-17:  Copied from genericSolution listsFunctions.ts
 //Usage:  if ( SystemLists.indexOf(theList.EntityTypeName) > -1 ) { ... }
@@ -74,7 +76,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
 //  public constructor(props:IPivotTilesProps){
   public constructor(props:IPivotTilesProps){
     super(props);
-
+    getMyHub();
     let custCategories = JSON.parse(JSON.stringify(this.props.custCategories)) ;
 
     this.state = { 
@@ -1064,7 +1066,7 @@ export default class PivotTiles extends React.Component<IPivotTilesProps, IPivot
   
       let listWeb = this.props.listWebURL && this.props.listWebURL !== '' ? this.props.listWebURL : this.props.pageContext.web.absoluteUrl;
 
-      let web = new Web(listWeb);
+      let web = Web(listWeb);
 
       this._getSubsites( web, useTileList, selectCols, expandThese, restFilter, restSort, custCategories, true );
 

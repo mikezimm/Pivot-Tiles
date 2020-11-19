@@ -3,7 +3,7 @@ import { ISPLists } from "../common/SPEntities";
 import { WebPartContext } from "@microsoft/sp-webpart-base";
 import { ExtensionContext } from "@microsoft/sp-extension-base";
 import { SPHttpClient, SPHttpClientResponse, ISPHttpClientOptions } from "@microsoft/sp-http";
-import { sp, Web } from '@pnp/sp';
+import { sp, Web } from '@pnp/sp/presets/all';
 
 export default class SPService implements ISPService {
 
